@@ -77,25 +77,29 @@ const UpdateDataSource = ({ dashboardState }) => {
       return false;
     }
 
-    // useEffect(() => {
-    //   isLoggedIn()
-    //     ? setInterval(() => {
-    //         console.log(isLoggedIn());
-    //         getUserDetailsHandler().then((response) => {
-    //           if (response.data.response.responseMessage === "SUCCESS") {
-    //             localStorage.setItem(
-    //               "authorizedDatasource",
-    //               JSON.stringify(
-    //                 response.data.response.responseData.authorizedDatasource
-    //               )
-    //             );
-    //           }
-    //           fetchCurrentDataSource();
-    //           renderSources();
-    //         });
-    //       }, 5000)
-    //     : "";
-    // }, [currentEvent.id]);
+    isLoggedIn()
+      ? useEffect(() => {
+          setInterval(() => {
+            isLoggedIn()
+              ? getUserDetailsHandler().then((response) => {
+                  if (response.data.response.responseMessage === "SUCCESS") {
+                    localStorage.setItem(
+                      "authorizedDatasource",
+                      JSON.stringify(
+                        response.data.response.responseData.authorizedDatasource
+                      )
+                    );
+                  }
+                  fetchCurrentDataSource();
+                  renderSources();
+                  setCurrentDataSource();
+                  setOriginalSource();
+                  //  fetchCurrentDataSource();
+                })
+              : "";
+          }, 10000);
+        }, [])
+      : "";
 
     return sourcesArray.map((item) => {
       let currentSource = authorizedSources.filter(
