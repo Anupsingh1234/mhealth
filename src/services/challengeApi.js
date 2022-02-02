@@ -60,8 +60,8 @@ export const getChallengesByDate = (challengeIds) => {
   });
 };
 
-export const getLeaderBoardData = (challengeId, endDate, startDate) => {
-  const URL = `${urlPrefix}${getLeaderBoard}?challengerZoneId=${challengeId}&endDate=${endDate}&startDate=${startDate}`;
+export const getLeaderBoardData = (challengeId) => {
+  const URL = `${urlPrefix}${getLeaderBoard}?challengerZoneId=${challengeId}`;
   return axios.get(URL, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,

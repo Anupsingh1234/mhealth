@@ -31,7 +31,7 @@ import EventRegisterModal from "./EventRegisterModal";
 import TargetSetting from "./TargetSetting";
 import Activity from "./Dashboard/Activity/Activity";
 import FullScreen from "./Utility/FullScreen";
-import moment from 'moment';
+
 import ChallengeStatus from "./Dashboard/ChallengeStatus";
 import Badge from "@material-ui/core/Badge";
 import Quiz from "./QuizForEvents/quiz";
@@ -225,10 +225,7 @@ const Dashboard = () => {
       setPendingCount(null);
     }
   }, [dashboardState.selectedChallenge, reloadChallengeAccepted]);
-const today = new Date();
-const month = moment(today).format("YYYY-MM-DD");
-const [startDate, setStartDate] = useState(`${month.substring(0, 7)}-01`);
-const [endDate, setEndDate] = useState(moment(today).format("YYYY-MM-DD"));
+
   const fetchChallenges = (eventTypeSwitch) => {
     setDashboardState((prevState) => {
       return {
@@ -350,9 +347,7 @@ const [endDate, setEndDate] = useState(moment(today).format("YYYY-MM-DD"));
           getLeaderBoardData(
             localStorage.challengeIDRegister && !eventTypeSwitch
               ? localStorage.challengeIDRegister
-              : allChallengeData[0]["id"],
-            endDate,
-            startDate
+              : allChallengeData[0]["id"]
           )
             .then((res) => {
               if (
@@ -853,11 +848,7 @@ const [endDate, setEndDate] = useState(moment(today).format("YYYY-MM-DD"));
           });
 
           if (allChallengeData.length > 0 && allChallengeData[0]) {
-            getLeaderBoardData(
-              allChallengeData[0]["id"],
-              endDate,
-              startDate
-            ).then((res) => {
+            getLeaderBoardData(allChallengeData[0]["id"]).then((res) => {
               if (res.data.response.responseMessage === "SUCCESS") {
                 let data =
                   res.data.response.responseData.challengerWiseLeaderBoard;
@@ -1021,7 +1012,7 @@ const [endDate, setEndDate] = useState(moment(today).format("YYYY-MM-DD"));
           message: "",
         },
       });
-      await getLeaderBoardData(eventObj.id, endDate, startDate)
+      await getLeaderBoardData(eventObj.id)
         .then((res) => {
           if (res.data.response.responseMessage === "SUCCESS") {
             let data = res.data.response.responseData.challengerWiseLeaderBoard;

@@ -52,7 +52,7 @@ import {
 } from "../services/apicollection";
 import axios from "axios";
 import WhatsappReport from "./PerformanceTeam/WhtsappReport";
-
+import SundayChallengeReport from './PerformanceTeam/SundayChallengeReport';
 import CorporateReport from "./PerformanceTeam/CorporateReport";
 import ActivityReport from "./ActivityReport";
 const MisReport = () => {
@@ -847,6 +847,26 @@ const MisReport = () => {
                       Activity report{" "}
                     </button>
                   </Tab>
+                  <Tab
+                    style={{
+                      fontSize: 12,
+                      border: "0px",
+                      background: "#e0f2fe",
+                      height: 30,
+                    }}
+                  >
+                    {" "}
+                    <button
+                      style={{
+                        padding: 0,
+                        height: 30,
+                        background: "#e0f2fe",
+                        color: "#518ad6",
+                      }}
+                    >
+                      Sunday report{" "}
+                    </button>
+                  </Tab>
                 </TabList>
               </div>
             </div>
@@ -1253,6 +1273,11 @@ const MisReport = () => {
             <TabPanel>
               <div>
                 <ActivityReport data={Perevents} />{" "}
+              </div>
+            </TabPanel>
+            <TabPanel>
+              <div style={{}}>
+                <SundayChallengeReport todDate={date} />
               </div>
             </TabPanel>
           </Tabs>

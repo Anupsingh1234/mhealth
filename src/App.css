@@ -2413,7 +2413,18 @@ input::-webkit-inner-spin-button {
   .nextDiv {
     margin-top: auto;
   }
-
+.leaderBoard-modal-date {
+    height: '220px';
+    width: '300px';
+    display: flex;
+  }
+  .leaderBoard-modal-date-input{
+  background: '#f3f4f6';
+                    padding: '6px 10px';
+                    border-radius: 6;
+                    font-size: 12;
+                    width: '85%',
+}
   .corpoReport {
     display: flex;
     justify-content: space-around;
@@ -2672,6 +2683,11 @@ input::-webkit-inner-spin-button {
     overflow: auto;
     transform: none !important;
   }
+  .leaderBoard-modal-date {
+    height: '200px';
+    width: '350px';
+    display: flex;
+  }
   .boxSize {
     width: 88%;
   }
@@ -2761,6 +2777,11 @@ input::-webkit-inner-spin-button {
 @media (max-width: 850px) {
   .illustration {
     display: none;
+  }
+  .leaderBoard-modal-date {
+    height: '200px';
+    width: '350px';
+    display: flex;
   }
   .basic-info-illustration {
     display: none !important;
@@ -3057,6 +3078,11 @@ input::-webkit-inner-spin-button {
     min-width: 5rem;
     position: fixed;
     z-index: 999;
+  }
+  .leaderBoard-modal-date {
+    height: '200px';
+    width: '350px';
+    display: flex;
   }
   .chatPage {
   background-color: rgb(31, 29, 29);
@@ -3367,6 +3393,11 @@ input::-webkit-inner-spin-button {
   .navbar-middle {
     flex-direction: row;
     font-size: 14px;
+  }
+  .leaderBoard-modal-date {
+    height: '200px';
+    width: '350px';
+    display: flex;
   }
   .navbar-middle > img {
     margin-right: 5px;

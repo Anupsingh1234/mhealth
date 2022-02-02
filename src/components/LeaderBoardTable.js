@@ -746,8 +746,11 @@ export default function EnhancedTable({
       ? currentEvent.challengeEndDate.substring(0, 10)
       : moment(today).format('YYYY-MM-DD')
   );
-
+const [showStartDate,setShowStartDate]=useState(startDate);
+const [showEndDate, setShowEndDate] = useState(endDate);
   const handleChange = (selectedStartDate, selectedEndDate) => {
+    setShowStartDate(selectedStartDate);
+    setShowEndDate(selectedEndDate);
     const URL = `${urlPrefix}v1.0/getLeaderBoardData?challengerZoneId=${localStorage.getItem(
       'selectEvent'
     )}&endDate=${selectedEndDate}&startDate=${selectedStartDate}`;
@@ -829,7 +832,7 @@ export default function EnhancedTable({
                           background: '#E0E7FF',
                           color: '#4338CA',
                           borderRadius: 2,
-                          width: 100,
+                          width: 90,
                           marginLeft: 10,
                           cursor: 'pointer',
                         }}
@@ -865,7 +868,7 @@ export default function EnhancedTable({
                     color: '#000',
                     fontWeight: 700,
                     display: 'flex',
-                    width: '350px',
+                    width: '250px',
                   }}
                   // className="table-search-container"
                 >
@@ -894,11 +897,11 @@ export default function EnhancedTable({
               ''
             )}
 
-            <div className="d-flex a-i-center" style={{marginLeft: 'auto'}}>
+            <div className="d-flex a-i-center">
               <input
                 className="table-search"
                 placeholder="Search by name"
-                style={{marginTop: '2px', marginLeft: '5px'}}
+                style={{marginTop: '2px',  width: '110px'}}
                 onChange={(e) => {
                   if (e.target.value === '') {
                     settingTableData();
@@ -948,6 +951,39 @@ export default function EnhancedTable({
                 onClick={() => setDateRange(true)}
                 style={{cursor: 'pointer', marginTop: '-5px'}}
               />
+              <span style={{fontWeight: '800', marginLeft: '5px'}}>[</span>{' '}
+              <span
+                // type="date"
+
+                style={{
+                  // background: '#f3f4f6',
+                  // padding: '6px 10px',
+                  // borderRadius: 6,
+                  fontSize: 12,
+
+                  marginLeft: '2px',
+                  fontWeight: '800',
+                }}
+              >
+                {moment(showStartDate).format('DD-MM-YYYY')}
+              </span>
+              <span style={{fontWeight: '800', marginLeft: '8px'}}>-</span>{' '}
+              <span
+                // type="date"
+
+                style={{
+                  // background: '#f3f4f6',
+                  // padding: '6px 10px',
+                  // borderRadius: 6,
+                  fontSize: 12,
+
+                  marginLeft: '5px',
+                  fontWeight: '800',
+                }}
+              >
+                {moment(showEndDate).format('DD-MM-YYYY')}
+              </span>
+              <span style={{fontWeight:'800'}}>]</span>
             </div>
             <div></div>
           </div>
@@ -1306,8 +1342,13 @@ export default function EnhancedTable({
           open={dateRange}
           onClose={() => {
             setDateRange(false);
-            setStartDate(`${month.substring(0, 7)}-01`);
-            setEndDate(moment(today).format('YYYY-MM-DD'));
+            setStartDate(currentEvent.challengeStartDate.substring(0, 10));
+            setEndDate(
+              moment(today).format('YYYY-MM-DD') >
+                currentEvent.challengeEndDate.substring(0, 10)
+                ? currentEvent.challengeEndDate.substring(0, 10)
+                : moment(today).format('YYYY-MM-DD')
+            );
           }}
         >
           <CancelIcon
@@ -1320,17 +1361,22 @@ export default function EnhancedTable({
             }}
             onClick={() => {
               setDateRange(false);
-              setStartDate(`${month.substring(0, 7)}-01`);
-              setEndDate(moment(today).format('YYYY-MM-DD'));
+              setStartDate(currentEvent.challengeStartDate.substring(0, 10));
+              setEndDate(
+                moment(today).format('YYYY-MM-DD') >
+                  currentEvent.challengeEndDate.substring(0, 10)
+                  ? currentEvent.challengeEndDate.substring(0, 10)
+                  : moment(today).format('YYYY-MM-DD')
+              );
             }}
           />
-          <div style={{height: '200px', width: '400px', display: 'flex'}}>
-            <div style={{width: '40%',marginLeft: '20px'}}>
+          <div className='leaderBoard-modal-date'>
+            <div style={{width: '38%', marginLeft: '20px'}}>
               <button
                 style={{
                   backgroundColor: '#4d88ff',
                   color: 'white',
-                  width: '80%',
+                  width: '88%',
                   height: '29px',
                 }}
                 onClick={() => {
@@ -1343,13 +1389,13 @@ export default function EnhancedTable({
                   //       ? currentEvent.challengeEndDate.substring(0, 10)
                   //       : moment(today).format('YYYY-MM-DD')
                   //   ),
-                    handleChange(
-                      currentEvent.challengeStartDate.substring(0, 10),
-                      moment(today).format('YYYY-MM-DD') >
-                        currentEvent.challengeEndDate.substring(0, 10)
-                        ? currentEvent.challengeEndDate.substring(0, 10)
-                        : moment(today).format('YYYY-MM-DD')
-                    );
+                  handleChange(
+                    currentEvent.challengeStartDate.substring(0, 10),
+                    moment(today).format('YYYY-MM-DD') >
+                      currentEvent.challengeEndDate.substring(0, 10)
+                      ? currentEvent.challengeEndDate.substring(0, 10)
+                      : moment(today).format('YYYY-MM-DD')
+                  );
                 }}
               >
                 As On Date
@@ -1358,17 +1404,17 @@ export default function EnhancedTable({
                 style={{
                   backgroundColor: '#4d88ff',
                   color: 'white',
-                  width: '80%',
+                  width: '88%',
                   marginTop: '2%',
                   height: '29px',
                 }}
                 onClick={() => {
                   // setStartDate(moment(first).format('YYYY-MM-DD')),
                   //   setEndDate(moment(last).format('YYYY-MM-DD')),
-                    handleChange(
-                      moment(first).format('YYYY-MM-DD'),
-                      moment(last).format('YYYY-MM-DD')
-                    );
+                  handleChange(
+                    moment(first).format('YYYY-MM-DD'),
+                    moment(last).format('YYYY-MM-DD')
+                  );
                 }}
               >
                 Current Week
@@ -1377,17 +1423,17 @@ export default function EnhancedTable({
                 style={{
                   backgroundColor: '#4d88ff',
                   color: 'white',
-                  width: '80%',
+                  width: '88%',
                   marginTop: '2%',
                   height: '29px',
                 }}
                 onClick={() => {
                   // setStartDate(moment(lastweekstart).format('YYYY-MM-DD')),
                   //   setEndDate(moment(lastweekend).format('YYYY-MM-DD')),
-                    handleChange(
-                      moment(lastweekstart).format('YYYY-MM-DD'),
-                      moment(lastweekend).format('YYYY-MM-DD')
-                    );
+                  handleChange(
+                    moment(lastweekstart).format('YYYY-MM-DD'),
+                    moment(lastweekend).format('YYYY-MM-DD')
+                  );
                 }}
               >
                 Last Week
@@ -1396,17 +1442,17 @@ export default function EnhancedTable({
                 style={{
                   backgroundColor: '#4d88ff',
                   color: 'white',
-                  width: '80%',
+                  width: '88%',
                   marginTop: '2%',
                   height: '29px',
                 }}
                 onClick={() => {
                   // setStartDate(`${month.substring(0, 7)}-01`),
                   //   setEndDate(moment(today).format('YYYY-MM-DD')),
-                    handleChange(
-                      `${month.substring(0, 7)}-01`,
-                      moment(today).format('YYYY-MM-DD')
-                    );
+                  handleChange(
+                    `${month.substring(0, 7)}-01`,
+                    moment(today).format('YYYY-MM-DD')
+                  );
                 }}
               >
                 Current Month
@@ -1415,17 +1461,17 @@ export default function EnhancedTable({
                 style={{
                   backgroundColor: '#4d88ff',
                   color: 'white',
-                  width: '80%',
+                  width: '88%',
                   marginTop: '2%',
                   height: '29px',
                 }}
                 onClick={() => {
                   // setStartDate(moment(prevStartDate).format('YYYY-MM-DD')),
                   //   setEndDate(moment(preEndDate).format('YYYY-MM-DD')),
-                    handleChange(
-                      moment(prevStartDate).format('YYYY-MM-DD'),
-                      moment(preEndDate).format('YYYY-MM-DD')
-                    );
+                  handleChange(
+                    moment(prevStartDate).format('YYYY-MM-DD'),
+                    moment(preEndDate).format('YYYY-MM-DD')
+                  );
                 }}
               >
                 Last Month
@@ -1442,7 +1488,7 @@ export default function EnhancedTable({
                     padding: '6px 10px',
                     borderRadius: 6,
                     fontSize: 12,
-                    width: '85%',
+                    width: '70%',
                   }}
                   placeholder="DD/MM/YYYY"
                   min={currentEvent.challengeStartDate.substring(0, 9)}
@@ -1461,7 +1507,7 @@ export default function EnhancedTable({
                     padding: '6px 10px',
                     borderRadius: 6,
                     fontSize: 12,
-                    width: '85%',
+                    width: '70%',
                   }}
                   placeholder="DD/MM/YYYY"
                   min={currentEvent.challengeEndDate.substring(0, 9)}
@@ -1477,12 +1523,11 @@ export default function EnhancedTable({
                   borderRadius: '10px',
                   marginLeft: '40%',
                   width: '80px',
-                  marginTop: '4%',
+                  marginTop: '2%',
                 }}
-                onClick={handleChange}
+                onClick={() => handleChange(startDate, endDate)}
               >
                 Submit
-                
               </button>
             </div>
           </div>
