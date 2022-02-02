@@ -1110,7 +1110,7 @@ const CreateActivityModal = ({
                           <option value=""> select:- </option>
                           <option value="none"> None </option>
 
-                          <option value="zoom"> Zoom </option>
+                          <option value="ZOOM"> Zoom </option>
                         </select>
                       </div>
                     )}

@@ -533,8 +533,7 @@ const SubEventCard = ({
       // if (!subEventDetail?.participated) {
       // if (subEventDetail?.regOpen) {
       if (
-        (subEventDetail?.userStatusInProgram === 'SUBSCRIBED' ||
-          subEventDetail?.userStatusInProgram === 'NOT_REGISTERED') &&
+        subEventDetail.removeSubscribeButton===null &&
         subEventDetail.eventNature === 'INDIVIDUAL'
       ) {
         return (
@@ -636,8 +635,7 @@ const SubEventCard = ({
       );
     } else {
       if (
-        (subEventDetail?.userStatusInProgram === 'SUBSCRIBED' ||
-          subEventDetail?.userStatusInProgram === 'NOT_REGISTERED') &&
+        subEventDetail.removeSubscribeButton===null &&
         subEventDetail.eventNature !== 'ASSOCIATE'
       ) {
         // if (subEventDetail?.regOpen) {
@@ -3145,7 +3143,7 @@ const SubEventCard = ({
                               background: 'blue',
                               borderRadius: 10,
                               padding: '0px 10px ',
-                              marginLeft: '10px',
+                              marginLeft: '3px',
                             }}
                             // onClick={}
                           >

@@ -905,8 +905,8 @@ export default function AppointmentExpert({
                               return (
                                 <TableRow
                                   hover
-                                  tabIndex={-1}
-                                  key={row.userId + "" + index}
+                                  // tabIndex={-1}
+                                  // key={row.userId + "" + index}
                                   className="performace-table-row"
                                 >
                                   <TableCell align="left" width="2%">
@@ -1108,8 +1108,8 @@ export default function AppointmentExpert({
                               return (
                                 <TableRow
                                   hover
-                                  tabIndex={-1}
-                                  key={row.id}
+                                  // tabIndex={-1}
+                                  // key={row.id}
                                   className="performace-table-row"
                                 >
                                   <TableCell align="left" width="2%">

@@ -13,7 +13,7 @@ const ActiveButton = ({isActive, handleActive, text}) => (
       fontWeight: 600,
     }}
   >
-    <div style={{margin: '0px 10px'}}>{text ? text : 'Show All'}</div>
+    <div style={{margin: '0px 10px'}}>{text ? text : 'All'}</div>
     <Switch
       onChange={handleActive}
       checked={!isActive}
