@@ -43,7 +43,7 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-// import CSVExport from "../CSVExport";
+import CSVExport from "./CSVExport";
 import Tooltip from '@material-ui/core/Tooltip';
 // import NoData from "../NoData";
 // import ActiveButton from "../Utility/ActiveButton";
@@ -463,6 +463,12 @@ const[quiziddd,setQuiziid]=useState()
       disablePadding: true,
     },
     {
+      label: 'Mobile Number',
+      id: 'mobileNumber',
+      numeric: false,
+      disablePadding: true,
+    },
+    {
       label: 'Last Attempt Date',
       id: 'lastAttemptedDate',
       numeric: false,
@@ -480,7 +486,6 @@ const[quiziddd,setQuiziid]=useState()
       numeric: false,
       disablePadding: true,
     },
-   
   ];
 
   function descendingComparator(a, b, orderBy) {
@@ -634,7 +639,7 @@ const[quiziddd,setQuiziid]=useState()
                     onChange={players}
                   >
                     {getQuiz1 &&
-                      getQuiz1.map( (ev, index)=> {
+                      getQuiz1.map((ev, index) => {
                         return (
                           <MenuItem required value={ev.idMstQuiz}>
                             {ev.quizDescription}
@@ -677,6 +682,19 @@ const[quiziddd,setQuiziid]=useState()
           </Tooltip> */}
 
           <div className="d-flex a-i-center">
+            {getQuizDetails && getQuizDetails.length > 0 ? (
+              <CSVExport
+                data={
+                  getQuizDetails && getQuizDetails.length > 0
+                    ? getQuizDetails
+                    : []
+                }
+                filename="Quiz Report.csv"
+                source="quizreport"
+              />
+            ) : (
+              ''
+            )}
             {getQuizDetails && getQuizDetails.length > 0 ? (
               <TablePagination
                 rowsPerPageOptions={[50, 75, 100]}
@@ -767,6 +785,12 @@ const[quiziddd,setQuiziid]=useState()
                             <TableCell align="center" style={{fontSize: 12}}>
                               {' '}
                               {item.emailId ? item.emailId : '  -     '}
+                            </TableCell>
+                            <TableCell align="center" style={{fontSize: 12}}>
+                              {' '}
+                              {item.mobileNumber
+                                ? item.mobileNumber
+                                : '  -     '}
                             </TableCell>
                             <TableCell align="center" style={{fontSize: 12}}>
                               {' '}

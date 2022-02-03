@@ -3133,6 +3133,9 @@ const SubEventCard = ({
                       >
                         {item.dependentName}
                       </div>
+                      <span style={{fontSize: '12px'}}>
+                          {item.bookingDateTime}
+                        </span>
                       {item.activeStatus === 'PENDING' ? (
                         <span>
                           <a

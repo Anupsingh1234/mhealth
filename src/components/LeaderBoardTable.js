@@ -746,11 +746,13 @@ export default function EnhancedTable({
       ? currentEvent.challengeEndDate.substring(0, 10)
       : moment(today).format('YYYY-MM-DD')
   );
-const [showStartDate,setShowStartDate]=useState(startDate);
-const [showEndDate, setShowEndDate] = useState(endDate);
+const [showStartDate,setShowStartDate]=useState(moment(startDate).format("DD-MM-YYYY"));
+const [showEndDate, setShowEndDate] = useState(
+  moment(endDate).format('DD-MM-YYYY')
+);
   const handleChange = (selectedStartDate, selectedEndDate) => {
-    setShowStartDate(selectedStartDate);
-    setShowEndDate(selectedEndDate);
+    setShowStartDate(moment(selectedStartDate).format('DD-MM-YYYY'));
+    setShowEndDate(moment(selectedEndDate).format('DD-MM-YYYY'));
     const URL = `${urlPrefix}v1.0/getLeaderBoardData?challengerZoneId=${localStorage.getItem(
       'selectEvent'
     )}&endDate=${selectedEndDate}&startDate=${selectedStartDate}`;
@@ -901,7 +903,7 @@ const [showEndDate, setShowEndDate] = useState(endDate);
               <input
                 className="table-search"
                 placeholder="Search by name"
-                style={{marginTop: '2px',  width: '110px'}}
+                style={{marginTop: '2px', width: '110px'}}
                 onChange={(e) => {
                   if (e.target.value === '') {
                     settingTableData();
@@ -965,7 +967,8 @@ const [showEndDate, setShowEndDate] = useState(endDate);
                   fontWeight: '800',
                 }}
               >
-                {moment(showStartDate).format('DD-MM-YYYY')}
+                {showStartDate.substring(0, 6)}
+                {showStartDate.substring(8)}
               </span>
               <span style={{fontWeight: '800', marginLeft: '8px'}}>-</span>{' '}
               <span
@@ -981,9 +984,10 @@ const [showEndDate, setShowEndDate] = useState(endDate);
                   fontWeight: '800',
                 }}
               >
-                {moment(showEndDate).format('DD-MM-YYYY')}
+                {showEndDate.substring(0, 6)}
+                {showEndDate.substring(8)}
               </span>
-              <span style={{fontWeight:'800'}}>]</span>
+              <span style={{fontWeight: '800'}}>]</span>
             </div>
             <div></div>
           </div>
@@ -1370,7 +1374,7 @@ const [showEndDate, setShowEndDate] = useState(endDate);
               );
             }}
           />
-          <div className='leaderBoard-modal-date'>
+          <div className="leaderBoard-modal-date">
             <div style={{width: '38%', marginLeft: '20px'}}>
               <button
                 style={{
