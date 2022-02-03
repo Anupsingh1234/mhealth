@@ -3,7 +3,7 @@ import axios from 'axios';
 import {urlPrefix} from '../../services/apicollection';
 import Paper from '@material-ui/core/Paper';
 import CancelIcon from '@material-ui/icons/Cancel';
-import CountdownTimer from 'timer-countdown';
+// import CountdownTimer from 'timer-countdown';
 import Button from '@material-ui/core/Button';
 import 'react-responsive-modal/styles.css';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -28,7 +28,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-
+import NoData from '../NoData'
 // import CancelIcon from '@mui/icons-material/Cancel';
 const Quiz = (props) => {
   const [question, setquestion] = useState('');
@@ -55,6 +55,7 @@ const Quiz = (props) => {
   const [searchText, setSearchText] = useState('');
   const [modmobile, setmodmobile] = useState();
   const [modname, setmodname] = useState('');
+  const [quizDescription1,setQuizDescription1]=useState("")
   // const [registeredUserList, setRegisteredUserList] = useState(LeaderboardData);
   const [isActive, setIsActive] = useState(true);
 
@@ -107,7 +108,9 @@ const Quiz = (props) => {
         if (res.data.response.responseCode == 0) {
           setquestion(res?.data?.response?.responseData?.question);
           setSerial(res?.data?.response?.responseData?.questionId);
-
+            setQuizDescription1(
+              res?.data?.response?.responseData?.quizDecription
+            );
           settimer(res?.data?.response?.responseData?.timer);
           setmessage(res?.data?.response?.responseMessage);
 
@@ -127,14 +130,14 @@ const Quiz = (props) => {
           setquestion('');
           setSerial();
           setmessage();
-
+          setQuizDescription1("")
           // setisnext(true);
           settimer();
           // window.id = null;
         }
       });
   };
-
+console.log(quizDescription1,'descrj');
   const getDetails = (id) => {
     const url = `${urlPrefix}v1.0/getQuizDashboardByUser?eventId=${id}`;
 
@@ -155,6 +158,7 @@ const Quiz = (props) => {
         if (res?.data?.response?.responseCode == 0) {
           settotal(res?.data?.response?.responseData);
           setdesc(res?.data?.response?.responseData?.quizDescription);
+        
         }
       });
   };
@@ -582,7 +586,8 @@ const Quiz = (props) => {
                 }}
               >
                 {' '}
-                <b> {desc} </b>
+                {/* <b> {desc} </b> */}
+                <b>{quizDescription1}</b>
                 <img
                   src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Info.png"
                   style={{
@@ -971,8 +976,9 @@ const Quiz = (props) => {
                 }}
               >
                 {' '}
-                <b> {desc} </b>
-                {desc && (
+                {/* <b> {desc} </b> */}
+                <b>{quizDescription1}</b>
+                {quizDescription1 && (
                   <img
                     src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Info.png"
                     style={{
@@ -988,7 +994,7 @@ const Quiz = (props) => {
                   />
                 )}
               </div>
-              {desc && (
+              {quizDescription1 ?(
                 <div
                   style={{
                     marginTop: 20,
@@ -1050,7 +1056,7 @@ const Quiz = (props) => {
               {total.totalQuestions !== null ? total.totalQuestions : 0}{' '}
             </Paper> */}
                 </div>
-              )}
+              ):<NoData/>}
             </div>
           )}
         </div>
@@ -1126,7 +1132,7 @@ const Quiz = (props) => {
                   </TableCell>
                 </TableRow> */}
 
-                {leaderboard &&
+                {leaderboard ?
                   stableSort(leaderboard, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item, ind) => {
@@ -1152,7 +1158,7 @@ const Quiz = (props) => {
                           </TableCell>
                         </TableRow>
                       );
-                    })}
+                    }):<NoData/>}
                 {/* );
             })} */}
               </TableBody>
