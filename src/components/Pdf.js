@@ -1,36 +1,70 @@
-import { React, useEffect } from "react";
+import { React, useEffect, useRef } from "react";
 import printHtmlToPDF from "print-html-to-pdf";
 import { useHistory } from "react-router-dom";
 import { HeightTwoTone, Translate } from "@material-ui/icons";
 import { X } from "react-feather";
-
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import moment from "moment";
 // import { overflow } from "html2canvas/dist/types/css/property-descriptors/overflow";
-
+import { renderToString } from "react-dom/server";
 export const Pdf = () => {
   const history = useHistory();
   useEffect(() => {
     pdfCreate();
   }, []);
-
+  const inputRef = useRef(null);
   const pdfCreate = async (event) => {
-    const node = document.getElementById("print-me");
-    const pdfOption = {
-      jsPDF: {
-        unit: "px",
-        format: "a4",
+    // window.html2canvas = html2canvas;
+    //  var doc = new jsPDF({
+    //   //  orientation: 'landscape',
+    //    unit: 'px',
+    //    format:"a4"
+    //  });
+    //    var content = document.getElementById('print-me');
+    //   const string = renderToString(content);
+    //  const doc = new jsPDF('p', 'mm', 'a4');
 
-        // height: "100%",
-      },
-      spin: true,
-      fileName: "default",
-    };
-    await printHtmlToPDF.print(node, pdfOption);
-    history.push("/dashboard");
+    //  console.log('content', content);
+    //  console.log('document.body', document.body);
+    //  doc.html(content, {
+    //    callback: function (doc) {
+    //      console.log('in callback');
+    //      doc.save();
+    //       history.push('/dashboard');
+    //    },
+    //  });
+    // doc.fromHTML(string);
+    // doc.save('pdf');
+
+    //   const node = document.getElementById("print-me");
+    //   const pdfOption = {
+    //     jsPDF: {
+    //       unit: "px",
+    //       format: "a4",
+
+    //       // height: "100%",
+    //     },
+    //     spin: true,
+    //     fileName: "default",
+    //   };
+    //   await window.print();
+    //   // history.push("/dashboard");
+
+    html2canvas(inputRef.current).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      pdf.addImage(imgData, "PNG", 5, 5, 200, 288);
+      pdf.save("Certificate.pdf");
+      history.push("/dashboard");
+    });
   };
+
   return (
     <>
       <div
         id="print-me"
+        ref={inputRef}
         style={{
           background:
             localStorage.getItem("certificateType") == 1 ||
@@ -130,28 +164,35 @@ export const Pdf = () => {
           className="second-stripe"
           style={{ display: "flex", justifyContent: "center", marginTop: -300 }}
         >
-          <div>
-            {" "}
-            <img
-              src="images/logo.png"
-              style={{ height: 100, width: 100 }}
-            />{" "}
-          </div>
+          <div> </div>
           <div>
             <div
               style={{
-                color:
-                  localStorage.getItem("certificateType") == 1 ||
-                  localStorage.getItem("certificateType") == 2 ||
-                  localStorage.getItem("certificateType") == 3
-                    ? "#bdc3c7"
-                    : "black",
+                // color:
+                //   localStorage.getItem('certificateType') == 1 ||
+                //   localStorage.getItem('certificateType') == 2 ||
+                //   localStorage.getItem('certificateType') == 3
+                //     ? '#bdc3c7'
+                //     : 'black',
                 fontSize: 60,
                 marginLeft: 20,
+                // marginTop: '-50px',
               }}
             >
               {" "}
-              mHealth
+              {localStorage.getItem("certificateType") == 1 ||
+              localStorage.getItem("certificateType") == 2 ||
+              localStorage.getItem("certificateType") == 3 ? (
+                <img
+                  src="images/mHealthLogoWhite.png"
+                  style={{ height: "200px", width: " 400px" }}
+                />
+              ) : (
+                <img
+                  src="images/mHealthLogo_black.png"
+                  style={{ height: "200px", width: " 400px" }}
+                />
+              )}
             </div>{" "}
           </div>
         </div>
@@ -161,7 +202,7 @@ export const Pdf = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "80px",
+            marginTop: "50px",
           }}
         >
           <div>
@@ -173,14 +214,15 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 80,
+                fontSize: 100,
                 marginLeft: 20,
+                fontFamily: "UnifrakturMaguntia",
               }}
             >
               {" "}
-              PARTICIPATION{" "}
+              Finisher{" "}
               <mark style={{ visibility: "hidden", marginLeft: -10 }}>~</mark>
-              CERTIFICATE
+              Certificate
             </div>{" "}
           </div>
         </div>
@@ -202,12 +244,13 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 30,
+                fontSize: 20,
                 marginLeft: 20,
+                fontWeight: "200",
               }}
             >
               {" "}
-              CONGRATULATIONS
+              THIS IS TO CERTIFY THAT
             </div>{" "}
           </div>
         </div>
@@ -217,7 +260,7 @@ export const Pdf = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "80px",
+            marginTop: "0px",
           }}
         >
           <div>
@@ -229,8 +272,10 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 45,
+                fontSize: 50,
                 marginLeft: 20,
+                // fontFamily: 'Qwitcher Grypen',
+                fontWeight: "800",
               }}
             >
               {" "}
@@ -259,14 +304,14 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 30,
+                fontSize: 20,
                 marginLeft: 20,
+                fontWeight: "200",
               }}
             >
               {" "}
-              ON{" "}
+              HAS SUCCESSFULLY COMPLETED
               <mark style={{ visibility: "hidden", marginLeft: -10 }}>~</mark>
-              COMPLETING
             </div>{" "}
           </div>
         </div>
@@ -276,7 +321,7 @@ export const Pdf = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "80px",
+            marginTop: "20px",
           }}
         >
           <div>
@@ -288,8 +333,9 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 45,
+                fontSize: 50,
                 marginLeft: 20,
+                fontWeight: "800",
               }}
             >
               {localStorage.getItem("challengeName")}{" "}
@@ -315,11 +361,12 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 30,
+                fontSize: 20,
                 marginLeft: 20,
+                fontWeight: "200",
               }}
             >
-              ACTIVE
+              WITH TOTAL ACTIVE
               <mark style={{ visibility: "hidden" }}>~</mark>
               DAYS
             </div>
@@ -331,7 +378,7 @@ export const Pdf = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "80px",
+            marginTop: "20px",
           }}
         >
           <div>
@@ -343,8 +390,9 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 45,
+                fontSize: 50,
                 marginLeft: 20,
+                fontWeight: "800",
               }}
             >
               {" "}
@@ -375,11 +423,12 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 30,
+                fontSize: 20,
                 marginLeft: 20,
+                fontWeight: "200",
               }}
             >
-              DISTANCE
+              AND DISTANCE
               <mark style={{ visibility: "hidden" }}>~</mark>
               COVERED
             </div>
@@ -391,7 +440,7 @@ export const Pdf = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "80px",
+            marginTop: "20px",
           }}
         >
           <div>
@@ -403,8 +452,9 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 45,
+                fontSize: 50,
                 marginLeft: 20,
+                fontWeight: "800",
               }}
             >
               {localStorage.getItem("kmAchieve")} KM
@@ -430,17 +480,55 @@ export const Pdf = () => {
                   localStorage.getItem("certificateType") == 3
                     ? "#bdc3c7"
                     : "black",
-                fontSize: 40,
+                fontSize: 20,
                 marginLeft: 20,
+                fontWeight: "200",
               }}
             >
-              {localStorage.getItem("endDate")}
+              ON OR
+              <mark style={{ visibility: "hidden" }}>~</mark>
+              BEFORE
+            </div>
+          </div>
+        </div>
+        <div
+          className="congrats"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                color:
+                  localStorage.getItem("certificateType") == 1 ||
+                  localStorage.getItem("certificateType") == 2 ||
+                  localStorage.getItem("certificateType") == 3
+                    ? "#bdc3c7"
+                    : "black",
+                fontSize: 40,
+                marginLeft: 20,
+                fontWeight: "800",
+              }}
+            >
+              {moment(localStorage.getItem("endDate")).format("DD-MM-YYYY")}
+              <p
+                style={{
+                  borderBottom: "1px solid gray",
+                  width: "120%",
+                  marginLeft: "-15px",
+                }}
+              >
+                {" "}
+              </p>
             </div>{" "}
           </div>
         </div>
         <div style={{ height: 110, color: "#fff" }}></div>
 
-        <div className="footer" style={{}}>
+        <div className="footer" style={{ marginTop: "2.7%" }}>
           <div
             className="certificate-header"
             style={{

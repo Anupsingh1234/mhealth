@@ -24,7 +24,7 @@ const UpdateDataSource = ({ dashboardState }) => {
   const [originalSource, setOriginalSource] = useState();
   const [mfinemodal, setmfinemodal] = useState(false);
   const [url, seturl] = useState();
-
+ const [authorizedSources, setAuthorizedSource] = useState([]);
   const fetchCurrentDataSource = () => {
     if (currentEvent && currentEvent.id) {
       getDataCurrentSource(currentEvent.id).then((res) => {
@@ -41,12 +41,13 @@ const UpdateDataSource = ({ dashboardState }) => {
     setOriginalSource();
     fetchCurrentDataSource();
   }, [dashboardState.selectedChallenge]);
+ 
 
-  let authorizedSources =
-    localStorage.getItem("authorizedDatasource") != undefined &&
-    localStorage.getItem("authorizedDatasource") != "undefined"
-      ? JSON.parse(localStorage.getItem("authorizedDatasource"))
-      : [];
+  // let authorizedSources =
+  //   localStorage.getItem("authorizedDatasource") != undefined &&
+  //   localStorage.getItem("authorizedDatasource") != "undefined"
+  //     ? JSON.parse(localStorage.getItem("authorizedDatasource"))
+  //     : [];
 
   const handleDataSourceChange = (value, sourceActive) => {
     if (sourceActive || value === "WHATSAPP") {
@@ -77,29 +78,56 @@ const UpdateDataSource = ({ dashboardState }) => {
       return false;
     }
 
-    isLoggedIn()
-      ? useEffect(() => {
-          setInterval(() => {
-            isLoggedIn()
-              ? getUserDetailsHandler().then((response) => {
-                  if (response.data.response.responseMessage === "SUCCESS") {
-                    localStorage.setItem(
-                      "authorizedDatasource",
-                      JSON.stringify(
-                        response.data.response.responseData.authorizedDatasource
-                      )
-                    );
-                  }
-                  fetchCurrentDataSource();
-                  renderSources();
-                  setCurrentDataSource();
-                  setOriginalSource();
-                  //  fetchCurrentDataSource();
-                })
-              : "";
-          }, 10000);
+    const authoapi=()=>{
+      
+        setInterval(() => {
+          if (localStorage.getItem('selectTab') === 'Source'){
+          isLoggedIn()
+            ? getUserDetailsHandler().then((response) => {
+                if (response.data.response.responseMessage === 'SUCCESS') {
+                  localStorage.setItem(
+                    'authorizedDatasource',
+                    JSON.stringify(
+                      response.data.response.responseData.authorizedDatasource
+                    )
+                  );
+                  setAuthorizedSource(
+                    response.data.response.responseData.authorizedDatasource
+                  );
+                }
+                fetchCurrentDataSource();
+                renderSources();
+                setCurrentDataSource();
+                setOriginalSource();
+                //  fetchCurrentDataSource();
+              })
+            : '';
+            }
+        }, 10000);
+     
+    }
+
+    useEffect(() => {
+         getUserDetailsHandler().then((response) => {
+           if (response.data.response.responseMessage === 'SUCCESS') {
+             localStorage.setItem(
+               'authorizedDatasource',
+               JSON.stringify(
+                 response.data.response.responseData.authorizedDatasource
+               )
+             );
+             setAuthorizedSource(
+               response.data.response.responseData.authorizedDatasource
+             );
+           }
+           fetchCurrentDataSource();
+           renderSources();
+           setCurrentDataSource();
+           setOriginalSource();
+           //  fetchCurrentDataSource();
+         });
         }, [])
-      : "";
+   
 
     return sourcesArray.map((item) => {
       let currentSource = authorizedSources.filter(
@@ -182,7 +210,8 @@ const UpdateDataSource = ({ dashboardState }) => {
                             res?.data?.response?.responseData?.authorizationLink
                           );
                           // setmfinemodal(true);
-                        });
+                        }),
+                          authoapi();
                       }}
                     >
                       {" "}
