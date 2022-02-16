@@ -61,12 +61,11 @@ const Login = () => {
 
   const [YottaMatch, setYottamatch] = useState(
     window.location.href == "https://yottacare.mhealth.ai/#/login"
-      ? true
-      : false
+      ? false
+      : true
   );
 
   const parenthandel = (name) => {
-    console.log("clicked", name);
     setmatch("false");
   };
 
@@ -497,6 +496,7 @@ const Login = () => {
                 handleInput,
                 loaderInfo,
                 handleMobileInputSubmit,
+                YottaMatch,
               }}
             />
           )}
@@ -511,12 +511,19 @@ const Login = () => {
                 handleOtpInputSubmit,
                 OTPRequestHandler,
                 handleSettingNewPassword,
+                YottaMatch,
               }}
             />
           )}
           {ismobileNoVerified && !isExistingUser && !isOtpVerified && (
             <OTPVerifyForm
-              {...{ userData, loaderInfo, handleInput, handleOtpInputSubmit }}
+              {...{
+                userData,
+                loaderInfo,
+                handleInput,
+                handleOtpInputSubmit,
+                YottaMatch,
+              }}
             />
           )}
 

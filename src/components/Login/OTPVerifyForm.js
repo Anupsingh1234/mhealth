@@ -7,6 +7,7 @@ const OTPVerifyForm = ({
   loaderInfo,
   handleInput,
   handleOtpInputSubmit,
+  YottaMatch,
 }) => (
   <>
     <div className="heading center fadeInUp">OTP Verification</div>
@@ -36,7 +37,13 @@ const OTPVerifyForm = ({
         </div>
       ) : (
         <button
-          className={userData.otp?.length === 6 ? "is-success" : "is-disabled"}
+          className={
+            userData.otp?.length === 6
+              ? YottaMatch
+                ? "is-yotta-success"
+                : "is-success"
+              : "is-disabled"
+          }
           disabled={userData.otp?.length !== 6}
           onClick={() => {
             handleOtpInputSubmit(),

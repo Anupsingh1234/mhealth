@@ -8,6 +8,7 @@ const MobileInputForm = ({
   handleInput,
   loaderInfo,
   handleMobileInputSubmit,
+  YottaMatch,
 }) => {
   const [countryList, setCountryList] = useState([]);
 
@@ -95,7 +96,7 @@ const MobileInputForm = ({
           </div>
         ) : (
           <button
-            className={"is-success"}
+            className={YottaMatch ? "is-yotta-success" : "is-success"}
             onClick={() => {
               handleMobileInputSubmit();
             }}

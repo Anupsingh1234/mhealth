@@ -11,6 +11,7 @@ const PasswordVerifyForm = ({
   handleOtpInputSubmit,
   OTPRequestHandler,
   handleSettingNewPassword,
+  YottaMatch,
 }) => (
   <>
     <div className="heading user-password-heading center fadeInUp">
@@ -25,7 +26,8 @@ const PasswordVerifyForm = ({
             handleInput,
             handleUserLoginSubmit,
             handleOtpInputSubmit,
-            OTPRequestHandler
+            OTPRequestHandler,
+            YottaMatch
           )
         : inputPasswordWrapper(
             userData,
@@ -34,14 +36,16 @@ const PasswordVerifyForm = ({
             handleInput,
             handleUserLoginSubmit,
             handleOtpInputSubmit,
-            OTPRequestHandler
+            OTPRequestHandler,
+            YottaMatch
           )
       : passwordResetForm(
           userData,
           setUserData,
           loaderInfo,
           handleInput,
-          handleSettingNewPassword
+          handleSettingNewPassword,
+          YottaMatch
         )}
   </>
 );
@@ -55,7 +59,8 @@ const inputPasswordWrapper = (
   handleInput,
   handleUserLoginSubmit,
   handleOtpInputSubmit,
-  OTPRequestHandler
+  OTPRequestHandler,
+  YottaMatch
 ) => {
   return (
     <>
@@ -100,7 +105,11 @@ const inputPasswordWrapper = (
           <button
             id="login-btn"
             className={
-              userData.pin?.length !== 4 ? "is-disabled" : "is-success"
+              userData.pin?.length !== 4
+                ? "is-disabled"
+                : YottaMatch
+                ? "is-yotta-success"
+                : "is-success"
             }
             disabled={userData.pin?.length !== 4}
             onClick={() => {
@@ -116,7 +125,7 @@ const inputPasswordWrapper = (
       </div>
       <div className="forgot-password" style={{ marginTop: "1em" }}>
         <button
-          className="is-secondary"
+          className={YottaMatch ? "is-yotta-secondary" : "is-secondary"}
           onClick={() => {
             setUserData({
               ...userData,
@@ -140,7 +149,8 @@ const forgotPinWrapper = (
   handleInput,
   handleUserLoginSubmit,
   handleOtpInputSubmit,
-  OTPRequestHandler
+  OTPRequestHandler,
+  YottaMatch
 ) => {
   const [gettingOTP, setGettingOTP] = useState(false);
   useEffect(() => {
@@ -187,9 +197,15 @@ const forgotPinWrapper = (
           />
 
           <button
-            className={`get-otp-button ${
-              gettingOTP ? "get-otp-button-disabled" : ""
-            }`}
+            className={
+              YottaMatch
+                ? `yotta-get-otp-button ${
+                    gettingOTP ? "get-otp-button-disabled" : ""
+                  }`
+                : `get-otp-button ${
+                    gettingOTP ? "get-otp-button-disabled" : ""
+                  }`
+            }
             onClick={() => {
               OTPRequestHandler("FORGET_PASSWORD", setGettingOTP);
             }}
@@ -217,7 +233,7 @@ const forgotPinWrapper = (
       >
         <div className="forgot-password">
           <button
-            className="is-secondary"
+            className={YottaMatch ? "is-yotta-secondary" : "is-secondary"}
             onClick={() => {
               setUserData({
                 ...userData,
@@ -243,7 +259,11 @@ const forgotPinWrapper = (
           ) : (
             <button
               className={
-                userData.otp?.length !== 6 ? "is-disabled" : "is-success"
+                userData.otp?.length !== 6
+                  ? "is-disabled"
+                  : YottaMatch
+                  ? "is-yotta-success"
+                  : "is-success"
               }
               disabled={userData.otp?.length !== 6}
               onClick={() => {
@@ -264,7 +284,8 @@ const passwordResetForm = (
   setUserData,
   loaderInfo,
   handleInput,
-  handleSettingNewPassword
+  handleSettingNewPassword,
+  YottaMatch
 ) => (
   <>
     <div className="sub-heading center fadeInUp">
@@ -314,7 +335,9 @@ const passwordResetForm = (
             userData.pin.length === 4 &&
             userData.confirmPin.length === 4 &&
             userData.pin === userData.confirmPin
-              ? "is-success"
+              ? YottaMatch
+                ? "is-yotta-success"
+                : "is-success"
               : "is-disabled"
           }
           disabled={
