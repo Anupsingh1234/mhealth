@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import Modal from '@material-ui/core/Modal';
-import {makeStyles} from '@material-ui/core/styles';
-import CancelIcon from '@material-ui/icons/Cancel';
-import {checkForFalsy} from '../../utils/commonFunctions';
+import React, { useState, useEffect } from "react";
+import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { checkForFalsy } from "../../utils/commonFunctions";
 
-import {editUserProgramPaymentDetails} from '../../services/challengeApi';
+import { editUserProgramPaymentDetails } from "../../services/challengeApi";
 
-import DateFnsUtils from '@date-io/date-fns';
-import {MuiPickersUtilsProvider, DateTimePicker} from '@material-ui/pickers';
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
 
-import ReactLoadingWrapper from '../loaders/ReactLoadingWrapper';
+import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 
 function getModalStyle() {
   const top = 50;
@@ -24,66 +24,66 @@ function getModalStyle() {
 }
 
 function formatDate(date) {
-  if (!date) return '';
+  if (!date) return "";
   var day = date.getDate();
   if (day < 10) {
-    day = '0' + day;
+    day = "0" + day;
   }
   var month = date.getMonth() + 1;
   if (month < 10) {
-    month = '0' + month;
+    month = "0" + month;
   }
   var year = date.getFullYear();
   let formattedHours =
-    `${date.getHours()}`.length == 2 ? date.getHours() : '0' + date.getHours();
+    `${date.getHours()}`.length == 2 ? date.getHours() : "0" + date.getHours();
   let formattedMins =
     `${date.getMinutes()}`.length == 2
       ? date.getMinutes()
-      : '0' + date.getMinutes();
+      : "0" + date.getMinutes();
   let formattedDate =
     year +
-    '-' +
+    "-" +
     month +
-    '-' +
+    "-" +
     day +
-    ' ' +
+    " " +
     formattedHours +
-    ':' +
+    ":" +
     formattedMins +
-    ':' +
-    '00';
+    ":" +
+    "00";
 
   return formattedDate;
 }
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
-    width: '90%',
-    backgroundColor: '#fff',
+    position: "absolute",
+    width: "90%",
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     maxHeight: 650,
   },
   chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   chip: {
     margin: 2,
   },
 }));
 
-const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
+const EditPaymentDetails = ({ visible, closeModal, editPaymentObject }) => {
   const [loading, setLoading] = useState(false);
   const [paymentObject, setPaymentObject] = useState({
-    txnId: '',
-    subEventId: '',
-    txnAmount: '',
+    txnId: "",
+    subEventId: "",
+    txnAmount: "",
     txnDateTime: Date.now(),
-    txnMode: '',
-    txnPaymentIdByUser: '',
+    txnMode: "",
+    txnPaymentIdByUser: "",
   });
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
 
   const handleInputChange = (name, value) => {
     setPaymentObject((prevState) => {
-      return {...prevState, [name]: value};
+      return { ...prevState, [name]: value };
     });
   };
 
@@ -113,36 +113,36 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
   const getDisableStatus = () => {
     let disabled = false;
 
-    let checkObject = {...paymentObject};
+    let checkObject = { ...paymentObject };
     disabled =
       Object.values(checkObject).includes(undefined) ||
       Object.values(checkObject).includes(null) ||
-      Object.values(checkObject).includes('');
+      Object.values(checkObject).includes("");
 
     return disabled;
   };
 
   const [regMessage, setRegMessage] = useState({
-    type: 'error',
-    msg: '',
+    type: "error",
+    msg: "",
   });
 
   const handleSubmit = () => {
     setRegMessage({
-      type: 'error',
-      msg: '',
+      type: "error",
+      msg: "",
     });
     if (!getDisableStatus()) {
       setLoading(true);
       let payload = {
         ...paymentObject,
-        txnDateTime: paymentObject.txnDateTime.split('T').join(' '),
+        txnDateTime: paymentObject.txnDateTime.split("T").join(" "),
       };
       editUserProgramPaymentDetails(editPaymentObject.userId, payload).then(
         (res) => {
           setLoading(false);
           setRegMessage({
-            type: 'success',
+            type: "success",
             msg: res.data.mhealthResponseMessage,
           });
         }
@@ -150,7 +150,7 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
     } else {
       let newErrorObj = {};
       Object.entries(paymentObject).map((item) => {
-        if (item[1] == undefined || item[1] == '') {
+        if (item[1] == undefined || item[1] == "") {
           newErrorObj[item[0]] = true;
         }
       });
@@ -166,8 +166,8 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
         style={{
           marginTop: 0,
           fontSize: 18,
-          display: 'flex',
-          alignItems: 'center',
+          display: "flex",
+          alignItems: "center",
           marginBottom: 20,
         }}
       >
@@ -175,38 +175,38 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
       </div>
       <div
         className="basic-info-container"
-        style={{overflowY: 'scroll', maxHeight: 580}}
+        style={{ overflowY: "scroll", maxHeight: 580 }}
       >
         <div className="basic-info register-form">
           <div
             className="mhealth-input-box padding-025em"
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              width: '100%',
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
             }}
           >
-            <div style={{width: '50%'}}>
+            <div style={{ width: "50%" }}>
               <div>
-                <label style={{fontSize: 12}}>Transaction Id</label>
+                <label style={{ fontSize: 12 }}>Transaction Id</label>
                 {errorObj.txnId && <p className="error-text">Please input</p>}
               </div>
               <input
                 style={{
-                  border: errorObj.txnId ? '1px solid red' : 0,
+                  border: errorObj.txnId ? "1px solid red" : 0,
                 }}
                 placeholder="Enter transaction id"
                 value={
-                  checkForFalsy(paymentObject.txnId) ? '' : paymentObject.txnId
+                  checkForFalsy(paymentObject.txnId) ? "" : paymentObject.txnId
                 }
-                onChange={(e) => handleInputChange('txnId', e.target.value)}
+                onChange={(e) => handleInputChange("txnId", e.target.value)}
               />
             </div>
-            <div style={{width: '50%', marginLeft: 10}}>
+            <div style={{ width: "50%", marginLeft: 10 }}>
               <div>
-                <label style={{fontSize: 12}}>Transaction Mode</label>
+                <label style={{ fontSize: 12 }}>Transaction Mode</label>
                 {errorObj.txnMode && (
                   <p className="error-text">Please select</p>
                 )}
@@ -215,11 +215,11 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
                 name="txnMode"
                 value={paymentObject.txnMode}
                 style={{
-                  border: errorObj.txnMode ? '1px solid red' : 0,
+                  border: errorObj.txnMode ? "1px solid red" : 0,
                   height: 28,
                 }}
                 onChange={(e) => {
-                  handleInputChange('txnMode', e.target.value);
+                  handleInputChange("txnMode", e.target.value);
                 }}
               >
                 <option value={undefined}>Select transaction mode</option>
@@ -237,16 +237,16 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
           <div
             className="mhealth-input-box padding-025em"
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              width: '100%',
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              width: "100%",
             }}
           >
-            <div style={{width: '50%'}}>
+            <div style={{ width: "50%" }}>
               <div>
-                <label style={{fontSize: 12}}>Transaction Amount</label>
+                <label style={{ fontSize: 12 }}>Transaction Amount</label>
                 {errorObj.txnAmount && (
                   <p className="error-text">Please input</p>
                 )}
@@ -255,33 +255,33 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
               <input
                 type="number"
                 style={{
-                  border: errorObj.txnAmount ? '1px solid red' : 0,
+                  border: errorObj.txnAmount ? "1px solid red" : 0,
                 }}
                 placeholder="Enter transaction Amount"
                 value={paymentObject.txnAmount}
-                onChange={(e) => handleInputChange('txnAmount', e.target.value)}
+                onChange={(e) => handleInputChange("txnAmount", e.target.value)}
               />
             </div>
 
-            <div style={{width: '50%', marginLeft: 10}}>
+            <div style={{ width: "50%", marginLeft: 10 }}>
               <div>
-                <label style={{fontSize: 12}}>Transaction Id by user</label>
+                <label style={{ fontSize: 12 }}>Transaction Id by user</label>
                 {errorObj.txnPaymentIdByUser && (
                   <p className="error-text">Please input</p>
                 )}
               </div>
               <input
                 style={{
-                  border: errorObj.txnPaymentIdByUser ? '1px solid red' : 0,
+                  border: errorObj.txnPaymentIdByUser ? "1px solid red" : 0,
                 }}
                 placeholder="Enter transaction Id by user"
                 value={
                   checkForFalsy(paymentObject.txnPaymentIdByUser)
-                    ? ''
+                    ? ""
                     : paymentObject.txnPaymentIdByUser
                 }
                 onChange={(e) =>
-                  handleInputChange('txnPaymentIdByUser', e.target.value)
+                  handleInputChange("txnPaymentIdByUser", e.target.value)
                 }
               />
             </div>
@@ -290,15 +290,17 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
           <div
             className="mhealth-input-box padding-025em"
             style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <div style={{width: '50%'}}>
+            <div style={{ width: "50%" }}>
               <div>
-                <label style={{fontSize: 12}}>Transaction Date and Time</label>
+                <label style={{ fontSize: 12 }}>
+                  Transaction Date and Time
+                </label>
                 {errorObj.txnDateTime && (
                   <p className="error-text">Please input</p>
                 )}
@@ -306,9 +308,9 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DateTimePicker
                   variant="inline"
-                  value={paymentObject.txnDateTime ?? ''}
+                  value={paymentObject.txnDateTime ?? ""}
                   onChange={(date) => {
-                    handleInputChange('txnDateTime', formatDate(date));
+                    handleInputChange("txnDateTime", formatDate(date));
                   }}
                 />
               </MuiPickersUtilsProvider>
@@ -319,17 +321,17 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
       <div
         className="submit-button"
         style={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          alignItems: "center",
         }}
       >
         <div
           style={{
             fontSize: 14,
-            width: 'max-content',
-            color: regMessage.type == 'success' ? '#069b3f' : '#d65151',
+            width: "max-content",
+            color: regMessage.type == "success" ? "#069b3f" : "#d65151",
           }}
         >
           {regMessage.msg}
@@ -344,10 +346,10 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
             }}
           >
             <ReactLoadingWrapper
-              color={'#518ad6'}
+              color={"#518ad6"}
               height={32}
               width={32}
-              type={'spin'}
+              type={"spin"}
             />
           </span>
         ) : (
@@ -368,11 +370,11 @@ const EditPaymentDetails = ({visible, closeModal, editPaymentObject}) => {
       </div>
       <CancelIcon
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 5,
           right: 5,
-          color: '#ef5350',
-          cursor: 'pointer',
+          color: "#ef5350",
+          cursor: "pointer",
         }}
         onClick={() => closeModal()}
       />

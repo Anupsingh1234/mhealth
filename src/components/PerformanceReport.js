@@ -1,57 +1,57 @@
-import React, {useEffect, useState} from 'react';
-import {lighten, useTheme} from '@material-ui/core/styles';
+import React, { useEffect, useState } from "react";
+import { lighten, useTheme } from "@material-ui/core/styles";
 
-import ReactLoadingWrapper from './loaders/ReactLoadingWrapper';
-import Message from 'antd-message';
-import TopUserDetails from './TopUserDetails';
+import ReactLoadingWrapper from "./loaders/ReactLoadingWrapper";
+import Message from "antd-message";
+import TopUserDetails from "./TopUserDetails";
 // import ResetPin1 from "../assets/resetPin.svg";
-import {Modal} from 'react-responsive-modal';
-import {makeStyles} from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import CancelIcon from '@material-ui/icons/Cancel';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Paper from '@material-ui/core/Paper';
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Avatar from '@material-ui/core/Avatar';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import { Modal } from "react-responsive-modal";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import CancelIcon from "@material-ui/icons/Cancel";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Paper from "@material-ui/core/Paper";
+import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
+import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Avatar from "@material-ui/core/Avatar";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
 // import CSVExport from "../CSVExport";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 // import NoData from "../NoData";
 // import ActiveButton from "../Utility/ActiveButton";
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import AddIcon from '@material-ui/icons/Add';
-import {Edit} from 'react-feather';
-import {CSVLink} from 'react-csv';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import AddIcon from "@material-ui/icons/Add";
+import { Edit } from "react-feather";
+import { CSVLink } from "react-csv";
 import {
   urlPrefix,
   performanceReport,
   secretToken,
   getSubEvent,
   zoomreport,
-} from '../services/apicollection';
-import axios from 'axios';
-import PromiseTeam from './PerformanceTeam/PromisingTeam';
-import EfficientPlayer from './PerformanceTeam/EfficientTeam';
-import InspiringPlayer from './PerformanceTeam/InspiringTeam';
-import ConsistantPlayer from './PerformanceTeam/ConsistantPlayer';
+} from "../services/apicollection";
+import axios from "axios";
+import PromiseTeam from "./PerformanceTeam/PromisingTeam";
+import EfficientPlayer from "./PerformanceTeam/EfficientTeam";
+import InspiringPlayer from "./PerformanceTeam/InspiringTeam";
+import ConsistantPlayer from "./PerformanceTeam/ConsistantPlayer";
 const Performance = (props) => {
   const [events, setevents] = useState([]);
   const [programs, setprograms] = useState([]);
@@ -60,9 +60,9 @@ const Performance = (props) => {
   const [inspiringPlayer, setinspiringPlayer] = useState([]);
   const [consistantPlayer, setconsistantPlayer] = useState([]);
   const [progId, setprogId] = useState();
-  const [endDate, setendDate] = useState('');
-  const [startDate, setstartDate] = useState('');
-  const [currDate, setcurrDate] = useState('');
+  const [endDate, setendDate] = useState("");
+  const [startDate, setstartDate] = useState("");
+  const [currDate, setcurrDate] = useState("");
   const [challengerId, setchallengerId] = useState();
   const [resMessage, setresMessage] = useState();
   const progChange = (e) => {
@@ -85,14 +85,14 @@ const Performance = (props) => {
     return axios
       .get(url, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -118,7 +118,7 @@ const Performance = (props) => {
           setresMessage();
         }
         if (res.data.response.responseMessage) {
-          if (res.data.response.responseMessage != 'SUCCESS') {
+          if (res.data.response.responseMessage != "SUCCESS") {
             setresMessage(res.data.response.responseMessage);
           }
         }
@@ -129,8 +129,8 @@ const Performance = (props) => {
 
   const useStyles1 = makeStyles((theme) => ({
     container: {
-      display: 'flex',
-      flexWrap: 'wrap',
+      display: "flex",
+      flexWrap: "wrap",
     },
     textField: {
       marginLeft: theme.spacing(1),
@@ -138,7 +138,7 @@ const Performance = (props) => {
       width: 200,
     },
     button: {
-      display: 'block',
+      display: "block",
       marginTop: theme.spacing(2),
     },
     formControl: {
@@ -151,7 +151,7 @@ const Performance = (props) => {
   const getEvents = () => {
     if (props.peradmin != true) {
       var marvelHeroes = props.data.filter(function (hero) {
-        const x = hero.moderatorId == localStorage.getItem('userId');
+        const x = hero.moderatorId == localStorage.getItem("userId");
         return x;
       });
       setevents(marvelHeroes);
@@ -169,10 +169,10 @@ const Performance = (props) => {
         <div
           style={{
             marginTop: 50,
-            display: 'flex',
-            justifyContent: 'space-around',
+            display: "flex",
+            justifyContent: "space-around",
             fontSize: 12,
-            height: '10vh',
+            height: "10vh",
             // position: "absolute"
           }}
         >
@@ -180,9 +180,9 @@ const Performance = (props) => {
           <div
             className="select_date"
             style={{
-              maxWidth: '250px',
-              justifyContent: 'center',
-              alignItems: 'center',
+              maxWidth: "250px",
+              justifyContent: "center",
+              alignItems: "center",
               top: 20,
             }}
           >
@@ -190,7 +190,7 @@ const Performance = (props) => {
               <legend>Select Event:</legend>
               <form className={classes1.container} noValidate>
                 <Select
-                  style={{width: '250px'}}
+                  style={{ width: "250px" }}
                   labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
                   // open={open}
@@ -201,7 +201,7 @@ const Performance = (props) => {
                 >
                   {events.map((curelem, index) => {
                     return (
-                      <MenuItem style={{fontSize: 12}} value={curelem.id}>
+                      <MenuItem style={{ fontSize: 12 }} value={curelem.id}>
                         {curelem.challengeName}
                       </MenuItem>
                     );
@@ -248,9 +248,9 @@ const Performance = (props) => {
           <div
             className="select_date"
             style={{
-              width: '23%',
-              justifyContent: 'center',
-              alignItems: 'center',
+              width: "23%",
+              justifyContent: "center",
+              alignItems: "center",
               top: 20,
             }}
           >
@@ -258,7 +258,7 @@ const Performance = (props) => {
               <legend>From Date:</legend>
               <form className={classes1.container} noValidate>
                 <TextField
-                  style={{fontSize: 12, width: '100%'}}
+                  style={{ fontSize: 12, width: "100%" }}
                   id="date"
                   type="date"
                   defaultValue=""
@@ -274,9 +274,9 @@ const Performance = (props) => {
           <div
             className="select_date"
             style={{
-              width: '250px',
-              justifyContent: 'center',
-              alignItems: 'center',
+              width: "250px",
+              justifyContent: "center",
+              alignItems: "center",
               top: 20,
             }}
           >
@@ -284,7 +284,7 @@ const Performance = (props) => {
               <legend>To Date:</legend>
               <form className={classes1.container} noValidate>
                 <TextField
-                  style={{fontSize: 12, maxWidth: '250px'}}
+                  style={{ fontSize: 12, maxWidth: "250px" }}
                   id="date"
                   type="date"
                   defaultValue=""
@@ -301,36 +301,36 @@ const Performance = (props) => {
 
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <button
             style={{
-              color: 'white',
-              background: 'green',
+              color: "white",
+              background: "green",
               height: 30,
               width: 80,
               marginTop: 25,
             }}
             onClick={getData}
           >
-            {' '}
-            submit{' '}
+            {" "}
+            submit{" "}
           </button>
-          <span style={{marginTop: 20, color: 'red', marginLeft: 50}}>
-            {' '}
-            {resMessage}{' '}
+          <span style={{ marginTop: 20, color: "red", marginLeft: 50 }}>
+            {" "}
+            {resMessage}{" "}
           </span>
         </div>
 
-        <Tabs style={{marginTop: 15}}>
+        <Tabs style={{ marginTop: 15 }}>
           <TabList>
-            <Tab style={{fontSize: 12}}>Promising player</Tab>
-            <Tab style={{fontSize: 12}}>Efficient player</Tab>
-            <Tab style={{fontSize: 12}}> Inspiring Player </Tab>
-            <Tab style={{fontSize: 12}}> Consistant Player </Tab>
+            <Tab style={{ fontSize: 12 }}>Promising player</Tab>
+            <Tab style={{ fontSize: 12 }}>Efficient player</Tab>
+            <Tab style={{ fontSize: 12 }}> Inspiring Player </Tab>
+            <Tab style={{ fontSize: 12 }}> Consistant Player </Tab>
           </TabList>
 
           <TabPanel>
@@ -341,25 +341,25 @@ const Performance = (props) => {
                 <div
                   style={{
                     height: 250,
-                    padding: '5px',
+                    padding: "5px",
                     marginTop: 30,
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                     fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                   className=""
                 >
-                  {' '}
+                  {" "}
                   <img
-                    style={{width: 200, height: 200}}
+                    style={{ width: 200, height: 200 }}
                     src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                   />
                   Data is not present
-                </div>{' '}
+                </div>{" "}
               </>
             )}
           </TabPanel>
@@ -371,27 +371,27 @@ const Performance = (props) => {
                 <div
                   style={{
                     height: 250,
-                    padding: '5px',
+                    padding: "5px",
                     marginTop: 30,
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                     fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                   className=""
                 >
-                  {' '}
+                  {" "}
                   <img
-                    style={{width: 200, height: 200}}
+                    style={{ width: 200, height: 200 }}
                     src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                   />
                   Data is not present
-                </div>{' '}
+                </div>{" "}
               </>
-            )}{' '}
+            )}{" "}
           </TabPanel>
 
           <TabPanel>
@@ -402,27 +402,27 @@ const Performance = (props) => {
                 <div
                   style={{
                     height: 250,
-                    padding: '5px',
+                    padding: "5px",
                     marginTop: 30,
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                     fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                   className=""
                 >
-                  {' '}
+                  {" "}
                   <img
-                    style={{width: 200, height: 200}}
+                    style={{ width: 200, height: 200 }}
                     src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                   />
                   Data is not present
-                </div>{' '}
+                </div>{" "}
               </>
-            )}{' '}
+            )}{" "}
           </TabPanel>
 
           <TabPanel>
@@ -433,27 +433,27 @@ const Performance = (props) => {
                 <div
                   style={{
                     height: 250,
-                    padding: '5px',
+                    padding: "5px",
                     marginTop: 30,
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                     fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                   className=""
                 >
-                  {' '}
+                  {" "}
                   <img
-                    style={{width: 200, height: 200}}
+                    style={{ width: 200, height: 200 }}
                     src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                   />
                   Data is not present
-                </div>{' '}
+                </div>{" "}
               </>
-            )}{' '}
+            )}{" "}
           </TabPanel>
         </Tabs>
 

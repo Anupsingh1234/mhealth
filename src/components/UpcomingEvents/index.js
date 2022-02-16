@@ -313,7 +313,9 @@ const UpcomingEvents = (props) => {
         flexDirection: "column",
       }}
     >
-      <header className="upcoming-event-navbar" style={{ display: "flex", justifyContent: "end" }}
+      <header
+        className="upcoming-event-navbar"
+        style={{ display: "flex", justifyContent: "end" }}
       >
         <div className="right">
           {" "}
@@ -355,7 +357,6 @@ const UpcomingEvents = (props) => {
                 /> */}
               </div>
             ) : heroImageArray && heroImageArray.length > 0 ? (
-                
               <Carousel
                 showThumbs={false}
                 style={{ width: "100%" }}
@@ -373,8 +374,7 @@ const UpcomingEvents = (props) => {
                     </div>
                   );
                 })}
-                  </Carousel>
-                
+              </Carousel>
             ) : (
               <div style={{ width: "100%" }}>
                 <img
@@ -405,7 +405,6 @@ const UpcomingEvents = (props) => {
           </ScrollableList>
         )}
       </div> */}
-     
           <div style={{ marginTop: "auto" }}>
             <div className="nextDi">
               <div className="testiMonials" style={{}}>

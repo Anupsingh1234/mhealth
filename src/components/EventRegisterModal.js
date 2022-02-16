@@ -1,42 +1,42 @@
-import React, {useState, useEffect} from 'react';
-import Modal from '@material-ui/core/Modal';
-import CancelIcon from '@material-ui/icons/Cancel';
-import ReactLoadingWrapper from './loaders/ReactLoadingWrapper';
-import Message from 'antd-message';
-import DatePicker from './DatePicker';
-import {useHistory} from 'react-router-dom';
-import SubEventCard from './Dashboard/Activity/SubEventCard';
+import React, { useState, useEffect } from "react";
+import Modal from "@material-ui/core/Modal";
+import CancelIcon from "@material-ui/icons/Cancel";
+import ReactLoadingWrapper from "./loaders/ReactLoadingWrapper";
+import Message from "antd-message";
+import DatePicker from "./DatePicker";
+import { useHistory } from "react-router-dom";
+import SubEventCard from "./Dashboard/Activity/SubEventCard";
 import {
   getActivitySubEvent,
   registerEvent,
   getOldEvents,
   sendSms,
   getAuthLink,
-} from '../services/challengeApi';
-import {checkForFalsy} from '../utils/commonFunctions';
-import success from '../assets/success.svg';
-import Tooltip from '@material-ui/core/Tooltip';
-import ErrorDialog from './ErrorDialog';
-import {RefreshCcw} from 'react-feather';
+} from "../services/challengeApi";
+import { checkForFalsy } from "../utils/commonFunctions";
+import success from "../assets/success.svg";
+import Tooltip from "@material-ui/core/Tooltip";
+import ErrorDialog from "./ErrorDialog";
+import { RefreshCcw } from "react-feather";
 
-import {getUserDetailsHandler} from '../services/userprofileApi';
+import { getUserDetailsHandler } from "../services/userprofileApi";
 
 const dataSourceMapping = {
-  WHATSAPP: 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/whatsapp.svg',
-  STRAVA: 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/strava.svg',
+  WHATSAPP: "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/whatsapp.svg",
+  STRAVA: "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/strava.svg",
   GOOGLE_FIT:
-    'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/googlefit.svg',
+    "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/googlefit.svg",
 };
 
 function getModalStyle() {
   return {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    background: '#fff',
-    transform: 'translate(-50%, -50%)',
-    width: '200px',
-    outline: 'none',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    background: "#fff",
+    transform: "translate(-50%, -50%)",
+    width: "200px",
+    outline: "none",
   };
 }
 
@@ -51,16 +51,16 @@ export default function EventInfoModal({
 }) {
   const [modalStyle] = React.useState(getModalStyle);
   const [registerDetails, setRegisterDetails] = useState({
-    eventId: '',
-    dataSource: '',
-    healthGoal: '',
-    registrationSource: '',
+    eventId: "",
+    dataSource: "",
+    healthGoal: "",
+    registrationSource: "",
     dob: undefined,
-    gender: '',
-    city: '',
-    pinCode: '',
-    emailId: '',
-    state: '',
+    gender: "",
+    city: "",
+    pinCode: "",
+    emailId: "",
+    state: "",
   });
 
   const [errorObj, setErrorObj] = useState({
@@ -91,13 +91,13 @@ export default function EventInfoModal({
         let testArray = promiseRes.map((el, index) => {
           let newObj = {};
           if (connectedSources[index]) {
-            newObj = {...connectedSources[index]};
+            newObj = { ...connectedSources[index] };
           }
-          if (newObj['dataSource'] == 'WHATSAPP') {
-            newObj['authorized'] = true;
+          if (newObj["dataSource"] == "WHATSAPP") {
+            newObj["authorized"] = true;
           }
-          newObj['authLink'] =
-            el.data.response.responseMessage === 'SUCCESS' &&
+          newObj["authLink"] =
+            el.data.response.responseMessage === "SUCCESS" &&
             el.data.response.responseData &&
             el.data.response.responseData.authorizationLink
               ? el.data.response.responseData.authorizationLink
@@ -111,9 +111,9 @@ export default function EventInfoModal({
   useEffect(() => {
     setRegisterDetails({
       eventId: undefined,
-      dataSource: 'WHATSAPP',
+      dataSource: "WHATSAPP",
       healthGoal: undefined,
-      registrationSource: 'WEB',
+      registrationSource: "WEB",
       dob: checkForFalsy(localStorage.dob) ? undefined : localStorage.dob,
       gender: checkForFalsy(localStorage.gender)
         ? undefined
@@ -137,11 +137,11 @@ export default function EventInfoModal({
   );
 
   const [showDialog, setShowDialog] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleClose = () => {
     getOldEvents().then((res) => {
-      if (res.data.response.responseMessage === 'SUCCESS') {
+      if (res.data.response.responseMessage === "SUCCESS") {
         let event = res.data.response.responseData?.keyword.eventId;
         let allChallengeData = res.data.response.responseData.events;
 
@@ -151,32 +151,32 @@ export default function EventInfoModal({
               ...prevState,
               listOfChallenges: allChallengeData.filter((item) => {
                 if (
-                  challenge.timePeriod.toUpperCase() === 'CURRENT' ||
-                  currentViewTab == 'current'
+                  challenge.timePeriod.toUpperCase() === "CURRENT" ||
+                  currentViewTab == "current"
                 ) {
                   return item.isActive == 1 &&
-                    item.timePeriod !== 'FUTURE' &&
+                    item.timePeriod !== "FUTURE" &&
                     item.isParticipated
                     ? true
                     : event !== null
-                    ? (item.eventView !== 'LINKED' &&
-                        item.eventView !== 'PRIVATE') ||
-                      (item.id == event && item.timePeriod === 'FUTURE') ||
-                      (item.id == event && item.timePeriod === 'CURRENT')
-                    : item.eventView !== 'PRIVATE' &&
-                      item.timePeriod !== 'FUTURE';
+                    ? (item.eventView !== "LINKED" &&
+                        item.eventView !== "PRIVATE") ||
+                      (item.id == event && item.timePeriod === "FUTURE") ||
+                      (item.id == event && item.timePeriod === "CURRENT")
+                    : item.eventView !== "PRIVATE" &&
+                      item.timePeriod !== "FUTURE";
                 } else {
                   return item.isActive == 1 &&
-                    item.timePeriod === 'FUTURE' &&
+                    item.timePeriod === "FUTURE" &&
                     item.isParticipated
                     ? true
                     : event !== null
-                    ? (item.eventView !== 'LINKED' &&
-                        item.eventView !== 'PRIVATE') ||
-                      (item.id == event && item.timePeriod === 'FUTURE') ||
-                      (item.id == event && item.timePeriod === 'CURRENT')
-                    : item.eventView !== 'PRIVATE' &&
-                      item.timePeriod === 'FUTURE';
+                    ? (item.eventView !== "LINKED" &&
+                        item.eventView !== "PRIVATE") ||
+                      (item.id == event && item.timePeriod === "FUTURE") ||
+                      (item.id == event && item.timePeriod === "CURRENT")
+                    : item.eventView !== "PRIVATE" &&
+                      item.timePeriod === "FUTURE";
                 }
               }),
             };
@@ -208,7 +208,7 @@ export default function EventInfoModal({
     };
     [
       // 'emailId',
-      'dataSource',
+      "dataSource",
       // 'healthGoal',
       // 'state',
       // 'city',
@@ -230,17 +230,17 @@ export default function EventInfoModal({
   const handel = () => {
     const str = window.location.href;
     const link = str.substring(0, 22);
-    if (link == 'https://global.mhealth') {
-      console.log('whegdwdh  ' + challenge.id);
+    if (link == "https://global.mhealth") {
+      console.log("whegdwdh  " + challenge.id);
       const arr = [challenge.id];
       console.log(arr);
       window.message = Message;
       const payload = {
         eventId: parseInt(challenge.id),
-        dataSource: 'WHATSAPP',
+        dataSource: "WHATSAPP",
         // healthGoal: registerDetails.healthGoal,
 
-        registrationSource: 'WEB',
+        registrationSource: "WEB",
         // dob: registerDetails.dob,
         // gender: registerDetails.gender,
         // city: registerDetails.city,
@@ -271,7 +271,7 @@ export default function EventInfoModal({
         })
 
         .catch((err) => {
-          message.error('Something went wrong!');
+          message.error("Something went wrong!");
           setRegisteredLoader(false);
         });
       //   getActivitySubEvent(challenge.id  , payload)
@@ -292,7 +292,7 @@ export default function EventInfoModal({
       dataSource: registerDetails.dataSource,
       // healthGoal: registerDetails.healthGoal,
 
-      registrationSource: 'WEB',
+      registrationSource: "WEB",
       // dob: registerDetails.dob,
       // gender: registerDetails.gender,
       // city: registerDetails.city,
@@ -308,8 +308,8 @@ export default function EventInfoModal({
     registerEvent(payload)
       .then((res) => {
         if (res.data.response.responseCode === 0) {
-          message.success('Successfully Registered!');
-          localStorage.removeItem('challengeIDRegister');
+          message.success("Successfully Registered!");
+          localStorage.removeItem("challengeIDRegister");
 
           sendSms({
             eventName: challenge.challengeName,
@@ -326,7 +326,7 @@ export default function EventInfoModal({
         setRegisteredLoader(false);
       })
       .catch((err) => {
-        message.error('Something went wrong!');
+        message.error("Something went wrong!");
         setRegisteredLoader(false);
       });
   };
@@ -339,7 +339,7 @@ export default function EventInfoModal({
   };
 
   const handleDataSourceChange = (type, value, sourceActive) => {
-    if (sourceActive || value === 'WHATSAPP') {
+    if (sourceActive || value === "WHATSAPP") {
       setRegisterDetails({
         ...registerDetails,
         [type]: value,
@@ -350,7 +350,7 @@ export default function EventInfoModal({
   const modalBody = (
     <div
       style={modalStyle}
-      className={'registration-modal'}
+      className={"registration-modal"}
       onLoad={() => handel()}
     >
       <div className="heading">Register Challenge</div>
@@ -380,18 +380,20 @@ export default function EventInfoModal({
           </div> */}
           <div className="mhealth-input-box padding-025em">
             <div>
-              <label style={{display: 'flex', justifyContent: 'space-between'}}>
+              <label
+                style={{ display: "flex", justifyContent: "space-between" }}
+              >
                 Data Source
                 <div
                   style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    cursor: 'pointer',
-                    userSelect: 'none',
+                    display: "flex",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    userSelect: "none",
                   }}
                   onClick={() => checkAuthorizedSources()}
                 >
-                  <RefreshCcw size={12} style={{marginRight: 3}} />
+                  <RefreshCcw size={12} style={{ marginRight: 3 }} />
                   Refresh
                 </div>
               </label>
@@ -401,10 +403,10 @@ export default function EventInfoModal({
             </div>
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'space-between',
+                display: "flex",
+                justifyContent: "space-between",
                 padding: 5,
-                flexWrap: 'wrap',
+                flexWrap: "wrap",
               }}
             >
               {Object.entries(dataSourceMapping).map((item) => {
@@ -412,71 +414,73 @@ export default function EventInfoModal({
                   (source) => source.dataSource === item[0]
                 )[0];
                 let currentSourceStatus =
-                  currentSource && currentSource['authorized']
-                    ? 'connected'
-                    : 'connect';
+                  currentSource && currentSource["authorized"]
+                    ? "connected"
+                    : "connect";
                 return (
                   <div
                     style={{
-                      display: 'flex',
-                      flexDirection: 'column',
+                      display: "flex",
+                      flexDirection: "column",
                       margin: 10,
                     }}
                   >
                     <Tooltip
                       title={
-                        currentSourceStatus == 'connect' &&
-                        item[0] !== 'WHATSAPP'
-                          ? 'Source not authorized. Please click Authorize'
-                          : ''
+                        currentSourceStatus == "connect" &&
+                        item[0] !== "WHATSAPP"
+                          ? "Source not authorized. Please click Authorize"
+                          : ""
                       }
                     >
                       <div
                         style={{
-                          display: 'flex',
+                          display: "flex",
                           cursor:
-                            currentSourceStatus == 'connect' &&
-                            item[0] !== 'WHATSAPP'
-                              ? 'not-allowed'
-                              : 'pointer',
+                            currentSourceStatus == "connect" &&
+                            item[0] !== "WHATSAPP"
+                              ? "not-allowed"
+                              : "pointer",
                           background:
-                            currentSourceStatus == 'connect' &&
-                            item[0] !== 'WHATSAPP'
-                              ? '#eeeeee'
-                              : '#fff',
+                            currentSourceStatus == "connect" &&
+                            item[0] !== "WHATSAPP"
+                              ? "#eeeeee"
+                              : "#fff",
                           padding: 3,
                           borderRadius: 4,
                           flexShrink: 0,
-                          alignItems: 'center ',
+                          alignItems: "center ",
                           cursor:
-                            currentSourceStatus == 'connect' &&
-                            item[0] !== 'WHATSAPP'
-                              ? 'not-allowed'
-                              : 'pointer',
+                            currentSourceStatus == "connect" &&
+                            item[0] !== "WHATSAPP"
+                              ? "not-allowed"
+                              : "pointer",
                           border:
-                            currentSourceStatus == 'connect' &&
-                            item[0] !== 'WHATSAPP'
-                              ? 'none'
-                              : '',
-                          userSelect: 'none',
+                            currentSourceStatus == "connect" &&
+                            item[0] !== "WHATSAPP"
+                              ? "none"
+                              : "",
+                          userSelect: "none",
                         }}
                         onClick={() =>
                           handleDataSourceChange(
-                            'dataSource',
+                            "dataSource",
                             item[0],
-                            currentSourceStatus != 'connect'
+                            currentSourceStatus != "connect"
                           )
                         }
                         key={item[0]}
                         className={
                           registerDetails.dataSource === item[0]
-                            ? 'datasource-image datasource-image-active'
-                            : 'datasource-image'
+                            ? "datasource-image datasource-image-active"
+                            : "datasource-image"
                         }
                       >
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                          <div style={{fontSize: 12}}>
-                            {item[0] === 'GOOGLE_FIT' ? 'GOOGLE FIT' : item[0]}
+                        <div
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          <div style={{ fontSize: 12 }}>
+                            {item[0] === "GOOGLE_FIT" ? "GOOGLE FIT" : item[0]}
                           </div>
                         </div>
                         <img
@@ -489,11 +493,11 @@ export default function EventInfoModal({
                         />
                       </div>
                     </Tooltip>
-                    <div style={{fontSize: 10, cursor: 'pointer'}}>
-                      {currentSourceStatus == 'connect' &&
-                      item[0] !== 'WHATSAPP' ? (
-                        <a href={currentSource?.authLink} target={'_blank'}>
-                          {' '}
+                    <div style={{ fontSize: 10, cursor: "pointer" }}>
+                      {currentSourceStatus == "connect" &&
+                      item[0] !== "WHATSAPP" ? (
+                        <a href={currentSource?.authLink} target={"_blank"}>
+                          {" "}
                           Authorize
                         </a>
                       ) : null}
@@ -647,17 +651,17 @@ export default function EventInfoModal({
             {isRegisteredLoader ? (
               <div className="loader">
                 <ReactLoadingWrapper
-                  color={'#518ad6'}
-                  height={'10%'}
-                  width={'10%'}
-                  type={'spin'}
+                  color={"#518ad6"}
+                  height={"10%"}
+                  width={"10%"}
+                  type={"spin"}
                 />
               </div>
             ) : (
               <button
                 className="is-success"
                 onClick={() => handleSubmit()}
-                style={{marginBottom: 15}}
+                style={{ marginBottom: 15 }}
               >
                 Save
               </button>
@@ -668,11 +672,11 @@ export default function EventInfoModal({
 
       <CancelIcon
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 5,
           right: 5,
-          color: '#ef5350',
-          cursor: 'pointer',
+          color: "#ef5350",
+          cursor: "pointer",
         }}
         onClick={() => handleClose()}
       />
@@ -682,11 +686,11 @@ export default function EventInfoModal({
   const getMessage = () => {
     const str = window.location.href;
     const link = str.substring(0, 22);
-    if (link != 'https://global.mhealth') {
+    if (link != "https://global.mhealth") {
       if (instruction_details) {
         return (
           <div
-            style={{padding: 10}}
+            style={{ padding: 10 }}
             dangerouslySetInnerHTML={{
               __html: instruction_details[registerDetails.dataSource],
             }}
@@ -697,19 +701,19 @@ export default function EventInfoModal({
   };
 
   const registrationLinkModalBody = (
-    <div style={modalStyle} className={'registration-modal '}>
-      <div style={{position: 'relative'}}>
+    <div style={modalStyle} className={"registration-modal "}>
+      <div style={{ position: "relative" }}>
         <div
           className="heading"
-          style={{textAlign: 'center', marginTop: '1em', fontSize: 16}}
+          style={{ textAlign: "center", marginTop: "1em", fontSize: 16 }}
         >
           Successfully Registered
         </div>
         <div
           className="basic-info-container"
-          style={{paddingBottom: 40, flexDirection: 'column'}}
+          style={{ paddingBottom: 40, flexDirection: "column" }}
         >
-          <div className="display-column" style={{alignItems: 'center'}}>
+          <div className="display-column" style={{ alignItems: "center" }}>
             <img src={success} width={300} />
           </div>
           {getMessage(challenge.dataSource)}
@@ -717,13 +721,13 @@ export default function EventInfoModal({
       </div>
       <CancelIcon
         style={{
-          position: 'absolute',
+          position: "absolute",
           top: 5,
           right: 5,
-          color: '#ef5350',
-          cursor: 'pointer',
+          color: "#ef5350",
+          cursor: "pointer",
         }}
-          onClick={() => {
+        onClick={() => {
           handleClose(), location.reload();
         }}
       />
@@ -749,7 +753,7 @@ export default function EventInfoModal({
         {!successLinkStatus ? (
           <div className="invisible"> {modalBody}</div>
         ) : (
-          <div style={{outline: 'none'}}> {registrationLinkModalBody}</div>
+          <div style={{ outline: "none" }}> {registrationLinkModalBody}</div>
         )}
       </Modal>
       {showDialog && (

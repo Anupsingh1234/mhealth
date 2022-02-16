@@ -1,11 +1,11 @@
-import 'date-fns';
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
+import "date-fns";
+import React from "react";
+import Grid from "@material-ui/core/Grid";
+import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
+} from "@material-ui/pickers";
 
 export default function DatePicker({
   placeholder,
@@ -16,17 +16,17 @@ export default function DatePicker({
   outlineVariantDisable,
 }) {
   function formatDate(date) {
-    if (!date) return '';
+    if (!date) return "";
     var day = date.getDate();
     if (day < 10) {
-      day = '0' + day;
+      day = "0" + day;
     }
     var month = date.getMonth() + 1;
     if (month < 10) {
-      month = '0' + month;
+      month = "0" + month;
     }
     var year = date.getFullYear();
-    return year + '-' + month + '-' + day;
+    return year + "-" + month + "-" + day;
   }
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -34,20 +34,20 @@ export default function DatePicker({
         <KeyboardDatePicker
           autoOk
           format="yyyy/MM/dd"
-          value={value ?? ''}
-          InputAdornmentProps={{position: 'start'}}
+          value={value ?? ""}
+          InputAdornmentProps={{ position: "start" }}
           onChange={(date) => onChange(formatDate(date))}
-          style={disabled ? {background: '#f3f4f6'} : {}}
+          style={disabled ? { background: "#f3f4f6" } : {}}
           disablePast={disablePast}
         />
       ) : (
         <KeyboardDatePicker
           autoOk
           format="yyyy/MM/dd"
-          value={value ?? ''}
-          InputAdornmentProps={{position: 'start'}}
+          value={value ?? ""}
+          InputAdornmentProps={{ position: "start" }}
           onChange={(date) => onChange(formatDate(date))}
-          style={disabled ? {background: '#f3f4f6'} : {}}
+          style={disabled ? { background: "#f3f4f6" } : {}}
           disablePast={disablePast}
         />
       )}

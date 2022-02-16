@@ -1,58 +1,58 @@
-import React, {useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import ExpandMoreRoundedIcon from '@material-ui/icons/ExpandMoreRounded';
-import ExpandLessRoundedIcon from '@material-ui/icons/ExpandLessRounded';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Popover from '@material-ui/core/Popover';
-import WarningIcon from '@material-ui/icons/Warning';
-import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import {useSnackbar} from 'notistack';
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import ExpandMoreRoundedIcon from "@material-ui/icons/ExpandMoreRounded";
+import ExpandLessRoundedIcon from "@material-ui/icons/ExpandLessRounded";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Popover from "@material-ui/core/Popover";
+import WarningIcon from "@material-ui/icons/Warning";
+import Modal from "@material-ui/core/Modal";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import { useSnackbar } from "notistack";
 
-import {reportImage} from '../services/challengeApi';
-import eventGalleryNoData from '../assets/eventGalleryNoData.jpeg';
+import { reportImage } from "../services/challengeApi";
+import eventGalleryNoData from "../assets/eventGalleryNoData.jpeg";
 
-const EventImageCard = ({data, fetchEventGallery, type}) => {
-  const {enqueueSnackbar} = useSnackbar();
+const EventImageCard = ({ data, fetchEventGallery, type }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [expanStatus, setExpandStatus] = useState(false);
   const [abusiveText, setAbusiveText] = useState();
   let monthsObject = {
-    '01': 'Jan',
-    '02': 'Feb',
-    '03': 'Mar',
-    '04': 'April',
-    '05': 'May',
-    '06': 'June',
-    '07': 'July',
-    '08': 'Aug',
-    '09': 'Sep',
-    10: 'Oct',
-    11: 'Nov',
-    12: 'Dec',
+    "01": "Jan",
+    "02": "Feb",
+    "03": "Mar",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "Aug",
+    "09": "Sep",
+    10: "Oct",
+    11: "Nov",
+    12: "Dec",
   };
   let captionText =
-    type == 'program' || type == 'record'
+    type == "program" || type == "record"
       ? data.activityNotes
       : data.captionText;
   let uploadTime =
-    type == 'program' || type == 'record'
-      ? monthsObject[data.activitySubmitDate.split('-')[1]] +
-        ' ' +
-        data.activitySubmitDate.split('-')[2].split(' ')[0] +
-        ', ' +
-        data.activitySubmitDate.split('-')[2].split(' ')[1].split(':')[0] +
-        ':' +
-        data.activitySubmitDate.split('-')[2].split(' ')[1].split(':')[1]
+    type == "program" || type == "record"
+      ? monthsObject[data.activitySubmitDate.split("-")[1]] +
+        " " +
+        data.activitySubmitDate.split("-")[2].split(" ")[0] +
+        ", " +
+        data.activitySubmitDate.split("-")[2].split(" ")[1].split(":")[0] +
+        ":" +
+        data.activitySubmitDate.split("-")[2].split(" ")[1].split(":")[1]
       : data.submitDatetime
-      ? monthsObject[data.submitDatetime.split('-')[1]] +
-        ' ' +
-        data.submitDatetime.split('-')[2].split(' ')[0] +
-        ', ' +
-        data.submitDatetime.split('-')[2].split(' ')[1].split(':')[0] +
-        ':' +
-        data.submitDatetime.split('-')[2].split(' ')[1].split(':')[1]
-      : 'Upload Date';
+      ? monthsObject[data.submitDatetime.split("-")[1]] +
+        " " +
+        data.submitDatetime.split("-")[2].split(" ")[0] +
+        ", " +
+        data.submitDatetime.split("-")[2].split(" ")[1].split(":")[0] +
+        ":" +
+        data.submitDatetime.split("-")[2].split(" ")[1].split(":")[1]
+      : "Upload Date";
 
   const renderExpandIcons = () => {
     if (captionText?.length > 27) {
@@ -69,7 +69,7 @@ const EventImageCard = ({data, fetchEventGallery, type}) => {
   };
 
   const openPopover = Boolean(anchorElPopover);
-  const id = openPopover ? 'simple-popover' : undefined;
+  const id = openPopover ? "simple-popover" : undefined;
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -93,12 +93,12 @@ const EventImageCard = ({data, fetchEventGallery, type}) => {
         anchorEl={anchorElPopover}
         onClose={handlePopoverClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: "bottom",
+          horizontal: "center",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
       >
         <div className="event-image-card-more-list">
@@ -109,7 +109,7 @@ const EventImageCard = ({data, fetchEventGallery, type}) => {
               handleModalOpen();
             }}
           >
-            <WarningIcon style={{color: '#ffa726'}} />
+            <WarningIcon style={{ color: "#ffa726" }} />
             Mark as Abusive
           </div>
         </div>

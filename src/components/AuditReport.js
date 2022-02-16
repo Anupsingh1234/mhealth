@@ -1,10 +1,10 @@
-import React, {useEffect, useState, useCallback} from 'react';
-import {useTheme} from '@material-ui/core/styles';
-import Popup from './Popup';
-import EditIcon from '@material-ui/icons/EditOutlined';
-import DoneIcon from '@material-ui/icons/DoneAllTwoTone';
-import Input from '@material-ui/core/Input';
-import Button from '@material-ui/core/Button';
+import React, { useEffect, useState, useCallback } from "react";
+import { useTheme } from "@material-ui/core/styles";
+import Popup from "./Popup";
+import EditIcon from "@material-ui/icons/EditOutlined";
+import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
+import Input from "@material-ui/core/Input";
+import Button from "@material-ui/core/Button";
 
 // import Event from './Event'
 // import 'bootstrap/dist/css/bootstrap.rtl.min.css';
@@ -13,52 +13,52 @@ import Button from '@material-ui/core/Button';
 // import Message from "antd-message";
 
 // import { Modal } from "react-responsive-modal";
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 // import TextField from "@material-ui/core/TextField";
 // import InputLabel from "@material-ui/core/InputLabel";
 // import MenuItem from "@material-ui/core/MenuItem";
 // import FormControl from "@material-ui/core/FormControl";
 // import Select from "@material-ui/core/Select";
 // import Button from "@material-ui/core/Button";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
 // import CancelIcon from "@material-ui/icons/Cancel";
-import TableCell from '@material-ui/core/TableCell';
+import TableCell from "@material-ui/core/TableCell";
 // import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import axios from 'axios';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Message from 'antd-message';
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import axios from "axios";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Message from "antd-message";
 
 // import Paper from "@material-ui/core/Paper";
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import IconButton from '@material-ui/core/IconButton';
+import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
+import IconButton from "@material-ui/core/IconButton";
 // import CircularProgress from "@material-ui/core/CircularProgress";
 // import Avatar from "@material-ui/core/Avatar";
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
 // import CSVExport from "../CSVExport";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 // import NoData from "../NoData";
 // import ActiveButton from "../Utility/ActiveButton";
 // import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 // import "react-tabs/style/react-tabs.css";
 // import AddIcon from "@material-ui/icons/Add";
-import {Edit} from 'react-feather';
-import {CSVLink} from 'react-csv';
-import {urlPrefix, secretToken} from '../services/apicollection';
+import { Edit } from "react-feather";
+import { CSVLink } from "react-csv";
+import { urlPrefix, secretToken } from "../services/apicollection";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(3),
-    overflowX: 'auto',
+    overflowX: "auto",
   },
   table: {
     minWidth: 650,
@@ -76,12 +76,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomTableCell = ({item, name, onChange}) => {
+const CustomTableCell = ({ item, name, onChange }) => {
   const classes = useStyles();
-  const {isEditMode} = item;
+  const { isEditMode } = item;
   return (
     <TableCell align="left" className={classes.tableCell}>
-      {isEditMode && item.dataSource === 'WHATSAPP' ? (
+      {isEditMode && item.dataSource === "WHATSAPP" ? (
         <Input
           value={item[name]}
           name={name}
@@ -100,27 +100,27 @@ const AuditReport = (props) => {
   const [data, setData] = useState([]);
   const geteventrlist = () => {
     const adminurl = `${urlPrefix}clients/getAllEvents?others=performance&userId=${localStorage.getItem(
-      'userId'
+      "userId"
     )}`;
 
     return axios
       .get(adminurl, {
         headers: {
           Authorization: `Bearer ${secretToken}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
         {
           res.data.response.responseData
             ? setData(res.data.response.responseData.events)
-            : '';
+            : "";
         }
       });
   };
@@ -133,14 +133,14 @@ const AuditReport = (props) => {
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -175,14 +175,14 @@ const AuditReport = (props) => {
         `${urlPrefix}v1.0/getEventWisePlayerAuditForm?challengerZoneId=${Event}&playerId=${playerId}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         }
       )
@@ -204,7 +204,7 @@ const AuditReport = (props) => {
     setItems((state) => {
       return items.map((row) => {
         if (row.id === id) {
-          return {...row, isEditMode: !row.isEditMode};
+          return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
       });
@@ -215,14 +215,14 @@ const AuditReport = (props) => {
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         }
       )
@@ -231,20 +231,20 @@ const AuditReport = (props) => {
 
   const onChange = (e, row) => {
     if (!previous[row.id]) {
-      setPrevious((state) => ({...state, [row.id]: row}));
+      setPrevious((state) => ({ ...state, [row.id]: row }));
     }
     const value = e.target.value;
     console.log(value);
     setEditValue(value);
     const name = e.target.name;
     console.log(name);
-    const {id} = row;
+    const { id } = row;
 
     setEditId(id);
     const newRows = items.map((row) => {
       // alert('Success!')
       if (row.id === id) {
-        return {...row, [name]: value};
+        return { ...row, [name]: value };
       }
       return row;
     });
@@ -252,14 +252,14 @@ const AuditReport = (props) => {
   };
 
   const Success = () => {
-    Message.success('Updated Successfully!');
+    Message.success("Updated Successfully!");
   };
 
   console.log(items);
-  const [currentImage, setCurrentImage] = useState('');
+  const [currentImage, setCurrentImage] = useState("");
   const [isViewerOpen, setIsViewerOpen] = useState([false]);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
   const [isOpen, setIsOpen] = useState(false);
@@ -288,11 +288,11 @@ const AuditReport = (props) => {
       margin: theme.spacing(1, 1, 0, 0),
     },
     root: {
-      width: '100%',
+      width: "100%",
       // border: "1px solid black"
     },
     paper: {
-      width: '100%',
+      width: "100%",
       marginBottom: theme.spacing(2),
     },
     table: {
@@ -300,12 +300,12 @@ const AuditReport = (props) => {
     },
     visuallyHidden: {
       border: 0,
-      clip: 'rect(0 0 0 0)',
+      clip: "rect(0 0 0 0)",
       height: 1,
       margin: -1,
-      overflow: 'hidden',
+      overflow: "hidden",
       padding: 0,
-      position: 'absolute',
+      position: "absolute",
       top: 20,
       width: 1,
     },
@@ -331,26 +331,26 @@ const AuditReport = (props) => {
     };
 
     const handleLastPageButtonClick = (event) => {
-     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+      onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
     };
 
     return (
-      <div className={classes.root} style={{display: 'flex'}}>
+      <div className={classes.root} style={{ display: "flex" }}>
         <IconButton
           onClick={handleFirstPageButtonClick}
           disabled={page === 0}
           aria-label="first page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
         <IconButton
           onClick={handleBackButtonClick}
           disabled={page === 0}
           aria-label="previous page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowRight />
           ) : (
             <KeyboardArrowLeft />
@@ -360,9 +360,9 @@ const AuditReport = (props) => {
           onClick={handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="next page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowLeft />
           ) : (
             <KeyboardArrowRight />
@@ -372,98 +372,98 @@ const AuditReport = (props) => {
           onClick={handleLastPageButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="last page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
       </div>
     );
   }
 
   const headers = [
-    {label: 'Source', key: 'dataSorce'},
-    {label: 'Date', key: 'date'},
-    {label: 'Active on', key: 'activityStartDate'},
-    {label: 'Activity to', key: 'activityEndDate'},
-    {label: 'Entry on', key: 'entryDateTime'},
-    {label: 'Raw value', key: 'rawValue'},
-    {label: 'Raw unit', key: 'rawUnit'},
-    {label: 'LeederBoard value', key: 'leaderBoardValue'},
+    { label: "Source", key: "dataSorce" },
+    { label: "Date", key: "date" },
+    { label: "Active on", key: "activityStartDate" },
+    { label: "Activity to", key: "activityEndDate" },
+    { label: "Entry on", key: "entryDateTime" },
+    { label: "Raw value", key: "rawValue" },
+    { label: "Raw unit", key: "rawUnit" },
+    { label: "LeederBoard value", key: "leaderBoardValue" },
   ];
   const datas = items;
 
   const teamHeads = [
     {
-      label: 'S.No',
-      id: 'index',
+      label: "S.No",
+      id: "index",
 
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Source',
-      id: 'dataSource',
+      label: "Source",
+      id: "dataSource",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Date',
-      id: 'date',
-      numeric: false,
-      disablePadding: true,
-    },
-
-    {
-      label: 'Activity from',
-      id: 'activityStartDate',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'Activity To',
-      id: 'activityEndDate',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'Entry On',
-      id: 'entryDateTime',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'Value',
-      id: 'rawValue',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'Unit',
-      id: 'rawUnit',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'Image',
-      id: 'whatsAppImage',
+      label: "Date",
+      id: "date",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'LeaderBoard',
-      id: 'leaderBoardValue',
+      label: "Activity from",
+      id: "activityStartDate",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Checked',
-      id: 'ocrVerified',
+      label: "Activity To",
+      id: "activityEndDate",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Update',
+      label: "Entry On",
+      id: "entryDateTime",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "Value",
+      id: "rawValue",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "Unit",
+      id: "rawUnit",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "Image",
+      id: "whatsAppImage",
+      numeric: false,
+      disablePadding: true,
+    },
+
+    {
+      label: "LeaderBoard",
+      id: "leaderBoardValue",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "Checked",
+      id: "ocrVerified",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "Update",
 
       numeric: false,
       disablePadding: true,
@@ -473,14 +473,14 @@ const AuditReport = (props) => {
   function descendingComparator(a, b, orderBy) {
     let firstValue =
       a[orderBy] == null
-        ? 'zzzzzzzzzzzz'
-        : typeof a[orderBy] == 'string'
+        ? "zzzzzzzzzzzz"
+        : typeof a[orderBy] == "string"
         ? a[orderBy]?.toLowerCase()
         : a[orderBy];
     let secondValue =
       b[orderBy] == null
-        ? 'zzzzzzzzzzzz'
-        : typeof b[orderBy] == 'string'
+        ? "zzzzzzzzzzzz"
+        : typeof b[orderBy] == "string"
         ? b[orderBy]?.toLowerCase()
         : b[orderBy];
     if (secondValue < firstValue) {
@@ -493,7 +493,7 @@ const AuditReport = (props) => {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
@@ -508,14 +508,14 @@ const AuditReport = (props) => {
   }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   // function coach(props)
   const EnhancedTableHead = (prop) => {
-    const {classes, order, orderBy, onRequestSort} = prop;
+    const { classes, order, orderBy, onRequestSort } = prop;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -531,24 +531,26 @@ const AuditReport = (props) => {
               padding="none"
               sortDirection={orderBy === teamHead.id ? order : false}
               style={{
-                paddingLeft: teamHead.id === 'index' ? 5 : 0,
+                paddingLeft: teamHead.id === "index" ? 5 : 0,
               }}
             >
               <TableSortLabel
                 active={orderBy === teamHead.id}
-                direction={orderBy === teamHead.id ? order : 'asc'}
+                direction={orderBy === teamHead.id ? order : "asc"}
                 onClick={createSortHandler(teamHead.id)}
                 // style={{ width: "max-content" }}
               >
-                <span style={{marginLeft: 5, fontSize: 15, fontFamily: 'bold'}}>
-                  {' '}
-                  {teamHead.label}{' '}
+                <span
+                  style={{ marginLeft: 5, fontSize: 15, fontFamily: "bold" }}
+                >
+                  {" "}
+                  {teamHead.label}{" "}
                 </span>
                 {orderBy === teamHead.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </span>
                 ) : null}
               </TableSortLabel>
@@ -562,26 +564,26 @@ const AuditReport = (props) => {
   return (
     <>
       <div>
-        <div class="container" style={{marginTop: '10px'}}>
+        <div class="container" style={{ marginTop: "10px" }}>
           <form onSubmit={(e) => submit(e)}>
             <div
               class="row"
-              style={{display: 'flex', justifyContent: 'space-around'}}
+              style={{ display: "flex", justifyContent: "space-around" }}
             >
               <div
                 className="select_date"
                 style={{
-                  maxWidth: '250px',
+                  maxWidth: "250px",
                   // overflowX: "scroll",
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  justifyContent: "center",
+                  alignItems: "center",
                   top: 20,
                 }}
               >
                 <fieldset>
                   <legend>Select Event</legend>
                   <Select
-                    style={{width: '250px'}}
+                    style={{ width: "250px" }}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     // open={open}
@@ -605,17 +607,17 @@ const AuditReport = (props) => {
               <div
                 className="select_date"
                 style={{
-                  maxWidth: '250px',
+                  maxWidth: "250px",
                   // overflowX: "scroll",
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  justifyContent: "center",
+                  alignItems: "center",
                   top: 20,
                 }}
               >
                 <fieldset>
                   <legend>Select Player</legend>
                   <Select
-                    style={{width: '250px'}}
+                    style={{ width: "250px" }}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     onChange={players}
@@ -634,18 +636,18 @@ const AuditReport = (props) => {
               </div>
               {/* <div class='col-md-1'></div> */}
             </div>
-            <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div style={{ display: "flex", justifyContent: "center" }}>
               <button
                 style={{
-                  color: 'white',
-                  background: 'green',
+                  color: "white",
+                  background: "green",
                   height: 30,
                   width: 80,
                   marginTop: 25,
                 }}
                 class="btn btn-success"
               >
-                {' '}
+                {" "}
                 Submit
               </button>
             </div>
@@ -654,13 +656,13 @@ const AuditReport = (props) => {
         {/* <Paper className={classes.paper}> */}
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
           <Tooltip title="Export data">
-            <CSVLink data={datas} headers={headers} separator={','}>
+            <CSVLink data={datas} headers={headers} separator={","}>
               <SystemUpdateAltIcon />
             </CSVLink>
           </Tooltip>
@@ -680,16 +682,16 @@ const AuditReport = (props) => {
 
         <div
           style={{
-            minHeight: '350px',
+            minHeight: "350px",
             fontSize: 12,
-            overflowX: 'scroll',
+            overflowX: "scroll",
           }}
         >
           {items && items.length > 0 ? (
             <Table
               className={classes.table}
               aria-labelledby="tableTitle"
-              size={'small'}
+              size={"small"}
               aria-label="enhanced table"
               style={{}}
             >
@@ -710,87 +712,87 @@ const AuditReport = (props) => {
                         <TableRow>
                           <TableCell align="center">{index + 1}</TableCell>
                           <TableCell align="center">
-                            {' '}
+                            {" "}
                             <img
-                              style={{height: 20}}
+                              style={{ height: 20 }}
                               src={
-                                item.dataSource === 'WHATSAPP'
-                                  ? 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/whatsapp.svg'
-                                  : item.dataSource === 'GOOGLE_FIT'
-                                  ? 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/googlefit.svg'
-                                  : 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/strava.svg'
+                                item.dataSource === "WHATSAPP"
+                                  ? "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/whatsapp.svg"
+                                  : item.dataSource === "GOOGLE_FIT"
+                                  ? "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/googlefit.svg"
+                                  : "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/strava.svg"
                               }
                             />
                           </TableCell>
-                          <TableCell align="center" style={{fontSize: 12}}>
-                            <p style={{marginTop: '5px', width: 80}}>
-                              {' '}
-                              {item.date}{' '}
-                            </p>{' '}
+                          <TableCell align="center" style={{ fontSize: 12 }}>
+                            <p style={{ marginTop: "5px", width: 80 }}>
+                              {" "}
+                              {item.date}{" "}
+                            </p>{" "}
                           </TableCell>
-                          <TableCell align="center" style={{fontSize: 12}}>
-                            {' '}
+                          <TableCell align="center" style={{ fontSize: 12 }}>
+                            {" "}
                             {item.activityStartDate.map((curr, ind) => {
                               console.log(curr);
                               return (
                                 <>
-                                  <p style={{marginTop: '5px', width: 140}}>
-                                    {' '}
-                                    {curr}{' '}
-                                  </p>{' '}
+                                  <p style={{ marginTop: "5px", width: 140 }}>
+                                    {" "}
+                                    {curr}{" "}
+                                  </p>{" "}
                                 </>
                               );
-                            })}{' '}
+                            })}{" "}
                           </TableCell>
-                          <TableCell align="center" style={{fontSize: 12}}>
-                            {' '}
+                          <TableCell align="center" style={{ fontSize: 12 }}>
+                            {" "}
                             {item.activityEndDate.map((curr, ind) => {
                               console.log(curr);
                               return (
                                 <>
-                                  <p style={{marginTop: '5px', width: 150}}>
-                                    {' '}
-                                    {curr}{' '}
-                                  </p>{' '}
+                                  <p style={{ marginTop: "5px", width: 150 }}>
+                                    {" "}
+                                    {curr}{" "}
+                                  </p>{" "}
                                 </>
                               );
-                            })}{' '}
+                            })}{" "}
                           </TableCell>
-                          <TableCell align="center" style={{fontSize: 12}}>
-                            {' '}
+                          <TableCell align="center" style={{ fontSize: 12 }}>
+                            {" "}
                             {item.entryDateTime.map((curr, ind) => {
                               console.log(curr);
                               return (
                                 <>
-                                  <p style={{marginTop: '5px', width: 150}}>
-                                    {' '}
-                                    {curr}{' '}
-                                  </p>{' '}
+                                  <p style={{ marginTop: "5px", width: 150 }}>
+                                    {" "}
+                                    {curr}{" "}
+                                  </p>{" "}
                                 </>
                               );
-                            })}{' '}
+                            })}{" "}
                           </TableCell>
-                          <TableCell align="center" style={{fontSize: 12}}>
-                            {' '}
+                          <TableCell align="center" style={{ fontSize: 12 }}>
+                            {" "}
                             {item.rawValue.map((curr, ind) => {
                               console.log(curr);
                               return (
                                 <>
-                                  <p style={{marginTop: '5px'}}> {curr} </p>{' '}
+                                  <p style={{ marginTop: "5px" }}> {curr} </p>{" "}
                                 </>
                               );
-                            })}{' '}
+                            })}{" "}
                           </TableCell>
 
-                          <TableCell align="center" style={{fontSize: 12}}>
+                          <TableCell align="center" style={{ fontSize: 12 }}>
                             <p>{item.rawUnit}</p>
                           </TableCell>
-                          <TableCell align="center" style={{fontSize: 12}}>
+                          <TableCell align="center" style={{ fontSize: 12 }}>
                             <img
                               src={
-                                item.dataSource === 'WHATSAPP'
+                                item.dataSource === "WHATSAPP"
                                   ? item.whatsAppImage
-                                  : 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/pixel.png'
+                                  : "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/pixel.png"
                               }
                               onClick={() => togglePopup(item.whatsAppImage)}
                               // onClick={ () => openImageViewer(index) }
@@ -800,16 +802,16 @@ const AuditReport = (props) => {
                             />
                           </TableCell>
 
-                          {item.dataSource === 'WHATSAPP'
+                          {item.dataSource === "WHATSAPP"
                             ? isOpen && (
                                 <Popup
                                   content={
                                     <>
                                       <img
                                         src={
-                                          item.dataSource === 'WHATSAPP'
+                                          item.dataSource === "WHATSAPP"
                                             ? currentImage
-                                            : 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/pixel.png'
+                                            : "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/pixel.png"
                                         }
                                         height="540px"
                                         width="340px"
@@ -822,10 +824,10 @@ const AuditReport = (props) => {
                             : !isOpen}
                           <TableCell align="center" width="200px">
                             <CustomTableCell
-                              {...{item, name: 'leaderBoardValue', onChange}}
+                              {...{ item, name: "leaderBoardValue", onChange }}
                             />
                           </TableCell>
-                          <TableCell align="center" style={{fontSize: 12}}>
+                          <TableCell align="center" style={{ fontSize: 12 }}>
                             {item.ocrVerified}
                           </TableCell>
                           <TableCell
@@ -833,7 +835,7 @@ const AuditReport = (props) => {
                             className={classes.selectTableCell}
                           >
                             {item.isEditMode &&
-                            item.dataSource === 'WHATSAPP' ? (
+                            item.dataSource === "WHATSAPP" ? (
                               <>
                                 <IconButton
                                   aria-label="done"
@@ -857,7 +859,7 @@ const AuditReport = (props) => {
               </TableBody>
             </Table>
           ) : (
-            ''
+            ""
           )}
         </div>
       </div>

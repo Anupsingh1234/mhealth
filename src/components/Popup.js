@@ -1,5 +1,5 @@
-import React from 'react';
-import './auditStyle.css';
+import React from "react";
+import "./auditStyle.css";
 const Popup = (props) => {
   return (
     <div className="popup-box">

@@ -1,75 +1,75 @@
-import React, {useState, useEffect} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import EventInfoModal from '../../EventInfoModal';
-import InfoIcon from '@material-ui/icons/Info';
-import eventGalleryNoData from '../../../assets/eventGalleryNoData.jpeg';
-import {getWeekDayByNumber} from '../../../utils/commonFunctions';
-import InfoDialog from '../../Utility/InfoDialog';
-import Message from 'antd-message';
-import {CheckCircle, ArrowLeftCircle} from 'react-feather';
-import ReactStars from 'react-rating-stars-component';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faStar, facebook} from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import StarRatings from 'react-star-ratings';
-import Calendar from 'react-calendar';
+import React, { useState, useEffect } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import EventInfoModal from "../../EventInfoModal";
+import InfoIcon from "@material-ui/icons/Info";
+import eventGalleryNoData from "../../../assets/eventGalleryNoData.jpeg";
+import { getWeekDayByNumber } from "../../../utils/commonFunctions";
+import InfoDialog from "../../Utility/InfoDialog";
+import Message from "antd-message";
+import { CheckCircle, ArrowLeftCircle } from "react-feather";
+import ReactStars from "react-rating-stars-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, facebook } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import StarRatings from "react-star-ratings";
+import Calendar from "react-calendar";
 // import 'react-calendar/dist/Calendar.css';
-import StepLabel from '@material-ui/core/StepLabel';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import {PlusCircle, Copy} from 'react-feather';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import Iframe from 'react-iframe';
-import './Calender.css';
-import moment from 'moment';
-import CancelIcon from '@material-ui/icons/Cancel';
+import StepLabel from "@material-ui/core/StepLabel";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import { PlusCircle, Copy } from "react-feather";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import Iframe from "react-iframe";
+import "./Calender.css";
+import moment from "moment";
+import CancelIcon from "@material-ui/icons/Cancel";
 // import calendly from 'react-calendly';
 import {
   ratingProgramByUser,
   urlPrefix,
   getSubEvent,
-} from '../../../services/apicollection';
-import 'react-responsive-modal/styles.css';
-import {Modal} from 'react-responsive-modal';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
+} from "../../../services/apicollection";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import {
   subscribeSubEventCall,
   unSubcribeSubEventCall,
-} from '../../../services/challengeApi';
-import message from 'antd-message';
-import AddActivityModal from './AddActivityModal';
-import getcoach from '../../../services/apicollection';
-import {ContactSupportOutlined} from '@material-ui/icons';
-import ReactCardFlip from 'react-card-flip';
+} from "../../../services/challengeApi";
+import message from "antd-message";
+import AddActivityModal from "./AddActivityModal";
+import getcoach from "../../../services/apicollection";
+import { ContactSupportOutlined } from "@material-ui/icons";
+import ReactCardFlip from "react-card-flip";
 let monthsObject = {
-  '01': 'Jan',
-  '02': 'Feb',
-  '03': 'Mar',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'Aug',
-  '09': 'Sep',
-  10: 'Oct',
-  11: 'Nov',
-  12: 'Dec',
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "April",
+  "05": "May",
+  "06": "June",
+  "07": "July",
+  "08": "Aug",
+  "09": "Sep",
+  10: "Oct",
+  11: "Nov",
+  12: "Dec",
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -80,37 +80,37 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1, 0, 0),
   },
   root: {
-    width: '100%',
+    width: "100%",
     // border: "1px solid black"
   },
   paper: {
-    position: 'absolute',
-    width: '90%',
-    backgroundColor: '#fff',
+    position: "absolute",
+    width: "90%",
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     // maxHeight: 500,
-    marginLeft: '195px',
+    marginLeft: "195px",
   },
   table: {
-    position: 'relative',
-    width: '100%',
-    backgroundColor: '#fff',
+    position: "relative",
+    width: "100%",
+    backgroundColor: "#fff",
     // padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     // maxHeight: 1200,
     // marginLeft: '195px',
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     width: 1,
   },
@@ -130,22 +130,22 @@ const SubEventCard = ({
   const [activityModalView, setActivityModalView] = useState();
   const [showBook, setBook] = useState(false);
   const [subScribeModal, setSubSribeModal] = useState(false);
-  const [url, seturl] = useState('');
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [url, seturl] = useState("");
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(4);
   let startDate = subEventDetail.eventStartDate
-    ? subEventDetail.eventStartDate.split(' ')
-    : '';
+    ? subEventDetail.eventStartDate.split(" ")
+    : "";
   let endDate = subEventDetail.eventEndDate
-    ? subEventDetail.eventEndDate.split(' ')
-    : '';
-  let startDay = startDate[0].split('-')[2];
-  let endDay = endDate[0].split('-')[2];
-  let startMonth = monthsObject[startDate[0].split('-')[1]];
-  let endMonth = monthsObject[endDate[0].split('-')[1]];
+    ? subEventDetail.eventEndDate.split(" ")
+    : "";
+  let startDay = startDate[0].split("-")[2];
+  let endDay = endDate[0].split("-")[2];
+  let startMonth = monthsObject[startDate[0].split("-")[1]];
+  let endMonth = monthsObject[endDate[0].split("-")[1]];
 
   //GET API CALLING
 
@@ -160,12 +160,12 @@ const SubEventCard = ({
         associateReq: {
           associateName: subEventDetail?.associateName,
           eventId: evenId,
-          mobileNumber: `${'91' + localStorage.getItem('mobileNumber')}`,
+          mobileNumber: `${"91" + localStorage.getItem("mobileNumber")}`,
           reqUrl: subEventDetail?.auth_url,
           subEventId: id,
-          userId: localStorage.getItem('userId'),
-          userLastName: localStorage.getItem('firstName'),
-          userfirstName: localStorage.getItem('lastName'),
+          userId: localStorage.getItem("userId"),
+          userLastName: localStorage.getItem("firstName"),
+          userfirstName: localStorage.getItem("lastName"),
         },
         associateResp: {
           response: url,
@@ -173,14 +173,14 @@ const SubEventCard = ({
       },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       }
     );
@@ -191,19 +191,19 @@ const SubEventCard = ({
       .post(
         subEventDetail?.auth_url,
         {
-          user_type: 'patient',
+          user_type: "patient",
           target_url: subEventDetail?.targetUrl,
           user_details: {
-            mobile_number: `${'91' + localStorage.getItem('mobileNumber')}`,
-            firstname: localStorage.getItem('firstName'),
-            lastname: localStorage.getItem('lastName'),
+            mobile_number: `${"91" + localStorage.getItem("mobileNumber")}`,
+            firstname: localStorage.getItem("firstName"),
+            lastname: localStorage.getItem("lastName"),
           },
         },
         {
           headers: {
             secret_key: subEventDetail?.secretKey,
-            client_id: 'mhealth',
-            Content_Type: 'application/json',
+            client_id: "mhealth",
+            Content_Type: "application/json",
           },
         }
       )
@@ -216,34 +216,34 @@ const SubEventCard = ({
   const [joinTable, setJoinTable] = useState(false);
   const headCells1 = [
     {
-      label: 'S.No',
-      id: 'index',
+      label: "S.No",
+      id: "index",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Name',
+      label: "Name",
 
-      id: 'firstName',
-      numeric: false,
-      disablePadding: true,
-    },
-
-    {
-      label: 'Relation',
-      id: 'dependantRelation',
+      id: "firstName",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Gender',
-      id: 'gender',
+      label: "Relation",
+      id: "dependantRelation",
+      numeric: false,
+      disablePadding: true,
+    },
+
+    {
+      label: "Gender",
+      id: "gender",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Subscribe',
+      label: "Subscribe",
       // id: 'option4',
       numeric: false,
       disablePadding: true,
@@ -251,35 +251,35 @@ const SubEventCard = ({
   ];
   const headCells = [
     {
-      label: '',
-      id: 'index',
+      label: "",
+      id: "index",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'S.No',
-      id: 'index',
+      label: "S.No",
+      id: "index",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Name',
+      label: "Name",
 
-      id: 'firstName',
-      numeric: false,
-      disablePadding: true,
-    },
-
-    {
-      label: 'Relation',
-      id: 'dependantRelation',
+      id: "firstName",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Gender',
-      id: 'gender',
+      label: "Relation",
+      id: "dependantRelation",
+      numeric: false,
+      disablePadding: true,
+    },
+
+    {
+      label: "Gender",
+      id: "gender",
       numeric: false,
       disablePadding: true,
     },
@@ -299,7 +299,7 @@ const SubEventCard = ({
   ];
 
   function EnhancedTableHead(props) {
-    const {classes, order, orderBy, onRequestSort} = props;
+    const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -316,15 +316,15 @@ const SubEventCard = ({
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
+                  direction={orderBy === headCell.id ? order : "asc"}
                   onClick={createSortHandler(headCell.id)}
                 >
                   {headCell.label}
                   {orderBy === headCell.id ? (
                     <span className={classes.visuallyHidden}>
-                      {order === 'desc'
-                        ? 'sorted descending'
-                        : 'sorted ascending'}
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
                     </span>
                   ) : null}
                 </TableSortLabel>
@@ -346,15 +346,15 @@ const SubEventCard = ({
               >
                 <TableSortLabel
                   active={orderBy === headCell.id}
-                  direction={orderBy === headCell.id ? order : 'asc'}
+                  direction={orderBy === headCell.id ? order : "asc"}
                   onClick={createSortHandler(headCell.id)}
                 >
                   {headCell.label}
                   {orderBy === headCell.id ? (
                     <span className={classes.visuallyHidden}>
-                      {order === 'desc'
-                        ? 'sorted descending'
-                        : 'sorted ascending'}
+                      {order === "desc"
+                        ? "sorted descending"
+                        : "sorted ascending"}
                     </span>
                   ) : null}
                 </TableSortLabel>
@@ -378,7 +378,7 @@ const SubEventCard = ({
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
@@ -403,7 +403,7 @@ const SubEventCard = ({
   function TablePaginationActions(props) {
     const classes = useStyles1();
     const theme = useTheme();
-    const {count, page, rowsPerPage, onChangePage} = props;
+    const { count, page, rowsPerPage, onChangePage } = props;
 
     const handleFirstPageButtonClick = (event) => {
       onChangePage(event, 0);
@@ -422,22 +422,22 @@ const SubEventCard = ({
     };
 
     return (
-      <div className={classes.root} style={{display: 'flex'}}>
+      <div className={classes.root} style={{ display: "flex" }}>
         <IconButton
           onClick={handleFirstPageButtonClick}
           disabled={page === 0}
           aria-label="first page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
         <IconButton
           onClick={handleBackButtonClick}
           disabled={page === 0}
           aria-label="previous page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowRight />
           ) : (
             <KeyboardArrowLeft />
@@ -447,9 +447,9 @@ const SubEventCard = ({
           onClick={handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="next page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowLeft />
           ) : (
             <KeyboardArrowRight />
@@ -459,16 +459,16 @@ const SubEventCard = ({
           onClick={handleLastPageButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="last page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
       </div>
     );
   }
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -482,13 +482,13 @@ const SubEventCard = ({
   };
   const avg = () => {
     var str = window.location.href;
-    var getval = '/#/activities';
+    var getval = "/#/activities";
     var result = str.match(getval);
 
-    if (result != '/#/activities') {
+    if (result != "/#/activities") {
       return (
         <>
-          <span style={{display: 'flex'}}>
+          <span style={{ display: "flex" }}>
             <StarRatings
               rating={
                 subEventDetail.programRating !== null
@@ -504,14 +504,14 @@ const SubEventCard = ({
             <span
               style={{
                 fontSize: 12,
-                marginTop: '2px',
-                fontWeight: 'bolder',
-                marginLeft: '5px',
+                marginTop: "2px",
+                fontWeight: "bolder",
+                marginLeft: "5px",
               }}
             >
               {subEventDetail.programRating !== null
                 ? subEventDetail.programRating.toFixed(1)
-                : ''}
+                : ""}
             </span>
           </span>
         </>
@@ -521,25 +521,25 @@ const SubEventCard = ({
 
   const renderRegisterBtn = () => {
     if (
-      subEventDetail.timePeriod == 'PAST' &&
-      subEventDetail.eventNature === 'INDIVIDUAL'
+      subEventDetail.timePeriod == "PAST" &&
+      subEventDetail.eventNature === "INDIVIDUAL"
     ) {
       return (
         <div className="register-button">
-          <button style={{background: '#9e9e9e'}}>Expired</button>
+          <button style={{ background: "#9e9e9e" }}>Expired</button>
         </div>
       );
     } else {
       // if (!subEventDetail?.participated) {
       // if (subEventDetail?.regOpen) {
       if (
-        subEventDetail.removeSubscribeButton===null &&
-        subEventDetail.eventNature === 'INDIVIDUAL'
+        subEventDetail.removeSubscribeButton === null &&
+        subEventDetail.eventNature === "INDIVIDUAL"
       ) {
         return (
           <div className="register-button">
             <button
-              style={{marginBottom: '10px'}}
+              style={{ marginBottom: "10px" }}
               onClick={() => {
                 subEventDetail.addressRequired == 1 ||
                 subEventDetail.dependentRequired == 1
@@ -627,22 +627,22 @@ const SubEventCard = ({
       // }
     }
 
-    if (subEventDetail.timePeriod == 'PAST') {
+    if (subEventDetail.timePeriod == "PAST") {
       return (
         <div className="register-button">
-          <button style={{background: '#9e9e9e'}}>Expired</button>
+          <button style={{ background: "#9e9e9e" }}>Expired</button>
         </div>
       );
     } else {
       if (
-        subEventDetail.removeSubscribeButton===null &&
-        subEventDetail.eventNature !== 'ASSOCIATE'
+        subEventDetail.removeSubscribeButton === null &&
+        subEventDetail.eventNature !== "ASSOCIATE"
       ) {
         // if (subEventDetail?.regOpen) {
         return (
           <div className="register-button">
             <button
-              style={{marginBottom: '10px'}}
+              style={{ marginBottom: "10px" }}
               // onClick={() =>
               //   subscribeSubEventCall({
               //     dataSource:
@@ -665,15 +665,15 @@ const SubEventCard = ({
         // }
       } else if (
         !subEventDetail?.participated &&
-        subEventDetail.eventNature === 'ASSOCIATE'
+        subEventDetail.eventNature === "ASSOCIATE"
       ) {
         if (!subEventDetail?.participated) {
           if (subEventDetail?.regOpen) {
-            if (subEventDetail.eventNature === 'ASSOCIATE') {
+            if (subEventDetail.eventNature === "ASSOCIATE") {
               return (
                 <div className="register-button">
                   <button
-                    style={{marginBottom: '10px', background: '#ff9800'}}
+                    style={{ marginBottom: "10px", background: "#ff9800" }}
                     onClick={() => consultApi()}
                   >
                     Consult Now
@@ -744,41 +744,39 @@ const SubEventCard = ({
   };
 
   const renderJoinBtn = () => {
-    if (subEventDetail.timePeriod == 'PAST') {
+    if (subEventDetail.timePeriod == "PAST") {
       return;
     }
 
-  
-      if (
-        subEventDetail.joinDetail === true &&
-        subEventDetail.eventNature !== "ASSOCIATE"
-      ) {
-        return (
-          <div
-            style={{ width: "fit-content", fontSize: 12, marginBottom: "10px" }}
+    if (
+      subEventDetail.joinDetail === true &&
+      subEventDetail.eventNature !== "ASSOCIATE"
+    ) {
+      return (
+        <div
+          style={{ width: "fit-content", fontSize: 12, marginBottom: "10px" }}
+        >
+          <a
+            target="_blank"
+            // href={subEventDetail.eventLink}
+            style={{
+              color: "#fff",
+              background: "#518ad6",
+              borderRadius: 4,
+              padding: "0px 4px",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setFlip(true),
+                // setJoinTable(true),
+                getBookingDetail(subEventDetail.id);
+            }}
           >
-            <a
-              target="_blank"
-              // href={subEventDetail.eventLink}
-              style={{
-                color: "#fff",
-                background: "#518ad6",
-                borderRadius: 4,
-                padding: "0px 4px",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setFlip(true),
-                  // setJoinTable(true),
-                  getBookingDetail(subEventDetail.id);
-              }}
-            >
-              Joining Detail
-            </a>
-          </div>
-        );
-      } 
-    
+            Joining Detail
+          </a>
+        </div>
+      );
+    }
 
     // if (subEventDetail.registrationFees == 0) {
     //   if (
@@ -873,7 +871,7 @@ const SubEventCard = ({
     // }
   };
   const getTime = (time) => {
-    return (time && time.substr(0, 5)) || '';
+    return (time && time.substr(0, 5)) || "";
   };
 
   // NEW CODE ENDED
@@ -891,11 +889,11 @@ const SubEventCard = ({
   const [open, setOpen] = useState(false);
   const [calender, setCalender] = useState([]);
   // const [colorbtn, setColorbtn] = useState('blacmomentk');
-  const [dateState, setDateState] = useState('00-00-0000');
-  const dtt = moment(dateState).format('YYYY-MM-DD').toString();
-  const filterDate = moment(new Date()).format('YYYY-MM-DD').toString();
+  const [dateState, setDateState] = useState("00-00-0000");
+  const dtt = moment(dateState).format("YYYY-MM-DD").toString();
+  const filterDate = moment(new Date()).format("YYYY-MM-DD").toString();
   const today = new Date();
-  const tttt1 = today.getHours() + 1 + ':' + today.getMinutes() + ':' + '00';
+  const tttt1 = today.getHours() + 1 + ":" + today.getMinutes() + ":" + "00";
   console.log(tttt1);
   const ddt = [];
   const [time, setTime] = useState();
@@ -944,42 +942,42 @@ const SubEventCard = ({
   // }
   const [dependentvalue, setDependentValue] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
-  console.log(activeStep, 'step');
-  const [address, setAddress] = useState('');
+  console.log(activeStep, "step");
+  const [address, setAddress] = useState("");
   const [inputAddress, setInputAddress] = useState();
   const [inputDependent, setInputDependent] = useState();
   const [notes, setNotes] = useState();
   const [data, setData] = useState({
-    address: '',
-    depentdent: '0',
-    note1: '',
+    address: "",
+    depentdent: "0",
+    note1: "",
   });
   const [addDept, setAddDept] = useState({
-    contactDetail: '',
-    dependantRelation: '',
-    firstName: '',
-    dob: '',
-    gender: '',
-    lastName: '',
+    contactDetail: "",
+    dependantRelation: "",
+    firstName: "",
+    dob: "",
+    gender: "",
+    lastName: "",
   });
-  console.log(addDept, data?.depentdent, 'adddept');
+  console.log(addDept, data?.depentdent, "adddept");
   const inputhandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setData((values) => ({...values, [name]: value}));
+    setData((values) => ({ ...values, [name]: value }));
     // setErrorObj((values) => ({...values, [name]: value}));
   };
   const [error1, setError1] = useState(false);
   const inputDept = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setAddDept((values) => ({...values, [name]: value}));
+    setAddDept((values) => ({ ...values, [name]: value }));
     // setError1((values) => ({...values, [name]: value}));
   };
-  console.log(data, 'daya');
-  const [addressValue, setAddressValue] = useState('');
+  console.log(data, "daya");
+  const [addressValue, setAddressValue] = useState("");
   const [subscribeList, setSubscribeList] = useState([]);
-  const steps = ['Address', 'Dependent', 'Notes', 'Book'];
+  const steps = ["Address", "Dependent", "Notes", "Book"];
   const getDependantList = (id) => {
     setSubSribeModal(true);
     setJoinTable(true);
@@ -988,14 +986,14 @@ const SubEventCard = ({
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -1014,24 +1012,24 @@ const SubEventCard = ({
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         }
       )
       .then((res) => {
         getDependantList(id);
-        handleSubscription()
+        handleSubscription();
       });
   };
 
-  const rejoinSubscribe = (deptId,id) => {
+  const rejoinSubscribe = (deptId, id) => {
     // setSubSribeModal(true);
     // setJoinTable(true);
     const adminurl = `${urlPrefix}v1.0/rejoinSubEvent?registrationId=${deptId}`;
@@ -1042,14 +1040,14 @@ const SubEventCard = ({
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         }
       )
@@ -1066,14 +1064,14 @@ const SubEventCard = ({
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -1102,19 +1100,19 @@ const SubEventCard = ({
   const [dept, setDeptValue] = useState(false);
   const closeAddModal = () => {
     setDeptValue(false);
-    setAddDept('');
+    setAddDept("");
     setError1(false);
   };
   const CloseDependetModal = () => {
     setDependentValue(false);
     setData({
-      depentdent: '0',
+      depentdent: "0",
     });
-    setDeptValue(''), setAddressValue('');
-    setAddDept('');
+    setDeptValue(""), setAddressValue("");
+    setAddDept("");
     setError1(false);
   };
-  console.log(error1, 'error');
+  console.log(error1, "error");
   // console.log(addressValue, dependentValue1, notes,'dependentVaue');
   const getDependent = (id) => {
     if (subEventDetail.dependentRequired === 1) {
@@ -1124,21 +1122,21 @@ const SubEventCard = ({
       return axios
         .get(adminurl, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         })
         .then((res) => {
           console.log(res.data.response.responseData);
           setDepenName(res.data.response?.responseData);
         });
-    } else if (data?.address !== '') {
+    } else if (data?.address !== "") {
       setActiveStep(2);
     }
   };
@@ -1150,14 +1148,14 @@ const SubEventCard = ({
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -1169,9 +1167,9 @@ const SubEventCard = ({
   const submitdept = (id, e) => {
     e.preventDefault();
     if (
-      addDept.firstName !== '' &&
-      addDept.gender !== '' &&
-      addDept.dependantRelation !== ''
+      addDept.firstName !== "" &&
+      addDept.gender !== "" &&
+      addDept.dependantRelation !== ""
     ) {
       let payload = {
         id: null,
@@ -1187,19 +1185,19 @@ const SubEventCard = ({
       return axios
         .post(adminurl, payload, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         })
         .then((res) => {
           getDependent(id);
-          setAddDept(''), setDeptValue(false);
+          setAddDept(""), setDeptValue(false);
           Message.success(res.data.response.responseMessage);
         });
     } else {
@@ -1208,7 +1206,7 @@ const SubEventCard = ({
   };
   const finalSubmitBook = (e) => {
     e.preventDefault();
-    if (dateState !== '' && time !== false) {
+    if (dateState !== "" && time !== false) {
       let payload = {
         id: null,
         eventId: subEventDetail.eventId,
@@ -1226,14 +1224,14 @@ const SubEventCard = ({
       return axios
         .post(adminurl, payload, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         })
         .then((res) => {
@@ -1255,14 +1253,14 @@ const SubEventCard = ({
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -1276,7 +1274,7 @@ const SubEventCard = ({
   console.log(subEventDetail.eventId);
   const handlesubmit = (e) => {
     e.preventDefault();
-    if (dateState !== '' && time !== false) {
+    if (dateState !== "" && time !== false) {
       setBook(false);
       const adminurl = `${urlPrefix}v1.0/bookCustomerAppointment?date=${dtt}&eventId=${subEventDetail.eventId}&subEventId=${subEventDetail.id}&time=${time}`;
 
@@ -1286,24 +1284,24 @@ const SubEventCard = ({
           {},
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-              timeStamp: 'timestamp',
-              accept: '*/*',
-              'Access-Control-Allow-Origin': '*',
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              timeStamp: "timestamp",
+              accept: "*/*",
+              "Access-Control-Allow-Origin": "*",
               withCredentials: true,
-              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-              'Access-Control-Allow-Headers':
-                'accept, content-type, x-access-token, x-requested-with',
+              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+              "Access-Control-Allow-Headers":
+                "accept, content-type, x-access-token, x-requested-with",
             },
           }
         )
         .then((res) => {
           console.log(res);
           handleSubscription();
-          Message.success('Congrates! Your Appointment Booked Successful ');
+          Message.success("Congrates! Your Appointment Booked Successful ");
         });
     } else {
-      Message.error('Warning! Please Select slot date and time');
+      Message.error("Warning! Please Select slot date and time");
     }
   };
   const cancelAppointment = (eveid, id) => {
@@ -1315,14 +1313,14 @@ const SubEventCard = ({
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         }
       )
@@ -1330,7 +1328,7 @@ const SubEventCard = ({
         if (res.data.response.responseCode === 0) {
           getBookingDetail(id);
           handleSubscription();
-          Message.success('Congrates! Your Appointment Cancelled Successful');
+          Message.success("Congrates! Your Appointment Cancelled Successful");
 
           // response
           //   ? Message.success(response.responseMessage)
@@ -1339,7 +1337,7 @@ const SubEventCard = ({
           setDateState();
           setBook(false);
         } else {
-          Message.error('Something went wrong !');
+          Message.error("Something went wrong !");
         }
       });
   };
@@ -1353,21 +1351,21 @@ const SubEventCard = ({
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         }
       )
       .then((res) => {
         if (res.data.response.responseCode === 0) {
           handleSubscription();
-          Message.success('Congrates! Your Appointment Cancelled Successful');
+          Message.success("Congrates! Your Appointment Cancelled Successful");
           getBookingDetail(id);
           // response
           //   ? Message.success(response.responseMessage)
@@ -1376,7 +1374,7 @@ const SubEventCard = ({
           setDateState();
           setBook(false);
         } else {
-          Message.error('Something went wrong !');
+          Message.error("Something went wrong !");
         }
       });
   };
@@ -1386,7 +1384,7 @@ const SubEventCard = ({
     setDateState(false);
     setBook(false);
   };
-  const condition = JSON.parse(localStorage.getItem('condition'));
+  const condition = JSON.parse(localStorage.getItem("condition"));
   // useEffect(() => {
   //   if (subEventDetail.eventNature === 'INDIVIDUAL') {
   //     changeDate1();
@@ -1405,14 +1403,14 @@ const SubEventCard = ({
       const url = `${urlPrefix}v1.0/searchAndViewCoachProfile?phoneNumber=${subEventDetail.coachPhoneNumber}`;
       const x = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       });
       const datares = await x.json();
@@ -1429,40 +1427,40 @@ const SubEventCard = ({
     <ReactCardFlip isFlipped={flip1} flipDirection="horizontal">
       <div
         onClick={() => {
-          localStorage.setItem('eventCode', subEventDetail.eventCode);
+          localStorage.setItem("eventCode", subEventDetail.eventCode);
         }}
         className="challenge-card"
         style={
-          type == 'view'
-            ? {margin: '25px 5px', height: 'auto', cursor: 'default'}
-            : {height: 'auto'}
+          type == "view"
+            ? { margin: "25px 5px", height: "auto", cursor: "default" }
+            : { height: "auto" }
         }
       >
         {/* <div className="rate_us text-center" style={{ height: '22px', background: 'white', border: 'none' }}>
         {rateUs()}
       </div> */}
 
-        {subEventDetail.id == selectedSubEvent && type == 'manage' && (
+        {subEventDetail.id == selectedSubEvent && type == "manage" && (
           <CheckCircle
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 10,
               right: 10,
               zIndex: 1,
-              color: '#518ad6',
+              color: "#518ad6",
             }}
           />
         )}
-        <div key={subEventDetail.id} style={{transform: 'roteteY(10deg)'}}>
+        <div key={subEventDetail.id} style={{ transform: "roteteY(10deg)" }}>
           <div onClick={() => handleSubEventSelection(subEventDetail)}>
             <div
               style={{
                 width: 230,
                 height: 100,
-                borderRadius: '12px 12px 0px 0px',
-                background: '#fff',
-                overflow: 'hidden',
-                position: 'relative',
+                borderRadius: "12px 12px 0px 0px",
+                background: "#fff",
+                overflow: "hidden",
+                position: "relative",
               }}
             >
               <img
@@ -1470,8 +1468,8 @@ const SubEventCard = ({
                 style={{
                   width: 230,
                   height: 100,
-                  objectFit: 'cover',
-                  borderRadius: '12px 12px 0px 0px',
+                  objectFit: "cover",
+                  borderRadius: "12px 12px 0px 0px",
                 }}
                 onError={(e) => {
                   e.target.onerror = null;
@@ -1481,50 +1479,50 @@ const SubEventCard = ({
 
               <div
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   bottom: 5,
                   fontSize: 12,
-                  color: '#fff',
+                  color: "#fff",
                   left: 5,
                 }}
               >
                 <span
                   style={{
-                    background: '#43a047',
+                    background: "#43a047",
                     borderRadius: 4,
-                    padding: '0px 4px',
+                    padding: "0px 4px",
                     marginLeft: 5,
                   }}
                 >
                   {subEventDetail.registrationFees == 0
-                    ? 'Free'
+                    ? "Free"
                     : `Fees : ${subEventDetail.registrationFees}`}
                 </span>
               </div>
             </div>
             <div className="challenge-card-details">
-              <div className={'challenge-card-details-name'}>
+              <div className={"challenge-card-details-name"}>
                 {subEventDetail.eventName}
               </div>
 
-              <div className="d-flex" style={{fontSize: 12}}>
+              <div className="d-flex" style={{ fontSize: 12 }}>
                 <span>
-                  {' '}
-                  Coach/Partner:{' '}
+                  {" "}
+                  Coach/Partner:{" "}
                   <span
                     onClick={() => {
                       onOpenModal(), (window.value = subEventDetail.id);
                     }}
-                    style={{cursor: 'pointer', textDecoration: 'underline'}}
+                    style={{ cursor: "pointer", textDecoration: "underline" }}
                   >
-                    {' '}
+                    {" "}
                     {subEventDetail.coach}
-                  </span>{' '}
+                  </span>{" "}
                 </span>
                 <Modal
                   open={open}
                   styles={{
-                    modal: {borderRadius: '10px', maxWidth: '600px'},
+                    modal: { borderRadius: "10px", maxWidth: "600px" },
                   }}
                   onClose={onCloseModal}
                   center
@@ -1532,82 +1530,82 @@ const SubEventCard = ({
                 >
                   <CancelIcon
                     style={{
-                      position: 'absolute',
+                      position: "absolute",
                       top: 15,
                       right: 5,
-                      color: '#ef5350',
-                      cursor: 'pointer',
+                      color: "#ef5350",
+                      cursor: "pointer",
                     }}
                   />
                   <div
                     style={{
-                      padding: '20px',
-                      paddingLeft: '5px',
-                      paddingBottom: '0px',
-                      paddingTop: '10px',
+                      padding: "20px",
+                      paddingLeft: "5px",
+                      paddingBottom: "0px",
+                      paddingTop: "10px",
                     }}
                   >
                     <div
                       className="header"
                       style={{
-                        display: 'flex',
+                        display: "flex",
                         // justifyContent: "space-between",
                       }}
                     >
-                      <div style={{width: '60%'}}>
+                      <div style={{ width: "60%" }}>
                         <img
                           src={coach.coachImage}
                           style={{
                             width: 90,
                             height: 90,
-                            borderRadius: '100%',
-                            marginTop: '20px',
+                            borderRadius: "100%",
+                            marginTop: "20px",
                           }}
                         />
                       </div>
                       <div
                         style={{
-                          width: '40%',
+                          width: "40%",
                         }}
                       >
                         <h5
                           style={{
-                            width: '95%',
-                            marginTop: '50px',
-                            lineHeight: '15px',
+                            width: "95%",
+                            marginTop: "50px",
+                            lineHeight: "15px",
                           }}
                         >
-                          {' '}
+                          {" "}
                           {coach.coachName}
                           <h6
                             style={{
-                              marginTop: '10px',
-                              fontWeight: 'lighter',
+                              marginTop: "10px",
+                              fontWeight: "lighter",
                             }}
                           >
-                            {' '}
-                            Experience : {coach.totalExperience}{' '}
+                            {" "}
+                            Experience : {coach.totalExperience}{" "}
                           </h6>
                         </h5>
                       </div>
                     </div>
                   </div>
                   <hr />
-                  <div style={{marginBottom: '20px'}}>
+                  <div style={{ marginBottom: "20px" }}>
                     <div
                       className="specialization"
-                      style={{lineHeight: '5px', marginTop: '20px'}}
+                      style={{ lineHeight: "5px", marginTop: "20px" }}
                     >
-                      <h4 style={{fontSize: '10px'}}> Specialization </h4>
-                      <h5 style={{fontWeight: 'lighter'}}>
-                        {' '}
-                        {coach.specialization}{' '}
+                      <h4 style={{ fontSize: "10px" }}> Specialization </h4>
+                      <h5 style={{ fontWeight: "lighter" }}>
+                        {" "}
+                        {coach.specialization}{" "}
                       </h5>
                     </div>
 
                     <div
                       className="specialization"
-                      style={{lineHeight: '5px', marginTop: '20px'}}
+                      style={{ lineHeight: "5px", marginTop: "20px" }}
                     >
                       {/* <h4> Total Experience </h4>
                   <h4 style={{fontWeight:'lighter' }}> {coach.totalExperience} </h4>
@@ -1615,31 +1613,31 @@ const SubEventCard = ({
 
                       <div
                         className="specialization"
-                        style={{lineHeight: '5px', marginTop: '20px'}}
+                        style={{ lineHeight: "5px", marginTop: "20px" }}
                       >
                         <h4> Language Known </h4>
-                        <h4 style={{fontWeight: '200'}}>
-                          {' '}
-                          {coach.languagesKnow}{' '}
+                        <h4 style={{ fontWeight: "200" }}>
+                          {" "}
+                          {coach.languagesKnow}{" "}
                         </h4>
                       </div>
                       <div
                         className="bio"
                         style={{
-                          lineHeight: '5px',
-                          marginTop: '20px',
-                          maxWidth: '500px',
+                          lineHeight: "5px",
+                          marginTop: "20px",
+                          maxWidth: "500px",
                         }}
                       >
                         <h4> Bio </h4>
                         <div
                           style={{
-                            fontWeight: 'lighter',
-                            lineHeight: '22px',
+                            fontWeight: "lighter",
+                            lineHeight: "22px",
                           }}
                         >
-                          {' '}
-                          {coach.shortBio}{' '}
+                          {" "}
+                          {coach.shortBio}{" "}
                         </div>
                       </div>
                     </div>
@@ -1648,18 +1646,18 @@ const SubEventCard = ({
                 </Modal>
               </div>
 
-              <div className="d-flex" style={{fontSize: 12, fontWeight: 700}}>
+              <div className="d-flex" style={{ fontSize: 12, fontWeight: 700 }}>
                 {subEventDetail.weekDays &&
                 Array.isArray(subEventDetail.weekDays)
                   ? subEventDetail.weekDays.map((val, index) => (
                       <div
                         style={{
-                          marginRight: '0.25em',
+                          marginRight: "0.25em",
                         }}
                         key={index}
                       >
                         {getWeekDayByNumber(val)}
-                        {index !== subEventDetail.weekDays.length - 1 && ','}
+                        {index !== subEventDetail.weekDays.length - 1 && ","}
                       </div>
                     ))
                   : null}
@@ -1667,8 +1665,8 @@ const SubEventCard = ({
 
               <div className="d-flex">
                 <div
-                  className={'challenge-card-details-start-date-time'}
-                  style={{color: '#000', fontWeight: 700}}
+                  className={"challenge-card-details-start-date-time"}
+                  style={{ color: "#000", fontWeight: 700 }}
                 >
                   {getTime(subEventDetail.eventStartTime)}-
                   {getTime(subEventDetail.eventEndTime)}
@@ -1680,7 +1678,7 @@ const SubEventCard = ({
               <div
                 style={{
                   fontSize: 9,
-                  color: '#000',
+                  color: "#000",
                   marginRight: 3,
                   marginTop: 27,
                 }}
@@ -1694,11 +1692,11 @@ const SubEventCard = ({
             </div>
           </div>
 
-          {type == 'view' && renderRegisterBtn()}
+          {type == "view" && renderRegisterBtn()}
 
           {((condition && condition.isAdmin === true) ||
             (condition && condition.isModerator === true)) &&
-          type !== 'view' ? (
+          type !== "view" ? (
             <div className="register-button">
               <button onClick={() => handleSubEventEdit(subEventDetail)}>
                 Edit
@@ -1709,7 +1707,7 @@ const SubEventCard = ({
           <div className="challenge-card-start-date">
             <div
               className="challenge-card-start-date-month"
-              style={{color: '#000'}}
+              style={{ color: "#000" }}
             >
               {startMonth} - {endMonth}
             </div>
@@ -1718,9 +1716,9 @@ const SubEventCard = ({
             </div>
             <a
               onClick={() => setModalView(true)}
-              style={{position: 'absolute', top: 0, right: 0}}
+              style={{ position: "absolute", top: 0, right: 0 }}
             >
-              <InfoIcon style={{fontSize: 18, color: '#1e88e5'}} />
+              <InfoIcon style={{ fontSize: 18, color: "#1e88e5" }} />
             </a>
 
             {renderJoinBtn()}
@@ -1752,11 +1750,11 @@ const SubEventCard = ({
             <CancelIcon
               onClick={() => setmfinemodal(false)}
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 5,
                 right: 5,
-                color: '#ef5350',
-                cursor: 'pointer',
+                color: "#ef5350",
+                cursor: "pointer",
               }}
             />
             <Iframe
@@ -1767,7 +1765,7 @@ const SubEventCard = ({
               className="myClassname"
               display="initial"
               position="relative"
-              style={{marginTop: -20}}
+              style={{ marginTop: -20 }}
             />
           </InfoDialog>
           {showUnsubscribeModal && (
@@ -1785,7 +1783,7 @@ const SubEventCard = ({
                       subEventId: subEventDetail.id,
                     }).then((res) => {
                       handleSubscription();
-                      message.success('Program Unsubscribed.');
+                      message.success("Program Unsubscribed.");
                       setUnsubModal(false);
                     });
                   }}
@@ -1800,15 +1798,15 @@ const SubEventCard = ({
             <InfoDialog handleClose={CloseDependetModal} open={dependentvalue}>
               <CancelIcon
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   top: 5,
                   right: 5,
-                  color: '#ef5350',
-                  cursor: 'pointer',
+                  color: "#ef5350",
+                  cursor: "pointer",
                 }}
                 onClick={CloseDependetModal}
               />
-              <div style={{width: '500px', height: '400px'}}>
+              <div style={{ width: "500px", height: "400px" }}>
                 <div
                   // className="heading"
                   style={{
@@ -1827,17 +1825,17 @@ const SubEventCard = ({
                   </Stepper>
                 </div>
                 {activeStep === 0 ? (
-                  <div style={{marginLeft: '10%', marginTop: '0%'}}>
+                  <div style={{ marginLeft: "10%", marginTop: "0%" }}>
                     {/* <p style={{fontSize: '20px', fontWeight: 800}}>Address : -</p> */}
-                    {address !== '' ? (
-                      <div style={{display: 'flex'}}>
-                        <div style={{width: '10%'}}>
+                    {address !== "" ? (
+                      <div style={{ display: "flex" }}>
+                        <div style={{ width: "10%" }}>
                           <input
                             type="radio"
                             style={{
-                              cursor: 'pointer',
-                              height: '20px',
-                              width: '20px',
+                              cursor: "pointer",
+                              height: "20px",
+                              width: "20px",
                               // marginLeft: '20%',
                             }}
                             value={address}
@@ -1848,9 +1846,9 @@ const SubEventCard = ({
                         </div>
                         <div
                           style={{
-                            width: '50%',
-                            marginLeft: '1%',
-                            display: 'flex',
+                            width: "50%",
+                            marginLeft: "1%",
+                            display: "flex",
                           }}
                         >
                           {address}
@@ -1863,18 +1861,18 @@ const SubEventCard = ({
                       </div> */}
                       </div>
                     ) : (
-                      ''
+                      ""
                     )}
 
-                    <div style={{marginTop: '5%'}}>
-                      <div style={{display: 'flex'}}>
-                        <div style={{width: '10%'}}>
+                    <div style={{ marginTop: "5%" }}>
+                      <div style={{ display: "flex" }}>
+                        <div style={{ width: "10%" }}>
                           <input
                             type="radio"
                             style={{
-                              cursor: 'pointer',
-                              height: '20px',
-                              width: '20px',
+                              cursor: "pointer",
+                              height: "20px",
+                              width: "20px",
                               // marginLeft: '20%',
                             }}
                             value="alt"
@@ -1883,27 +1881,27 @@ const SubEventCard = ({
                             // checked={data?.address === inputAddress}
                           />
                         </div>
-                        <div style={{width: '40%', marginTop: '-2%'}}>
-                          <p style={{fontSize: '15px', fontWeight: 800}}>
-                            {' '}
+                        <div style={{ width: "40%", marginTop: "-2%" }}>
+                          <p style={{ fontSize: "15px", fontWeight: 800 }}>
+                            {" "}
                             Alternate Address
                           </p>
                         </div>
                       </div>
                       {/* {addressValue=='alt'? */}
-                      {addressValue === 'alt' ? (
-                        <div style={{display: 'flex'}}>
-                          <div style={{width: '80%', marginLeft: '8%'}}>
+                      {addressValue === "alt" ? (
+                        <div style={{ display: "flex" }}>
+                          <div style={{ width: "80%", marginLeft: "8%" }}>
                             <textarea
                               autofocus="autofocus"
                               style={{
-                                background: '#f3f4f6',
-                                padding: '10px 10px',
+                                background: "#f3f4f6",
+                                padding: "10px 10px",
                                 borderRadius: 6,
                                 fontSize: 12,
-                                width: '70%',
-                                border: '1px solid black',
-                                height: '50px',
+                                width: "70%",
+                                border: "1px solid black",
+                                height: "50px",
                               }}
                               type="text"
                               value={inputAddress}
@@ -1925,24 +1923,24 @@ const SubEventCard = ({
                     </div> */}
                         </div>
                       ) : (
-                        ''
+                        ""
                       )}
                       {/* :''} */}
 
                       <button
                         style={{
                           // backgroundColor: 'green',
-                          width: '70px',
-                          height: '30px',
-                          fontSize: '15px',
-                          marginLeft: '70%',
-                          color: 'white',
+                          width: "70px",
+                          height: "30px",
+                          fontSize: "15px",
+                          marginLeft: "70%",
+                          color: "white",
                           // marginTop:'12%'
                         }}
                         className={
                           !data?.address
-                            ? 'searchUserByMobileDisabled'
-                            : 'searchUserByMobile'
+                            ? "searchUserByMobileDisabled"
+                            : "searchUserByMobile"
                         }
                         onClick={() => getDependent(subEventDetail.id)}
                         disabled={!data?.address}
@@ -1952,10 +1950,10 @@ const SubEventCard = ({
                     </div>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
                 {activeStep == 1 ? (
-                  <div style={{marginLeft: '15%', marginTop: '-5%'}}>
+                  <div style={{ marginLeft: "15%", marginTop: "-5%" }}>
                     {/* <div style={{width: '40%', marginTop: '-2%'}}>
                     <p style={{fontSize: '15px', fontWeight: 800}}>
                       {' '}
@@ -1964,8 +1962,8 @@ const SubEventCard = ({
                   </div> */}
                     {/* <p style={{fontSize: '20px', fontWeight: 800}}>Address : -</p> */}
 
-                    <div style={{display: 'flex'}}>
-                      <div style={{width: '100%', marginLeft: '-10%'}}>
+                    <div style={{ display: "flex" }}>
+                      <div style={{ width: "100%", marginLeft: "-10%" }}>
                         {depenName && depenName.length > 0 ? (
                           <TablePagination
                             rowsPerPageOptions={[3, 4]}
@@ -1992,12 +1990,12 @@ const SubEventCard = ({
                         <Table
                           className={classes.table}
                           aria-labelledby="tableTitle"
-                          size={'small'}
+                          size={"small"}
                           aria-label="enhanced table"
                         >
-                          {' '}
+                          {" "}
                           <EnhancedTableHead
-                            style={{fontSize: '5px'}}
+                            style={{ fontSize: "5px" }}
                             classes={classes}
                             order={order}
                             orderBy={orderBy}
@@ -2019,14 +2017,14 @@ const SubEventCard = ({
                                       return (
                                         <>
                                           <TableRow className="performace-table-row">
-                                            {' '}
+                                            {" "}
                                             <TableCell align="center">
                                               <input
                                                 type="radio"
                                                 style={{
-                                                  cursor: 'pointer',
-                                                  height: '20px',
-                                                  width: '20px',
+                                                  cursor: "pointer",
+                                                  height: "20px",
+                                                  width: "20px",
                                                   // marginLeft: '20%',
                                                 }}
                                                 value={item.id}
@@ -2039,72 +2037,72 @@ const SubEventCard = ({
                                               />
                                             </TableCell>
                                             <TableCell align="center">
-                                              {' '}
-                                              <span style={{fontSize: 12}}>
+                                              {" "}
+                                              <span style={{ fontSize: 12 }}>
                                                 {ind + 1}
-                                              </span>{' '}
+                                              </span>{" "}
                                             </TableCell>
                                             <TableCell align="left">
-                                              {' '}
+                                              {" "}
                                               <p
                                                 style={{
-                                                  whiteSpace: 'nowrap',
-                                                  textOverflow: 'ellipsis',
-                                                  width: '150px',
-                                                  display: 'block',
-                                                  overflow: 'hidden',
+                                                  whiteSpace: "nowrap",
+                                                  textOverflow: "ellipsis",
+                                                  width: "150px",
+                                                  display: "block",
+                                                  overflow: "hidden",
                                                   fontSize: 12,
                                                 }}
                                               >
-                                                {' '}
-                                                <span style={{fontSize: 12}}>
+                                                {" "}
+                                                <span style={{ fontSize: 12 }}>
                                                   {item.firstName
                                                     ? item.firstName +
-                                                      ' ' +
+                                                      " " +
                                                       item.lastName
-                                                    : '  -     '}
-                                                </span>{' '}
-                                              </p>{' '}
+                                                    : "  -     "}
+                                                </span>{" "}
+                                              </p>{" "}
                                             </TableCell>
                                             <TableCell
                                               align="left"
-                                              style={{fontSize: 12}}
+                                              style={{ fontSize: 12 }}
                                             >
-                                              {' '}
+                                              {" "}
                                               <p
                                                 style={{
-                                                  whiteSpace: 'nowrap',
-                                                  textOverflow: 'ellipsis',
-                                                  width: '100px',
-                                                  display: 'block',
-                                                  overflow: 'hidden',
+                                                  whiteSpace: "nowrap",
+                                                  textOverflow: "ellipsis",
+                                                  width: "100px",
+                                                  display: "block",
+                                                  overflow: "hidden",
                                                   fontSize: 12,
                                                 }}
                                               >
-                                                {' '}
+                                                {" "}
                                                 {item.dependantRelation
                                                   ? item.dependantRelation
-                                                  : '  -     '}
+                                                  : "  -     "}
                                               </p>
                                             </TableCell>
                                             <TableCell
                                               align="left"
-                                              style={{fontSize: 12}}
+                                              style={{ fontSize: 12 }}
                                             >
-                                              {' '}
+                                              {" "}
                                               <p
                                                 style={{
-                                                  whiteSpace: 'nowrap',
-                                                  textOverflow: 'ellipsis',
-                                                  width: '70px',
-                                                  display: 'block',
-                                                  overflow: 'hidden',
+                                                  whiteSpace: "nowrap",
+                                                  textOverflow: "ellipsis",
+                                                  width: "70px",
+                                                  display: "block",
+                                                  overflow: "hidden",
                                                   fontSize: 12,
                                                 }}
                                               >
                                                 {item.gender
                                                   ? item.gender
-                                                  : '  -     '}
+                                                  : "  -     "}
                                               </p>
                                             </TableCell>
                                           </TableRow>
@@ -2113,7 +2111,7 @@ const SubEventCard = ({
                                     })}
                               </>
                             ) : (
-                              ''
+                              ""
                             )}
                           </TableBody>
                         </Table>
@@ -2122,16 +2120,16 @@ const SubEventCard = ({
 
                     <div
                       style={{
-                        width: '40%',
-                        marginLeft: '8%',
-                        display: 'flex',
+                        width: "40%",
+                        marginLeft: "8%",
+                        display: "flex",
                       }}
                     >
                       {/* {depenName} */}
                     </div>
 
-                    <div style={{marginTop: '3%'}}>
-                      <div style={{display: 'flex'}}>
+                    <div style={{ marginTop: "3%" }}>
+                      <div style={{ display: "flex" }}>
                         {/* <div style={{width: '10%'}}>
                         <input
                           type="radio"
@@ -2156,67 +2154,67 @@ const SubEventCard = ({
                           +
                         </p> 
                       </div> */}
-                        <div style={{width: '50%'}}>
+                        <div style={{ width: "50%" }}>
                           <button
                             style={{
                               // backgroundColor: 'green',
-                              width: '70px',
-                              height: '30px',
-                              fontSize: '15px',
+                              width: "70px",
+                              height: "30px",
+                              fontSize: "15px",
                               // marginLeft: '70%',
-                              color: 'white',
+                              color: "white",
                               // marginTop:'12%'
                             }}
                             className={
                               // !data?.depentdent
                               //   ? 'searchUserByMobileDisabled'
-                              'searchUserByMobile'
+                              "searchUserByMobile"
                             }
                             onClick={() => setDeptValue(true)}
                           >
                             Add
                           </button>
                         </div>
-                        <div style={{width: '20%'}}>
+                        <div style={{ width: "20%" }}>
                           {subEventDetail.addressRequired !== 0 ? (
                             <button
                               style={{
                                 // backgroundColor: 'green',
-                                width: '70px',
-                                height: '30px',
-                                fontSize: '15px',
+                                width: "70px",
+                                height: "30px",
+                                fontSize: "15px",
                                 // marginLeft: '70%',
-                                color: 'white',
+                                color: "white",
                                 // marginTop:'12%'
                               }}
                               className={
                                 // !data?.depentdent
                                 //   ? 'searchUserByMobileDisabled'
-                                'searchUserByMobile'
+                                "searchUserByMobile"
                               }
                               onClick={() => setActiveStep(0)}
                             >
                               Prev
                             </button>
                           ) : (
-                            ''
+                            ""
                           )}
                         </div>
-                        <div style={{width: '20%'}}>
+                        <div style={{ width: "20%" }}>
                           <button
                             style={{
                               // backgroundColor: 'green',
-                              width: '70px',
-                              height: '30px',
-                              fontSize: '15px',
+                              width: "70px",
+                              height: "30px",
+                              fontSize: "15px",
                               // marginLeft: '70%',
-                              color: 'white',
+                              color: "white",
                               // marginTop:'12%'
                             }}
                             className={
                               !data?.depentdent
-                                ? 'searchUserByMobileDisabled'
-                                : 'searchUserByMobile'
+                                ? "searchUserByMobileDisabled"
+                                : "searchUserByMobile"
                             }
                             onClick={() => {
                               setActiveStep(2);
@@ -2230,32 +2228,32 @@ const SubEventCard = ({
                       {/* {addressValue=='alt'? */}
 
                       {/* :''} */}
-                      <div style={{display: 'flex', marginTop: '5%'}}>
-                        <div style={{width: '30%'}}></div>
+                      <div style={{ display: "flex", marginTop: "5%" }}>
+                        <div style={{ width: "30%" }}></div>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
                 {activeStep == 2 ? (
                   <div>
-                    {' '}
-                    <div style={{width: '80%', marginLeft: '8%'}}>
-                      <p style={{fontSize: '12px', fontWeight: '800'}}>
+                    {" "}
+                    <div style={{ width: "80%", marginLeft: "8%" }}>
+                      <p style={{ fontSize: "12px", fontWeight: "800" }}>
                         Please Share anything that will help us to prepare for
                         meeting
                       </p>
                       <textarea
                         autofocus="autofocus"
                         style={{
-                          background: '#f3f4f6',
-                          padding: '10px 10px',
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
                           borderRadius: 6,
                           fontSize: 12,
-                          width: '70%',
-                          border: '1px solid black',
-                          height: '80px',
+                          width: "70%",
+                          border: "1px solid black",
+                          height: "80px",
                         }}
                         type="text"
                         value={notes}
@@ -2264,22 +2262,22 @@ const SubEventCard = ({
                         placeholder="Write Some Notes..."
                       />
                     </div>
-                    <div style={{display: 'flex'}}>
-                      <div style={{width: '50%'}}>
+                    <div style={{ display: "flex" }}>
+                      <div style={{ width: "50%" }}>
                         <button
                           style={{
                             // backgroundColor: 'green',
-                            width: '70px',
-                            height: '30px',
-                            fontSize: '15px',
-                            marginLeft: '10%',
-                            color: 'white',
+                            width: "70px",
+                            height: "30px",
+                            fontSize: "15px",
+                            marginLeft: "10%",
+                            color: "white",
                             // marginTop:'12%'
                           }}
                           className={
                             // !data?.depentdent
                             //   ? 'searchUserByMobileDisabled'
-                            'searchUserByMobile'
+                            "searchUserByMobile"
                           }
                           onClick={() =>
                             subEventDetail.dependentRequired !== 0
@@ -2290,23 +2288,23 @@ const SubEventCard = ({
                           Prev
                         </button>
                       </div>
-                      <div style={{width: '50%'}}>
+                      <div style={{ width: "50%" }}>
                         <button
                           style={{
                             // backgroundColor: 'green',
-                            width: '120px',
-                            height: '30px',
-                            fontSize: '15px',
-                            marginLeft: '40%',
-                            color: 'white',
-                            marginTop: '-20%',
+                            width: "120px",
+                            height: "30px",
+                            fontSize: "15px",
+                            marginLeft: "40%",
+                            color: "white",
+                            marginTop: "-20%",
                           }}
                           className={
                             // !datanotes
                             //   ?
                             //  'searchUserByMobileDisabled'
                             // :
-                            'searchUserByMobile'
+                            "searchUserByMobile"
                           }
                           onClick={() => changeDate1(subEventDetail.id)}
                         >
@@ -2316,7 +2314,7 @@ const SubEventCard = ({
                     </div>
                   </div>
                 ) : (
-                  ''
+                  ""
                 )}
               </div>
             </InfoDialog>
@@ -2327,49 +2325,49 @@ const SubEventCard = ({
               open={dept}
               // onClose={timeClose}
             >
-              <div style={{width: '500px', height: '400px'}}>
+              <div style={{ width: "500px", height: "400px" }}>
                 <CancelIcon
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     top: 5,
                     right: 5,
-                    color: '#ef5350',
-                    cursor: 'pointer',
+                    color: "#ef5350",
+                    cursor: "pointer",
                   }}
                   onClick={closeAddModal}
                 />
-                <div style={{marginLeft: '10%'}}>
-                  <div style={{display: 'flex'}}>
-                    <div style={{width: '20%', marginTop: '0%'}}>
+                <div style={{ marginLeft: "10%" }}>
+                  <div style={{ display: "flex" }}>
+                    <div style={{ width: "20%", marginTop: "0%" }}>
                       <span>Relation </span>
                       <span
                         style={{
-                          color: 'red',
+                          color: "red",
                           // marginTop: '-12%',
                           // marginLeft: '-200%',
                         }}
                       >
-                        {' '}
+                        {" "}
                         {error1 === true ? (
-                          <>{addDept?.dependantRelation === '' ? <>*</> : ''}</>
+                          <>{addDept?.dependantRelation === "" ? <>*</> : ""}</>
                         ) : (
-                          ''
+                          ""
                         )}
                       </span>
                     </div>
-                    <div style={{width: '70%'}}>
+                    <div style={{ width: "70%" }}>
                       {/* <label>Relationship</label> */}
 
                       {/* <br /> */}
                       <select
                         autofocus="autofocus"
                         style={{
-                          background: '#f3f4f6',
-                          padding: '10px 10px',
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
                           borderRadius: 6,
                           fontSize: 12,
-                          width: '90%',
-                          border: '1px solid black',
+                          width: "90%",
+                          border: "1px solid black",
                           // height: '50px',
                         }}
                         type="text"
@@ -2392,19 +2390,19 @@ const SubEventCard = ({
                       </select>
                     </div>
                   </div>
-                  <div style={{marginLeft: '0%', display: 'flex'}}>
-                    <div style={{width: '40%'}}>
+                  <div style={{ marginLeft: "0%", display: "flex" }}>
+                    <div style={{ width: "40%" }}>
                       <label>First Name</label>
                       <br />
                       <input
                         autofocus="autofocus"
                         style={{
-                          background: '#f3f4f6',
-                          padding: '10px 10px',
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
                           borderRadius: 6,
                           fontSize: 12,
-                          width: '105%',
-                          border: '1px solid black',
+                          width: "105%",
+                          border: "1px solid black",
                           // height: '50px',
                         }}
                         type="text"
@@ -2414,34 +2412,34 @@ const SubEventCard = ({
                         placeholder="First Name"
                       />
                     </div>
-                    <div style={{width: '10%'}}>
+                    <div style={{ width: "10%" }}>
                       <p
                         style={{
-                          color: 'red',
-                          marginTop: '-1%',
-                          marginLeft: '-180%',
+                          color: "red",
+                          marginTop: "-1%",
+                          marginLeft: "-180%",
                         }}
                       >
-                        {' '}
+                        {" "}
                         {error1 === true ? (
-                          <>{addDept?.firstName === '' ? <>*</> : ''}</>
+                          <>{addDept?.firstName === "" ? <>*</> : ""}</>
                         ) : (
-                          ''
+                          ""
                         )}
                       </p>
                     </div>
-                    <div style={{width: '50%'}}>
+                    <div style={{ width: "50%" }}>
                       <label>Last Name</label>
                       <br />
                       <input
                         autofocus="autofocus"
                         style={{
-                          background: '#f3f4f6',
-                          padding: '10px 10px',
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
                           borderRadius: 6,
                           fontSize: 12,
-                          width: '80%',
-                          border: '1px solid black',
+                          width: "80%",
+                          border: "1px solid black",
                           // height: '50px',
                         }}
                         type="text"
@@ -2452,19 +2450,19 @@ const SubEventCard = ({
                       />
                     </div>
                   </div>
-                  <div style={{marginLeft: '0%', display: 'flex'}}>
-                    <div style={{width: '50%'}}>
+                  <div style={{ marginLeft: "0%", display: "flex" }}>
+                    <div style={{ width: "50%" }}>
                       <label>DOB</label>
                       <br />
                       <input
                         autofocus="autofocus"
                         style={{
-                          background: '#f3f4f6',
-                          padding: '10px 10px',
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
                           borderRadius: 6,
                           fontSize: 12,
-                          width: '85%',
-                          border: '1px solid black',
+                          width: "85%",
+                          border: "1px solid black",
                           // height: '50px',
                         }}
                         type="date"
@@ -2474,19 +2472,19 @@ const SubEventCard = ({
                         placeholder="Enter Question"
                       />
                     </div>
-                    <div style={{width: '40%'}}>
+                    <div style={{ width: "40%" }}>
                       <label>Gender</label>
 
                       <br />
                       <select
                         autofocus="autofocus"
                         style={{
-                          background: '#f3f4f6',
-                          padding: '10px 10px',
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
                           borderRadius: 6,
                           fontSize: 12,
-                          width: '110%',
-                          border: '1px solid black',
+                          width: "110%",
+                          border: "1px solid black",
                           // height: '50px',
                         }}
                         type="text"
@@ -2501,39 +2499,39 @@ const SubEventCard = ({
                         <option value="OTHERS">OTHERS</option>
                       </select>
                     </div>
-                    <div style={{width: '10%'}}>
+                    <div style={{ width: "10%" }}>
                       <p
                         style={{
-                          color: 'red',
-                          marginTop: '-1%',
-                          marginLeft: '-200%',
+                          color: "red",
+                          marginTop: "-1%",
+                          marginLeft: "-200%",
                         }}
                       >
-                        {' '}
+                        {" "}
                         {error1 === true ? (
-                          <>{addDept?.gender === '' ? <>*</> : ''}</>
+                          <>{addDept?.gender === "" ? <>*</> : ""}</>
                         ) : (
-                          ''
+                          ""
                         )}
                       </p>
                     </div>
                   </div>
-                  <div style={{marginLeft: '0%', display: 'flex'}}>
-                    <div style={{width: '30%', marginTop: '10%'}}>
+                  <div style={{ marginLeft: "0%", display: "flex" }}>
+                    <div style={{ width: "30%", marginTop: "10%" }}>
                       <label>Contact Detail</label>
                     </div>
-                    <div style={{width: '70%'}}>
+                    <div style={{ width: "70%" }}>
                       <br />
                       <textarea
                         autofocus="autofocus"
                         style={{
-                          background: '#f3f4f6',
-                          padding: '10px 10px',
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
                           borderRadius: 6,
                           fontSize: 12,
-                          width: '85%',
-                          border: '1px solid black',
-                          height: '50px',
+                          width: "85%",
+                          border: "1px solid black",
+                          height: "50px",
                         }}
                         type="text"
                         value={addDept.contactDetail}
@@ -2547,14 +2545,14 @@ const SubEventCard = ({
                 <button
                   style={{
                     // backgroundColor: 'green',
-                    width: '70px',
-                    height: '30px',
-                    fontSize: '15px',
-                    marginLeft: '70%',
-                    color: 'white',
-                    marginTop: '5%',
+                    width: "70px",
+                    height: "30px",
+                    fontSize: "15px",
+                    marginLeft: "70%",
+                    color: "white",
+                    marginTop: "5%",
                   }}
-                  className={'searchUserByMobile'}
+                  className={"searchUserByMobile"}
                   onClick={() => submitdept(subEventDetail.id)}
                 >
                   Add
@@ -2571,15 +2569,15 @@ const SubEventCard = ({
             >
               <CancelIcon
                 style={{
-                  position: 'absolute',
+                  position: "absolute",
                   top: 5,
                   right: 5,
-                  color: '#ef5350',
-                  cursor: 'pointer',
+                  color: "#ef5350",
+                  cursor: "pointer",
                 }}
                 onClick={() => setSubSribeModal(false)}
               />
-              <div style={{width: '600px', height: '300px'}}>
+              <div style={{ width: "600px", height: "300px" }}>
                 <div>
                   <div>
                     {subscribeList && subscribeList.length > 0 ? (
@@ -2608,12 +2606,12 @@ const SubEventCard = ({
                     <Table
                       className={classes.table}
                       aria-labelledby="tableTitle"
-                      size={'small'}
+                      size={"small"}
                       aria-label="enhanced table"
                     >
-                      {' '}
+                      {" "}
                       <EnhancedTableHead
-                        style={{fontSize: '5px'}}
+                        style={{ fontSize: "5px" }}
                         classes={classes}
                         order={order}
                         orderBy={orderBy}
@@ -2635,84 +2633,84 @@ const SubEventCard = ({
                                   return (
                                     <>
                                       <TableRow className="performace-table-row">
-                                        {' '}
+                                        {" "}
                                         <TableCell align="center">
-                                          {' '}
-                                          <span style={{fontSize: 12}}>
+                                          {" "}
+                                          <span style={{ fontSize: 12 }}>
                                             {ind + 1}
-                                          </span>{' '}
+                                          </span>{" "}
                                         </TableCell>
                                         <TableCell align="left">
-                                          {' '}
+                                          {" "}
                                           <p
                                             style={{
-                                              whiteSpace: 'nowrap',
-                                              textOverflow: 'ellipsis',
-                                              width: '150px',
-                                              display: 'block',
-                                              overflow: 'hidden',
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "150px",
+                                              display: "block",
+                                              overflow: "hidden",
                                               fontSize: 12,
                                             }}
                                           >
-                                            {' '}
-                                            <span style={{fontSize: 12}}>
+                                            {" "}
+                                            <span style={{ fontSize: 12 }}>
                                               {item.firstName
                                                 ? item.firstName +
-                                                  ' ' +
+                                                  " " +
                                                   item.lastName
-                                                : '  -     '}
-                                            </span>{' '}
-                                          </p>{' '}
+                                                : "  -     "}
+                                            </span>{" "}
+                                          </p>{" "}
                                         </TableCell>
                                         <TableCell
                                           align="left"
-                                          style={{fontSize: 12}}
+                                          style={{ fontSize: 12 }}
                                         >
-                                          {' '}
+                                          {" "}
                                           <p
                                             style={{
-                                              whiteSpace: 'nowrap',
-                                              textOverflow: 'ellipsis',
-                                              width: '100px',
-                                              display: 'block',
-                                              overflow: 'hidden',
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "100px",
+                                              display: "block",
+                                              overflow: "hidden",
                                               fontSize: 12,
                                             }}
                                           >
-                                            {' '}
+                                            {" "}
                                             {item.dependantRelation
                                               ? item.dependantRelation
-                                              : '  -     '}
+                                              : "  -     "}
                                           </p>
                                         </TableCell>
                                         <TableCell
                                           align="left"
-                                          style={{fontSize: 12}}
+                                          style={{ fontSize: 12 }}
                                         >
-                                          {' '}
+                                          {" "}
                                           <p
                                             style={{
-                                              whiteSpace: 'nowrap',
-                                              textOverflow: 'ellipsis',
-                                              width: '70px',
-                                              display: 'block',
-                                              overflow: 'hidden',
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "70px",
+                                              display: "block",
+                                              overflow: "hidden",
                                               fontSize: 12,
                                             }}
                                           >
                                             {item.gender
                                               ? item.gender
-                                              : '  -     '}
+                                              : "  -     "}
                                           </p>
                                         </TableCell>
                                         <TableCell>
                                           <button
                                             style={{
-                                              width: '80px',
-                                              height: '30px',
-                                              backgroundColor: 'green',
-                                              borderRadius: '15px',
-                                              color: 'white',
+                                              width: "80px",
+                                              height: "30px",
+                                              backgroundColor: "green",
+                                              borderRadius: "15px",
+                                              color: "white",
                                             }}
                                             onClick={() =>
                                               subScribeApi(
@@ -2731,7 +2729,7 @@ const SubEventCard = ({
                                 })}
                           </>
                         ) : (
-                          ''
+                          ""
                         )}
                       </TableBody>
                     </Table>
@@ -2747,57 +2745,57 @@ const SubEventCard = ({
               open={showBook}
               // onClose={timeClose}
             >
-              <div style={{width: '400px', height: '400px'}}>
+              <div style={{ width: "400px", height: "400px" }}>
                 <CancelIcon
                   style={{
-                    position: 'absolute',
+                    position: "absolute",
                     top: 5,
                     right: 5,
-                    color: '#ef5350',
-                    cursor: 'pointer',
+                    color: "#ef5350",
+                    cursor: "pointer",
                   }}
                   onClick={() => closeslot(false)}
                 />
                 <form>
                   <div
                     style={{
-                      height: '400px',
-                      display: 'flex',
-                      marginTop: '0',
-                      overflowY: 'auto',
+                      height: "400px",
+                      display: "flex",
+                      marginTop: "0",
+                      overflowY: "auto",
                       // width:'70%',
                     }}
                   >
-                    <div style={{width: '70%', marginLeft: '20px'}}>
+                    <div style={{ width: "70%", marginLeft: "20px" }}>
                       {/* <p style={{fontSize: '20px', marginLeft: '80px'}}>
                   Booking Program
                 </p> */}
                       <div
                         style={{
-                          maxWidth: '250px',
+                          maxWidth: "250px",
                           boxShadow:
-                            '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+                            "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
                           borderRadius: 12,
-                          backgroundColor: '#b3b3ff',
-                          maxHeight: '500px',
-                          background: 'blue',
+                          backgroundColor: "#b3b3ff",
+                          maxHeight: "500px",
+                          background: "blue",
                         }}
                       >
                         <Calendar
-                          style={{backgroundColor: 'white'}}
+                          style={{ backgroundColor: "white" }}
                           required
                           selected={dateState}
                           onChange={changeDate}
-                          tileClassName={({date, view}) => {
+                          tileClassName={({ date, view }) => {
                             if (
                               mark.find(
-                                (x) => x === moment(date).format('YYYY-MM-DD')
+                                (x) => x === moment(date).format("YYYY-MM-DD")
                               )
                             ) {
-                              return 'highlight';
+                              return "highlight";
                             }
                           }}
-                          beforeShowDay={({date, view}) => {
+                          beforeShowDay={({ date, view }) => {
                             if (dateenable.indexOf(mark(date)) < 0)
                               return {
                                 enabled: false,
@@ -2808,8 +2806,8 @@ const SubEventCard = ({
                               };
                           }}
                           style={{
-                            maxHeight: '400px',
-                            backgroundColor: 'yellow',
+                            maxHeight: "400px",
+                            backgroundColor: "yellow",
                           }}
                           maxDate={new Date(ddt)}
                           locale="us"
@@ -2819,9 +2817,9 @@ const SubEventCard = ({
                     </div>
                     <div
                       style={{
-                        width: '30%',
-                        maxHeight: '300px',
-                        overflow: 'scroll',
+                        width: "30%",
+                        maxHeight: "300px",
+                        overflow: "scroll",
                       }}
                     >
                       {calender.map((item) => {
@@ -2838,7 +2836,7 @@ const SubEventCard = ({
                                 }
                               }
                             >
-                              <p style={{textAlign: 'center'}}>
+                              <p style={{ textAlign: "center" }}>
                                 <u>Timing</u>
                               </p>
                               <>
@@ -2849,21 +2847,21 @@ const SubEventCard = ({
                                         return (
                                           <div>
                                             <table>
-                                              <div style={{width: '100%'}}>
+                                              <div style={{ width: "100%" }}>
                                                 <button
                                                   style={{
                                                     // fontSize: '20px',
                                                     // dispaly: 'flex',
                                                     // border: '1px outset black',
                                                     boxShadow:
-                                                      '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+                                                      "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
                                                     borderRadius: 5,
-                                                    backgroundColor: '#ccfff5',
-                                                    width: '100px',
-                                                    height: '30px',
-                                                    marginTop: '0px',
+                                                    backgroundColor: "#ccfff5",
+                                                    width: "100px",
+                                                    height: "30px",
+                                                    marginTop: "0px",
                                                     // marginLeft: '10px',
-                                                    color: 'black',
+                                                    color: "black",
                                                   }}
                                                   onClick={(e) => {
                                                     e.preventDefault();
@@ -2884,21 +2882,21 @@ const SubEventCard = ({
                                     return (
                                       <div>
                                         <table>
-                                          <div style={{width: '100%'}}>
+                                          <div style={{ width: "100%" }}>
                                             <button
                                               style={{
                                                 // fontSize: '20px',
                                                 // dispaly: 'flex',
                                                 // border: '1px outset black',
                                                 boxShadow:
-                                                  '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+                                                  "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
                                                 borderRadius: 5,
-                                                backgroundColor: '#ccfff5',
-                                                width: '100px',
-                                                height: '30px',
-                                                marginTop: '0px',
+                                                backgroundColor: "#ccfff5",
+                                                width: "100px",
+                                                height: "30px",
+                                                marginTop: "0px",
                                                 // marginLeft: '10px',
-                                                color: 'black',
+                                                color: "black",
                                               }}
                                               onClick={(e) => {
                                                 e.preventDefault();
@@ -2924,26 +2922,26 @@ const SubEventCard = ({
                     </div>
                   </div>
 
-                  <div style={{marginTop: '-100px', display: 'flex'}}>
-                    <div style={{width: '70%'}}>
+                  <div style={{ marginTop: "-100px", display: "flex" }}>
+                    <div style={{ width: "70%" }}>
                       {/* <p className="error-text">Please select</p> */}
-                      <p style={{marginLeft: '20px', fontSize: '15px'}}>
+                      <p style={{ marginLeft: "20px", fontSize: "15px" }}>
                         <b> Your Booking:</b>
                       </p>
                       <p
                         style={{
                           boxShadow:
-                            '0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)',
+                            "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
                           borderRadius: 12,
-                          borderRadius: '5px',
-                          height: '50px',
-                          width: '160px',
-                          marginLeft: '20px',
-                          fontSize: '15px',
-                          marginTop: '-10px',
+                          borderRadius: "5px",
+                          height: "50px",
+                          width: "160px",
+                          marginLeft: "20px",
+                          fontSize: "15px",
+                          marginTop: "-10px",
                         }}
                       >
-                        <b> Date:</b> {moment(dateState).format('DD-MM-YYYY')}
+                        <b> Date:</b> {moment(dateState).format("DD-MM-YYYY")}
                         <br />
                         <b> Time:</b>
                         {calender.map((item) => {
@@ -2961,7 +2959,7 @@ const SubEventCard = ({
                         })}
                       </p>
                     </div>
-                    <div style={{width: '30%'}}>
+                    <div style={{ width: "30%" }}>
                       <button
                         // onClick={(e) => {
                         //   subEventDetail.addressRequired == 1 ||
@@ -2972,12 +2970,12 @@ const SubEventCard = ({
                         onClick={finalSubmitBook}
                         type="submit"
                         style={{
-                          borderRadius: '30px',
-                          backgroundColor: 'green',
-                          color: 'white',
-                          width: '80px',
-                          height: '30px',
-                          marginTop: '50px',
+                          borderRadius: "30px",
+                          backgroundColor: "green",
+                          color: "white",
+                          width: "80px",
+                          height: "30px",
+                          marginTop: "50px",
                           // marginLeft: '-35px',
                         }}
                       >
@@ -2999,58 +2997,58 @@ const SubEventCard = ({
             onClick={flipCard1}
             style={{
               // backgroundColor: '#ff66a3',
-              borderRadius: '10px',
+              borderRadius: "10px",
               // color: 'white',
-              justifyContent: 'center',
-              width: '30px',
-              height: '25px',
-              marginTop: '10px',
+              justifyContent: "center",
+              width: "30px",
+              height: "25px",
+              marginTop: "10px",
             }}
           >
-            <ArrowLeftCircle size={25} />{' '}
+            <ArrowLeftCircle size={25} />{" "}
           </button>
           {bookingList &&
             bookingList.map((item) => {
               return (
                 <>
-                  {subEventDetail.eventNature === 'INDIVIDUAL' ? (
+                  {subEventDetail.eventNature === "INDIVIDUAL" ? (
                     <>
-                      <div style={{fontWeight: '800'}}>
+                      <div style={{ fontWeight: "800" }}>
                         {item.dependentName}
                       </div>
                       <div>
-                        <span style={{fontSize: '12px'}}>
+                        <span style={{ fontSize: "12px" }}>
                           {item.bookingDateTime}
                         </span>
 
-                        {item.activeStatus === 'PENDING' ? (
+                        {item.activeStatus === "PENDING" ? (
                           <span>
                             <a
                               target="_blank"
                               href={item.meetingLink}
                               style={{
-                                color: '#fff',
-                                background: 'blue',
+                                color: "#fff",
+                                background: "blue",
                                 borderRadius: 10,
-                                padding: '0px 10px ',
-                                marginLeft: '10px',
+                                padding: "0px 10px ",
+                                marginLeft: "10px",
                               }}
                               // onClick={}
                             >
                               Pay
                             </a>
                           </span>
-                        ) : item.activeStatus === 'SUBSCRIBE' ? (
+                        ) : item.activeStatus === "SUBSCRIBE" ? (
                           <span>
                             <a
                               target="_blank"
                               href={item.meetingLink}
                               style={{
-                                color: '#fff',
-                                background: 'green',
+                                color: "#fff",
+                                background: "green",
                                 borderRadius: 10,
-                                padding: '0px 10px ',
-                                marginLeft: '10px',
+                                padding: "0px 10px ",
+                                marginLeft: "10px",
                               }}
                               // onClick={}
                             >
@@ -3058,18 +3056,18 @@ const SubEventCard = ({
                             </a>
                           </span>
                         ) : (
-                          ''
+                          ""
                         )}
                         <span>
-                          {item.activeStatus === 'UNSUBSCRIBE' &&
+                          {item.activeStatus === "UNSUBSCRIBE" &&
                           item.canRejoin === true ? (
                             <a
                               style={{
-                                color: '#fff',
-                                background: '#ff9800',
+                                color: "#fff",
+                                background: "#ff9800",
                                 borderRadius: 10,
-                                padding: '0px 10px ',
-                                marginLeft: '10px',
+                                padding: "0px 10px ",
+                                marginLeft: "10px",
                               }}
                               // onClick={() =>
                               //   cancelAppointmentDependent(
@@ -3080,14 +3078,14 @@ const SubEventCard = ({
                             >
                               Rebook
                             </a>
-                          ) : item.activeStatus === 'SUBSCRIBE' ? (
+                          ) : item.activeStatus === "SUBSCRIBE" ? (
                             <a
                               style={{
-                                color: '#fff',
-                                background: '#F43F5E',
+                                color: "#fff",
+                                background: "#F43F5E",
                                 borderRadius: 10,
-                                padding: '0px 10px ',
-                                marginLeft: '5px',
+                                padding: "0px 10px ",
+                                marginLeft: "5px",
                               }}
                               onClick={() =>
                                 cancelAppointmentDependent(
@@ -3098,14 +3096,14 @@ const SubEventCard = ({
                             >
                               Remove
                             </a>
-                          ) : item.activeStatus === 'PENDING' ? (
+                          ) : item.activeStatus === "PENDING" ? (
                             <a
                               style={{
-                                color: '#fff',
-                                background: '#ff9800',
+                                color: "#fff",
+                                background: "#ff9800",
                                 borderRadius: 10,
-                                padding: '0px 10px ',
-                                marginLeft: '10px',
+                                padding: "0px 10px ",
+                                marginLeft: "10px",
                               }}
                               // onClick={() =>
                               //   cancelAppointmentDependent(
@@ -3117,7 +3115,7 @@ const SubEventCard = ({
                               Pending
                             </a>
                           ) : (
-                            ''
+                            ""
                           )}
                         </span>
                       </div>
@@ -3126,44 +3124,44 @@ const SubEventCard = ({
                     <div>
                       <div
                         style={{
-                          fontSize: '12px',
-                          fontWeight: '800',
-                          maxWidth: '150px',
+                          fontSize: "12px",
+                          fontWeight: "800",
+                          maxWidth: "150px",
                         }}
                       >
                         {item.dependentName}
                       </div>
-                      <span style={{fontSize: '12px'}}>
-                          {item.bookingDateTime}
-                        </span>
-                      {item.activeStatus === 'PENDING' ? (
+                      <span style={{ fontSize: "12px" }}>
+                        {item.bookingDateTime}
+                      </span>
+                      {item.activeStatus === "PENDING" ? (
                         <span>
                           <a
                             target="_blank"
                             href={item.meetingLink}
                             style={{
-                              color: '#fff',
-                              background: 'blue',
+                              color: "#fff",
+                              background: "blue",
                               borderRadius: 10,
-                              padding: '0px 10px ',
-                              marginLeft: '3px',
+                              padding: "0px 10px ",
+                              marginLeft: "3px",
                             }}
                             // onClick={}
                           >
                             Pay
                           </a>
                         </span>
-                      ) : item.activeStatus === 'SUBSCRIBE' ? (
+                      ) : item.activeStatus === "SUBSCRIBE" ? (
                         <span>
                           <a
                             target="_blank"
                             href={item.meetingLink}
                             style={{
-                              color: '#fff',
-                              background: 'green',
+                              color: "#fff",
+                              background: "green",
                               borderRadius: 10,
-                              padding: '0px 10px ',
-                              marginLeft: '10px',
+                              padding: "0px 10px ",
+                              marginLeft: "10px",
                             }}
                             // onClick={}
                           >
@@ -3171,18 +3169,18 @@ const SubEventCard = ({
                           </a>
                         </span>
                       ) : (
-                        ''
+                        ""
                       )}
                       <span>
-                        {item.activeStatus === 'UNSUBSCRIBE' &&
+                        {item.activeStatus === "UNSUBSCRIBE" &&
                         item.canRejoin === true ? (
                           <a
                             style={{
-                              color: '#fff',
-                              background: '#ff9800',
+                              color: "#fff",
+                              background: "#ff9800",
                               borderRadius: 10,
-                              padding: '0px 10px ',
-                              marginLeft: '10px',
+                              padding: "0px 10px ",
+                              marginLeft: "10px",
                             }}
                             onClick={() =>
                               rejoinSubscribe(
@@ -3193,14 +3191,14 @@ const SubEventCard = ({
                           >
                             Rejoin
                           </a>
-                        ) : item.activeStatus === 'SUBSCRIBE' ? (
+                        ) : item.activeStatus === "SUBSCRIBE" ? (
                           <a
                             style={{
-                              color: '#fff',
-                              background: '#F43F5E',
+                              color: "#fff",
+                              background: "#F43F5E",
                               borderRadius: 10,
-                              padding: '0px 10px ',
-                              marginLeft: '5px',
+                              padding: "0px 10px ",
+                              marginLeft: "5px",
                             }}
                             onClick={() =>
                               cancelAppointmentDependent(
@@ -3211,14 +3209,14 @@ const SubEventCard = ({
                           >
                             Unsubscribe
                           </a>
-                        ) : item.activeStatus === 'PENDING' ? (
+                        ) : item.activeStatus === "PENDING" ? (
                           <a
                             style={{
-                              color: '#fff',
-                              background: '#ff9800',
+                              color: "#fff",
+                              background: "#ff9800",
                               borderRadius: 10,
-                              padding: '0px 10px ',
-                              marginLeft: '10px',
+                              padding: "0px 10px ",
+                              marginLeft: "10px",
                             }}
                             // onClick={() =>
                             //   cancelAppointmentDependent(
@@ -3230,7 +3228,7 @@ const SubEventCard = ({
                             Pending
                           </a>
                         ) : (
-                          ''
+                          ""
                         )}
                       </span>
                     </div>

@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import {addSupportingDoc} from '../services/challengeApi';
-import Message from 'antd-message';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
+import { addSupportingDoc } from "../services/challengeApi";
+import Message from "antd-message";
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -21,12 +21,12 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
+    position: "absolute",
     width: 320,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 24,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
   },
 }));
 
@@ -38,14 +38,14 @@ export default function AddPastDetailForm({
   handlePerformanceClick,
 }) {
   const [state, setState] = useState({
-    unit: '',
-    data: '',
-    supporting_doc: '',
-    supporting_doc_obj: '',
+    unit: "",
+    data: "",
+    supporting_doc: "",
+    supporting_doc_obj: "",
   });
 
   const disableSubmit =
-    Object.values(state).filter((val) => val === '' || val === undefined)
+    Object.values(state).filter((val) => val === "" || val === undefined)
       .length > 0;
 
   const classes = useStyles();
@@ -63,7 +63,7 @@ export default function AddPastDetailForm({
 
   const onFileChange = (event) => {
     if (event.target.files) {
-      const {files} = event.target;
+      const { files } = event.target;
       if (files && files.length > 0) {
         getBase64(files[0]).then((res) => {
           setState({
@@ -79,39 +79,39 @@ export default function AddPastDetailForm({
   const handleSubmit = () => {
     window.message = Message;
     const formData = new FormData();
-    formData.append('avatar', state.supporting_doc_obj);
-    formData.append('data', state.data);
-    formData.append('date', selectedDate);
-    formData.append('rawUnit', state.unit);
-    formData.append('eventId', eventId);
+    formData.append("avatar", state.supporting_doc_obj);
+    formData.append("data", state.data);
+    formData.append("date", selectedDate);
+    formData.append("rawUnit", state.unit);
+    formData.append("eventId", eventId);
 
     addSupportingDoc(formData)
       .then((res) => {
-        message.success('Success');
+        message.success("Success");
         setDisplayModal(false);
         handlePerformanceClick();
       })
       .catch((err) => {
-        message.error('Try Again');
+        message.error("Try Again");
       });
   };
 
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <div className="supporting-doc-container">
-        <div style={{display: 'flex'}}>
+        <div style={{ display: "flex" }}>
           <div
             style={{
               maxWidth: 150,
-              marginRight: '1.25rem',
+              marginRight: "1.25rem",
             }}
           >
-            <div className="mhealth-input-box" style={{marginBottom: '2rem'}}>
+            <div className="mhealth-input-box" style={{ marginBottom: "2rem" }}>
               <label>Date</label>
               {selectedDate}
             </div>
             {/* <div className="mhealth-input-box parallel"> */}
-            <div className="mhealth-input-box" style={{marginBottom: '2rem'}}>
+            <div className="mhealth-input-box" style={{ marginBottom: "2rem" }}>
               <label>Data</label>
               <input
                 type="number"
@@ -125,11 +125,11 @@ export default function AddPastDetailForm({
                 }}
               />
             </div>
-            <div className="mhealth-input-box" style={{marginBottom: '2rem'}}>
+            <div className="mhealth-input-box" style={{ marginBottom: "2rem" }}>
               <label>Unit</label>
               <select
                 value={state.unit}
-                width={'100%'}
+                width={"100%"}
                 placeholder="ex: KM/STEP/MILE"
                 onChange={(e) => {
                   setState({
@@ -139,38 +139,38 @@ export default function AddPastDetailForm({
                 }}
               >
                 <option value={undefined}>--Select--</option>
-                <option value={'KM'}>KM</option>
-                <option value={'MILE'}>MILE</option>
-                <option value={'STEP'}>STEP</option>
+                <option value={"KM"}>KM</option>
+                <option value={"MILE"}>MILE</option>
+                <option value={"STEP"}>STEP</option>
               </select>
               {/* </div> */}
             </div>
           </div>
-          <div style={{minWidth: 150, minHeight: 240}}>
+          <div style={{ minWidth: 150, minHeight: 240 }}>
             <div className="mhealth-input-box ">
               <label>Supporting Document</label>
             </div>
-            {state.supporting_doc !== '' ? (
+            {state.supporting_doc !== "" ? (
               <>
                 <div
                   className="mhealth-input-box"
                   style={{
                     maxWidth: 145,
                     maxHeight: 200,
-                    backgroundPosition: '50% 50%',
-                    backgroundSize: 'cover',
+                    backgroundPosition: "50% 50%",
+                    backgroundSize: "cover",
                   }}
                 >
                   <img src={state.supporting_doc} width={150} height={150} />
                 </div>
                 <button
-                  style={{margin: 10}}
+                  style={{ margin: 10 }}
                   className="select-supporting-doc-button"
                   onClick={() => {
                     setState({
                       ...state,
-                      supporting_doc: '',
-                      supporting_doc_obj: '',
+                      supporting_doc: "",
+                      supporting_doc_obj: "",
                     });
                   }}
                 >
@@ -192,20 +192,20 @@ export default function AddPastDetailForm({
                   className="select-avatar-button"
                   style={{
                     margin: 0,
-                    marginTop: '1rem',
+                    marginTop: "1rem",
                     height: 170,
                     borderRadius: 4,
-                    borderColor: 'gray',
+                    borderColor: "gray",
                   }}
                   onClick={() => {
-                    document.getElementById('avatar-select-input').click();
+                    document.getElementById("avatar-select-input").click();
                   }}
                 >
                   Select Image
                 </button>
-                <span style={{color: 'red', fontSize: 11}}>
-                  {' '}
-                  Image size should not exceed 2 MB.{' '}
+                <span style={{ color: "red", fontSize: 11 }}>
+                  {" "}
+                  Image size should not exceed 2 MB.{" "}
                 </span>
               </div>
             )}
@@ -213,7 +213,7 @@ export default function AddPastDetailForm({
         </div>
         <div className="mhealth-input-box">
           <button
-            className={disableSubmit ? 'is-disabled' : 'is-success'}
+            className={disableSubmit ? "is-disabled" : "is-success"}
             onClick={handleSubmit}
             disabled={disableSubmit}
           >

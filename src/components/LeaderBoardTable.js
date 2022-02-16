@@ -1,60 +1,60 @@
-import React, {useState, useEffect} from 'react';
-import clsx from 'clsx';
-import {lighten, makeStyles, useTheme} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Paper from '@material-ui/core/Paper';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
-import FilterListIcon from '@material-ui/icons/FilterList';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Avatar from '@material-ui/core/Avatar';
-import Popover from '@material-ui/core/Popover';
-import LeaderBoardFilters from './LeaderBoardFilters';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import {pinUsersAction} from '../services/challengeApi';
-import {APP} from '../utils/appConfig';
-import CSVExport from './CSVExport';
-import TableDataSourceCarousel from './TableDataSourceCarousel';
-import ImageCarousel from './ImageCarousel';
-import {checkForFalsy} from '../utils/commonFunctions';
-import NoData from './NoData';
-import ActiveButton from './Utility/ActiveButton';
-import {Calendar} from 'react-feather';
-import InfoDialog from './Utility/InfoDialog';
-import CancelIcon from '@material-ui/icons/Cancel';
-import {urlPrefix} from '../services/apicollection';
-import axios from 'axios';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import clsx from "clsx";
+import { lighten, makeStyles, useTheme } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Toolbar from "@material-ui/core/Toolbar";
+import Paper from "@material-ui/core/Paper";
+import Checkbox from "@material-ui/core/Checkbox";
+import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
+import FilterListIcon from "@material-ui/icons/FilterList";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Avatar from "@material-ui/core/Avatar";
+import Popover from "@material-ui/core/Popover";
+import LeaderBoardFilters from "./LeaderBoardFilters";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import { pinUsersAction } from "../services/challengeApi";
+import { APP } from "../utils/appConfig";
+import CSVExport from "./CSVExport";
+import TableDataSourceCarousel from "./TableDataSourceCarousel";
+import ImageCarousel from "./ImageCarousel";
+import { checkForFalsy } from "../utils/commonFunctions";
+import NoData from "./NoData";
+import ActiveButton from "./Utility/ActiveButton";
+import { Calendar } from "react-feather";
+import InfoDialog from "./Utility/InfoDialog";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { urlPrefix } from "../services/apicollection";
+import axios from "axios";
+import moment from "moment";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
+      position: "absolute",
+      left: "50%",
+      top: "50%",
     },
     bottom: {
-      color: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+      color: theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
     },
     top: {
-      color: '#1a90ff',
-      animationDuration: '550ms',
-      position: 'absolute',
+      color: "#1a90ff",
+      animationDuration: "550ms",
+      position: "absolute",
       left: 0,
     },
     circle: {
-      strokeLinecap: 'round',
+      strokeLinecap: "round",
     },
   }));
   const classes = useStylesFacebook();
@@ -87,26 +87,26 @@ function FacebookCircularProgress(props) {
 function descendingComparator(a, b, orderBy) {
   let firstValue =
     a[orderBy] == null
-      ? 'zzzzzzzzzzzzzzzz'
-      : typeof a[orderBy] == 'string'
+      ? "zzzzzzzzzzzzzzzz"
+      : typeof a[orderBy] == "string"
       ? a[orderBy]?.toLowerCase()
       : a[orderBy];
   let secondValue =
     b[orderBy] == null
-      ? 'zzzzzzzzzzzzzzzz'
-      : typeof b[orderBy] == 'string'
+      ? "zzzzzzzzzzzzzzzz"
+      : typeof b[orderBy] == "string"
       ? b[orderBy]?.toLowerCase()
       : b[orderBy];
   let modifiedFirst =
-    orderBy == 'userName'
-      ? a['aliasName']
-        ? a['aliasName']?.toLowerCase()
+    orderBy == "userName"
+      ? a["aliasName"]
+        ? a["aliasName"]?.toLowerCase()
         : firstValue
       : firstValue;
   let modifiedSecond =
-    orderBy == 'userName'
-      ? b['aliasName']
-        ? b['aliasName']?.toLowerCase()
+    orderBy == "userName"
+      ? b["aliasName"]
+        ? b["aliasName"]?.toLowerCase()
         : secondValue
       : secondValue;
   if (modifiedSecond < modifiedFirst) {
@@ -119,7 +119,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -136,52 +136,52 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    label: 'Rank',
-    id: 'rank',
+    label: "Rank",
+    id: "rank",
     numeric: true,
     disablePadding: true,
   },
   {
-    label: 'Name',
-    id: 'userName',
+    label: "Name",
+    id: "userName",
     numeric: false,
     disablePadding: true,
   },
 
   {
-    label: 'Achievement',
+    label: "Achievement",
     // id: 'valueTillDate',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Gender',
-    id: 'gender',
+    label: "Gender",
+    id: "gender",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'City',
-    id: 'city',
+    label: "City",
+    id: "city",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Source',
-    id: 'dataSource',
+    label: "Source",
+    id: "dataSource",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Date',
-    id: 'valueTillDate',
+    label: "Date",
+    id: "valueTillDate",
     numeric: false,
     disablePadding: true,
   },
 
   {
-    label: 'Km',
-    id: 'lastDistanceCovered',
+    label: "Km",
+    id: "lastDistanceCovered",
     numeric: true,
     disablePadding: true,
   },
@@ -193,26 +193,26 @@ const headCells = [
   //   disablePadding: true
   // },
   {
-    label: 'Total.Km',
-    id: 'value',
+    label: "Total.Km",
+    id: "value",
     numeric: true,
     disablePadding: true,
   },
   {
-    label: 'Avg.Km',
-    id: 'averageDistanceCovered',
+    label: "Avg.Km",
+    id: "averageDistanceCovered",
     numeric: true,
     disablePadding: true,
   },
   {
-    label: 'Lead',
-    id: 'leadBy',
+    label: "Lead",
+    id: "leadBy",
     numeric: true,
     disablePadding: true,
   },
   {
-    label: 'Active.Day',
-    id: 'totalParticipationDays',
+    label: "Active.Day",
+    id: "totalParticipationDays",
     numeric: true,
     disablePadding: true,
   },
@@ -239,7 +239,7 @@ function EnhancedTableHead(props) {
         {pinActive && (
           <TableCell padding="checkbox">
             <Checkbox
-              inputProps={{'aria-label': 'select all desserts'}}
+              inputProps={{ "aria-label": "select all desserts" }}
               disabled={true}
             />
           </TableCell>
@@ -247,21 +247,21 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             // style={{}}
-            style={{padding: 1}}
+            style={{ padding: 1 }}
             key={headCell.id}
             align="center"
-            padding={headCell.disablePadding ? 'none' : 'default'}
+            padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -278,19 +278,19 @@ const useToolbarStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(1),
   },
   highlight:
-    theme.palette.type === 'light'
+    theme.palette.type === "light"
       ? {
-          color: '#0277bd',
+          color: "#0277bd",
           // border: "1px solid #f5f5f5",
-          minHeight: '34px',
-          marginTop: '11px',
+          minHeight: "34px",
+          marginTop: "11px",
         }
       : {
-          color: '#0277bd',
+          color: "#0277bd",
           // border: "1px solid #f5f5f5",
         },
   title: {
-    flex: '1 1 100%',
+    flex: "1 1 100%",
   },
 }));
 
@@ -304,7 +304,7 @@ const useStyles1 = makeStyles((theme) => ({
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
-  const {count, page, rowsPerPage, onChangePage} = props;
+  const { count, page, rowsPerPage, onChangePage } = props;
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -324,22 +324,22 @@ function TablePaginationActions(props) {
   };
 
   return (
-    <div className={classes.root} style={{display: 'flex'}}>
+    <div className={classes.root} style={{ display: "flex" }}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? (
+        {theme.direction === "rtl" ? (
           <KeyboardArrowRight />
         ) : (
           <KeyboardArrowLeft />
@@ -349,9 +349,9 @@ function TablePaginationActions(props) {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? (
+        {theme.direction === "rtl" ? (
           <KeyboardArrowLeft />
         ) : (
           <KeyboardArrowRight />
@@ -361,9 +361,9 @@ function TablePaginationActions(props) {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );
@@ -371,10 +371,10 @@ function TablePaginationActions(props) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   paper: {
-    width: '100%',
+    width: "100%",
     marginBottom: theme.spacing(2),
   },
   table: {
@@ -382,12 +382,12 @@ const useStyles = makeStyles((theme) => ({
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     width: 1,
   },
@@ -401,7 +401,12 @@ export default function EnhancedTable({
   const classes = useStyles();
   const [leaderboardList, setLeaderboardList] = useState(leaderBoardData);
   // useEffect(() => {setLeaderboardList(leaderBoardData)}, [leaderBoardData.loading===false]);
-  console.log(leaderboardList, leaderBoardData,currentEvent, 'lareafcdascvsdvc');
+  console.log(
+    leaderboardList,
+    leaderBoardData,
+    currentEvent,
+    "lareafcdascvsdvc"
+  );
   const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const {
@@ -428,11 +433,11 @@ export default function EnhancedTable({
     };
 
     const filterPopoverOpen = Boolean(filterPopoverAnchorEl);
-    const filterPopoverId = filterPopoverOpen ? 'simple-popover' : undefined;
+    const filterPopoverId = filterPopoverOpen ? "simple-popover" : undefined;
 
     const handlePinSave = () => {
       setPinActive(false);
-      let pinnedUsers = leaderboardList['data']['rankWiseBoard']
+      let pinnedUsers = leaderboardList["data"]["rankWiseBoard"]
         .filter((item) => selected.includes(item.rank))
         .map((item) => item.userId);
       let payload = {
@@ -442,22 +447,22 @@ export default function EnhancedTable({
       pinUsersAction(payload);
 
       if (
-        leaderboardList['data']['rankWiseBoard'] &&
-        leaderboardList['data']['sessionUserRank']
+        leaderboardList["data"]["rankWiseBoard"] &&
+        leaderboardList["data"]["sessionUserRank"]
       ) {
         setTableRowData([
-          leaderboardList['data']['sessionUserRank'],
-          ...leaderboardList['data']['rankWiseBoard'].filter(
+          leaderboardList["data"]["sessionUserRank"],
+          ...leaderboardList["data"]["rankWiseBoard"].filter(
             (item) =>
               pinnedUsers.includes(item.userId) &&
               item.userId !==
-                leaderboardList['data']['sessionUserRank']['userId']
+                leaderboardList["data"]["sessionUserRank"]["userId"]
           ),
-          ...leaderboardList['data']['rankWiseBoard'].filter(
+          ...leaderboardList["data"]["rankWiseBoard"].filter(
             (item) =>
               !pinnedUsers.includes(item.userId) &&
               item.userId !==
-                leaderboardList['data']['sessionUserRank']['userId']
+                leaderboardList["data"]["sessionUserRank"]["userId"]
           ),
         ]);
       }
@@ -471,27 +476,27 @@ export default function EnhancedTable({
           })}
         >
           <div>
-            {pinActive && currentEvent['id'] ? (
+            {pinActive && currentEvent["id"] ? (
               <div
                 className="leaderboard-table-title challenges-heading"
-                style={{width: '120px'}}
+                style={{ width: "120px" }}
               >
                 {numSelected}/
                 {`${currentEvent.pinnedUserCount}\n friends pinned`}
               </div>
             ) : (
-              ''
+              ""
             )}
           </div>
-          {pinActive && currentEvent['id'] ? (
+          {pinActive && currentEvent["id"] ? (
             <>
               <button
                 variant="contained"
                 onClick={() => handlePinSave()}
                 className="pin-users-save-button"
                 style={{
-                  background: '#DCFCE7',
-                  color: '#166534',
+                  background: "#DCFCE7",
+                  color: "#166534",
                   borderRadius: 2,
                   height: 20,
                 }}
@@ -500,7 +505,7 @@ export default function EnhancedTable({
               </button>
             </>
           ) : (
-            ''
+            ""
           )}
           <Popover
             id={filterPopoverId}
@@ -508,12 +513,12 @@ export default function EnhancedTable({
             anchorEl={filterPopoverAnchorEl}
             onClose={handlefilterPopoverClose}
             anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
+              vertical: "bottom",
+              horizontal: "left",
             }}
             transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
+              vertical: "top",
+              horizontal: "right",
             }}
           >
             <div>
@@ -532,81 +537,78 @@ export default function EnhancedTable({
     );
   };
   const [tableRowData, setTableRowData] = useState([]);
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [pinActive, setPinActive] = useState(false);
   const [filters, setFilters] = useState({
-    gender: '',
+    gender: "",
     age: [0, 100],
-    city: '',
-    pinCode: '',
-    state: '',
+    city: "",
+    pinCode: "",
+    state: "",
     activeDays: [0, 365],
   });
   const [isActive, setActive] = useState(true);
 
   const settingTableData = () => {
-  
-    
-      if (leaderboardList && leaderboardList['data'] && currentEvent['id']) {
-        let pinnedUsers = leaderboardList['data']['pinUserRank']
-          ? leaderboardList['data']['pinUserRank'].map((item) => item.userId)
-          : [];
+    if (leaderboardList && leaderboardList["data"] && currentEvent["id"]) {
+      let pinnedUsers = leaderboardList["data"]["pinUserRank"]
+        ? leaderboardList["data"]["pinUserRank"].map((item) => item.userId)
+        : [];
 
-        if (leaderboardList['data']['rankWiseBoard']) {
-          if (leaderboardList['data']['sessionUserRank']) {
-            let tableData = [
-              leaderboardList['data']['sessionUserRank'],
-              ...leaderboardList['data']['rankWiseBoard'].filter(
-                (item) =>
-                  pinnedUsers.includes(item.userId) &&
+      if (leaderboardList["data"]["rankWiseBoard"]) {
+        if (leaderboardList["data"]["sessionUserRank"]) {
+          let tableData = [
+            leaderboardList["data"]["sessionUserRank"],
+            ...leaderboardList["data"]["rankWiseBoard"].filter(
+              (item) =>
+                pinnedUsers.includes(item.userId) &&
+                item.userId !==
+                  leaderboardList["data"]["sessionUserRank"]["userId"]
+            ),
+            ...leaderboardList["data"]["rankWiseBoard"].filter((item) =>
+              isActive
+                ? !pinnedUsers.includes(item.userId) &&
                   item.userId !==
-                    leaderboardList['data']['sessionUserRank']['userId']
-              ),
-              ...leaderboardList['data']['rankWiseBoard'].filter((item) =>
-                isActive
-                  ? !pinnedUsers.includes(item.userId) &&
-                    item.userId !==
-                      leaderboardList['data']['sessionUserRank']['userId'] &&
-                    item.totalParticipationDays > 0
-                  : !pinnedUsers.includes(item.userId) &&
-                    item.userId !==
-                      leaderboardList['data']['sessionUserRank']['userId']
-              ),
-            ];
-            setTableRowData(tableData);
-          } else {
-            let tableData = [
-              ...leaderboardList['data']['rankWiseBoard'].filter((item) =>
-                pinnedUsers.includes(item.userId)
-              ),
-              ...leaderboardList['data']['rankWiseBoard'].filter((item) =>
-                isActive
-                  ? !pinnedUsers.includes(item.userId) &&
-                    item.totalParticipationDays > 0
-                  : !pinnedUsers.includes(item.userId)
-              ),
-            ];
+                    leaderboardList["data"]["sessionUserRank"]["userId"] &&
+                  item.totalParticipationDays > 0
+                : !pinnedUsers.includes(item.userId) &&
+                  item.userId !==
+                    leaderboardList["data"]["sessionUserRank"]["userId"]
+            ),
+          ];
+          setTableRowData(tableData);
+        } else {
+          let tableData = [
+            ...leaderboardList["data"]["rankWiseBoard"].filter((item) =>
+              pinnedUsers.includes(item.userId)
+            ),
+            ...leaderboardList["data"]["rankWiseBoard"].filter((item) =>
+              isActive
+                ? !pinnedUsers.includes(item.userId) &&
+                  item.totalParticipationDays > 0
+                : !pinnedUsers.includes(item.userId)
+            ),
+          ];
 
-            setTableRowData(tableData);
-          }
-        }
-
-        if (leaderboardList['data']['pinUserRank']) {
-          setSelected(
-            leaderboardList['data']['pinUserRank'].map((item) => item.rank)
-          );
+          setTableRowData(tableData);
         }
       }
+
+      if (leaderboardList["data"]["pinUserRank"]) {
+        setSelected(
+          leaderboardList["data"]["pinUserRank"].map((item) => item.rank)
+        );
+      }
+    }
   };
   useEffect(() => {
     setPinActive(false);
     setSelected([]);
     settingTableData();
-    
   }, [leaderBoardData]);
 
   useEffect(() => {
@@ -615,15 +617,15 @@ export default function EnhancedTable({
 
   useEffect(() => {
     if (challengeSwitch) {
-      setActive(challengeSwitch == 'upcoming' ? false : true);
+      setActive(challengeSwitch == "upcoming" ? false : true);
     }
   }, [challengeSwitch]);
- useEffect(() => {
-  setActive(true)
- }, [currentEvent])
+  useEffect(() => {
+    setActive(true);
+  }, [currentEvent]);
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -648,10 +650,10 @@ export default function EnhancedTable({
         );
       }
       if (
-        leaderboardList['data'] &&
-        leaderboardList['data']['sessionUserRank']
+        leaderboardList["data"] &&
+        leaderboardList["data"]["sessionUserRank"]
       ) {
-        if (leaderboardList['data']['sessionUserRank']['rank'] !== rank) {
+        if (leaderboardList["data"]["sessionUserRank"]["rank"] !== rank) {
           setSelected(newSelected);
         }
       } else {
@@ -684,9 +686,9 @@ export default function EnhancedTable({
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? "simple-popover" : undefined;
   const [showCarousel, setShowCarousel] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   const getFilterData = () => {
     const filterData = leaderboardList.data.rankWiseBoard.filter((v) =>
@@ -699,13 +701,13 @@ export default function EnhancedTable({
 
   const getStatusImg = (url) => {
     return (
-      <div style={{width: 30}}>
-        <img src={url} width={'100%'} />
+      <div style={{ width: 30 }}>
+        <img src={url} width={"100%"} />
       </div>
     );
   };
   const today = new Date();
-  
+
   const weekMonth = new Date();
   const first = new Date(
     weekMonth.setDate(weekMonth.getDate() - weekMonth.getDay())
@@ -713,61 +715,63 @@ export default function EnhancedTable({
   const last = new Date(
     weekMonth.setDate(weekMonth.getDate() - weekMonth.getDay() + 6)
   );
-  const month = moment(today).format('YYYY-MM-DD');
-     const lastweekstart = new Date(
-       weekMonth.getFullYear(),
-       weekMonth.getMonth(),
-       weekMonth.getDate() - 14
-     );
-     const lastweekend = new Date(
-       weekMonth.getFullYear(),
-       weekMonth.getMonth(),
-       weekMonth.getDate() - 7
-     );
-     const currdate=new Date()
-     const prevStartDate = new Date(
-       currdate.getFullYear(),
-       currdate.getMonth() - 1,
-       1
-     );
-     const preEndDate = new Date(
-       currdate.getFullYear(),
-       currdate.getMonth() - 1 + 1,
-       0
-     );
-  console.log(today, prevStartDate, preEndDate, 'today');
+  const month = moment(today).format("YYYY-MM-DD");
+  const lastweekstart = new Date(
+    weekMonth.getFullYear(),
+    weekMonth.getMonth(),
+    weekMonth.getDate() - 14
+  );
+  const lastweekend = new Date(
+    weekMonth.getFullYear(),
+    weekMonth.getMonth(),
+    weekMonth.getDate() - 7
+  );
+  const currdate = new Date();
+  const prevStartDate = new Date(
+    currdate.getFullYear(),
+    currdate.getMonth() - 1,
+    1
+  );
+  const preEndDate = new Date(
+    currdate.getFullYear(),
+    currdate.getMonth() - 1 + 1,
+    0
+  );
+  console.log(today, prevStartDate, preEndDate, "today");
   const [dateRange, setDateRange] = useState(false);
   const [startDate, setStartDate] = useState(
     currentEvent.challengeStartDate.substring(0, 10)
   );
   const [endDate, setEndDate] = useState(
-    moment(today).format('YYYY-MM-DD') >
+    moment(today).format("YYYY-MM-DD") >
       currentEvent.challengeEndDate.substring(0, 10)
       ? currentEvent.challengeEndDate.substring(0, 10)
-      : moment(today).format('YYYY-MM-DD')
+      : moment(today).format("YYYY-MM-DD")
   );
-const [showStartDate,setShowStartDate]=useState(moment(startDate).format("DD-MM-YYYY"));
-const [showEndDate, setShowEndDate] = useState(
-  moment(endDate).format('DD-MM-YYYY')
-);
+  const [showStartDate, setShowStartDate] = useState(
+    moment(startDate).format("DD-MM-YYYY")
+  );
+  const [showEndDate, setShowEndDate] = useState(
+    moment(endDate).format("DD-MM-YYYY")
+  );
   const handleChange = (selectedStartDate, selectedEndDate) => {
-    setShowStartDate(moment(selectedStartDate).format('DD-MM-YYYY'));
-    setShowEndDate(moment(selectedEndDate).format('DD-MM-YYYY'));
+    setShowStartDate(moment(selectedStartDate).format("DD-MM-YYYY"));
+    setShowEndDate(moment(selectedEndDate).format("DD-MM-YYYY"));
     const URL = `${urlPrefix}v1.0/getLeaderBoardData?challengerZoneId=${localStorage.getItem(
-      'selectEvent'
+      "selectEvent"
     )}&endDate=${selectedEndDate}&startDate=${selectedStartDate}`;
 
     return axios
       .get(URL, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -784,14 +788,14 @@ const [showEndDate, setShowEndDate] = useState(
           //   setEndDate(moment(today).format('YYYY-MM-DD'));
           // }
           setActive(true);
-          if (res.data.response.responseMessage === 'SUCCESS') {
+          if (res.data.response.responseMessage === "SUCCESS") {
             setDateRange(false);
             setStartDate(currentEvent.challengeStartDate.substring(0, 10));
             setEndDate(
-              moment(today).format('YYYY-MM-DD') >
+              moment(today).format("YYYY-MM-DD") >
                 currentEvent.challengeEndDate.substring(0, 10)
                 ? currentEvent.challengeEndDate.substring(0, 10)
-                : moment(today).format('YYYY-MM-DD')
+                : moment(today).format("YYYY-MM-DD")
             );
             let data = res.data.response.responseData.challengerWiseLeaderBoard;
             setLeaderboardList({
@@ -805,14 +809,14 @@ const [showEndDate, setShowEndDate] = useState(
         }
       });
   };
-  console.log(tableRowData, 'data');
+  console.log(tableRowData, "data");
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <TableContainer style={{marginTop: '-2px'}}>
-          <div className="table-search-container" style={{marginTop: '-2px'}}>
-            <div style={{marginTop: '-10px'}}>
-              {pinActive && currentEvent['id'] ? (
+        <TableContainer style={{ marginTop: "-2px" }}>
+          <div className="table-search-container" style={{ marginTop: "-2px" }}>
+            <div style={{ marginTop: "-10px" }}>
+              {pinActive && currentEvent["id"] ? (
                 <EnhancedTableToolbar
                   numSelected={selected.length}
                   leaderboardList={leaderboardList}
@@ -826,17 +830,17 @@ const [showEndDate, setShowEndDate] = useState(
                 />
               ) : (
                 <div className="leaderboard-table-button-wrapper">
-                  {currentEvent['id'] && (
+                  {currentEvent["id"] && (
                     <Tooltip title="Pin users">
                       <button
                         style={{
                           height: 20,
-                          background: '#E0E7FF',
-                          color: '#4338CA',
+                          background: "#E0E7FF",
+                          color: "#4338CA",
                           borderRadius: 2,
                           width: 90,
                           marginLeft: 10,
-                          cursor: 'pointer',
+                          cursor: "pointer",
                         }}
                         onClick={() => setPinActive(!pinActive)}
                       >
@@ -859,18 +863,18 @@ const [showEndDate, setShowEndDate] = useState(
                 </div>
               )}
             </div>
-            {!pinActive && currentEvent['id'] ? (
-              <div className=" challenges-heading" style={{marginTop: '8px'}}>
+            {!pinActive && currentEvent["id"] ? (
+              <div className=" challenges-heading" style={{ marginTop: "8px" }}>
                 {/* {currentEvent && currentEvent["challengeName"]
               ? currentEvent["challengeName"]
               : "Table Title"} */}
                 <span
                   style={{
                     marginLeft: 5,
-                    color: '#000',
+                    color: "#000",
                     fontWeight: 700,
-                    display: 'flex',
-                    width: '250px',
+                    display: "flex",
+                    width: "250px",
                   }}
                   // className="table-search-container"
                 >
@@ -882,30 +886,30 @@ const [showEndDate, setShowEndDate] = useState(
                       marginTop="-50px"
                     />
                   </span>
-                  <span style={{marginTop: '5px', marginLeft: '5px'}}>
+                  <span style={{ marginTop: "5px", marginLeft: "5px" }}>
                     {currentEvent
-                      ? currentEvent['moderatorName']
-                        ? ` : ${currentEvent['moderatorName']} ${
-                            currentEvent['moderatorMobileNumber']
-                              ? ' , ' + currentEvent['moderatorMobileNumber']
-                              : ' )'
+                      ? currentEvent["moderatorName"]
+                        ? ` : ${currentEvent["moderatorName"]} ${
+                            currentEvent["moderatorMobileNumber"]
+                              ? " , " + currentEvent["moderatorMobileNumber"]
+                              : " )"
                           }`
-                        : ''
-                      : ''}
+                        : ""
+                      : ""}
                   </span>
                 </span>
               </div>
             ) : (
-              ''
+              ""
             )}
 
             <div className="d-flex a-i-center">
               <input
                 className="table-search"
                 placeholder="Search by name"
-                style={{marginTop: '2px', width: '110px'}}
+                style={{ marginTop: "2px", width: "110px" }}
                 onChange={(e) => {
-                  if (e.target.value === '') {
+                  if (e.target.value === "") {
                     settingTableData();
                     return;
                   }
@@ -930,7 +934,7 @@ const [showEndDate, setShowEndDate] = useState(
                 ActionsComponent={TablePaginationActions}
               />
               {leaderboardList?.data?.rankWiseBoard?.length > 0 &&
-                currentEvent['id'] && (
+                currentEvent["id"] && (
                   <>
                     <p title="Export data">
                       <CSVExport
@@ -939,7 +943,7 @@ const [showEndDate, setShowEndDate] = useState(
                             ? leaderboardList?.data?.rankWiseBoard
                             : []
                         }
-                        filename={`${leaderboardList['data']['challengerZoneName']}.csv`}
+                        filename={`${leaderboardList["data"]["challengerZoneName"]}.csv`}
                         source="dashboard"
                       />
                     </p>
@@ -951,9 +955,9 @@ const [showEndDate, setShowEndDate] = useState(
                 height="25px"
                 width="25px"
                 onClick={() => setDateRange(true)}
-                style={{cursor: 'pointer', marginTop: '-5px'}}
+                style={{ cursor: "pointer", marginTop: "-5px" }}
               />
-              <span style={{fontWeight: '800', marginLeft: '5px'}}>[</span>{' '}
+              <span style={{ fontWeight: "800", marginLeft: "5px" }}>[</span>{" "}
               <span
                 // type="date"
 
@@ -963,14 +967,14 @@ const [showEndDate, setShowEndDate] = useState(
                   // borderRadius: 6,
                   fontSize: 12,
 
-                  marginLeft: '2px',
-                  fontWeight: '800',
+                  marginLeft: "2px",
+                  fontWeight: "800",
                 }}
               >
                 {showStartDate.substring(0, 6)}
                 {showStartDate.substring(8)}
               </span>
-              <span style={{fontWeight: '800', marginLeft: '8px'}}>-</span>{' '}
+              <span style={{ fontWeight: "800", marginLeft: "8px" }}>-</span>{" "}
               <span
                 // type="date"
 
@@ -980,14 +984,14 @@ const [showEndDate, setShowEndDate] = useState(
                   // borderRadius: 6,
                   fontSize: 12,
 
-                  marginLeft: '5px',
-                  fontWeight: '800',
+                  marginLeft: "5px",
+                  fontWeight: "800",
                 }}
               >
                 {showEndDate.substring(0, 6)}
                 {showEndDate.substring(8)}
               </span>
-              <span style={{fontWeight: '800'}}>]</span>
+              <span style={{ fontWeight: "800" }}>]</span>
             </div>
             <div></div>
           </div>
@@ -995,7 +999,7 @@ const [showEndDate, setShowEndDate] = useState(
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={'small'}
+            size={"small"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -1014,14 +1018,14 @@ const [showEndDate, setShowEndDate] = useState(
                   <TableCell
                     colSpan={10}
                     style={{
-                      position: 'relative',
+                      position: "relative",
                       height: 200,
                     }}
                   >
                     <FacebookCircularProgress />
                   </TableCell>
                 </TableRow>
-              ) : tableRowData.length > 0 && currentEvent['id'] ? (
+              ) : tableRowData.length > 0 && currentEvent["id"] ? (
                 <>
                   {stableSort(tableRowData, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -1040,17 +1044,17 @@ const [showEndDate, setShowEndDate] = useState(
                           role="checkbox"
                           aria-checked={isItemSelected}
                           tabIndex={-1}
-                          key={row.rank + '' + index}
+                          key={row.rank + "" + index}
                           selected={isItemSelected}
                           style={
-                            leaderboardList['data'] &&
-                            leaderboardList['data']['sessionUserRank'] &&
+                            leaderboardList["data"] &&
+                            leaderboardList["data"]["sessionUserRank"] &&
                             row.rank ==
-                              leaderboardList['data']['sessionUserRank']['rank']
-                              ? {background: '#e8f5e9'}
+                              leaderboardList["data"]["sessionUserRank"]["rank"]
+                              ? { background: "#e8f5e9" }
                               : isItemSelected
                               ? {
-                                  backgroundColor: '#e0f2fe',
+                                  backgroundColor: "#e0f2fe",
                                 }
                               : {}
                           }
@@ -1062,46 +1066,46 @@ const [showEndDate, setShowEndDate] = useState(
                                   handleClick(event, row.rank)
                                 }
                                 checked={isItemSelected}
-                                inputProps={{'aria-labelledby': labelId}}
+                                inputProps={{ "aria-labelledby": labelId }}
                                 disabled={
-                                  leaderboardList['data'] &&
-                                  leaderboardList['data']['sessionUserRank'] &&
+                                  leaderboardList["data"] &&
+                                  leaderboardList["data"]["sessionUserRank"] &&
                                   row.rank ==
-                                    leaderboardList['data']['sessionUserRank'][
-                                      'rank'
+                                    leaderboardList["data"]["sessionUserRank"][
+                                      "rank"
                                     ]
                                 }
                               />
                             </TableCell>
                           )}
                           <TableCell
-                            style={{padding: 2}}
+                            style={{ padding: 2 }}
                             component="th"
                             id={labelId}
                             scope="row"
                             padding="none"
                             align="center"
                           >
-                            <div style={{fontSize: '12px'}}>
-                              {row.rank ? row.rank : '-'}
+                            <div style={{ fontSize: "12px" }}>
+                              {row.rank ? row.rank : "-"}
                             </div>
                           </TableCell>
-                          <TableCell align="center" style={{padding: 5}}>
+                          <TableCell align="center" style={{ padding: 5 }}>
                             <div
                               style={{
-                                display: 'flex',
-                                alignItems: 'center',
+                                display: "flex",
+                                alignItems: "center",
                                 fontSize: 12,
-                                justifyContent: 'space-between',
-                                width: '100%',
+                                justifyContent: "space-between",
+                                width: "100%",
                               }}
                             >
                               <div
                                 style={{
-                                  display: 'flex',
-                                  flexDirection: 'row',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  justifyContent: "center",
+                                  alignItems: "center",
                                 }}
                               >
                                 <Avatar
@@ -1115,19 +1119,19 @@ const [showEndDate, setShowEndDate] = useState(
                                 />
                                 <div
                                   style={{
-                                    width: 'max-content',
-                                    fontSize: '12px',
+                                    width: "max-content",
+                                    fontSize: "12px",
                                   }}
                                 >
                                   {row.aliasName
                                     ? row.aliasName
                                     : row.userName
                                     ? row.userName
-                                    : '-'}
+                                    : "-"}
                                 </div>
                               </div>
                               <div>
-                                <div style={{marginLeft: '0.75em'}}>
+                                <div style={{ marginLeft: "0.75em" }}>
                                   {row.toolTipMessage && (
                                     <Tooltip
                                       title={row.toolTipMessage}
@@ -1142,40 +1146,40 @@ const [showEndDate, setShowEndDate] = useState(
                               </div>
                             </div>
                           </TableCell>
-                          <TableCell align="center" style={{padding: 0}}>
-                            <div style={{fontSize: 12}}>
+                          <TableCell align="center" style={{ padding: 0 }}>
+                            <div style={{ fontSize: 12 }}>
                               {row.achievementIcon ? (
                                 <img
                                   style={{
                                     width: 35,
                                     height: 35,
-                                    borderRadius: '100%',
+                                    borderRadius: "100%",
                                   }}
                                   src={
                                     row.achievementIcon && row.achievementIcon
                                   }
                                 />
                               ) : (
-                                '-'
+                                "-"
                               )}
                             </div>
-                          </TableCell>{' '}
+                          </TableCell>{" "}
                           <TableCell align="center" style={{}}>
-                            <div style={{fontSize: 12, padding: 5}}>
-                              {(row.gender && row.gender === 'Male') ||
-                              row.gender === 'male' ||
-                              row.gender === 'MALE' ? (
+                            <div style={{ fontSize: 12, padding: 5 }}>
+                              {(row.gender && row.gender === "Male") ||
+                              row.gender === "male" ||
+                              row.gender === "MALE" ? (
                                 <img
                                   src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Male.png"
                                   style={{
-                                    objectFit: 'cover',
+                                    objectFit: "cover",
                                     width: 25,
                                     height: 25,
                                   }}
                                 />
-                              ) : row.gender == 'Female' ||
-                                row.gender === 'female' ||
-                                row.gender === 'FEMALE' ? (
+                              ) : row.gender == "Female" ||
+                                row.gender === "female" ||
+                                row.gender === "FEMALE" ? (
                                 <img
                                   src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Female.png"
                                   style={{
@@ -1184,31 +1188,31 @@ const [showEndDate, setShowEndDate] = useState(
                                   }}
                                 />
                               ) : (
-                                '-'
+                                "-"
                               )}
                             </div>
                           </TableCell>
                           <TableCell align="center">
-                            <div style={{fontSize: 12}}>
-                              {row.city ? row.city : '-'}
+                            <div style={{ fontSize: 12 }}>
+                              {row.city ? row.city : "-"}
                             </div>
                           </TableCell>
-                          <TableCell align="center" style={{padding: 0}}>
+                          <TableCell align="center" style={{ padding: 0 }}>
                             <div
                               style={{
                                 fontSize: 12,
                                 cursor:
-                                  (row.dataSource === 'WHATSAPP' ||
-                                    row.dataSource === 'WEB') &&
+                                  (row.dataSource === "WHATSAPP" ||
+                                    row.dataSource === "WEB") &&
                                   row?.whatsappImageDataSet?.length > 0
-                                    ? 'pointer'
-                                    : 'default',
+                                    ? "pointer"
+                                    : "default",
                               }}
                               aria-describedby={id}
                               onClick={(e) => {
                                 if (
-                                  (row.dataSource === 'WHATSAPP' ||
-                                    row.dataSource === 'WEB') &&
+                                  (row.dataSource === "WHATSAPP" ||
+                                    row.dataSource === "WEB") &&
                                   row?.whatsappImageDataSet?.length > 0
                                 ) {
                                   setSelectedUserData(row);
@@ -1220,7 +1224,7 @@ const [showEndDate, setShowEndDate] = useState(
                                 src={
                                   row.dataSource
                                     ? APP.dataSourceLogo[row.dataSource]
-                                    : 'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/NotSet.svg'
+                                    : "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/NotSet.svg"
                                 }
                                 style={{
                                   width: 30,
@@ -1230,23 +1234,23 @@ const [showEndDate, setShowEndDate] = useState(
                             </div>
                           </TableCell>
                           <TableCell align="center">
-                            <div style={{fontSize: 12, width: 70}}>
-                              {row.valueTillDate ? row.valueTillDate : '-'}
+                            <div style={{ fontSize: 12, width: 70 }}>
+                              {row.valueTillDate ? row.valueTillDate : "-"}
                             </div>
                           </TableCell>
-                          <TableCell align="center" style={{padding: 3}}>
+                          <TableCell align="center" style={{ padding: 3 }}>
                             <div
                               style={{
                                 // width: 40,
                                 fontSize: 12,
-                                display: 'flex',
-                                justifyContent: 'space-between',
+                                display: "flex",
+                                justifyContent: "space-between",
                               }}
                             >
                               <div>
                                 {row.lastDistanceCovered
                                   ? row.lastDistanceCovered.toFixed(2)
-                                  : '0'}{' '}
+                                  : "0"}{" "}
                               </div>
                               {row.verificationImage ? (
                                 <Tooltip
@@ -1265,32 +1269,32 @@ const [showEndDate, setShowEndDate] = useState(
                                   />
                                 </Tooltip>
                               ) : (
-                                ''
+                                ""
                               )}
                             </div>
                           </TableCell>
-                          <TableCell align="center" style={{padding: 0}}>
-                            <div style={{fontSize: 12}}>
-                              {row.value ? row.value.toFixed(2) : '0'}
+                          <TableCell align="center" style={{ padding: 0 }}>
+                            <div style={{ fontSize: 12 }}>
+                              {row.value ? row.value.toFixed(2) : "0"}
                             </div>
                           </TableCell>
                           <TableCell align="center">
-                            <div style={{fontSize: 12}}>
+                            <div style={{ fontSize: 12 }}>
                               {row.averageDistanceCovered
                                 ? row.averageDistanceCovered.toFixed(2)
-                                : '0'}
+                                : "0"}
                             </div>
                           </TableCell>
-                          <TableCell align="center" style={{padding: 0}}>
-                            <div style={{fontSize: 12}}>
-                              {row.leadBy ? row.leadBy : ''}
+                          <TableCell align="center" style={{ padding: 0 }}>
+                            <div style={{ fontSize: 12 }}>
+                              {row.leadBy ? row.leadBy : ""}
                             </div>
                           </TableCell>
-                          <TableCell align="center" style={{padding: 0}}>
-                            <div style={{fontSize: 12}}>
+                          <TableCell align="center" style={{ padding: 0 }}>
+                            <div style={{ fontSize: 12 }}>
                               {row.totalParticipationDays
                                 ? row.totalParticipationDays
-                                : '0'}
+                                : "0"}
                             </div>
                           </TableCell>
                         </TableRow>
@@ -1302,19 +1306,19 @@ const [showEndDate, setShowEndDate] = useState(
                   <TableCell
                     colSpan={pinActive ? 11 : 10}
                     style={{
-                      position: 'relative',
+                      position: "relative",
                       height: 100,
                     }}
                   >
                     <p
                       style={{
-                        textAlign: 'center',
-                        margin: '100px 0',
-                        color: '#8e8e8e',
+                        textAlign: "center",
+                        margin: "100px 0",
+                        color: "#8e8e8e",
                       }}
                     >
-                      {leaderboardList.message === 'SUCCESS' ? (
-                        'Data is not present'
+                      {leaderboardList.message === "SUCCESS" ? (
+                        "Data is not present"
                       ) : (
                         <NoData />
                       )}
@@ -1338,7 +1342,7 @@ const [showEndDate, setShowEndDate] = useState(
         {open &&
           selectedUserData &&
           selectedUserData.whatsappImageDataSet.length !== 0 && (
-            <ImageCarousel {...{selectedUserData}} />
+            <ImageCarousel {...{ selectedUserData }} />
           )}
       </TableDataSourceCarousel>
       {dateRange && (
@@ -1348,40 +1352,40 @@ const [showEndDate, setShowEndDate] = useState(
             setDateRange(false);
             setStartDate(currentEvent.challengeStartDate.substring(0, 10));
             setEndDate(
-              moment(today).format('YYYY-MM-DD') >
+              moment(today).format("YYYY-MM-DD") >
                 currentEvent.challengeEndDate.substring(0, 10)
                 ? currentEvent.challengeEndDate.substring(0, 10)
-                : moment(today).format('YYYY-MM-DD')
+                : moment(today).format("YYYY-MM-DD")
             );
           }}
         >
           <CancelIcon
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 5,
               right: 5,
-              color: '#ef5350',
-              cursor: 'pointer',
+              color: "#ef5350",
+              cursor: "pointer",
             }}
             onClick={() => {
               setDateRange(false);
               setStartDate(currentEvent.challengeStartDate.substring(0, 10));
               setEndDate(
-                moment(today).format('YYYY-MM-DD') >
+                moment(today).format("YYYY-MM-DD") >
                   currentEvent.challengeEndDate.substring(0, 10)
                   ? currentEvent.challengeEndDate.substring(0, 10)
-                  : moment(today).format('YYYY-MM-DD')
+                  : moment(today).format("YYYY-MM-DD")
               );
             }}
           />
           <div className="leaderBoard-modal-date">
-            <div style={{width: '38%', marginLeft: '20px'}}>
+            <div style={{ width: "38%", marginLeft: "20px" }}>
               <button
                 style={{
-                  backgroundColor: '#4d88ff',
-                  color: 'white',
-                  width: '88%',
-                  height: '29px',
+                  backgroundColor: "#4d88ff",
+                  color: "white",
+                  width: "88%",
+                  height: "29px",
                 }}
                 onClick={() => {
                   // setStartDate(
@@ -1395,10 +1399,10 @@ const [showEndDate, setShowEndDate] = useState(
                   //   ),
                   handleChange(
                     currentEvent.challengeStartDate.substring(0, 10),
-                    moment(today).format('YYYY-MM-DD') >
+                    moment(today).format("YYYY-MM-DD") >
                       currentEvent.challengeEndDate.substring(0, 10)
                       ? currentEvent.challengeEndDate.substring(0, 10)
-                      : moment(today).format('YYYY-MM-DD')
+                      : moment(today).format("YYYY-MM-DD")
                   );
                 }}
               >
@@ -1406,18 +1410,18 @@ const [showEndDate, setShowEndDate] = useState(
               </button>
               <button
                 style={{
-                  backgroundColor: '#4d88ff',
-                  color: 'white',
-                  width: '88%',
-                  marginTop: '2%',
-                  height: '29px',
+                  backgroundColor: "#4d88ff",
+                  color: "white",
+                  width: "88%",
+                  marginTop: "2%",
+                  height: "29px",
                 }}
                 onClick={() => {
                   // setStartDate(moment(first).format('YYYY-MM-DD')),
                   //   setEndDate(moment(last).format('YYYY-MM-DD')),
                   handleChange(
-                    moment(first).format('YYYY-MM-DD'),
-                    moment(last).format('YYYY-MM-DD')
+                    moment(first).format("YYYY-MM-DD"),
+                    moment(last).format("YYYY-MM-DD")
                   );
                 }}
               >
@@ -1425,18 +1429,18 @@ const [showEndDate, setShowEndDate] = useState(
               </button>
               <button
                 style={{
-                  backgroundColor: '#4d88ff',
-                  color: 'white',
-                  width: '88%',
-                  marginTop: '2%',
-                  height: '29px',
+                  backgroundColor: "#4d88ff",
+                  color: "white",
+                  width: "88%",
+                  marginTop: "2%",
+                  height: "29px",
                 }}
                 onClick={() => {
                   // setStartDate(moment(lastweekstart).format('YYYY-MM-DD')),
                   //   setEndDate(moment(lastweekend).format('YYYY-MM-DD')),
                   handleChange(
-                    moment(lastweekstart).format('YYYY-MM-DD'),
-                    moment(lastweekend).format('YYYY-MM-DD')
+                    moment(lastweekstart).format("YYYY-MM-DD"),
+                    moment(lastweekend).format("YYYY-MM-DD")
                   );
                 }}
               >
@@ -1444,18 +1448,18 @@ const [showEndDate, setShowEndDate] = useState(
               </button>
               <button
                 style={{
-                  backgroundColor: '#4d88ff',
-                  color: 'white',
-                  width: '88%',
-                  marginTop: '2%',
-                  height: '29px',
+                  backgroundColor: "#4d88ff",
+                  color: "white",
+                  width: "88%",
+                  marginTop: "2%",
+                  height: "29px",
                 }}
                 onClick={() => {
                   // setStartDate(`${month.substring(0, 7)}-01`),
                   //   setEndDate(moment(today).format('YYYY-MM-DD')),
                   handleChange(
                     `${month.substring(0, 7)}-01`,
-                    moment(today).format('YYYY-MM-DD')
+                    moment(today).format("YYYY-MM-DD")
                   );
                 }}
               >
@@ -1463,36 +1467,36 @@ const [showEndDate, setShowEndDate] = useState(
               </button>
               <button
                 style={{
-                  backgroundColor: '#4d88ff',
-                  color: 'white',
-                  width: '88%',
-                  marginTop: '2%',
-                  height: '29px',
+                  backgroundColor: "#4d88ff",
+                  color: "white",
+                  width: "88%",
+                  marginTop: "2%",
+                  height: "29px",
                 }}
                 onClick={() => {
                   // setStartDate(moment(prevStartDate).format('YYYY-MM-DD')),
                   //   setEndDate(moment(preEndDate).format('YYYY-MM-DD')),
                   handleChange(
-                    moment(prevStartDate).format('YYYY-MM-DD'),
-                    moment(preEndDate).format('YYYY-MM-DD')
+                    moment(prevStartDate).format("YYYY-MM-DD"),
+                    moment(preEndDate).format("YYYY-MM-DD")
                   );
                 }}
               >
                 Last Month
               </button>
             </div>
-            <div style={{width: '60%'}}>
-              <div style={{marginLeft: '5px'}}>
+            <div style={{ width: "60%" }}>
+              <div style={{ marginLeft: "5px" }}>
                 <label>Start Date</label>
                 <br />
                 <input
                   type="date"
                   style={{
-                    background: '#f3f4f6',
-                    padding: '6px 10px',
+                    background: "#f3f4f6",
+                    padding: "6px 10px",
                     borderRadius: 6,
                     fontSize: 12,
-                    width: '70%',
+                    width: "70%",
                   }}
                   placeholder="DD/MM/YYYY"
                   min={currentEvent.challengeStartDate.substring(0, 9)}
@@ -1501,17 +1505,17 @@ const [showEndDate, setShowEndDate] = useState(
                   onChange={(e) => setStartDate(e.target.value)}
                 />
               </div>
-              <div style={{marginLeft: '5px', marginTop: '10px'}}>
+              <div style={{ marginLeft: "5px", marginTop: "10px" }}>
                 <label>End Date</label>
                 <br />
                 <input
                   type="date"
                   style={{
-                    background: '#f3f4f6',
-                    padding: '6px 10px',
+                    background: "#f3f4f6",
+                    padding: "6px 10px",
                     borderRadius: 6,
                     fontSize: 12,
-                    width: '70%',
+                    width: "70%",
                   }}
                   placeholder="DD/MM/YYYY"
                   min={currentEvent.challengeEndDate.substring(0, 9)}
@@ -1522,12 +1526,12 @@ const [showEndDate, setShowEndDate] = useState(
               </div>
               <button
                 style={{
-                  backgroundColor: 'green',
-                  color: 'white',
-                  borderRadius: '10px',
-                  marginLeft: '40%',
-                  width: '80px',
-                  marginTop: '2%',
+                  backgroundColor: "green",
+                  color: "white",
+                  borderRadius: "10px",
+                  marginLeft: "40%",
+                  width: "80px",
+                  marginTop: "2%",
                 }}
                 onClick={() => handleChange(startDate, endDate)}
               >

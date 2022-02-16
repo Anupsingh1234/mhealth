@@ -1,8 +1,8 @@
-import React from 'react';
-import ScrollableList from './ScrollableList';
-import EventImageCard from './EventImageCard';
+import React from "react";
+import ScrollableList from "./ScrollableList";
+import EventImageCard from "./EventImageCard";
 
-const EventGallery = ({eventGalleryData, fetchEventGallery}) => {
+const EventGallery = ({ eventGalleryData, fetchEventGallery }) => {
   return (
     <div className="EventGallery">
       <div className="challenges-heading">Event Gallery</div>
@@ -27,9 +27,11 @@ const EventGallery = ({eventGalleryData, fetchEventGallery}) => {
             })}
           </ScrollableList>
         ) : (
-          <p style={{textAlign: 'center', margin: '100px 0', color: '#8e8e8e'}}>
-            {eventGalleryData.message === 'SUCCESS'
-              ? 'Data is not present'
+          <p
+            style={{ textAlign: "center", margin: "100px 0", color: "#8e8e8e" }}
+          >
+            {eventGalleryData.message === "SUCCESS"
+              ? "Data is not present"
               : eventGalleryData.message}
           </p>
         )}

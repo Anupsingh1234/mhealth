@@ -1,32 +1,32 @@
-import React, {useState,useEffect} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import EventInfoModal from './EventInfoModal';
-import EventRegisterModal from './EventRegisterModal';
-import InfoDialog from './Utility/InfoDialog';
-import InfoIcon from '@material-ui/icons/Info';
-import {unsubscribeEvent, rejoinEvent} from '../services/challengeApi';
-import Message from 'antd-message';
-import CancelIcon from '@material-ui/icons/Cancel';
+import React, { useState, useEffect } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import EventInfoModal from "./EventInfoModal";
+import EventRegisterModal from "./EventRegisterModal";
+import InfoDialog from "./Utility/InfoDialog";
+import InfoIcon from "@material-ui/icons/Info";
+import { unsubscribeEvent, rejoinEvent } from "../services/challengeApi";
+import Message from "antd-message";
+import CancelIcon from "@material-ui/icons/Cancel";
 import {
   urlPrefix,
   secretToken,
   getSubEvent,
   zoomreport,
-} from '../services/apicollection';
-import axios from 'axios';
+} from "../services/apicollection";
+import axios from "axios";
 let monthsObject = {
-  '01': 'Jan',
-  '02': 'Feb',
-  '03': 'Mar',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'Aug',
-  '09': 'Sep',
-  10: 'Oct',
-  11: 'Nov',
-  12: 'Dec',
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "April",
+  "05": "May",
+  "06": "June",
+  "07": "July",
+  "08": "Aug",
+  "09": "Sep",
+  10: "Oct",
+  11: "Nov",
+  12: "Dec",
 };
 
 const EventCard = ({
@@ -40,170 +40,161 @@ const EventCard = ({
   selectedChallengeArray,
   selectedChallenge,
 }) => {
-  
   const [modalView, setModalView] = useState(false);
   const [registerModalView, setRegisterModalView] = useState(false);
-    const [validateModalView, setValidateModalView] = useState(false);
+  const [validateModalView, setValidateModalView] = useState(false);
   const [showUnsubscribeModal, setUnsubModal] = useState(false);
-  const [emailVerifiedMessage,setEmailVerifiedMessage]=useState(false)
-   const [emailValidVerifiedMessage, setEmailValidVerifiedMessage] = useState(false);
-   const[sudomain,setSubdomain]=useState([])
-   console.log(sudomain);
-  const getValidEmail=(id)=>{
+  const [emailVerifiedMessage, setEmailVerifiedMessage] = useState(false);
+  const [emailValidVerifiedMessage, setEmailValidVerifiedMessage] =
+    useState(false);
+  const [sudomain, setSubdomain] = useState([]);
+  console.log(sudomain);
+  const getValidEmail = (id) => {
     const adminurl = `${urlPrefix}v1.0/validateEmailId?eventId=${id}`;
-    setSubdomain([...challenge.subDomains])
+    setSubdomain([...challenge.subDomains]);
     console.log(adminurl);
     axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
         console.log(res.data.response.responseMessage);
-       if (res.data.response.responseMessage === 'User is Already Verified')
-       {
-        setRegisterModalView(true)
-       }
-         if (
-           res.data.response.responseMessage === 'Email Not Found' 
-         ) {
-           setValidateModalView(true);
-         }
-         if (
-           
-           res.data.response.responseMessage === 'Not a Valid Email'
-         ) {
-           setEmailValidVerifiedMessage(true);
-         }
-         if (res.data.response.responseMessage === 'Email Sent Successfully') {
-           setEmailVerifiedMessage(true);
-         }
+        if (res.data.response.responseMessage === "User is Already Verified") {
+          setRegisterModalView(true);
+        }
+        if (res.data.response.responseMessage === "Email Not Found") {
+          setValidateModalView(true);
+        }
+        if (res.data.response.responseMessage === "Not a Valid Email") {
+          setEmailValidVerifiedMessage(true);
+        }
+        if (res.data.response.responseMessage === "Email Sent Successfully") {
+          setEmailVerifiedMessage(true);
+        }
         // setValidateModalView(true)\
-
       });
-  }
-  const sentMail=()=>{
-    setEmailVerifiedMessage(false)
-     if (challenge.isParticipated && challenge.isUserVerifiedInEvent===true)
-     {
-       setRegisterModalView(true)
-     }
-   
+  };
+  const sentMail = () => {
+    setEmailVerifiedMessage(false);
+    if (challenge.isParticipated && challenge.isUserVerifiedInEvent === true) {
+      setRegisterModalView(true);
     }
+  };
   const [validinputEmail, setValidInputEmail] = useState(
-    localStorage.getItem('emailId')
+    localStorage.getItem("emailId")
   );
-const [inputEmail,setInputEmail]=useState('')
-const word =
-  validinputEmail !== null
-    ? validinputEmail.indexOf("@")
-    : "" || inputEmail !== null
-    ? inputEmail.indexOf("@")
-    : "";
-// const lastword = validinputEmail.indexOf('.');
-// let b = lastword;
-const a = word + 1;
+  const [inputEmail, setInputEmail] = useState("");
+  const word =
+    validinputEmail !== null
+      ? validinputEmail.indexOf("@")
+      : "" || inputEmail !== null
+      ? inputEmail.indexOf("@")
+      : "";
+  // const lastword = validinputEmail.indexOf('.');
+  // let b = lastword;
+  const a = word + 1;
 
-window.key =
-  validinputEmail !== null
-    ? validinputEmail.substring(a)
-    : "" || inputEmail !== null
-    ? inputEmail.substring(a)
-    : "";
-console.log(window.key,a,sudomain[0],'domain');
-const[message1,setMessage1]=useState('')
-   const updateEmail=(id)=>{
-     console.log(id);
-     if (
-       (inputEmail !== '' &&
-         (window.key == sudomain[0] ||
-           window.key == sudomain[1] ||
-           window.key == sudomain[2] ||
-           window.key == sudomain[3]) &&
-         /[.]/gi.test(inputEmail.toString()) === true &&
-         // /[@]/gi.test(emailId.toString()) === true &&
-         /[!]/gi.test(inputEmail.toString()) === false &&
-         ('"' + inputEmail + '"').search(
-           /[.][.]/i || /[.][A-Z][.]/i || /[A-Z][!][A-Z]/i
-         ) === -1 &&
-         (inputEmail.match(/[.]/gi) || []).length < 3 &&
-         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
-           inputEmail.toString()
-         )) ||
-       (validinputEmail !== '' &&
-         (window.key === sudomain[0] ||
-           window.key === sudomain[1] ||
-           window.key === sudomain[2] ||
-           window.key === sudomain[3]) &&
-         /[.]/gi.test(validinputEmail.toString()) === true &&
-         // /[@]/gi.test(emailId.toString()) === true &&
-         /[!]/gi.test(validinputEmail.toString()) === false &&
-         ('"' + validinputEmail + '"').search(
-           /[.][.]/i || /[.][A-Z][.]/i || /[A-Z][!][A-Z]/i
-         ) === -1 &&
-         (validinputEmail.match(/[.]/gi) || []).length < 3 &&
-         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
-           validinputEmail.toString()
-         ))
-     ) {
-       const adminurl = `${urlPrefix}v1.0/updateEmailId?email=${
-         inputEmail || validinputEmail
-       }`;
+  window.key =
+    validinputEmail !== null
+      ? validinputEmail.substring(a)
+      : "" || inputEmail !== null
+      ? inputEmail.substring(a)
+      : "";
+  console.log(window.key, a, sudomain[0], "domain");
+  const [message1, setMessage1] = useState("");
+  const updateEmail = (id) => {
+    console.log(id);
+    if (
+      (inputEmail !== "" &&
+        (window.key == sudomain[0] ||
+          window.key == sudomain[1] ||
+          window.key == sudomain[2] ||
+          window.key == sudomain[3]) &&
+        /[.]/gi.test(inputEmail.toString()) === true &&
+        // /[@]/gi.test(emailId.toString()) === true &&
+        /[!]/gi.test(inputEmail.toString()) === false &&
+        ('"' + inputEmail + '"').search(
+          /[.][.]/i || /[.][A-Z][.]/i || /[A-Z][!][A-Z]/i
+        ) === -1 &&
+        (inputEmail.match(/[.]/gi) || []).length < 3 &&
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
+          inputEmail.toString()
+        )) ||
+      (validinputEmail !== "" &&
+        (window.key === sudomain[0] ||
+          window.key === sudomain[1] ||
+          window.key === sudomain[2] ||
+          window.key === sudomain[3]) &&
+        /[.]/gi.test(validinputEmail.toString()) === true &&
+        // /[@]/gi.test(emailId.toString()) === true &&
+        /[!]/gi.test(validinputEmail.toString()) === false &&
+        ('"' + validinputEmail + '"').search(
+          /[.][.]/i || /[.][A-Z][.]/i || /[A-Z][!][A-Z]/i
+        ) === -1 &&
+        (validinputEmail.match(/[.]/gi) || []).length < 3 &&
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
+          validinputEmail.toString()
+        ))
+    ) {
+      const adminurl = `${urlPrefix}v1.0/updateEmailId?email=${
+        inputEmail || validinputEmail
+      }`;
 
-       console.log(adminurl);
-       axios
-         .put(
-           adminurl,
-           {},
-           {
-             headers: {
-               Authorization: `Bearer ${localStorage.getItem('token')}`,
-               // timeStamp: 'timestamp',
-               accept: '*/*',
-               'Access-Control-Allow-Origin': '*',
-               withCredentials: true,
-               'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-               'Access-Control-Allow-Headers':
-                 'accept, content-type, x-access-token, x-requested-with',
-             },
-           }
-         )
-         .then((res) => {
-           getValidEmail(id);
-           setValidateModalView(false);
-           setEmailValidVerifiedMessage(false);
-         });
-     } else {
-       setMessage1('Please input given domains ');
-     }
+      console.log(adminurl);
+      axios
+        .put(
+          adminurl,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              // timeStamp: 'timestamp',
+              accept: "*/*",
+              "Access-Control-Allow-Origin": "*",
+              withCredentials: true,
+              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+              "Access-Control-Allow-Headers":
+                "accept, content-type, x-access-token, x-requested-with",
+            },
+          }
+        )
+        .then((res) => {
+          getValidEmail(id);
+          setValidateModalView(false);
+          setEmailValidVerifiedMessage(false);
+        });
+    } else {
+      setMessage1("Please input given domains ");
     }
+  };
   // useEffect(() => {
   //   getValidEmail()
   // }, [])
   let startDate = challenge.challengeStartDate
-    ? challenge.challengeStartDate.split(' ')
-    : '';
+    ? challenge.challengeStartDate.split(" ")
+    : "";
   let endDate = challenge.challengeEndDate
-    ? challenge.challengeEndDate.split(' ')
-    : '';
-  let startDay = startDate[0].split('-')[2];
-  let endDay = endDate[0].split('-')[2];
-  let startMonth = monthsObject[startDate[0].split('-')[1]];
-  let endMonth = monthsObject[endDate[0].split('-')[1]];
+    ? challenge.challengeEndDate.split(" ")
+    : "";
+  let startDay = startDate[0].split("-")[2];
+  let endDay = endDate[0].split("-")[2];
+  let startMonth = monthsObject[startDate[0].split("-")[1]];
+  let endMonth = monthsObject[endDate[0].split("-")[1]];
   let startTime = startDate[1];
 
   const renderRegisterBtn = () => {
-    if (listType == 'event' && challenge.eventView !== 'LINKED') {
-      if (dashboardState.challengeSwitch !== 'old') {
-        if (dashboardState.challengeSwitch == 'current') {
+    if (listType == "event" && challenge.eventView !== "LINKED") {
+      if (dashboardState.challengeSwitch !== "old") {
+        if (dashboardState.challengeSwitch == "current") {
           // if (challenge?.regOpen && challenge?.verificationRequired===1)
           // {
           //   if (challenge?.regOpen && !challenge?.isUserVerifiedInEvent) {
@@ -219,13 +210,15 @@ const[message1,setMessage1]=useState('')
           if (challenge?.regOpen && !challenge?.isParticipated) {
             return (
               <div className="register-button">
-                {challenge?.regOpen && challenge?.verificationRequired === 1?
-                <button onClick={() => getValidEmail(challenge.id)}>
-                  Register
-                </button>
-                : <button onClick={() => setRegisterModalView(true)}>
-                  Register
-                </button>}
+                {challenge?.regOpen && challenge?.verificationRequired === 1 ? (
+                  <button onClick={() => getValidEmail(challenge.id)}>
+                    Register
+                  </button>
+                ) : (
+                  <button onClick={() => setRegisterModalView(true)}>
+                    Register
+                  </button>
+                )}
               </div>
             );
           }
@@ -234,7 +227,7 @@ const[message1,setMessage1]=useState('')
               <div className="register-button">
                 <button
                   onClick={() => setUnsubModal(true)}
-                  style={{background: '#F43F5E'}}
+                  style={{ background: "#F43F5E" }}
                 >
                   Unsubscribe
                 </button>
@@ -254,7 +247,7 @@ const[message1,setMessage1]=useState('')
                       fetchChallenges();
                     });
                   }}
-                  style={{background: '#ffa726'}}
+                  style={{ background: "#ffa726" }}
                 >
                   Rejoin
                 </button>
@@ -272,7 +265,7 @@ const[message1,setMessage1]=useState('')
               {challenge.isParticipated && challenge.isSubscribed && (
                 <button
                   onClick={() => setUnsubModal(true)}
-                  style={{background: '#F43F5E'}}
+                  style={{ background: "#F43F5E" }}
                 >
                   Usubscribe
                 </button>
@@ -286,7 +279,7 @@ const[message1,setMessage1]=useState('')
                         fetchChallenges();
                       });
                     }}
-                    style={{background: '#ffa726'}}
+                    style={{ background: "#ffa726" }}
                   >
                     Rejoin
                   </button>

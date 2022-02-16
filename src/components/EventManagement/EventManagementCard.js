@@ -1,21 +1,21 @@
-import React, {useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import EventInfoModal from '../EventInfoModal';
-import InfoIcon from '@material-ui/icons/Info';
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import EventInfoModal from "../EventInfoModal";
+import InfoIcon from "@material-ui/icons/Info";
 
 let monthsObject = {
-  '01': 'Jan',
-  '02': 'Feb',
-  '03': 'Mar',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'Aug',
-  '09': 'Sep',
-  10: 'Oct',
-  11: 'Nov',
-  12: 'Dec',
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "April",
+  "05": "May",
+  "06": "June",
+  "07": "July",
+  "08": "Aug",
+  "09": "Sep",
+  10: "Oct",
+  11: "Nov",
+  12: "Dec",
 };
 
 const EventManagementCard = ({
@@ -26,51 +26,51 @@ const EventManagementCard = ({
 }) => {
   const [modalView, setModalView] = useState(false);
   let startDate = challenge.challengeStartDate
-    ? challenge.challengeStartDate.split(' ')
-    : '';
+    ? challenge.challengeStartDate.split(" ")
+    : "";
   let endDate = challenge.challengeEndDate
-    ? challenge.challengeEndDate.split(' ')
-    : '';
-  let startDay = startDate[0].split('-')[2];
-  let endDay = endDate[0].split('-')[2];
-  let startMonth = monthsObject[startDate[0].split('-')[1]];
-  let endMonth = monthsObject[endDate[0].split('-')[1]];
+    ? challenge.challengeEndDate.split(" ")
+    : "";
+  let startDay = startDate[0].split("-")[2];
+  let endDay = endDate[0].split("-")[2];
+  let startMonth = monthsObject[startDate[0].split("-")[1]];
+  let endMonth = monthsObject[endDate[0].split("-")[1]];
   let startTime = startDate[1];
   return (
     <div
       className={
         selectedEvent?.id == challenge.id
-          ? 'challenge-card challenge-card-first'
-          : 'challenge-card'
+          ? "challenge-card challenge-card-first"
+          : "challenge-card"
       }
       key={challenge.id}
-      style={{marginBottom: 40}}
+      style={{ marginBottom: 40 }}
     >
       <div onClick={() => getUserDetailsWrapper(challenge)}>
         <div
           style={{
             width: 230,
             height: 100,
-            borderRadius: '12px 12px 0px 0px',
-            background: '#fff',
-            overflow: 'hidden',
+            borderRadius: "12px 12px 0px 0px",
+            background: "#fff",
+            overflow: "hidden",
           }}
         >
           <img
             src={
               challenge.eventLogo ||
-              'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Background.png'
+              "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Background.png"
             }
             style={{
               width: 230,
               height: 100,
-              objectFit: 'cover',
-              borderRadius: '12px 12px 0px 0px',
+              objectFit: "cover",
+              borderRadius: "12px 12px 0px 0px",
             }}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src =
-                'https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Background.png';
+                "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Background.png";
             }}
           />
         </div>
@@ -78,8 +78,8 @@ const EventManagementCard = ({
           <div
             className={
               selectedEvent?.id == challenge.id
-                ? 'challenge-card-details-name challenge-card-details-name-first'
-                : 'challenge-card-details-name'
+                ? "challenge-card-details-name challenge-card-details-name-first"
+                : "challenge-card-details-name"
             }
           >
             {challenge.challengeName}
@@ -88,14 +88,14 @@ const EventManagementCard = ({
           <div
             className={
               selectedEvent?.id == challenge.id
-                ? 'challenge-card-details-start-date-time challenge-card-details-start-date-time-first'
-                : 'challenge-card-details-start-date-time'
+                ? "challenge-card-details-start-date-time challenge-card-details-start-date-time-first"
+                : "challenge-card-details-start-date-time"
             }
           >
-            starts at{' '}
-            {startTime?.toLocaleString('en-US', {
-              hour: 'numeric',
-              minute: 'numeric',
+            starts at{" "}
+            {startTime?.toLocaleString("en-US", {
+              hour: "numeric",
+              minute: "numeric",
               hour12: true,
             })}
           </div>
@@ -115,7 +115,7 @@ const EventManagementCard = ({
           <div
             style={{
               fontSize: 9,
-              color: '#000',
+              color: "#000",
               marginRight: 3,
               marginTop: 27,
             }}
@@ -129,7 +129,7 @@ const EventManagementCard = ({
         </div>
       </div>
 
-      <div className="challenge-card-start-date" style={{bottom: '-40px'}}>
+      <div className="challenge-card-start-date" style={{ bottom: "-40px" }}>
         <div className="challenge-card-start-date-month">
           {startMonth} - {endMonth}
         </div>
@@ -138,15 +138,15 @@ const EventManagementCard = ({
         </div>
         <a
           onClick={() => setModalView(true)}
-          style={{position: 'absolute', top: 5, right: 5}}
+          style={{ position: "absolute", top: 5, right: 5 }}
         >
-          <InfoIcon style={{fontSize: 18, color: '#1e88e5'}} />
+          <InfoIcon style={{ fontSize: 18, color: "#1e88e5" }} />
         </a>
       </div>
-      {localStorage.getItem('role') &&
-      localStorage.getItem('role') !== 'Customer' &&
+      {localStorage.getItem("role") &&
+      localStorage.getItem("role") !== "Customer" &&
       challenge.isActive &&
-      challenge.timePeriod !== 'PAST' ? (
+      challenge.timePeriod !== "PAST" ? (
         <div className="register-button">
           <button onClick={() => handleEventEdit(challenge)}>Edit</button>
         </div>

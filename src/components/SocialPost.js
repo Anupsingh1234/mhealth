@@ -1,41 +1,41 @@
-import React, {useState, useEffect} from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import IconButton from '@material-ui/core/IconButton';
-import Paper from '@material-ui/core/Paper';
-import Modal from '@material-ui/core/Modal';
-import CancelIcon from '@material-ui/icons/Cancel';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import Message from 'antd-message';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import React, { useState, useEffect } from "react";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
+import Modal from "@material-ui/core/Modal";
+import CancelIcon from "@material-ui/icons/Cancel";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import Message from "antd-message";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-import axios from 'axios';
+import axios from "axios";
 
-import {urlPrefix, secretToken} from '../services/apicollection';
-import InfoDialog from './Utility/InfoDialog';
-import message from 'antd-message';
-import { TextField } from '@material-ui/core';
-import { EditAttributesSharp } from '@material-ui/icons';
+import { urlPrefix, secretToken } from "../services/apicollection";
+import InfoDialog from "./Utility/InfoDialog";
+import message from "antd-message";
+import { TextField } from "@material-ui/core";
+import { EditAttributesSharp } from "@material-ui/icons";
 
 function getModalStyle() {
   return {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    background: '#fff',
-    transform: 'translate(-50%, -50%)',
-    width: '200px',
-    outline: 'none',
-    padding: '15px',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    background: "#fff",
+    transform: "translate(-50%, -50%)",
+    width: "200px",
+    outline: "none",
+    padding: "15px",
   };
 }
 function useWindowSize() {
@@ -44,27 +44,27 @@ function useWindowSize() {
     const handleResize = () => {
       setSize([window.innerHeight, window.innerWidth]);
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
   }, []);
   return size;
 }
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
+    position: "absolute",
     width: 800,
-    maxWidth: '100%',
+    maxWidth: "100%",
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    maxHeight: '90vh',
-    overflow: 'scroll',
+    maxHeight: "90vh",
+    overflow: "scroll",
   },
   root: {
-    width: '100%',
+    width: "100%",
   },
   paper1: {
-    width: '100%',
+    width: "100%",
     marginBottom: theme.spacing(2),
   },
   table: {
@@ -72,12 +72,12 @@ const useStyles = makeStyles((theme) => ({
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     width: 1,
   },
@@ -85,33 +85,33 @@ const useStyles = makeStyles((theme) => ({
 
 const headCells = [
   {
-    label: 'S.No',
-    id: 'index',
+    label: "S.No",
+    id: "index",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'PostTitle',
+    label: "PostTitle",
 
-    id: 'postTitle',
+    id: "postTitle",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Medium',
-    id: 'source',
+    label: "Medium",
+    id: "source",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Description',
-    id: 'shortNote',
+    label: "Description",
+    id: "shortNote",
     numeric: false,
     disablePadding: true,
   },
 
   {
-    label: 'Update',
+    label: "Update",
     //  id: 'link',
     // numeric: false,
     // disablePadding: true,
@@ -119,7 +119,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const {classes, order, orderBy, onRequestSort} = props;
+  const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -136,13 +136,13 @@ function EnhancedTableHead(props) {
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -165,7 +165,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -190,7 +190,7 @@ const useStyles1 = makeStyles((theme) => ({
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
-  const {count, page, rowsPerPage, onChangePage} = props;
+  const { count, page, rowsPerPage, onChangePage } = props;
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -209,22 +209,22 @@ function TablePaginationActions(props) {
   };
 
   return (
-    <div className={classes.root} style={{display: 'flex'}}>
+    <div className={classes.root} style={{ display: "flex" }}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? (
+        {theme.direction === "rtl" ? (
           <KeyboardArrowRight />
         ) : (
           <KeyboardArrowLeft />
@@ -234,9 +234,9 @@ function TablePaginationActions(props) {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? (
+        {theme.direction === "rtl" ? (
           <KeyboardArrowLeft />
         ) : (
           <KeyboardArrowRight />
@@ -246,9 +246,9 @@ function TablePaginationActions(props) {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );
@@ -266,8 +266,8 @@ export default function EventInfoModal({
 }) {
   const [modalStyle] = React.useState(getModalStyle);
   const classes = useStyles();
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [height1, width1] = useWindowSize();
@@ -277,21 +277,21 @@ export default function EventInfoModal({
 
   const [errorObj, setErrorObj] = useState({});
   const [post, setPost] = useState({
-    eventId: localStorage.getItem('selectEvent'),
-    postTitle: '',
-    medium: '',
-    shortNote: '',
-    link: '',
+    eventId: localStorage.getItem("selectEvent"),
+    postTitle: "",
+    medium: "",
+    shortNote: "",
+    link: "",
   });
   const [Edit, setEdit] = useState(post);
-  console.log(Edit, 'edit');
+  console.log(Edit, "edit");
   console.log(challenge);
   // stableSort(getsocialpost, getComparator(order, orderBy));
 
   const edithandler = (event) => {
     //  console.log(id)
 
-    const {name, value} = event.target;
+    const { name, value } = event.target;
 
     setEdit((prestate) => {
       console.warn(prestate);
@@ -304,7 +304,7 @@ export default function EventInfoModal({
   const inputsHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setPost((values) => ({...values, [name]: value}));
+    setPost((values) => ({ ...values, [name]: value }));
   };
   console.log(post);
   const handleSubmit = (e) => {
@@ -312,49 +312,49 @@ export default function EventInfoModal({
     let payload = {};
     payload = {
       id: null,
-      eventId: localStorage.getItem('selectEvent'),
+      eventId: localStorage.getItem("selectEvent"),
       postTitle: post.postTitle,
       medium: post.medium,
       shortNote: post.shortNote,
       link: post.link,
     };
     if (
-      post.postTitle !== '' &&
-      post.medium !== '' &&
-      post.shortNote !== '' &&
-      post.link !== ''
+      post.postTitle !== "" &&
+      post.medium !== "" &&
+      post.shortNote !== "" &&
+      post.link !== ""
     ) {
       const adminurl = `${urlPrefix}v1.0/createAndUpdateSocialPosts`;
       return axios
         .post(adminurl, payload, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         })
         .then((res) => {
           setPost({
-            eventId: localStorage.getItem('selectEvent'),
-            postTitle: '',
-            medium: '',
-            shortNote: '',
-            link: '',
+            eventId: localStorage.getItem("selectEvent"),
+            postTitle: "",
+            medium: "",
+            shortNote: "",
+            link: "",
           });
 
-          if (res.data.mhealthResponseMessage === 'SUCCESS') {
+          if (res.data.mhealthResponseMessage === "SUCCESS") {
             console.log(res.data.response.responseMessage);
             Message.success(res.data.response.responseMessage);
             setResponseMessage(res.data.response.responseMessage);
           }
         });
     } else {
-      Message.error('Please fill all filled Carefully!');
+      Message.error("Please fill all filled Carefully!");
     }
   };
 
@@ -363,7 +363,7 @@ export default function EventInfoModal({
     let payload = {};
     payload = {
       id: Edit.id,
-      eventId: localStorage.getItem('selectEvent'),
+      eventId: localStorage.getItem("selectEvent"),
       postTitle: Edit.postTitle,
       medium: Edit.medium,
       shortNote: Edit.shortNote,
@@ -379,25 +379,25 @@ export default function EventInfoModal({
     return axios
       .post(adminurl, payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
         setEdit({
-          eventId: localStorage.getItem('selectEvent'),
-          postTitle: '',
-          medium: '',
-          shortNote: '',
-          link: '',
+          eventId: localStorage.getItem("selectEvent"),
+          postTitle: "",
+          medium: "",
+          shortNote: "",
+          link: "",
         });
-        if (res.data.mhealthResponseMessage === 'SUCCESS') {
+        if (res.data.mhealthResponseMessage === "SUCCESS") {
           console.log(res.data.response.responseMessage);
           Message.success(res.data.response.responseMessage);
           setEditResponseMessage(res.data.response.responseMessage);
@@ -410,18 +410,18 @@ export default function EventInfoModal({
   }, []);
   useEffect(() => {
     setPage(0);
-    setOrder('asc');
-    setOrderBy('');
+    setOrder("asc");
+    setOrderBy("");
 
     setRowsPerPage(25);
   }, []);
-  const [addupdatePost, setAddUpdatePost] = useState('addpost');
-  const [responsemessage, setResponseMessage] = useState('');
-  const [editresponsemessage, setEditResponseMessage] = useState('');
+  const [addupdatePost, setAddUpdatePost] = useState("addpost");
+  const [responsemessage, setResponseMessage] = useState("");
+  const [editresponsemessage, setEditResponseMessage] = useState("");
   console.log(addupdatePost);
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -441,16 +441,16 @@ export default function EventInfoModal({
       return x;
     });
     // setPosttpos(marvelHeroes && , 'marvels');
-    setEdit(marvelHeroes && marvelHeroes[0], 'marvels');
+    setEdit(marvelHeroes && marvelHeroes[0], "marvels");
   };
   //  const keyword = () => {
   const url = window.location.href;
   // const url = 'https://raja.mhealth.ai/#/';
-// let text1 =
-//   'Have you ever wondered that there is a relationship between food and mood? Food can change your mood and your mood can change the nutritive benefit of food. Hidden hunger, i.e. deficiencies, allergies, blood sugar levels all are adversely impacted by food and leave a significant impact dfhfdhhhfhhhdhfhfhfhfhhfhfhfhfttyyyyyyon a person’s state of mindadsfgnhmgfdsaDSFGHMJGFDGSafsdgFHGHDGGGFDGGGGHave you ever wondered that there is a relationship between food and mood? Food can change your mood a.';
-//   console.log(text1.length)
-  const word = url.indexOf('://');
-  const lastword = url.indexOf('.mhealth');
+  // let text1 =
+  //   'Have you ever wondered that there is a relationship between food and mood? Food can change your mood and your mood can change the nutritive benefit of food. Hidden hunger, i.e. deficiencies, allergies, blood sugar levels all are adversely impacted by food and leave a significant impact dfhfdhhhfhhhdhfhfhfhfhhfhfhfhfttyyyyyyon a person’s state of mindadsfgnhmgfdsaDSFGHMJGFDGSafsdgFHGHDGGGFDGGGGHave you ever wondered that there is a relationship between food and mood? Food can change your mood a.';
+  //   console.log(text1.length)
+  const word = url.indexOf("://");
+  const lastword = url.indexOf(".mhealth");
   let b = lastword;
   let a = word + 3;
   window.key = url.substr(a, b - 8);
@@ -467,18 +467,18 @@ export default function EventInfoModal({
       .get(adminurl, {
         headers: {
           Authorization: `Bearer ${secretToken}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
         // console.log(response.data.response.responseData);
-        res.data ? setGetSocialPost(res?.data?.response?.responseData) : '';
+        res.data ? setGetSocialPost(res?.data?.response?.responseData) : "";
       });
   };
   console.log(getsocialpost);
@@ -495,11 +495,11 @@ export default function EventInfoModal({
               <u>Social Post</u>
             </h3>
           </center>
-          <div style={{display: 'flex'}}>
-            <div style={{width: '75%'}}></div>
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "75%" }}></div>
 
             <div style={{}}>
-              {addupdatePost === 'addpost' || addupdatePost === 'edit' ? (
+              {addupdatePost === "addpost" || addupdatePost === "edit" ? (
                 <button
                   className="is-success"
                   // onClick={handleSubmit}
@@ -510,7 +510,7 @@ export default function EventInfoModal({
                     // marginLeft: 20,
                   }}
                   onClick={() => {
-                    setAddUpdatePost('updatepost'), handle();
+                    setAddUpdatePost("updatepost"), handle();
                   }}
                 >
                   Update Post
@@ -526,10 +526,10 @@ export default function EventInfoModal({
                     // marginLeft: 20,
                   }}
                   onClick={() => {
-                    setAddUpdatePost('addpost'),
+                    setAddUpdatePost("addpost"),
                       handle(),
-                      setResponseMessage(''),
-                      setEditResponseMessage('');
+                      setResponseMessage(""),
+                      setEditResponseMessage("");
                   }}
                 >
                   Add Post
@@ -538,22 +538,22 @@ export default function EventInfoModal({
             </div>
           </div>
 
-          {addupdatePost === 'addpost' ? (
-            <div style={{width: '100%', marginLeft: '10%'}}>
+          {addupdatePost === "addpost" ? (
+            <div style={{ width: "100%", marginLeft: "10%" }}>
               <form>
                 <div>
                   {/* {errorObj ? <p className="error-text">Please input</p> : ''} */}
-                  <label style={{fontSize: 12}}>Medium</label>
+                  <label style={{ fontSize: 12 }}>Medium</label>
                   <br />
                   <select
                     autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '83%',
-                      border: '1px solid black',
+                      width: "83%",
+                      border: "1px solid black",
                     }}
                     placeholder="YOUTUBE/ FACEBOOK/ INSTAGRAM/ NUTRIEXPERT/LINKEDIN"
                     value={post.medium}
@@ -569,18 +569,18 @@ export default function EventInfoModal({
                   </select>
                 </div>
 
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Post Title</label>
+                <div style={{ width: "100%" }}>
+                  <label style={{ fontSize: 12 }}>Post Title</label>
                   <br />
                   <input
                     autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      width: "77%",
+                      border: "1px solid black",
                     }}
                     name="postTitle"
                     placeholder="Post Title...."
@@ -588,18 +588,18 @@ export default function EventInfoModal({
                     onChange={inputsHandler}
                   />
                 </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Link</label>
+                <div style={{ width: "100%" }}>
+                  <label style={{ fontSize: 12 }}>Link</label>
                   <br />
                   <input
                     autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      width: "77%",
+                      border: "1px solid black",
                     }}
                     placeholder="Social Link....."
                     name="link"
@@ -607,21 +607,21 @@ export default function EventInfoModal({
                     onChange={inputsHandler}
                   />
                 </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Description</label>
+                <div style={{ width: "100%" }}>
+                  <label style={{ fontSize: 12 }}>Description</label>
                   <br />
                   <textarea
                     // autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      width: "77%",
+                      border: "1px solid black",
                       // height: '50px',
-                      color: 'black',
-                      height: '100px',
+                      color: "black",
+                      height: "100px",
                     }}
                     name="shortNote"
                     type="text"
@@ -632,15 +632,13 @@ export default function EventInfoModal({
                   />
                 </div>
                 <br />
-                <div style={{display: 'flex'}}>
-                  <div style={{width: '60%'}}>
-                    
-                      <p style={{marginLeft: '10px', color: 'green'}}>
-                        {responsemessage}
-                      </p>
-                    
+                <div style={{ display: "flex" }}>
+                  <div style={{ width: "60%" }}>
+                    <p style={{ marginLeft: "10px", color: "green" }}>
+                      {responsemessage}
+                    </p>
                   </div>
-                  <div style={{marginLeft: ''}}>
+                  <div style={{ marginLeft: "" }}>
                     <button
                       className="is-success"
                       onClick={handleSubmit}
@@ -658,25 +656,25 @@ export default function EventInfoModal({
               </form>
             </div>
           ) : (
-            ''
+            ""
           )}
 
-          {addupdatePost === 'edit' ? (
-            <div style={{width: '100%', marginLeft: '10%'}}>
+          {addupdatePost === "edit" ? (
+            <div style={{ width: "100%", marginLeft: "10%" }}>
               <form>
                 <div>
                   {/* {errorObj ? <p className="error-text">Please input</p> : ''} */}
-                  <label style={{fontSize: 12}}>Medium</label>
+                  <label style={{ fontSize: 12 }}>Medium</label>
                   <br />
                   <input
                     autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      width: "77%",
+                      border: "1px solid black",
                     }}
                     placeholder="YOUTUBE/ FACEBOOK/ INSTAGRAM/ NUTRIEXPERT/LINKEDIN"
                     // value={post.medium}
@@ -684,18 +682,18 @@ export default function EventInfoModal({
                   ></input>
                 </div>
 
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Post Title</label>
+                <div style={{ width: "100%" }}>
+                  <label style={{ fontSize: 12 }}>Post Title</label>
                   <br />
                   <input
                     autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      width: "77%",
+                      border: "1px solid black",
                     }}
                     name="postTitle"
                     placeholder="Post Title...."
@@ -704,18 +702,18 @@ export default function EventInfoModal({
                     onChange={edithandler}
                   />
                 </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Link</label>
+                <div style={{ width: "100%" }}>
+                  <label style={{ fontSize: 12 }}>Link</label>
                   <br />
                   <input
                     autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      width: "77%",
+                      border: "1px solid black",
                     }}
                     placeholder="Social Link....."
                     name="link"
@@ -724,21 +722,21 @@ export default function EventInfoModal({
                     onChange={edithandler}
                   />
                 </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Description</label>
+                <div style={{ width: "100%" }}>
+                  <label style={{ fontSize: 12 }}>Description</label>
                   <br />
                   <textarea
                     // autofocus="autofocus"
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
                       borderRadius: 6,
                       fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      width: "77%",
+                      border: "1px solid black",
                       // height: '50px',
-                      color: 'black',
-                      height: '100px',
+                      color: "black",
+                      height: "100px",
                     }}
                     name="shortNote"
                     type="text"
@@ -749,15 +747,13 @@ export default function EventInfoModal({
                   />
                 </div>
                 <br />
-                <div style={{display: 'flex'}}>
-                  <div style={{width: '65%'}}>
-                    
-                      <p style={{marginLeft: '10px', color: 'green'}}>
-                        {editresponsemessage}
-                      </p>
-                    
+                <div style={{ display: "flex" }}>
+                  <div style={{ width: "65%" }}>
+                    <p style={{ marginLeft: "10px", color: "green" }}>
+                      {editresponsemessage}
+                    </p>
                   </div>
-                  <div style={{marginLeft: ''}}>
+                  <div style={{ marginLeft: "" }}>
                     <button
                       className="is-success"
                       onClick={handleUpdate}
@@ -775,10 +771,10 @@ export default function EventInfoModal({
               </form>
             </div>
           ) : (
-            ''
+            ""
           )}
 
-          {addupdatePost === 'updatepost' ? (
+          {addupdatePost === "updatepost" ? (
             <>
               <div>
                 <Paper>
@@ -810,7 +806,7 @@ export default function EventInfoModal({
                     {getsocialpost && getsocialpost.length > 0 ? (
                       <Table
                         aria-labelledby="tableTitle"
-                        size={'small'}
+                        size={"small"}
                         aria-label="enhanced table"
                       >
                         <EnhancedTableHead
@@ -841,12 +837,12 @@ export default function EventInfoModal({
                                     className="performace-table-row"
                                   >
                                     <TableCell align="center">
-                                      <div style={{fontSize: 12}}>
+                                      <div style={{ fontSize: 12 }}>
                                         {index + 1}
                                       </div>
                                     </TableCell>
                                     <TableCell align="left">
-                                      <div style={{fontSize: 12}}>
+                                      <div style={{ fontSize: 12 }}>
                                         {row.postTitle}
                                       </div>
                                     </TableCell>
@@ -863,11 +859,11 @@ export default function EventInfoModal({
                                     <TableCell align="left">
                                       <div
                                         style={{
-                                          whiteSpace: 'nowrap',
-                                          textOverflow: 'ellipsis',
-                                          width: '200px',
-                                          display: 'block',
-                                          overflow: 'hidden',
+                                          whiteSpace: "nowrap",
+                                          textOverflow: "ellipsis",
+                                          width: "200px",
+                                          display: "block",
+                                          overflow: "hidden",
                                           fontSize: 12,
                                         }}
                                       >
@@ -886,9 +882,9 @@ export default function EventInfoModal({
                                         }}
                                         onClick={() => {
                                           editVal(row.id),
-                                            setAddUpdatePost('edit'),
-                                            setResponseMessage(''),
-                                            setEditResponseMessage('');
+                                            setAddUpdatePost("edit"),
+                                            setResponseMessage(""),
+                                            setEditResponseMessage("");
                                         }}
                                       >
                                         Edit
@@ -926,18 +922,18 @@ export default function EventInfoModal({
                     ) : (
                       <Paper
                         style={{
-                          width: '100%',
-                          height: '300px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
+                          width: "100%",
+                          height: "300px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
                         }}
                       >
-                        {' '}
+                        {" "}
                         <div>
-                          {' '}
-                          <h2> No data present</h2>{' '}
-                        </div>{' '}
+                          {" "}
+                          <h2> No data present</h2>{" "}
+                        </div>{" "}
                       </Paper>
                     )}
                   </TableContainer>
@@ -945,15 +941,15 @@ export default function EventInfoModal({
               </div>
             </>
           ) : (
-            ''
+            ""
           )}
           <CancelIcon
             style={{
-              position: 'absolute',
+              position: "absolute",
               top: 5,
               right: 5,
-              color: '#ef5350',
-              cursor: 'pointer',
+              color: "#ef5350",
+              cursor: "pointer",
             }}
             onClick={() => handleClose()}
           />
@@ -961,428 +957,433 @@ export default function EventInfoModal({
       ) : (
         <div
           style={{
-            width: '40%',
+            width: "40%",
             // position: 'fixed',
-            transform: 'translate(70%,40%)',
-            height: '200px',
+            transform: "translate(70%,40%)",
+            height: "200px",
           }}
-        ><Paper>
-          <center>
-            <h3>
-              <u>Social Post</u>
-            </h3>
-          </center>
-          <div style={{display: 'flex'}}>
-            <div style={{width: '75%'}}></div>
+        >
+          <Paper>
+            <center>
+              <h3>
+                <u>Social Post</u>
+              </h3>
+            </center>
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "75%" }}></div>
 
-            <div style={{}}>
-              {addupdatePost === 'addpost' || addupdatePost === 'edit' ? (
-                <button
-                  className="is-success"
-                  // onClick={handleSubmit}
-                  style={{
-                    marginTop: 0,
-                    width: 100,
-                    height: 32,
-                    // marginLeft: 20,
-                  }}
-                  onClick={() => {
-                    setAddUpdatePost('updatepost'),
-                      handle(),
-                      setResponseMessage(''),
-                      setEditResponseMessage('');
-                  }}
-                >
-                  Update Post
-                </button>
-              ) : (
-                <button
-                  className="is-success"
-                  // onClick={handleSubmit}
-                  style={{
-                    marginTop: 0,
-                    width: 100,
-                    height: 32,
-                    // marginLeft: 20,
-                  }}
-                  onClick={() => {
-                    setAddUpdatePost('addpost'),
-                      handle(),
-                      setResponseMessage(''),
-                      setEditResponseMessage('');
-                  }}
-                >
-                  Add Post
-                </button>
-              )}
-            </div>
-          </div>
-
-          {addupdatePost === 'addpost' ? (
-            <div style={{width: '100%', marginLeft: '10%'}}>
-              <form>
-                <div>
-                  {/* {errorObj ? <p className="error-text">Please input</p> : ''} */}
-                  <label style={{fontSize: 12}}>Medium</label>
-                  <br />
-                  <select
-                    autofocus="autofocus"
+              <div style={{}}>
+                {addupdatePost === "addpost" || addupdatePost === "edit" ? (
+                  <button
+                    className="is-success"
+                    // onClick={handleSubmit}
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '80%',
-                      border: '1px solid black',
+                      marginTop: 0,
+                      width: 100,
+                      height: 32,
+                      // marginLeft: 20,
                     }}
-                    value={post.medium}
-                    onChange={inputsHandler}
-                    name="medium"
+                    onClick={() => {
+                      setAddUpdatePost("updatepost"),
+                        handle(),
+                        setResponseMessage(""),
+                        setEditResponseMessage("");
+                    }}
                   >
-                    <option value={undefined}>Select...</option>
-                    <option value="YOUTUBE">YOUTUBE</option>
-                    <option value="FACEBOOK">FACEBOOK</option>
-                    <option value="INSTAGRAM">INSTAGRAM</option>
-                    <option value="NUTRIEXPERT">NUTRIEXPERT</option>
-                    <option value="LINKEDIN">LINKEDIN</option>
-                  </select>
-                </div>
-
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Post Title</label>
-                  <br />
-                  <input
-                    autofocus="autofocus"
+                    Update Post
+                  </button>
+                ) : (
+                  <button
+                    className="is-success"
+                    // onClick={handleSubmit}
                     style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                      marginTop: 0,
+                      width: 100,
+                      height: 32,
+                      // marginLeft: 20,
                     }}
-                    name="postTitle"
-                    placeholder="Post Title...."
-                    value={post.postTitle}
-                    onChange={inputsHandler}
-                  />
-                </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Link</label>
-                  <br />
-                  <input
-                    autofocus="autofocus"
-                    style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
+                    onClick={() => {
+                      setAddUpdatePost("addpost"),
+                        handle(),
+                        setResponseMessage(""),
+                        setEditResponseMessage("");
                     }}
-                    placeholder="Social Link....."
-                    name="link"
-                    value={post.link}
-                    onChange={inputsHandler}
-                  />
-                </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Description</label>
-                  <br />
-                  <textarea
-                    // autofocus="autofocus"
-                    style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
-                      // height: '50px',
-                      color: 'black',
-                      height: '100px',
-                    }}
-                    name="shortNote"
-                    type="text"
-                    maxlength="500"
-                    placeholder="Write something about your post..."
-                    value={post.shortNote}
-                    onChange={inputsHandler}
-                  />
-                </div>
-                <br />
-                <div style={{display: 'flex'}}>
-                  <div style={{width: '65%'}}>
-                    {post.postTitle !== '' &&
-                    post.medium !== '' &&
-                    post.link !== '' &&
-                    post.shortNote !== '' ? (
-                      <p style={{marginLeft: '10px', color: 'green'}}>
-                        {responsemessage}
-                      </p>
-                    ) : ''}
-                  </div>
-                  <div style={{marginLeft: ''}}>
-                    <button
-                      className="is-success"
-                      onClick={handleSubmit}
-                      style={{
-                        marginTop: 10,
-                        width: 100,
-                        height: 32,
-                        // marginLeft: 20,
-                      }}
-                    >
-                      Save Post
-                    </button>
-                  </div>
-                </div>
-              </form>
+                  >
+                    Add Post
+                  </button>
+                )}
+              </div>
             </div>
-          ) : (
-            ''
-          )}
 
-          {addupdatePost === 'edit' ? (
-            <div style={{width: '100%', marginLeft: '10%'}}>
-              <form>
-                <div>
-                  {/* {errorObj ? <p className="error-text">Please input</p> : ''} */}
-                  <label style={{fontSize: 12}}>Medium</label>
-                  <br />
-                  <input
-                    autofocus="autofocus"
-                    style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
-                    }}
-                    placeholder="YOUTUBE/ FACEBOOK/ INSTAGRAM/ NUTRIEXPERT/LINKEDIN"
-                    // value={post.medium}
-                    value={Edit.medium}
-                  ></input>
-                </div>
-
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Post Title</label>
-                  <br />
-                  <input
-                    autofocus="autofocus"
-                    style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
-                    }}
-                    name="postTitle"
-                    placeholder="Post Title...."
-                    // value={post.postTitle}
-                    value={Edit.postTitle}
-                    onChange={edithandler}
-                  />
-                </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Link</label>
-                  <br />
-                  <input
-                    autofocus="autofocus"
-                    style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
-                    }}
-                    placeholder="Social Link....."
-                    name="link"
-                    // value={post.link}
-                    value={Edit.link}
-                    onChange={edithandler}
-                  />
-                </div>
-                <div style={{width: '100%'}}>
-                  <label style={{fontSize: 12}}>Description</label>
-                  <br />
-                  <textarea
-                    // autofocus="autofocus"
-                    style={{
-                      background: '#f3f4f6',
-                      padding: '10px 10px',
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: '77%',
-                      border: '1px solid black',
-                      // height: '50px',
-                      color: 'black',
-                      height: '100px',
-                    }}
-                    name="shortNote"
-                    type="text"
-                    maxlength="500"
-                    placeholder="Write something about your post..."
-                    value={Edit.shortNote}
-                    onChange={edithandler}
-                  />
-                </div>
-                <br />
-                <div style={{display: 'flex'}}>
-                  <div style={{width: '65%'}}>
-                    {Edit.postTitle !== '' ||
-                    Edit.medium !== '' ||
-                    Edit.link !== '' ||
-                    Edit.shortNote !== '' ? (
-                      <p style={{marginLeft: '10px', color: 'green'}}>
-                        {editresponsemessage}
-                      </p>
-                    ) : ''}
-                  </div>
-                  <div style={{marginTop: '-10px'}}>
-                    <button
-                      className="is-success"
-                      onClick={handleUpdate}
+            {addupdatePost === "addpost" ? (
+              <div style={{ width: "100%", marginLeft: "10%" }}>
+                <form>
+                  <div>
+                    {/* {errorObj ? <p className="error-text">Please input</p> : ''} */}
+                    <label style={{ fontSize: 12 }}>Medium</label>
+                    <br />
+                    <select
+                      autofocus="autofocus"
                       style={{
-                        marginTop: 10,
-                        width: 100,
-                        height: 32,
-                        // marginLeft: 20,
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "80%",
+                        border: "1px solid black",
                       }}
+                      value={post.medium}
+                      onChange={inputsHandler}
+                      name="medium"
                     >
-                      Save Post
-                    </button>
+                      <option value={undefined}>Select...</option>
+                      <option value="YOUTUBE">YOUTUBE</option>
+                      <option value="FACEBOOK">FACEBOOK</option>
+                      <option value="INSTAGRAM">INSTAGRAM</option>
+                      <option value="NUTRIEXPERT">NUTRIEXPERT</option>
+                      <option value="LINKEDIN">LINKEDIN</option>
+                    </select>
                   </div>
-                </div>
-              </form>
-            </div>
-          ) : (
-            ''
-          )}
 
-          {addupdatePost === 'updatepost' ? (
-            <>
-              <div>
-                <Paper>
-                  <TableContainer>
-                    {getsocialpost && getsocialpost.length > 0 ? (
-                      <TablePagination
-                        rowsPerPageOptions={[25, 50, 75, 100]}
-                        component="div"
-                        count={getsocialpost && getsocialpost.length}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                        ActionsComponent={TablePaginationActions}
-                      />
-                    ) : (
-                      <TablePagination
-                        rowsPerPageOptions={[25, 50, 75, 100]}
-                        component="div"
-                        count={0}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onChangePage={handleChangePage}
-                        onChangeRowsPerPage={handleChangeRowsPerPage}
-                        ActionsComponent={TablePaginationActions}
-                      />
-                    )}
-
-                    {getsocialpost && getsocialpost.length > 0 ? (
-                      <Table
-                        aria-labelledby="tableTitle"
-                        size={'small'}
-                        aria-label="enhanced table"
+                  <div style={{ width: "100%" }}>
+                    <label style={{ fontSize: 12 }}>Post Title</label>
+                    <br />
+                    <input
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "77%",
+                        border: "1px solid black",
+                      }}
+                      name="postTitle"
+                      placeholder="Post Title...."
+                      value={post.postTitle}
+                      onChange={inputsHandler}
+                    />
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <label style={{ fontSize: 12 }}>Link</label>
+                    <br />
+                    <input
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "77%",
+                        border: "1px solid black",
+                      }}
+                      placeholder="Social Link....."
+                      name="link"
+                      value={post.link}
+                      onChange={inputsHandler}
+                    />
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <label style={{ fontSize: 12 }}>Description</label>
+                    <br />
+                    <textarea
+                      // autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "77%",
+                        border: "1px solid black",
+                        // height: '50px',
+                        color: "black",
+                        height: "100px",
+                      }}
+                      name="shortNote"
+                      type="text"
+                      maxlength="500"
+                      placeholder="Write something about your post..."
+                      value={post.shortNote}
+                      onChange={inputsHandler}
+                    />
+                  </div>
+                  <br />
+                  <div style={{ display: "flex" }}>
+                    <div style={{ width: "65%" }}>
+                      {post.postTitle !== "" &&
+                      post.medium !== "" &&
+                      post.link !== "" &&
+                      post.shortNote !== "" ? (
+                        <p style={{ marginLeft: "10px", color: "green" }}>
+                          {responsemessage}
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div style={{ marginLeft: "" }}>
+                      <button
+                        className="is-success"
+                        onClick={handleSubmit}
+                        style={{
+                          marginTop: 10,
+                          width: 100,
+                          height: 32,
+                          // marginLeft: 20,
+                        }}
                       >
-                        <EnhancedTableHead
-                          classes={classes}
-                          order={order}
-                          orderBy={orderBy}
-                          onRequestSort={handleRequestSort}
+                        Save Post
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {addupdatePost === "edit" ? (
+              <div style={{ width: "100%", marginLeft: "10%" }}>
+                <form>
+                  <div>
+                    {/* {errorObj ? <p className="error-text">Please input</p> : ''} */}
+                    <label style={{ fontSize: 12 }}>Medium</label>
+                    <br />
+                    <input
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "77%",
+                        border: "1px solid black",
+                      }}
+                      placeholder="YOUTUBE/ FACEBOOK/ INSTAGRAM/ NUTRIEXPERT/LINKEDIN"
+                      // value={post.medium}
+                      value={Edit.medium}
+                    ></input>
+                  </div>
+
+                  <div style={{ width: "100%" }}>
+                    <label style={{ fontSize: 12 }}>Post Title</label>
+                    <br />
+                    <input
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "77%",
+                        border: "1px solid black",
+                      }}
+                      name="postTitle"
+                      placeholder="Post Title...."
+                      // value={post.postTitle}
+                      value={Edit.postTitle}
+                      onChange={edithandler}
+                    />
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <label style={{ fontSize: 12 }}>Link</label>
+                    <br />
+                    <input
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "77%",
+                        border: "1px solid black",
+                      }}
+                      placeholder="Social Link....."
+                      name="link"
+                      // value={post.link}
+                      value={Edit.link}
+                      onChange={edithandler}
+                    />
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <label style={{ fontSize: 12 }}>Description</label>
+                    <br />
+                    <textarea
+                      // autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "77%",
+                        border: "1px solid black",
+                        // height: '50px',
+                        color: "black",
+                        height: "100px",
+                      }}
+                      name="shortNote"
+                      type="text"
+                      maxlength="500"
+                      placeholder="Write something about your post..."
+                      value={Edit.shortNote}
+                      onChange={edithandler}
+                    />
+                  </div>
+                  <br />
+                  <div style={{ display: "flex" }}>
+                    <div style={{ width: "65%" }}>
+                      {Edit.postTitle !== "" ||
+                      Edit.medium !== "" ||
+                      Edit.link !== "" ||
+                      Edit.shortNote !== "" ? (
+                        <p style={{ marginLeft: "10px", color: "green" }}>
+                          {editresponsemessage}
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div style={{ marginTop: "-10px" }}>
+                      <button
+                        className="is-success"
+                        onClick={handleUpdate}
+                        style={{
+                          marginTop: 10,
+                          width: 100,
+                          height: 32,
+                          // marginLeft: 20,
+                        }}
+                      >
+                        Save Post
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {addupdatePost === "updatepost" ? (
+              <>
+                <div>
+                  <Paper>
+                    <TableContainer>
+                      {getsocialpost && getsocialpost.length > 0 ? (
+                        <TablePagination
+                          rowsPerPageOptions={[25, 50, 75, 100]}
+                          component="div"
+                          count={getsocialpost && getsocialpost.length}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          onChangePage={handleChangePage}
+                          onChangeRowsPerPage={handleChangeRowsPerPage}
+                          ActionsComponent={TablePaginationActions}
                         />
+                      ) : (
+                        <TablePagination
+                          rowsPerPageOptions={[25, 50, 75, 100]}
+                          component="div"
+                          count={0}
+                          rowsPerPage={rowsPerPage}
+                          page={page}
+                          onChangePage={handleChangePage}
+                          onChangeRowsPerPage={handleChangeRowsPerPage}
+                          ActionsComponent={TablePaginationActions}
+                        />
+                      )}
 
-                        <TableBody>
-                          {/* {radioValue === 'Daily' || radioValue === undefined ? (
+                      {getsocialpost && getsocialpost.length > 0 ? (
+                        <Table
+                          aria-labelledby="tableTitle"
+                          size={"small"}
+                          aria-label="enhanced table"
+                        >
+                          <EnhancedTableHead
+                            classes={classes}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={handleRequestSort}
+                          />
+
+                          <TableBody>
+                            {/* {radioValue === 'Daily' || radioValue === undefined ? (
                     <> */}
-                          {getsocialpost &&
-                            stableSort(
-                              getsocialpost,
-                              getComparator(order, orderBy)
-                            )
-                              .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
+                            {getsocialpost &&
+                              stableSort(
+                                getsocialpost,
+                                getComparator(order, orderBy)
                               )
-                              .map((row, index) => {
-                                return (
-                                  <TableRow
-                                    hover
-                                    tabIndex={-1}
-                                    // key={row.userId + '' + index}
-                                    className="performace-table-row"
-                                  >
-                                    <TableCell align="center">
-                                      <div style={{fontSize: 12}}>
-                                        {index + 1}
-                                      </div>
-                                    </TableCell>
-                                    <TableCell align="left">
-                                      <div style={{fontSize: 12}}>
-                                        {row.postTitle}
-                                      </div>
-                                    </TableCell>
+                                .slice(
+                                  page * rowsPerPage,
+                                  page * rowsPerPage + rowsPerPage
+                                )
+                                .map((row, index) => {
+                                  return (
+                                    <TableRow
+                                      hover
+                                      tabIndex={-1}
+                                      // key={row.userId + '' + index}
+                                      className="performace-table-row"
+                                    >
+                                      <TableCell align="center">
+                                        <div style={{ fontSize: 12 }}>
+                                          {index + 1}
+                                        </div>
+                                      </TableCell>
+                                      <TableCell align="left">
+                                        <div style={{ fontSize: 12 }}>
+                                          {row.postTitle}
+                                        </div>
+                                      </TableCell>
 
-                                    <TableCell align="left">
-                                      <div
-                                        style={{
-                                          fontSize: 12,
-                                        }}
-                                      >
-                                        {row.medium}
-                                      </div>
-                                    </TableCell>
-                                    <TableCell align="left">
-                                      <div
-                                        style={{
-                                          whiteSpace: 'nowrap',
-                                          textOverflow: 'ellipsis',
-                                          width: '200px',
-                                          display: 'block',
-                                          overflow: 'hidden',
-                                          fontSize: 12,
-                                        }}
-                                      >
-                                        {row.shortNote}
-                                      </div>
-                                    </TableCell>
+                                      <TableCell align="left">
+                                        <div
+                                          style={{
+                                            fontSize: 12,
+                                          }}
+                                        >
+                                          {row.medium}
+                                        </div>
+                                      </TableCell>
+                                      <TableCell align="left">
+                                        <div
+                                          style={{
+                                            whiteSpace: "nowrap",
+                                            textOverflow: "ellipsis",
+                                            width: "200px",
+                                            display: "block",
+                                            overflow: "hidden",
+                                            fontSize: 12,
+                                          }}
+                                        >
+                                          {row.shortNote}
+                                        </div>
+                                      </TableCell>
 
-                                    <TableCell align="left">
-                                      <button
-                                        className="is-success"
-                                        style={{
-                                          marginTop: 0,
-                                          width: 70,
-                                          height: 20,
-                                          // marginLeft: 20,
-                                        }}
-                                        onClick={() => {
-                                          editVal(row.id),
-                                            setAddUpdatePost('edit'),
-                                            setResponseMessage(''),
-                                            setEditResponseMessage('');
-                                        }}
-                                      >
-                                        Edit
-                                      </button>
-                                    </TableCell>
-                                  </TableRow>
-                                );
-                              })}
-                          {/* </>
+                                      <TableCell align="left">
+                                        <button
+                                          className="is-success"
+                                          style={{
+                                            marginTop: 0,
+                                            width: 70,
+                                            height: 20,
+                                            // marginLeft: 20,
+                                          }}
+                                          onClick={() => {
+                                            editVal(row.id),
+                                              setAddUpdatePost("edit"),
+                                              setResponseMessage(""),
+                                              setEditResponseMessage("");
+                                          }}
+                                        >
+                                          Edit
+                                        </button>
+                                      </TableCell>
+                                    </TableRow>
+                                  );
+                                })}
+                            {/* </>
                   ) : (
                     <TableRow>
                       <TableCell
@@ -1406,42 +1407,42 @@ export default function EventInfoModal({
                       </TableCell>
                     </TableRow>
                   )} */}
-                        </TableBody>
-                      </Table>
-                    ) : (
-                      <Paper
-                        style={{
-                          width: '100%',
-                          height: '300px',
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}
-                      >
-                        {' '}
-                        <div>
-                          {' '}
-                          <h2> No data present</h2>{' '}
-                        </div>{' '}
-                      </Paper>
-                    )}
-                  </TableContainer>
-                </Paper>
-              </div>
-            </>
-          ) : (
-            ''
-          )}
-          <CancelIcon
-            style={{
-              position: 'absolute',
-              top: 5,
-              right: 5,
-              color: '#ef5350',
-              cursor: 'pointer',
-            }}
-            onClick={() => handleClose()}
-          />
+                          </TableBody>
+                        </Table>
+                      ) : (
+                        <Paper
+                          style={{
+                            width: "100%",
+                            height: "300px",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          {" "}
+                          <div>
+                            {" "}
+                            <h2> No data present</h2>{" "}
+                          </div>{" "}
+                        </Paper>
+                      )}
+                    </TableContainer>
+                  </Paper>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+            <CancelIcon
+              style={{
+                position: "absolute",
+                top: 5,
+                right: 5,
+                color: "#ef5350",
+                cursor: "pointer",
+              }}
+              onClick={() => handleClose()}
+            />
           </Paper>
         </div>
       )}
@@ -1459,7 +1460,7 @@ export default function EventInfoModal({
         aria-describedby="simple-modal-description"
         disableAutoFocus
       >
-        <div style={{outline: 'none'}}>{modalBody}</div>
+        <div style={{ outline: "none" }}>{modalBody}</div>
       </Modal>
     </div>
   );
