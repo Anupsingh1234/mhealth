@@ -468,7 +468,6 @@ export const getActivitySubEvent = (id, payload) => {
   });
 };
 
-
 export const getAllSubActivities = () => {
   // const URL =
   //     localStorage.getItem("event") != null
@@ -506,7 +505,6 @@ export const getEventRoleWiseList = () => {
     },
   });
 };
-
 
 export const subscribeSubEventCall = (payload) => {
   let URL = `${urlPrefix}${subscribeSubEvent}?eventId=${payload.eventId}&subEventId=${payload.subEventId}&dataSource=WEB`;

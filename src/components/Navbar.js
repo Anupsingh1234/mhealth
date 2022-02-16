@@ -3,22 +3,22 @@ import {
   SLIDE_OUT,
   SLIDE_IN_MOBILE,
   SLIDE_OUT_MOBILE,
-} from '../animations';
-import Expert from './AppointmentExpert';
-import SocialPost from './SocialPost';
-import SocialLink from './SocialLink';
-import React, {useState, useCallback, useRef, useEffect} from 'react';
-import * as Icon from 'react-feather';
-import {Link, useHistory} from 'react-router-dom';
-import {useSpring, useTransition, animated} from 'react-spring';
-import {useLockBodyScroll, useWindowSize} from 'react-use';
-import LogoPng from '../assets/logo.png';
-import {getOldEvents} from '../services/challengeApi';
+} from "../animations";
+import Expert from "./AppointmentExpert";
+import SocialPost from "./SocialPost";
+import SocialLink from "./SocialLink";
+import React, { useState, useCallback, useRef, useEffect } from "react";
+import * as Icon from "react-feather";
+import { Link, useHistory } from "react-router-dom";
+import { useSpring, useTransition, animated } from "react-spring";
+import { useLockBodyScroll, useWindowSize } from "react-use";
+import LogoPng from "../assets/logo.png";
+import { getOldEvents } from "../services/challengeApi";
 
-import SpeakerNotesIcon from '@material-ui/icons/SpeakerNotes';
+import SpeakerNotesIcon from "@material-ui/icons/SpeakerNotes";
 
 function Navbar() {
-  const condition = JSON.parse(localStorage.getItem('condition'));
+  const condition = JSON.parse(localStorage.getItem("condition"));
   let history = useHistory();
 
   const pages =
@@ -165,8 +165,8 @@ function Navbar() {
   useLockBodyScroll(expand);
   const windowSize = useWindowSize();
 
-  const [spring, set, stop] = useSpring(() => ({opacity: 0}));
-  set({opacity: 1});
+  const [spring, set, stop] = useSpring(() => ({ opacity: 0 }));
+  set({ opacity: 1 });
   stop();
   const [appointmentView, setAppointmentView] = useState(false);
   const [sociallink, setSocialLink] = useState(false);
@@ -176,7 +176,7 @@ function Navbar() {
     from: windowSize.width < 769 ? SLIDE_IN_MOBILE : SLIDE_IN,
     enter: windowSize.width < 769 ? SLIDE_OUT_MOBILE : SLIDE_OUT,
     leave: windowSize.width < 769 ? SLIDE_IN_MOBILE : SLIDE_IN,
-    config: {mass: 1, tension: 210, friction: 26},
+    config: { mass: 1, tension: 210, friction: 26 },
   });
 
   const handleMouseEnter = useCallback(() => {
@@ -397,12 +397,12 @@ function Navbar() {
   );
 }
 
-function Expand({pages, setExpand, windowSize, history}) {
+function Expand({ pages, setExpand, windowSize, history }) {
   const expandElement = useRef(null);
   const [appointmentView, setAppointmentView] = useState(false);
   const [sociallink, setSocialLink] = useState(false);
   const [socialPost, setSocialPost] = useState(false);
-  const condition = JSON.parse(localStorage.getItem('condition'));
+  const condition = JSON.parse(localStorage.getItem("condition"));
   const handleMouseLeave = useCallback(() => {
     windowSize.width > 768 && setExpand(false);
   }, [setExpand, windowSize.width]);
@@ -416,12 +416,12 @@ function Expand({pages, setExpand, windowSize, history}) {
               to={page.pageLink}
               key={i}
               onClick={(e) => {
-                if (page.displayName == 'Blog' || page.displayName == 'About') {
+                if (page.displayName == "Blog" || page.displayName == "About") {
                   e.preventDefault();
                 }
-                if (page.displayName === 'Logout') {
+                if (page.displayName === "Logout") {
                   localStorage.clear();
-                  history.push('/');
+                  history.push("/");
                 }
               }}
               {...(windowSize.width < 769 && {
@@ -438,16 +438,15 @@ function Expand({pages, setExpand, windowSize, history}) {
         }
         return null;
       })}
-    
-      {
-      (condition && condition.isModerator === true) ? (
+
+      {condition && condition.isModerator === true ? (
         <>
           <div>
             <p
               style={{
-                fontSize: '13px',
-                marginTop: '0px',
-                cursor: 'pointer',
+                fontSize: "13px",
+                marginTop: "0px",
+                cursor: "pointer",
               }}
               className="socialPosttext"
               onClick={() => setSocialPost(true)}
@@ -468,9 +467,9 @@ function Expand({pages, setExpand, windowSize, history}) {
           <div>
             <p
               style={{
-                fontSize: '13px',
-                marginTop: '0px',
-                cursor: 'pointer',
+                fontSize: "13px",
+                marginTop: "0px",
+                cursor: "pointer",
               }}
               className="socialLinktext"
               onClick={() => setSocialLink(true)}
@@ -490,7 +489,7 @@ function Expand({pages, setExpand, windowSize, history}) {
           </div>
         </>
       ) : (
-        ''
+        ""
       )}
     </div>
   );
@@ -499,11 +498,11 @@ function Expand({pages, setExpand, windowSize, history}) {
 export default Navbar;
 
 const navLinkProps = (path, animationDelay) => ({
-  className: `${window.location.pathname === path ? 'focused' : ''}`,
+  className: `${window.location.pathname === path ? "focused" : ""}`,
 });
 
 const activeNavIcon = (path) => ({
   style: {
-    stroke: window.location.pathname === path ? '#4c75f2' : '',
+    stroke: window.location.pathname === path ? "#4c75f2" : "",
   },
 });

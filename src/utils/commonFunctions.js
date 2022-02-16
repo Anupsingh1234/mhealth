@@ -1,9 +1,9 @@
-import confetti from 'canvas-confetti';
-import moment from 'moment';
+import confetti from "canvas-confetti";
+import moment from "moment";
 export const celebrate = () => {
   var count = 200;
   var defaults = {
-    origin: {y: 0.7, x: 0.8},
+    origin: { y: 0.7, x: 0.8 },
   };
 
   function fire(particleRatio, opts) {
@@ -50,27 +50,27 @@ export const getDateDifference = (a, b) => {
 };
 
 export const getLeaderBoardHeading = (currentEvent, currentTab) => {
-  if (typeof currentEvent == 'object' && Object.keys(currentEvent).length > 0) {
-    const date1 = moment(currentEvent.challengeStartDate, 'YYYY-MM-DD h:mm:ss');
-    const date2 = moment(new Date(), 'YYYY-MM-DD h:mm:ss');
-    const Start_Date_Difference = date2.diff(date1, 'days', true);
+  if (typeof currentEvent == "object" && Object.keys(currentEvent).length > 0) {
+    const date1 = moment(currentEvent.challengeStartDate, "YYYY-MM-DD h:mm:ss");
+    const date2 = moment(new Date(), "YYYY-MM-DD h:mm:ss");
+    const Start_Date_Difference = date2.diff(date1, "days", true);
     let isSingleDayEvent =
-      moment(currentEvent.challengeEndDate, 'YYYY-MM-DD h:mm:ss').diff(
-        moment(currentEvent.challengeStartDate, 'YYYY-MM-DD h:mm:ss'),
-        'days'
+      moment(currentEvent.challengeEndDate, "YYYY-MM-DD h:mm:ss").diff(
+        moment(currentEvent.challengeStartDate, "YYYY-MM-DD h:mm:ss"),
+        "days"
       ) == 0;
 
-    let daysToGo = moment(new Date(), 'YYYY-MM-DD h:mm:ss').diff(
-      moment(currentEvent.challengeStartDate, 'YYYY-MM-DD h:mm:ss'),
-      'days'
+    let daysToGo = moment(new Date(), "YYYY-MM-DD h:mm:ss").diff(
+      moment(currentEvent.challengeStartDate, "YYYY-MM-DD h:mm:ss"),
+      "days"
     );
 
     let heading = currentTab;
-    if (currentEvent.timePeriod == 'PAST' || !currentEvent.isActive) {
-      heading = 'Event is closed';
+    if (currentEvent.timePeriod == "PAST" || !currentEvent.isActive) {
+      heading = "Event is closed";
     }
 
-    if (currentEvent.timePeriod == 'CURRENT') {
+    if (currentEvent.timePeriod == "CURRENT") {
       if (currentEvent.isParticipated) {
         heading = isSingleDayEvent
           ? "Event ends today"
@@ -78,8 +78,8 @@ export const getLeaderBoardHeading = (currentEvent, currentTab) => {
       }
     }
 
-    if (currentEvent.timePeriod == 'FUTURE') {
-      heading = Math.abs(daysToGo) + ' days to go';
+    if (currentEvent.timePeriod == "FUTURE") {
+      heading = Math.abs(daysToGo) + " days to go";
     }
     return heading;
   } else {
@@ -90,11 +90,11 @@ export const getLeaderBoardHeading = (currentEvent, currentTab) => {
 export const checkForFalsy = (data) => {
   if (
     !data ||
-    data == '' ||
+    data == "" ||
     data == undefined ||
     data == null ||
-    data == 'null' ||
-    data == 'undefined'
+    data == "null" ||
+    data == "undefined"
   ) {
     return true;
   }
@@ -103,25 +103,25 @@ export const checkForFalsy = (data) => {
 
 export const getWeekDayByNumber = (number) => {
   const WeekDay = {
-    0: 'Sun',
-    1: 'Mon',
-    2: 'Tues',
-    3: 'Wed',
-    4: 'Thurs',
-    5: 'Fri',
-    6: 'Sat',
+    0: "Sun",
+    1: "Mon",
+    2: "Tues",
+    3: "Wed",
+    4: "Thurs",
+    5: "Fri",
+    6: "Sat",
   };
   return WeekDay[number] || number;
 };
 
 export const formatDate = (date) => {
   var d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
     year = d.getFullYear();
 
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
 
-  return [year, month, day].join('-');
+  return [year, month, day].join("-");
 };

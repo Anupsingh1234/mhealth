@@ -1,10 +1,10 @@
-import React, {Suspense, lazy} from 'react';
-import {HashRouter as Router} from 'react-router-dom';
-import ReactDOM from 'react-dom';
-import './index.css';
-import {SnackbarProvider} from 'notistack';
+import React, { Suspense, lazy } from "react";
+import { HashRouter as Router } from "react-router-dom";
+import ReactDOM from "react-dom";
+import "./index.css";
+import { SnackbarProvider } from "notistack";
 
-const App = lazy(() => import('./App'));
+const App = lazy(() => import("./App"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -16,5 +16,5 @@ ReactDOM.render(
       </Router>
     </Suspense>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );

@@ -1,27 +1,27 @@
-import React from 'react';
-import {Switch, SwitchLabel, SwitchRadio, SwitchSelection} from './styles.js';
+import React from "react";
+import { Switch, SwitchLabel, SwitchRadio, SwitchSelection } from "./styles.js";
 
 const titleCase = (str) =>
   str
     .split(/\s+/)
     .map((w) => w[0].toUpperCase() + w.slice(1))
-    .join(' ');
+    .join(" ");
 
-const ClickableLabel = ({title, onChange, id, selected}) => (
+const ClickableLabel = ({ title, onChange, id, selected }) => (
   <SwitchLabel
     onClick={() => onChange(title)}
     className={id}
-    style={selected == title ? {color: '#fff'} : {}}
+    style={selected == title ? { color: "#fff" } : {}}
   >
     {titleCase(title)}
   </SwitchLabel>
 );
 
-const ConcealedRadio = ({value, selected}) => (
+const ConcealedRadio = ({ value, selected }) => (
   <SwitchRadio type="radio" name="switch" defaultChecked={selected === value} />
 );
 
-const ToggleSwitch = ({selected, handleChange, values}) => {
+const ToggleSwitch = ({ selected, handleChange, values }) => {
   const selectionStyle = () => {
     return {
       left: `${(values.indexOf(selected) / 3) * 100}%`,

@@ -1,19 +1,19 @@
-import React from 'react';
-import {ToggleLeft, ToggleRight} from 'react-feather';
-import Switch from 'react-switch';
+import React from "react";
+import { ToggleLeft, ToggleRight } from "react-feather";
+import Switch from "react-switch";
 
-const ActiveButton = ({isActive, handleActive, text}) => (
+const ActiveButton = ({ isActive, handleActive, text }) => (
   <div
     style={{
       margin: 0,
       padding: 0,
-      display: 'flex',
-      alignItems: 'center ',
+      display: "flex",
+      alignItems: "center ",
       fontSize: 12,
       fontWeight: 600,
     }}
   >
-    <div style={{margin: '0px 10px'}}>{text ? text : 'All'}</div>
+    <div style={{ margin: "0px 10px" }}>{text ? text : "All"}</div>
     <Switch
       onChange={handleActive}
       checked={!isActive}

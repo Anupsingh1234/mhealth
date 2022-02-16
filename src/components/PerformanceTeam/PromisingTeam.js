@@ -1,51 +1,51 @@
-import React, {useEffect, useState} from 'react';
-import {lighten, useTheme} from '@material-ui/core/styles';
+import React, { useEffect, useState } from "react";
+import { lighten, useTheme } from "@material-ui/core/styles";
 
 // import ReactLoadingWrapper from "./loaders/ReactLoadingWrapper";
-import Message from 'antd-message';
+import Message from "antd-message";
 
-import {Modal} from 'react-responsive-modal';
-import {makeStyles} from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import CancelIcon from '@material-ui/icons/Cancel';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Paper from '@material-ui/core/Paper';
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Avatar from '@material-ui/core/Avatar';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import { Modal } from "react-responsive-modal";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import CancelIcon from "@material-ui/icons/Cancel";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Paper from "@material-ui/core/Paper";
+import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
+import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Avatar from "@material-ui/core/Avatar";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
 // import CSVExport from "../CSVExport";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 // import NoData from "../NoData";
 // import ActiveButton from "../Utility/ActiveButton";
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import AddIcon from '@material-ui/icons/Add';
-import {Edit} from 'react-feather';
-import {CSVLink} from 'react-csv';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import AddIcon from "@material-ui/icons/Add";
+import { Edit } from "react-feather";
+import { CSVLink } from "react-csv";
 
 const PromiseTeam = (props) => {
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [isActive, setIsActive] = useState(true);
   const [team, setteam] = useState();
   const handleChangeRowsPerPage = (event) => {
@@ -65,11 +65,11 @@ const PromiseTeam = (props) => {
       margin: theme.spacing(1, 1, 0, 0),
     },
     root: {
-      width: '100%',
+      width: "100%",
       // border: "1px solid black"
     },
     paper: {
-      width: '100%',
+      width: "100%",
       marginBottom: theme.spacing(2),
     },
     table: {
@@ -77,12 +77,12 @@ const PromiseTeam = (props) => {
     },
     visuallyHidden: {
       border: 0,
-      clip: 'rect(0 0 0 0)',
+      clip: "rect(0 0 0 0)",
       height: 1,
       margin: -1,
-      overflow: 'hidden',
+      overflow: "hidden",
       padding: 0,
-      position: 'absolute',
+      position: "absolute",
       top: 20,
       width: 1,
     },
@@ -93,7 +93,7 @@ const PromiseTeam = (props) => {
   function TablePaginationActions(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const {count, page, rowsPerPage, onChangePage} = props;
+    const { count, page, rowsPerPage, onChangePage } = props;
 
     const handleFirstPageButtonClick = (event) => {
       onChangePage(event, 0);
@@ -112,22 +112,22 @@ const PromiseTeam = (props) => {
     };
 
     return (
-      <div className={classes.root} style={{display: 'flex'}}>
+      <div className={classes.root} style={{ display: "flex" }}>
         <IconButton
           onClick={handleFirstPageButtonClick}
           disabled={page === 0}
           aria-label="first page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
         <IconButton
           onClick={handleBackButtonClick}
           disabled={page === 0}
           aria-label="previous page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowRight />
           ) : (
             <KeyboardArrowLeft />
@@ -137,9 +137,9 @@ const PromiseTeam = (props) => {
           onClick={handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="next page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowLeft />
           ) : (
             <KeyboardArrowRight />
@@ -149,79 +149,79 @@ const PromiseTeam = (props) => {
           onClick={handleLastPageButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="last page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
       </div>
     );
   }
 
   const headers = [
-    {label: 'Name', key: 'name'},
-    {label: 'Gender', key: 'gender'},
-    {label: 'Promise km', key: 'pkms'},
-    {label: 'Promise Days', key: 'pdays'},
-    {label: 'promise average', key: 'pavg'},
-    {label: 'Complete km', key: 'ckms'},
-    {label: 'complete Day', key: 'cdays'},
-    {label: 'Complete Average', key: 'cavg'},
+    { label: "Name", key: "name" },
+    { label: "Gender", key: "gender" },
+    { label: "Promise km", key: "pkms" },
+    { label: "Promise Days", key: "pdays" },
+    { label: "promise average", key: "pavg" },
+    { label: "Complete km", key: "ckms" },
+    { label: "complete Day", key: "cdays" },
+    { label: "Complete Average", key: "cavg" },
   ];
   const datas = props.promisePlayer;
 
   const teamHeads = [
     {
-      label: 'S.no',
-      id: 's.no',
+      label: "S.no",
+      id: "s.no",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'User name',
-      id: 'name',
+      label: "User name",
+      id: "name",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Gender',
-      id: 'gender',
+      label: "Gender",
+      id: "gender",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Previos Day',
-      id: 'pdays',
+      label: "Previos Day",
+      id: "pdays",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Current Day',
-      id: 'cdays',
+      label: "Current Day",
+      id: "cdays",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Previos km',
-      id: 'pkms',
+      label: "Previos km",
+      id: "pkms",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Current km',
-      id: 'ckms',
+      label: "Current km",
+      id: "ckms",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Previos average',
-      id: 'pavg',
+      label: "Previos average",
+      id: "pavg",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Current average',
-      id: 'cavg',
+      label: "Current average",
+      id: "cavg",
       numeric: false,
       disablePadding: true,
     },
@@ -242,14 +242,14 @@ const PromiseTeam = (props) => {
   function descendingComparator(a, b, orderBy) {
     let firstValue =
       a[orderBy] == null
-        ? 'zzzzzzzzzzzz'
-        : typeof a[orderBy] == 'string'
+        ? "zzzzzzzzzzzz"
+        : typeof a[orderBy] == "string"
         ? a[orderBy]?.toLowerCase()
         : a[orderBy];
     let secondValue =
       b[orderBy] == null
-        ? 'zzzzzzzzzzzz'
-        : typeof b[orderBy] == 'string'
+        ? "zzzzzzzzzzzz"
+        : typeof b[orderBy] == "string"
         ? b[orderBy]?.toLowerCase()
         : b[orderBy];
     if (secondValue < firstValue) {
@@ -262,7 +262,7 @@ const PromiseTeam = (props) => {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
@@ -277,14 +277,14 @@ const PromiseTeam = (props) => {
   }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   // function coach(props)
   const EnhancedTableHead = (prop) => {
-    const {classes, order, orderBy, onRequestSort} = prop;
+    const { classes, order, orderBy, onRequestSort } = prop;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -300,22 +300,22 @@ const PromiseTeam = (props) => {
               padding="none"
               sortDirection={orderBy === teamHead.id ? order : false}
               style={{
-                width: 'max-content',
-                paddingLeft: teamHead.id == 'index' ? 5 : 0,
+                width: "max-content",
+                paddingLeft: teamHead.id == "index" ? 5 : 0,
               }}
             >
               <TableSortLabel
                 active={orderBy === teamHead.id}
-                direction={orderBy === teamHead.id ? order : 'asc'}
+                direction={orderBy === teamHead.id ? order : "asc"}
                 onClick={createSortHandler(teamHead.id)}
-                style={{width: 'max-content'}}
+                style={{ width: "max-content" }}
               >
-                <span style={{marginLeft: 30}}> {teamHead.label} </span>
+                <span style={{ marginLeft: 30 }}> {teamHead.label} </span>
                 {orderBy === teamHead.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </span>
                 ) : null}
               </TableSortLabel>
@@ -332,13 +332,13 @@ const PromiseTeam = (props) => {
         {/* <Paper className={classes.paper}> */}
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
           <Tooltip title="Export data">
-            <CSVLink data={datas} headers={headers} separator={','}>
+            <CSVLink data={datas} headers={headers} separator={","}>
               <SystemUpdateAltIcon />
             </CSVLink>
           </Tooltip>
@@ -357,16 +357,16 @@ const PromiseTeam = (props) => {
         </div>
         <div
           style={{
-            minHeight: '200px',
+            minHeight: "200px",
             padding: 30,
-            overflowX: 'scroll',
+            overflowX: "scroll",
           }}
         >
           {props.promisePlayer ? (
             <Table
               className={classes.table}
               aria-labelledby="tableTitle"
-              size={'small'}
+              size={"small"}
               aria-label="enhanced table"
             >
               <EnhancedTableHead
@@ -381,41 +381,41 @@ const PromiseTeam = (props) => {
                   return (
                     <>
                       <TableRow>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {ind + 1}
                         </TableCell>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.name}
                         </TableCell>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.gender}
                         </TableCell>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.pdays}
                         </TableCell>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.cdays}
                         </TableCell>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.pkms}
                         </TableCell>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.ckms}
                         </TableCell>
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.pavg}
                         </TableCell>
 
-                        <TableCell align="center" style={{fontSize: 12}}>
-                          {' '}
+                        <TableCell align="center" style={{ fontSize: 12 }}>
+                          {" "}
                           {item.cavg}
                         </TableCell>
                       </TableRow>
@@ -424,7 +424,7 @@ const PromiseTeam = (props) => {
                 })}
             </Table>
           ) : (
-            ''
+            ""
           )}
         </div>
       </div>

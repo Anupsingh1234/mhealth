@@ -52,7 +52,7 @@ import {
 } from "../services/apicollection";
 import axios from "axios";
 import WhatsappReport from "./PerformanceTeam/WhtsappReport";
-import SundayChallengeReport from './PerformanceTeam/SundayChallengeReport';
+import SundayChallengeReport from "./PerformanceTeam/SundayChallengeReport";
 import CorporateReport from "./PerformanceTeam/CorporateReport";
 import ActivityReport from "./ActivityReport";
 const MisReport = () => {

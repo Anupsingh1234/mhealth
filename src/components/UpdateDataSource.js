@@ -24,7 +24,7 @@ const UpdateDataSource = ({ dashboardState }) => {
   const [originalSource, setOriginalSource] = useState();
   const [mfinemodal, setmfinemodal] = useState(false);
   const [url, seturl] = useState();
- const [authorizedSources, setAuthorizedSource] = useState([]);
+  const [authorizedSources, setAuthorizedSource] = useState([]);
   const fetchCurrentDataSource = () => {
     if (currentEvent && currentEvent.id) {
       getDataCurrentSource(currentEvent.id).then((res) => {
@@ -41,7 +41,6 @@ const UpdateDataSource = ({ dashboardState }) => {
     setOriginalSource();
     fetchCurrentDataSource();
   }, [dashboardState.selectedChallenge]);
- 
 
   // let authorizedSources =
   //   localStorage.getItem("authorizedDatasource") != undefined &&
@@ -78,15 +77,14 @@ const UpdateDataSource = ({ dashboardState }) => {
       return false;
     }
 
-    const authoapi=()=>{
-      
-        setInterval(() => {
-          if (localStorage.getItem('selectTab') === 'Source'){
+    const authoapi = () => {
+      setInterval(() => {
+        if (localStorage.getItem("selectTab") === "Source") {
           isLoggedIn()
             ? getUserDetailsHandler().then((response) => {
-                if (response.data.response.responseMessage === 'SUCCESS') {
+                if (response.data.response.responseMessage === "SUCCESS") {
                   localStorage.setItem(
-                    'authorizedDatasource',
+                    "authorizedDatasource",
                     JSON.stringify(
                       response.data.response.responseData.authorizedDatasource
                     )
@@ -101,33 +99,31 @@ const UpdateDataSource = ({ dashboardState }) => {
                 setOriginalSource();
                 //  fetchCurrentDataSource();
               })
-            : '';
-            }
-        }, 10000);
-     
-    }
+            : "";
+        }
+      }, 10000);
+    };
 
     useEffect(() => {
-         getUserDetailsHandler().then((response) => {
-           if (response.data.response.responseMessage === 'SUCCESS') {
-             localStorage.setItem(
-               'authorizedDatasource',
-               JSON.stringify(
-                 response.data.response.responseData.authorizedDatasource
-               )
-             );
-             setAuthorizedSource(
-               response.data.response.responseData.authorizedDatasource
-             );
-           }
-           fetchCurrentDataSource();
-           renderSources();
-           setCurrentDataSource();
-           setOriginalSource();
-           //  fetchCurrentDataSource();
-         });
-        }, [])
-   
+      getUserDetailsHandler().then((response) => {
+        if (response.data.response.responseMessage === "SUCCESS") {
+          localStorage.setItem(
+            "authorizedDatasource",
+            JSON.stringify(
+              response.data.response.responseData.authorizedDatasource
+            )
+          );
+          setAuthorizedSource(
+            response.data.response.responseData.authorizedDatasource
+          );
+        }
+        fetchCurrentDataSource();
+        renderSources();
+        setCurrentDataSource();
+        setOriginalSource();
+        //  fetchCurrentDataSource();
+      });
+    }, []);
 
     return sourcesArray.map((item) => {
       let currentSource = authorizedSources.filter(

@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import PerformanceTable from './PerformanceTable';
+import React, { useEffect } from "react";
+import PerformanceTable from "./PerformanceTable";
 
 const PerformanceTab = ({
   data,

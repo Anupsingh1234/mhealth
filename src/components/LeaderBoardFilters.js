@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import Button from '@material-ui/core/Button';
-import Slider from '@material-ui/core/Slider';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
-import {APP} from '../utils/appConfig';
+import React, { useState, useEffect } from "react";
+import Button from "@material-ui/core/Button";
+import Slider from "@material-ui/core/Slider";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import TextField from "@material-ui/core/TextField";
+import { APP } from "../utils/appConfig";
 
 const LeaderBoardFilters = ({
   setTableRowData,
@@ -14,11 +14,11 @@ const LeaderBoardFilters = ({
   handlefilterPopoverClose,
 }) => {
   const [filterState, setFilterState] = useState({
-    gender: '',
+    gender: "",
     age: [0, 100],
-    city: '',
-    pinCode: '',
-    state: '',
+    city: "",
+    pinCode: "",
+    state: "",
     activeDays: [0, 365],
   });
 
@@ -44,7 +44,7 @@ const LeaderBoardFilters = ({
               });
             }}
             displayEmpty
-            inputProps={{'aria-label': 'Without label'}}
+            inputProps={{ "aria-label": "Without label" }}
           >
             <MenuItem value="female">Female</MenuItem>
             <MenuItem value="male">Male</MenuItem>
@@ -68,14 +68,14 @@ const LeaderBoardFilters = ({
             min={0}
             max={100}
             marks={[
-              {value: 0, label: 0},
-              {value: 100, label: 100},
+              { value: 0, label: 0 },
+              { value: 100, label: 100 },
             ]}
           />
         </div>
         <div
           className="leaderboard-table-filter-list-item"
-          style={{marginBottom: 0}}
+          style={{ marginBottom: 0 }}
         >
           <div className="leaderboard-table-filter-list-item-label">State:</div>
           <Select
@@ -89,7 +89,7 @@ const LeaderBoardFilters = ({
               });
             }}
             displayEmpty
-            inputProps={{'aria-label': 'Without label'}}
+            inputProps={{ "aria-label": "Without label" }}
           >
             {APP.filterStates.map((item) => {
               return (
@@ -152,73 +152,73 @@ const LeaderBoardFilters = ({
           min={0}
           max={365}
           marks={[
-            {value: 0, label: 0},
-            {value: 365, label: 365},
+            { value: 0, label: 0 },
+            { value: 365, label: 365 },
           ]}
         />
       </div>
 
       <div
         style={{
-          width: 'max-content',
+          width: "max-content",
           marginTop: 10,
-          marginLeft: 'auto',
+          marginLeft: "auto",
           padding: 0,
           height: 24,
-          display: 'flex',
-          justifyContent: 'space-between',
+          display: "flex",
+          justifyContent: "space-between",
         }}
       >
         <Button
           color="secondary"
           onClick={() => {
             setFilterState({
-              gender: '',
+              gender: "",
               age: [0, 100],
-              city: '',
-              pinCode: '',
-              state: '',
+              city: "",
+              pinCode: "",
+              state: "",
               activeDays: [0, 365],
             });
             setFilters({
-              gender: '',
+              gender: "",
               age: [0, 100],
-              city: '',
-              pinCode: '',
-              state: '',
+              city: "",
+              pinCode: "",
+              state: "",
               activeDays: [0, 365],
             });
 
-            if (leaderBoardData && leaderBoardData['data']) {
-              let pinnedUsers = leaderBoardData['data']['pinUserRank']
-                ? leaderBoardData['data']['pinUserRank'].map(
+            if (leaderBoardData && leaderBoardData["data"]) {
+              let pinnedUsers = leaderBoardData["data"]["pinUserRank"]
+                ? leaderBoardData["data"]["pinUserRank"].map(
                     (item) => item.userId
                   )
                 : [];
 
-              if (leaderBoardData['data']['rankWiseBoard']) {
-                if (leaderBoardData['data']['sessionUserRank']) {
+              if (leaderBoardData["data"]["rankWiseBoard"]) {
+                if (leaderBoardData["data"]["sessionUserRank"]) {
                   setTableRowData([
-                    leaderBoardData['data']['sessionUserRank'],
-                    ...leaderBoardData['data']['rankWiseBoard'].filter(
+                    leaderBoardData["data"]["sessionUserRank"],
+                    ...leaderBoardData["data"]["rankWiseBoard"].filter(
                       (item) =>
                         pinnedUsers.includes(item.userId) &&
                         item.userId !==
-                          leaderBoardData['data']['sessionUserRank']['userId']
+                          leaderBoardData["data"]["sessionUserRank"]["userId"]
                     ),
-                    ...leaderBoardData['data']['rankWiseBoard'].filter(
+                    ...leaderBoardData["data"]["rankWiseBoard"].filter(
                       (item) =>
                         !pinnedUsers.includes(item.userId) &&
                         item.userId !==
-                          leaderBoardData['data']['sessionUserRank']['userId']
+                          leaderBoardData["data"]["sessionUserRank"]["userId"]
                     ),
                   ]);
                 } else {
                   setTableRowData([
-                    ...leaderBoardData['data']['rankWiseBoard'].filter((item) =>
+                    ...leaderBoardData["data"]["rankWiseBoard"].filter((item) =>
                       pinnedUsers.includes(item.userId)
                     ),
-                    ...leaderBoardData['data']['rankWiseBoard'].filter(
+                    ...leaderBoardData["data"]["rankWiseBoard"].filter(
                       (item) => !pinnedUsers.includes(item.userId)
                     ),
                   ]);
@@ -284,28 +284,28 @@ const LeaderBoardFilters = ({
 
               const result = leaderBoardData.data.rankWiseBoard.filter(
                 combineFilters(
-                  filterState.gender !== ''
+                  filterState.gender !== ""
                     ? genderFilter
                     : () => {
                         return true;
                       },
                   ageFilter,
-                  filterState.city !== ''
+                  filterState.city !== ""
                     ? cityFilter
                     : () => {
                         return true;
                       },
-                  filterState.state !== ''
+                  filterState.state !== ""
                     ? stateFilter
                     : () => {
                         return true;
                       },
-                  filterState.pinCode !== ''
+                  filterState.pinCode !== ""
                     ? pincodeFilter
                     : () => {
                         return true;
                       },
-                  filterState.activeDays !== ''
+                  filterState.activeDays !== ""
                     ? activeDays
                     : () => {
                         return true;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   urlPrefix,
   validateUser,
@@ -11,20 +11,20 @@ import {
   clientSecret,
   secretToken,
   clientID,
-} from './apicollection';
+} from "./apicollection";
 
 export const validateUserHandler = (payload) => {
   const URL = `${urlPrefix}${validateUser}?mobileNumber=${payload.phoneNumber}&countryCode=${payload.dialCode}`;
   return axios.get(URL, {
     headers: {
       Authorization: `Bearer ${secretToken}`,
-      timeStamp: 'timestamp',
-      accept: '*/*',
-      'Access-Control-Allow-Origin': '*',
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
       withCredentials: true,
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers':
-        'accept, content-type, x-access-token, x-requested-with',
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
     },
   });
 };
@@ -37,13 +37,13 @@ export const sendOTPHandler = (mobileNumberObj, otpTnxType) => {
     {
       headers: {
         Authorization: `Bearer ${secretToken}`,
-        timeStamp: 'timestamp',
-        accept: '*/*',
-        'Access-Control-Allow-Origin': '*',
+        timeStamp: "timestamp",
+        accept: "*/*",
+        "Access-Control-Allow-Origin": "*",
         withCredentials: true,
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-        'Access-Control-Allow-Headers':
-          'accept, content-type, x-access-token, x-requested-with',
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers":
+          "accept, content-type, x-access-token, x-requested-with",
       },
     }
   );
@@ -54,14 +54,14 @@ export const verifyOTPHandler = (payload) => {
   return axios.post(URL, payload, {
     headers: {
       Authorization: `Bearer ${secretToken}`,
-      timeStamp: 'timestamp',
-      accept: '*/*',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
       withCredentials: true,
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers':
-        'accept, content-type, x-access-token, x-requested-with',
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
     },
   });
 };
@@ -71,13 +71,13 @@ export const registerUserHandler = (payload, token) => {
   return axios.post(URL, payload, {
     headers: {
       Authorization: `Bearer ${token}`,
-      accept: '*/*',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
+      accept: "*/*",
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
       withCredentials: true,
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers':
-        'accept, content-type, x-access-token, x-requested-with',
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
     },
   });
 };
@@ -98,14 +98,14 @@ export const forgetPasswordHandler = (payload) => {
   const URL = `${urlPrefix}${forgotPin}`;
   return axios.post(URL, payload, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      timeStamp: 'timestamp',
-      accept: '*/*',
-      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
       withCredentials: true,
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers':
-        'accept, content-type, x-access-token, x-requested-with',
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
     },
   });
 };
@@ -114,14 +114,14 @@ export const resetPasswordHandler = (payload) => {
   const URL = `${urlPrefix}${resetPin}`;
   return axios.post(URL, payload, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('token')}`,
-      timeStamp: 'timestamp',
-      accept: '*/*',
-      'Access-Control-Allow-Origin': '*',
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
       withCredentials: true,
-      'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers':
-        'accept, content-type, x-access-token, x-requested-with',
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
     },
   });
 };

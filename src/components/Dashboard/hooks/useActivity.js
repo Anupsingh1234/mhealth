@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {getActivitySubEvent} from '../../../services/challengeApi';
-import {formatDate} from '../../../utils/commonFunctions';
+import React, { useEffect, useState } from "react";
+import { getActivitySubEvent } from "../../../services/challengeApi";
+import { formatDate } from "../../../utils/commonFunctions";
 
 const useActivity = (eventId, value) => {
   const [subEventList, setSubEventList] = useState([]);
@@ -17,7 +17,7 @@ const useActivity = (eventId, value) => {
     if (eventId) {
       getActivitySubEvent(eventId, [])
         .then((res) => {
-          const {responseCode, responseData} = res.data.response;
+          const { responseCode, responseData } = res.data.response;
           if (
             responseCode === 0 &&
             responseData &&
@@ -35,7 +35,7 @@ const useActivity = (eventId, value) => {
         });
       getActivitySubEvent(eventId, payload)
         .then((res) => {
-          const {responseCode, responseData} = res.data.response;
+          const { responseCode, responseData } = res.data.response;
           if (
             responseCode === 0 &&
             responseData &&

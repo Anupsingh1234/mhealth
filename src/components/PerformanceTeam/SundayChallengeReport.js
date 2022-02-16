@@ -44,11 +44,11 @@ import { urlPrefix, secretToken } from "../../services/apicollection";
 import InfoDialog from "../Utility/InfoDialog";
 import SundayChallenge from "../SundayChallenge";
 const SundayChallengeReport = (props) => {
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
   const [isActive, setIsActive] = useState(true);
   const [team, setteam] = useState();
   const handleChangeRowsPerPage = (event) => {
@@ -69,11 +69,11 @@ const SundayChallengeReport = (props) => {
       margin: theme.spacing(1, 1, 0, 0),
     },
     root: {
-      width: '100%',
+      width: "100%",
       // border: "1px solid black"
     },
     paper: {
-      width: '100%',
+      width: "100%",
       marginBottom: theme.spacing(2),
     },
     table: {
@@ -81,12 +81,12 @@ const SundayChallengeReport = (props) => {
     },
     visuallyHidden: {
       border: 0,
-      clip: 'rect(0 0 0 0)',
+      clip: "rect(0 0 0 0)",
       height: 1,
       margin: -1,
-      overflow: 'hidden',
+      overflow: "hidden",
       padding: 0,
-      position: 'absolute',
+      position: "absolute",
       top: 20,
       width: 1,
     },
@@ -97,7 +97,7 @@ const SundayChallengeReport = (props) => {
   function TablePaginationActions(props) {
     const classes = useStyles();
     const theme = useTheme();
-    const {count, page, rowsPerPage, onChangePage} = props;
+    const { count, page, rowsPerPage, onChangePage } = props;
 
     const handleFirstPageButtonClick = (event) => {
       onChangePage(event, 0);
@@ -116,22 +116,22 @@ const SundayChallengeReport = (props) => {
     };
 
     return (
-      <div className={classes.root} style={{display: 'flex'}}>
+      <div className={classes.root} style={{ display: "flex" }}>
         <IconButton
           onClick={handleFirstPageButtonClick}
           disabled={page === 0}
           aria-label="first page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
         <IconButton
           onClick={handleBackButtonClick}
           disabled={page === 0}
           aria-label="previous page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowRight />
           ) : (
             <KeyboardArrowLeft />
@@ -141,9 +141,9 @@ const SundayChallengeReport = (props) => {
           onClick={handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="next page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowLeft />
           ) : (
             <KeyboardArrowRight />
@@ -153,9 +153,9 @@ const SundayChallengeReport = (props) => {
           onClick={handleLastPageButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="last page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
       </div>
     );
@@ -163,46 +163,46 @@ const SundayChallengeReport = (props) => {
 
   const teamHeads = [
     {
-      label: 'S.no',
-      id: 's.no',
+      label: "S.no",
+      id: "s.no",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Event Name',
-      id: 'eventName',
+      label: "Event Name",
+      id: "eventName",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Challenge Name',
-      id: 'challengeName',
+      label: "Challenge Name",
+      id: "challengeName",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Person Name',
-      id: 'personName',
-      numeric: false,
-      disablePadding: true,
-    },
-
-    {
-      label: 'Mobile',
-      id: 'mobileNumber',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'Completion Date',
-      id: 'completedOn',
+      label: "Person Name",
+      id: "personName",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Status',
-      id: 'status',
+      label: "Mobile",
+      id: "mobileNumber",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "Completion Date",
+      id: "completedOn",
+      numeric: false,
+      disablePadding: true,
+    },
+
+    {
+      label: "Status",
+      id: "status",
       numeric: false,
       disablePadding: true,
     },
@@ -217,14 +217,14 @@ const SundayChallengeReport = (props) => {
   function descendingComparator(a, b, orderBy) {
     let firstValue =
       a[orderBy] == null
-        ? 'zzzzzzzzzzzz'
-        : typeof a[orderBy] == 'string'
+        ? "zzzzzzzzzzzz"
+        : typeof a[orderBy] == "string"
         ? a[orderBy]?.toLowerCase()
         : a[orderBy];
     let secondValue =
       b[orderBy] == null
-        ? 'zzzzzzzzzzzz'
-        : typeof b[orderBy] == 'string'
+        ? "zzzzzzzzzzzz"
+        : typeof b[orderBy] == "string"
         ? b[orderBy]?.toLowerCase()
         : b[orderBy];
     if (secondValue < firstValue) {
@@ -237,7 +237,7 @@ const SundayChallengeReport = (props) => {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
@@ -252,14 +252,14 @@ const SundayChallengeReport = (props) => {
   }
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   // function coach(props)
   const EnhancedTableHead = (prop) => {
-    const {classes, order, orderBy, onRequestSort} = prop;
+    const { classes, order, orderBy, onRequestSort } = prop;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -275,22 +275,22 @@ const SundayChallengeReport = (props) => {
               padding="none"
               sortDirection={orderBy === teamHead.id ? order : false}
               style={{
-                width: 'max-content',
-                paddingLeft: teamHead.id == 'index' ? 5 : 0,
+                width: "max-content",
+                paddingLeft: teamHead.id == "index" ? 5 : 0,
               }}
             >
               <TableSortLabel
                 active={orderBy === teamHead.id}
-                direction={orderBy === teamHead.id ? order : 'asc'}
+                direction={orderBy === teamHead.id ? order : "asc"}
                 onClick={createSortHandler(teamHead.id)}
-                style={{width: 'max-content'}}
+                style={{ width: "max-content" }}
               >
-                <span style={{marginLeft: 30}}> {teamHead.label} </span>
+                <span style={{ marginLeft: 30 }}> {teamHead.label} </span>
                 {orderBy === teamHead.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </span>
                 ) : null}
               </TableSortLabel>
@@ -303,8 +303,8 @@ const SundayChallengeReport = (props) => {
 
   const useStyles3 = makeStyles((theme) => ({
     container: {
-      display: 'flex',
-      flexWrap: 'wrap',
+      display: "flex",
+      flexWrap: "wrap",
     },
     textField: {
       marginLeft: theme.spacing(1),
@@ -312,7 +312,7 @@ const SundayChallengeReport = (props) => {
       width: 200,
     },
     button: {
-      display: 'block',
+      display: "block",
       marginTop: theme.spacing(2),
     },
     formControl: {
@@ -325,20 +325,20 @@ const SundayChallengeReport = (props) => {
 
   //
   var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
+  var dd = String(today.getDate()).padStart(2, "0");
   const months = [
-    '01',
-    '02',
-    '03',
-    '04',
-    '05',
-    '06',
-    '07',
-    '08',
-    '09',
-    '10',
-    '11',
-    '12',
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
   ];
 
   const mos = today.getMonth();
@@ -346,10 +346,10 @@ const SundayChallengeReport = (props) => {
   var year = today.getFullYear();
   // setdate(year + "-" + mm + "-" + dd);
 
-  const [currDate, setcurrDate] = useState(year + '-' + mm + '-' + dd);
+  const [currDate, setcurrDate] = useState(year + "-" + mm + "-" + dd);
   const [responsemessageModal, setResponsemessageModal] = useState(false);
-  const [messageData, setMessageData] = useState('');
-  const [phone, setPhone] = useState('');
+  const [messageData, setMessageData] = useState("");
+  const [phone, setPhone] = useState("");
   const [data, setData] = useState([]);
 
   const getDate = (e) => {
@@ -361,27 +361,25 @@ const SundayChallengeReport = (props) => {
     return axios
       .get(URL, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
         {
-          console.log(res, 'res');
-          if (res?.data?.response?.responseMessage === 'SUCCESS') {
+          console.log(res, "res");
+          if (res?.data?.response?.responseMessage === "SUCCESS") {
             res?.data?.response?.responseData &&
               setData(res?.data?.response?.responseData);
-          }
-          else
-          {
-             Message.error('Only Sunday Date Allowed !');
-             setData([])
+          } else {
+            Message.error("Only Sunday Date Allowed !");
+            setData([]);
           }
         }
       });
@@ -389,12 +387,12 @@ const SundayChallengeReport = (props) => {
   useEffect(() => {
     // handleChange();
   }, []);
-  console.log(data, 'data');
+  console.log(data, "data");
   const sendWhatsappMessage = () => {
     let payload = {
       message: messageData,
       message_id: null,
-      type: 'text',
+      type: "text",
       url: null,
     };
     const URL = `${urlPrefix}clients/sendMessageOnWhatsapp?mobileNumber=${phone}`;
@@ -403,17 +401,17 @@ const SundayChallengeReport = (props) => {
       .post(URL, payload, {
         headers: {
           Authorization: `Bearer ${secretToken}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
-        setMessageData('');
+        setMessageData("");
         setResponsemessageModal(false);
         Message.success(res.data.response.responseMessage);
       });
@@ -421,15 +419,14 @@ const SundayChallengeReport = (props) => {
 
   return (
     <>
-  
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-        <fieldset style={{width: '150px', height: 50}}>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <fieldset style={{ width: "150px", height: 50 }}>
           <legend>Select Date:</legend>
           <form className={classes3.container} noValidate>
             <TextField
               id="date"
               type="date"
-              defaultValue={year + '-' + mm + '-' + dd}
+              defaultValue={year + "-" + mm + "-" + dd}
               className={classes3.textField}
               InputLabelProps={{
                 shrink: true,
@@ -441,9 +438,9 @@ const SundayChallengeReport = (props) => {
         </fieldset>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             marginLeft: 50,
           }}
         >
@@ -456,29 +453,29 @@ const SundayChallengeReport = (props) => {
             }}
             onClick={handleChange}
           >
-            {' '}
-            submit{' '}
+            {" "}
+            submit{" "}
           </button>
           <span
             style={{
               marginTop: 20,
-              color: 'red',
+              color: "red",
               marginLeft: 50,
             }}
           >
-            {' '}
+            {" "}
             {/* {resMessage}{" "} */}
           </span>
-        </div>{' '}
+        </div>{" "}
       </div>
       <hr />
 
-      <div style={{height: 500}}>
+      <div style={{ height: 500 }}>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            alignItems: 'center',
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
           }}
         >
           {/* <Tooltip title="Export data">
@@ -503,14 +500,14 @@ const SundayChallengeReport = (props) => {
           style={{
             height: 400,
             padding: 30,
-            overflowX: 'scroll',
+            overflowX: "scroll",
           }}
         >
           {data.length > 0 ? (
             <Table
               className={classes.table}
               aria-labelledby="tableTitle"
-              size={'small'}
+              size={"small"}
               aria-label="enhanced table"
             >
               <EnhancedTableHead
@@ -529,34 +526,33 @@ const SundayChallengeReport = (props) => {
                         <TableCell align="center"> {ind + 1} </TableCell>
                         <TableCell
                           align="center"
-                          style={{textAlign: 'justify', width: 300}}
+                          style={{ textAlign: "justify", width: 300 }}
                         >
-                          {' '}
-                          {item.eventName ? item.eventName : '-'}{' '}
+                          {" "}
+                          {item.eventName ? item.eventName : "-"}{" "}
                         </TableCell>
                         <TableCell align="center">
-                          {' '}
-                          {item.challengeName ? item.challengeName : '-'}{' '}
+                          {" "}
+                          {item.challengeName ? item.challengeName : "-"}{" "}
                         </TableCell>
                         <TableCell align="center">
-                          {' '}
-                          {item.personName ? item.personName : '-'}{' '}
+                          {" "}
+                          {item.personName ? item.personName : "-"}{" "}
                         </TableCell>
                         <TableCell align="center">
-                          {' '}
-                          {item.mobileNumber ? item.mobileNumber : '-'}{' '}
+                          {" "}
+                          {item.mobileNumber ? item.mobileNumber : "-"}{" "}
                         </TableCell>
                         <TableCell align="center">
-                          {' '}
-                          {item.completedOn ? item.completedOn.substring(0,10) : '-'}{' '}
+                          {" "}
+                          {item.completedOn
+                            ? item.completedOn.substring(0, 10)
+                            : "-"}{" "}
                         </TableCell>
 
-                        <TableCell
-                          align="center"
-                          style={{}}
-                        >
-                          {' '}
-                          {item.status ? item.status : '-'}{' '}
+                        <TableCell align="center" style={{}}>
+                          {" "}
+                          {item.status ? item.status : "-"}{" "}
                         </TableCell>
                         {/* <TableCell>
                           {item.message === true ? (
@@ -587,25 +583,25 @@ const SundayChallengeReport = (props) => {
               <div
                 style={{
                   // height: 400,
-                  padding: '5px',
+                  padding: "5px",
                   marginTop: 30,
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
                   fontSize: 12,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
                 className=""
               >
-                {' '}
+                {" "}
                 <img
-                  style={{width: 200, height: 200}}
+                  style={{ width: 200, height: 200 }}
                   src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                 />
                 Data is not present
-              </div>{' '}
+              </div>{" "}
             </>
           )}
         </div>
@@ -613,40 +609,40 @@ const SundayChallengeReport = (props) => {
           <InfoDialog
             open={responsemessageModal}
             onClose={() => {
-              setResponsemessageModal(false), setMessageData('');
+              setResponsemessageModal(false), setMessageData("");
             }}
           >
             <CancelIcon
               style={{
-                position: 'absolute',
+                position: "absolute",
                 top: 5,
                 right: 5,
-                color: '#ef5350',
-                cursor: 'pointer',
+                color: "#ef5350",
+                cursor: "pointer",
               }}
               onClick={() => {
-                setResponsemessageModal(false), setMessageData('');
+                setResponsemessageModal(false), setMessageData("");
               }}
             />
-            <div style={{height: '200px', width: '450px'}}>
+            <div style={{ height: "200px", width: "450px" }}>
               <textarea
                 placeholder="Write Something ....."
-                style={{height: '150px', width: '400px', marginLeft: '5%'}}
+                style={{ height: "150px", width: "400px", marginLeft: "5%" }}
                 value={messageData}
                 onChange={(e) => setMessageData(e.target.value)}
               />
               <button
                 style={{
                   // backgroundColor: 'green',
-                  color: 'white',
-                  marginLeft: '75%',
-                  width: '80px',
-                  marginBotton: '10px',
+                  color: "white",
+                  marginLeft: "75%",
+                  width: "80px",
+                  marginBotton: "10px",
                 }}
                 className={
                   messageData.length == 0
-                    ? 'searchUserByMobileDisabled'
-                    : 'searchUserByMobile'
+                    ? "searchUserByMobileDisabled"
+                    : "searchUserByMobile"
                 }
                 disabled={messageData.length == 0}
                 onClick={sendWhatsappMessage}

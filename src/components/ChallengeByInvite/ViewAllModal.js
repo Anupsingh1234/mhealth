@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import InfoDialog from '../Utility/InfoDialog';
-import Pagination from '@material-ui/lab/Pagination';
+import React, { useState } from "react";
+import InfoDialog from "../Utility/InfoDialog";
+import Pagination from "@material-ui/lab/Pagination";
 
-const ViewAllModal = ({viewAll, handleClose, challenge, data}) => {
+const ViewAllModal = ({ viewAll, handleClose, challenge, data }) => {
   const [page, setPage] = useState(1);
 
   const handleChange = (event, value) => {
@@ -11,30 +11,30 @@ const ViewAllModal = ({viewAll, handleClose, challenge, data}) => {
   return (
     <InfoDialog open={viewAll} onClose={handleClose}>
       <div className="d-flex flex-column">
-        {' '}
+        {" "}
         <div className="all-time-score-container">
           <table>
             <tr>
               <th
                 style={{
-                  textAlign: 'left',
-                  width: '33%',
+                  textAlign: "left",
+                  width: "33%",
                 }}
               >
                 Date
               </th>
               <th
                 style={{
-                  textAlign: 'left',
-                  width: '33%',
+                  textAlign: "left",
+                  width: "33%",
                 }}
               >
                 {challenge.receiverName}
               </th>
               <th
                 style={{
-                  textAlign: 'left',
-                  width: '33%',
+                  textAlign: "left",
+                  width: "33%",
                 }}
               >
                 {challenge.senderName}
@@ -45,40 +45,40 @@ const ViewAllModal = ({viewAll, handleClose, challenge, data}) => {
               .slice(0, 13)
               .map((item, index) => (
                 <tr>
-                  <td style={{width: '33%'}}>{item.date}</td>
+                  <td style={{ width: "33%" }}>{item.date}</td>
                   <td
                     style={{
-                      width: '33%',
+                      width: "33%",
                       fontWeight:
-                        item['receiverScore'] > item['senderScore'] ? 800 : 300,
+                        item["receiverScore"] > item["senderScore"] ? 800 : 300,
                       background:
-                        item['receiverScore'] > item['senderScore']
-                          ? '#DCFCE7'
-                          : '#FFF',
+                        item["receiverScore"] > item["senderScore"]
+                          ? "#DCFCE7"
+                          : "#FFF",
                       color:
-                        item['receiverScore'] > item['senderScore']
-                          ? '#14532D'
-                          : '#000',
+                        item["receiverScore"] > item["senderScore"]
+                          ? "#14532D"
+                          : "#000",
                     }}
                   >
-                    {item['receiverScore']}
+                    {item["receiverScore"]}
                   </td>
                   <td
                     style={{
-                      width: '33%',
+                      width: "33%",
                       fontWeight:
-                        item['senderScore'] > item['receiverScore'] ? 800 : 300,
+                        item["senderScore"] > item["receiverScore"] ? 800 : 300,
                       background:
-                        item['senderScore'] > item['receiverScore']
-                          ? '#DCFCE7'
-                          : '#FFF',
+                        item["senderScore"] > item["receiverScore"]
+                          ? "#DCFCE7"
+                          : "#FFF",
                       color:
-                        item['senderScore'] > item['receiverScore']
-                          ? '#14532D'
-                          : '#000',
+                        item["senderScore"] > item["receiverScore"]
+                          ? "#14532D"
+                          : "#000",
                     }}
                   >
-                    {item['senderScore']}
+                    {item["senderScore"]}
                   </td>
                 </tr>
               ))}
@@ -86,9 +86,9 @@ const ViewAllModal = ({viewAll, handleClose, challenge, data}) => {
         </div>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            marginTop: '1.5em',
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "1.5em",
             marginBottom: 10,
           }}
         >
@@ -100,19 +100,19 @@ const ViewAllModal = ({viewAll, handleClose, challenge, data}) => {
         </div>
         <div
           style={{
-            marginBottom: '1.5em',
-            width: '100%',
-            textAlign: 'center',
+            marginBottom: "1.5em",
+            width: "100%",
+            textAlign: "center",
           }}
         >
           <button
             style={{
-              width: 'fit-content',
-              height: 'auto',
-              background: 'green',
+              width: "fit-content",
+              height: "auto",
+              background: "green",
               borderRadius: 24,
-              color: 'white',
-              padding: '6px 12px',
+              color: "white",
+              padding: "6px 12px",
             }}
             onClick={() => {
               handleClose();

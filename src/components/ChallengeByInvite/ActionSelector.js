@@ -1,18 +1,22 @@
-import React, {useEffect, useContext, useState} from 'react';
-import {AppContext} from './context/ChallengeContext';
-import {getChallenges, challengeActionCall} from '../../services/challengeApi';
-import Message from 'antd-message';
+import React, { useEffect, useContext, useState } from "react";
+import { AppContext } from "./context/ChallengeContext";
+import {
+  getChallenges,
+  challengeActionCall,
+} from "../../services/challengeApi";
+import Message from "antd-message";
 
 const actionList = {
-  request: 'Request',
-  status: 'Status',
+  request: "Request",
+  status: "Status",
 };
 const ActionSelector = ({
   eventId,
   reloadChallengeAccepted,
   setReloadChallengeAccepted,
 }) => {
-  const {selectedAction, changeState, mobileDataList} = useContext(AppContext);
+  const { selectedAction, changeState, mobileDataList } =
+    useContext(AppContext);
   const [challengeActionList, setList] = useState([]);
   const [loadingAction, setLoadingAction] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
@@ -20,10 +24,10 @@ const ActionSelector = ({
 
   useEffect(() => {
     setLoadingData(true);
-    getChallenges(selectedAction === 'request' ? 'Receiver' : 'Sender', eventId)
+    getChallenges(selectedAction === "request" ? "Receiver" : "Sender", eventId)
       .then((res) => {
         if (res.status === 200 && res.data.response.responseCode === 0) {
-          if (selectedAction === 'request') {
+          if (selectedAction === "request") {
             setList(res.data.response.responseData.Receiver);
           } else {
             setList(res.data.response.responseData.Sender);
@@ -47,11 +51,11 @@ const ActionSelector = ({
         if (res.data.response.responseCode === 0) {
           message.success(res.data.response.responseData);
         } else {
-          message.error('Something went wrong!');
+          message.error("Something went wrong!");
         }
         setLoadingAction(false);
         setReload(!reload);
-        if (action === 'accept') {
+        if (action === "accept") {
           setReloadChallengeAccepted(!reloadChallengeAccepted);
         }
       })
@@ -62,12 +66,12 @@ const ActionSelector = ({
   };
 
   const statusMapping = {
-    REJECT: {borderColor: '#EF4444', background: '#FEE2E2'},
-    ACCEPT: {borderColor: '#16A34A', background: '#DCFCE7'},
-    PENDING: {borderColor: '#D97706', background: '#FEF3C7'},
-    EXPIRE: {borderColor: '#57534E', background: '#F5F5F4'},
+    REJECT: { borderColor: "#EF4444", background: "#FEE2E2" },
+    ACCEPT: { borderColor: "#16A34A", background: "#DCFCE7" },
+    PENDING: { borderColor: "#D97706", background: "#FEF3C7" },
+    EXPIRE: { borderColor: "#57534E", background: "#F5F5F4" },
   };
-  const ChallengeStatusCard = ({challengeDetail}) => {
+  const ChallengeStatusCard = ({ challengeDetail }) => {
     return (
       <div
         className="action-challenge-card"
@@ -76,11 +80,11 @@ const ActionSelector = ({
         <div>
           <div className="date">{challengeDetail.date}</div>
           <div>
-            {challengeDetail.challengeStatus === 'ACCEPT' ? (
+            {challengeDetail.challengeStatus === "ACCEPT" ? (
               <div>
                 <div className="name">
-                  <span className="bold">{challengeDetail.receiverName}</span>{' '}
-                  has accepted your challenge request on{' '}
+                  <span className="bold">{challengeDetail.receiverName}</span>{" "}
+                  has accepted your challenge request on{" "}
                   <span className="request-date">
                     {challengeDetail.acceptedDate}
                   </span>
@@ -90,12 +94,12 @@ const ActionSelector = ({
                   sent on {challengeDetail.invitedDate}
                 </div>
               </div>
-            ) : challengeDetail.challengeStatus === 'REJECT' ? (
+            ) : challengeDetail.challengeStatus === "REJECT" ? (
               <div>
                 <div className="name">
-                  Request sent to{' '}
-                  <span className="bold">{challengeDetail.receiverName}</span>{' '}
-                  is rejected on{' '}
+                  Request sent to{" "}
+                  <span className="bold">{challengeDetail.receiverName}</span>{" "}
+                  is rejected on{" "}
                   <span className="request-date">
                     {challengeDetail.rejectedDate}
                   </span>
@@ -107,8 +111,8 @@ const ActionSelector = ({
             ) : (
               <div>
                 <div className="name">
-                  Request sent to{' '}
-                  <span className="bold">{challengeDetail.receiverName}</span>{' '}
+                  Request sent to{" "}
+                  <span className="bold">{challengeDetail.receiverName}</span>{" "}
                   is pending
                 </div>
                 <div className="invite-date">
@@ -123,21 +127,21 @@ const ActionSelector = ({
     );
   };
 
-  const ChallengeRequestCard = ({challengeDetail}) => {
+  const ChallengeRequestCard = ({ challengeDetail }) => {
     return (
       <div
         className="action-challenge-card"
         style={statusMapping[challengeDetail.challengeStatus.toUpperCase()]}
       >
         <div>
-          {' '}
+          {" "}
           <div className="date">{challengeDetail.date}</div>
           <div>
-            {challengeDetail.challengeStatus.toUpperCase() === 'EXPIRE' ? (
+            {challengeDetail.challengeStatus.toUpperCase() === "EXPIRE" ? (
               <div>
                 <div className="name">
-                  Expired request sent by{' '}
-                  <span className="bold">{challengeDetail.senderName}</span> on{' '}
+                  Expired request sent by{" "}
+                  <span className="bold">{challengeDetail.senderName}</span> on{" "}
                   <span className="request-date">
                     {challengeDetail.expireDate}
                   </span>
@@ -146,11 +150,11 @@ const ActionSelector = ({
                   sent on {challengeDetail.invitedDate}
                 </div>
               </div>
-            ) : challengeDetail.challengeStatus.toUpperCase() === 'ACCEPT' ? (
+            ) : challengeDetail.challengeStatus.toUpperCase() === "ACCEPT" ? (
               <div>
                 <div className="name">
-                  Accepted request sent by{' '}
-                  <span className="bold">{challengeDetail.senderName}</span> on{' '}
+                  Accepted request sent by{" "}
+                  <span className="bold">{challengeDetail.senderName}</span> on{" "}
                   <span className="request-date">
                     {challengeDetail.acceptedDate}
                   </span>
@@ -159,22 +163,22 @@ const ActionSelector = ({
                   sent on {challengeDetail.invitedDate}
                 </div>
               </div>
-            ) : challengeDetail.challengeStatus.toUpperCase() === 'PENDING' ? (
+            ) : challengeDetail.challengeStatus.toUpperCase() === "PENDING" ? (
               <div>
                 <div className="name">
-                  Pending request sent by{' '}
+                  Pending request sent by{" "}
                   <span className="bold">{challengeDetail.senderName}</span>
                 </div>
                 <div className="invite-date">
                   sent on {challengeDetail.invitedDate}
                 </div>
               </div>
-            ) : challengeDetail.challengeStatus.toUpperCase() === 'REJECT' ? (
+            ) : challengeDetail.challengeStatus.toUpperCase() === "REJECT" ? (
               <div>
-                {' '}
+                {" "}
                 <div className="name">
-                  Rejected request sent by{' '}
-                  <span className="bold">{challengeDetail.senderName}</span> on{' '}
+                  Rejected request sent by{" "}
+                  <span className="bold">{challengeDetail.senderName}</span> on{" "}
                   <span className="request-date">
                     {challengeDetail.rejectedDate}
                   </span>
@@ -188,11 +192,11 @@ const ActionSelector = ({
             )}
           </div>
         </div>
-        {challengeDetail.challengeStatus.toUpperCase() === 'PENDING' && (
+        {challengeDetail.challengeStatus.toUpperCase() === "PENDING" && (
           <div className="action-request-container">
             <button
               onClick={() => {
-                handleAction('accept', challengeDetail.challengeId);
+                handleAction("accept", challengeDetail.challengeId);
               }}
               disabled={loadingAction}
             >
@@ -200,7 +204,7 @@ const ActionSelector = ({
             </button>
             <button
               onClick={() => {
-                handleAction('reject', challengeDetail.challengeId);
+                handleAction("reject", challengeDetail.challengeId);
               }}
               disabled={loadingAction}
             >
@@ -213,7 +217,7 @@ const ActionSelector = ({
   };
 
   const getChallengeCard = () => {
-    if (selectedAction === 'status') {
+    if (selectedAction === "status") {
       return challengeActionList.map((challengeDetail) => (
         <ChallengeStatusCard challengeDetail={challengeDetail} />
       ));
@@ -230,8 +234,8 @@ const ActionSelector = ({
           <div
             className={
               selectedAction === actionType[0]
-                ? 'selected-action-block'
-                : 'action-block'
+                ? "selected-action-block"
+                : "action-block"
             }
             onClick={() => {
               changeState({
@@ -245,10 +249,10 @@ const ActionSelector = ({
       </div>
       <div className="action-data-container">
         {loadingData
-          ? ''
+          ? ""
           : challengeActionList.length
           ? getChallengeCard()
-          : 'No data'}
+          : "No data"}
       </div>
     </div>
   );

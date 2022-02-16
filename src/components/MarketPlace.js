@@ -1,74 +1,74 @@
-import React, {useState, useEffect} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import EventInfoModal from './EventInfoModal';
-import InfoIcon from '@material-ui/icons/Info';
-import eventGalleryNoData from '../assets/eventGalleryNoData.jpeg';
-import {getWeekDayByNumber} from '../utils/commonFunctions';
-import InfoDialog from './Utility/InfoDialog';
-import Message from 'antd-message';
-import {CheckCircle} from 'react-feather';
-import ReactStars from 'react-rating-stars-component';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faStar, facebook} from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import StarRatings from 'react-star-ratings';
-import Calendar from 'react-calendar';
+import React, { useState, useEffect } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import EventInfoModal from "./EventInfoModal";
+import InfoIcon from "@material-ui/icons/Info";
+import eventGalleryNoData from "../assets/eventGalleryNoData.jpeg";
+import { getWeekDayByNumber } from "../utils/commonFunctions";
+import InfoDialog from "./Utility/InfoDialog";
+import Message from "antd-message";
+import { CheckCircle } from "react-feather";
+import ReactStars from "react-rating-stars-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, facebook } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import StarRatings from "react-star-ratings";
+import Calendar from "react-calendar";
 // import 'react-calendar/dist/Calendar.css';
-import StepLabel from '@material-ui/core/StepLabel';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import {PlusCircle, Copy} from 'react-feather';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import Iframe from 'react-iframe';
+import StepLabel from "@material-ui/core/StepLabel";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import { PlusCircle, Copy } from "react-feather";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import Iframe from "react-iframe";
 // import './Calender.css';
-import moment from 'moment';
-import CancelIcon from '@material-ui/icons/Cancel';
+import moment from "moment";
+import CancelIcon from "@material-ui/icons/Cancel";
 // import calendly from 'react-calendly';
 import {
   ratingProgramByUser,
   urlPrefix,
   getSubEvent,
-} from '../services/apicollection';
-import 'react-responsive-modal/styles.css';
-import {Modal} from 'react-responsive-modal';
-import FacebookIcon from '@material-ui/icons/Facebook';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import InstagramIcon from '@material-ui/icons/Instagram';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
+} from "../services/apicollection";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import FacebookIcon from "@material-ui/icons/Facebook";
+import TwitterIcon from "@material-ui/icons/Twitter";
+import InstagramIcon from "@material-ui/icons/Instagram";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import {
   subscribeSubEventCall,
   unSubcribeSubEventCall,
-} from '../services/challengeApi';
-import message from 'antd-message';
+} from "../services/challengeApi";
+import message from "antd-message";
 // import AddActivityModal from './AddActivityModal';
 // import getcoach from '../../../services/apicollection';
-import {ContactSupportOutlined} from '@material-ui/icons';
+import { ContactSupportOutlined } from "@material-ui/icons";
 let monthsObject = {
-  '01': 'Jan',
-  '02': 'Feb',
-  '03': 'Mar',
-  '04': 'April',
-  '05': 'May',
-  '06': 'June',
-  '07': 'July',
-  '08': 'Aug',
-  '09': 'Sep',
-  10: 'Oct',
-  11: 'Nov',
-  12: 'Dec',
+  "01": "Jan",
+  "02": "Feb",
+  "03": "Mar",
+  "04": "April",
+  "05": "May",
+  "06": "June",
+  "07": "July",
+  "08": "Aug",
+  "09": "Sep",
+  10: "Oct",
+  11: "Nov",
+  12: "Dec",
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -79,37 +79,37 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1, 0, 0),
   },
   root: {
-    width: '100%',
+    width: "100%",
     // border: "1px solid black"
   },
   paper: {
-    position: 'absolute',
-    width: '90%',
-    backgroundColor: '#fff',
+    position: "absolute",
+    width: "90%",
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     // maxHeight: 500,
-    marginLeft: '195px',
+    marginLeft: "195px",
   },
   table: {
-    position: 'relative',
-    width: '100%',
-    backgroundColor: '#fff',
+    position: "relative",
+    width: "100%",
+    backgroundColor: "#fff",
     // padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     // maxHeight: 1200,
     // marginLeft: '195px',
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     width: 1,
   },
@@ -124,7 +124,7 @@ const MarketPlace = ({
   handleSubEventSelection = () => {},
   selectedSubEvent,
   handleSubEventEdit,
-  eventId
+  eventId,
 }) => {
   // const subEventDetail = [];
   // const getprogram = () => {
@@ -161,22 +161,22 @@ const MarketPlace = ({
   const [mfinemodal, setmfinemodal] = useState(false);
   const [activityModalView, setActivityModalView] = useState();
   const [showBook, setBook] = useState(false);
-  const [url, seturl] = useState('');
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [url, seturl] = useState("");
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(4);
   let startDate = subEventDetail.eventStartDate
-    ? subEventDetail.eventStartDate.split(' ')
-    : '';
+    ? subEventDetail.eventStartDate.split(" ")
+    : "";
   let endDate = subEventDetail.eventEndDate
-    ? subEventDetail.eventEndDate.split(' ')
-    : '';
-  let startDay = startDate[0].split('-')[2];
-  let endDay = endDate[0].split('-')[2];
-  let startMonth = monthsObject[startDate[0].split('-')[1]];
-  let endMonth = monthsObject[endDate[0].split('-')[1]];
+    ? subEventDetail.eventEndDate.split(" ")
+    : "";
+  let startDay = startDate[0].split("-")[2];
+  let endDay = endDate[0].split("-")[2];
+  let startMonth = monthsObject[startDate[0].split("-")[1]];
+  let endMonth = monthsObject[endDate[0].split("-")[1]];
 
   //GET API CALLING
 
@@ -191,12 +191,12 @@ const MarketPlace = ({
         associateReq: {
           associateName: subEventDetail?.associateName,
           eventId: evenId,
-          mobileNumber: `${'91' + localStorage.getItem('mobileNumber')}`,
+          mobileNumber: `${"91" + localStorage.getItem("mobileNumber")}`,
           reqUrl: subEventDetail?.auth_url,
           subEventId: id,
-          userId: localStorage.getItem('userId'),
-          userLastName: localStorage.getItem('firstName'),
-          userfirstName: localStorage.getItem('lastName'),
+          userId: localStorage.getItem("userId"),
+          userLastName: localStorage.getItem("firstName"),
+          userfirstName: localStorage.getItem("lastName"),
         },
         associateResp: {
           response: url,
@@ -204,14 +204,14 @@ const MarketPlace = ({
       },
       {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       }
     );
@@ -222,19 +222,19 @@ const MarketPlace = ({
       .post(
         subEventDetail?.auth_url,
         {
-          user_type: 'patient',
+          user_type: "patient",
           target_url: subEventDetail?.targetUrl,
           user_details: {
-            mobile_number: `${'91' + localStorage.getItem('mobileNumber')}`,
-            firstname: localStorage.getItem('firstName'),
-            lastname: localStorage.getItem('lastName'),
+            mobile_number: `${"91" + localStorage.getItem("mobileNumber")}`,
+            firstname: localStorage.getItem("firstName"),
+            lastname: localStorage.getItem("lastName"),
           },
         },
         {
           headers: {
             secret_key: subEventDetail?.secretKey,
-            client_id: 'mhealth',
-            Content_Type: 'application/json',
+            client_id: "mhealth",
+            Content_Type: "application/json",
           },
         }
       )
@@ -247,35 +247,35 @@ const MarketPlace = ({
 
   const headCells = [
     {
-      label: '',
-      id: 'index',
+      label: "",
+      id: "index",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'S.No',
-      id: 'index',
+      label: "S.No",
+      id: "index",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Name',
+      label: "Name",
 
-      id: 'firstName',
-      numeric: false,
-      disablePadding: true,
-    },
-
-    {
-      label: 'Relation',
-      id: 'dependantRelation',
+      id: "firstName",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Gender',
-      id: 'gender',
+      label: "Relation",
+      id: "dependantRelation",
+      numeric: false,
+      disablePadding: true,
+    },
+
+    {
+      label: "Gender",
+      id: "gender",
       numeric: false,
       disablePadding: true,
     },
@@ -295,7 +295,7 @@ const MarketPlace = ({
   ];
 
   function EnhancedTableHead(props) {
-    const {classes, order, orderBy, onRequestSort} = props;
+    const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -312,15 +312,15 @@ const MarketPlace = ({
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
+                direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
                 {headCell.label}
                 {orderBy === headCell.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </span>
                 ) : null}
               </TableSortLabel>
@@ -343,7 +343,7 @@ const MarketPlace = ({
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
@@ -368,7 +368,7 @@ const MarketPlace = ({
   function TablePaginationActions(props) {
     const classes = useStyles1();
     const theme = useTheme();
-    const {count, page, rowsPerPage, onChangePage} = props;
+    const { count, page, rowsPerPage, onChangePage } = props;
 
     const handleFirstPageButtonClick = (event) => {
       onChangePage(event, 0);
@@ -387,22 +387,22 @@ const MarketPlace = ({
     };
 
     return (
-      <div className={classes.root} style={{display: 'flex'}}>
+      <div className={classes.root} style={{ display: "flex" }}>
         <IconButton
           onClick={handleFirstPageButtonClick}
           disabled={page === 0}
           aria-label="first page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
         <IconButton
           onClick={handleBackButtonClick}
           disabled={page === 0}
           aria-label="previous page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowRight />
           ) : (
             <KeyboardArrowLeft />
@@ -412,9 +412,9 @@ const MarketPlace = ({
           onClick={handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="next page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowLeft />
           ) : (
             <KeyboardArrowRight />
@@ -424,16 +424,16 @@ const MarketPlace = ({
           onClick={handleLastPageButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="last page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
       </div>
     );
   }
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -447,13 +447,13 @@ const MarketPlace = ({
   };
   const avg = () => {
     var str = window.location.href;
-    var getval = '/#/activities';
+    var getval = "/#/activities";
     var result = str.match(getval);
 
-    if (result != '/#/activities') {
+    if (result != "/#/activities") {
       return (
         <>
-          <span style={{display: 'flex'}}>
+          <span style={{ display: "flex" }}>
             <StarRatings
               rating={
                 subEventDetail.programRating !== null
@@ -469,14 +469,14 @@ const MarketPlace = ({
             <span
               style={{
                 fontSize: 12,
-                marginTop: '2px',
-                fontWeight: 'bolder',
-                marginLeft: '5px',
+                marginTop: "2px",
+                fontWeight: "bolder",
+                marginLeft: "5px",
               }}
             >
               {subEventDetail.programRating !== null
                 ? subEventDetail.programRating.toFixed(1)
-                : ''}
+                : ""}
             </span>
           </span>
         </>
@@ -486,22 +486,22 @@ const MarketPlace = ({
 
   const renderRegisterBtn = () => {
     if (
-      subEventDetail.timePeriod == 'PAST' &&
-      subEventDetail.eventNature === 'INDIVIDUAL'
+      subEventDetail.timePeriod == "PAST" &&
+      subEventDetail.eventNature === "INDIVIDUAL"
     ) {
       return (
         <div className="register-button">
-          <button style={{background: '#9e9e9e'}}>Expired</button>
+          <button style={{ background: "#9e9e9e" }}>Expired</button>
         </div>
       );
     } else {
       if (!subEventDetail?.participated) {
         if (subEventDetail?.regOpen) {
-          if (subEventDetail.eventNature === 'INDIVIDUAL') {
+          if (subEventDetail.eventNature === "INDIVIDUAL") {
             return (
               <div className="register-button">
                 <button
-                  style={{marginBottom: '10px'}}
+                  style={{ marginBottom: "10px" }}
                   onClick={() => {
                     subEventDetail.addressRequired == 1 ||
                     subEventDetail.dependentRequired == 1
@@ -521,13 +521,13 @@ const MarketPlace = ({
         }
       } else {
         if (
-          subEventDetail.eventNature === 'INDIVIDUAL' &&
-          subEventDetail.userStatusInProgram === 'SUBSCRIBED'
+          subEventDetail.eventNature === "INDIVIDUAL" &&
+          subEventDetail.userStatusInProgram === "SUBSCRIBED"
         ) {
           return (
             <div className="register-button">
               <button
-                style={{background: '#F43F5E', marginBottom: '10px'}}
+                style={{ background: "#F43F5E", marginBottom: "10px" }}
                 onClick={() => {
                   subEventDetail.addressRequired == 1 ||
                   subEventDetail.dependentRequired == 1
@@ -536,7 +536,7 @@ const MarketPlace = ({
                         subEventId: subEventDetail.id,
                       }).then((res) => {
                         handleSubscription();
-                        message.success('Booking Cancel Successfull.');
+                        message.success("Booking Cancel Successfull.");
                         // setUnsubModal(false);
                       })
                     : cancelAppointment(
@@ -551,14 +551,14 @@ const MarketPlace = ({
           );
         } else {
           if (
-            subEventDetail.eventNature === 'INDIVIDUAL' &&
-            subEventDetail.userStatusInProgram == 'UNSUBSCRIBED' &&
+            subEventDetail.eventNature === "INDIVIDUAL" &&
+            subEventDetail.userStatusInProgram == "UNSUBSCRIBED" &&
             subEventDetail.canRejoin
           ) {
             return (
               <div className="register-button">
                 <button
-                  style={{background: '#ffa726', marginBottom: '10px'}}
+                  style={{ background: "#ffa726", marginBottom: "10px" }}
                   onClick={() => {
                     subEventDetail.addressRequired == 1 ||
                     subEventDetail.dependentRequired == 1
@@ -579,33 +579,33 @@ const MarketPlace = ({
       }
     }
 
-    if (subEventDetail.timePeriod == 'PAST') {
+    if (subEventDetail.timePeriod == "PAST") {
       return (
         <div className="register-button">
-          <button style={{background: '#9e9e9e'}}>Expired</button>
+          <button style={{ background: "#9e9e9e" }}>Expired</button>
         </div>
       );
     } else {
       if (
         !subEventDetail?.participated &&
-        subEventDetail.eventNature !== 'ASSOCIATE'
+        subEventDetail.eventNature !== "ASSOCIATE"
       ) {
         if (subEventDetail?.regOpen) {
           return (
-            <div style={{display: 'flex'}}>
-              <div className="register-button" style={{width: '50%'}}>
+            <div style={{ display: "flex" }}>
+              <div className="register-button" style={{ width: "50%" }}>
                 <button
-                  style={{marginBottom: '10px'}}
+                  style={{ marginBottom: "10px" }}
                   onClick={() =>
                     subscribeSubEventCall({
                       dataSource:
-                        currentEventObj.dataSource === 'WHATSAPP'
-                          ? 'WEB'
+                        currentEventObj.dataSource === "WHATSAPP"
+                          ? "WEB"
                           : currentEventObj.dataSource,
                       eventId: currentEventObj.id,
                       subEventId: subEventDetail.id,
                     }).then((res) => {
-                      message.success('Program Subscribed');
+                      message.success("Program Subscribed");
                       handleSubscription();
                     })
                   }
@@ -613,19 +613,19 @@ const MarketPlace = ({
                   Attach
                 </button>
               </div>
-              <div className="register-button" style={{width: '50%'}}>
+              <div className="register-button" style={{ width: "50%" }}>
                 <button
-                  style={{marginBottom: '10px'}}
+                  style={{ marginBottom: "10px" }}
                   onClick={() =>
                     subscribeSubEventCall({
                       dataSource:
-                        currentEventObj.dataSource === 'WHATSAPP'
-                          ? 'WEB'
+                        currentEventObj.dataSource === "WHATSAPP"
+                          ? "WEB"
                           : currentEventObj.dataSource,
                       eventId: currentEventObj.id,
                       subEventId: subEventDetail.id,
                     }).then((res) => {
-                      message.success('Program Subscribed');
+                      message.success("Program Subscribed");
                       handleSubscription();
                     })
                   }
@@ -638,15 +638,15 @@ const MarketPlace = ({
         }
       } else if (
         !subEventDetail?.participated &&
-        subEventDetail.eventNature === 'ASSOCIATE'
+        subEventDetail.eventNature === "ASSOCIATE"
       ) {
         if (!subEventDetail?.participated) {
           if (subEventDetail?.regOpen) {
-            if (subEventDetail.eventNature === 'ASSOCIATE') {
+            if (subEventDetail.eventNature === "ASSOCIATE") {
               return (
                 <div className="register-button">
                   <button
-                    style={{marginBottom: '10px', background: '#ff9800'}}
+                    style={{ marginBottom: "10px", background: "#ff9800" }}
                     onClick={() => consultApi()}
                   >
                     Consult Now
@@ -657,29 +657,29 @@ const MarketPlace = ({
           }
         }
       } else {
-        if (subEventDetail.userStatusInProgram === 'SUBSCRIBED') {
+        if (subEventDetail.userStatusInProgram === "SUBSCRIBED") {
           return (
             <div className="register-button">
               <button
                 onClick={() => setUnsubModal(true)}
-                style={{background: '#F43F5E', marginBottom: '10px'}}
+                style={{ background: "#F43F5E", marginBottom: "10px" }}
               >
                 Unsubscribe
               </button>
             </div>
           );
         }
-        if (subEventDetail.userStatusInProgram === 'PENDING') {
+        if (subEventDetail.userStatusInProgram === "PENDING") {
           return (
             <div className="register-button">
-              <button style={{background: '#ff9800', marginBottom: '10px'}}>
+              <button style={{ background: "#ff9800", marginBottom: "10px" }}>
                 Pending
               </button>
             </div>
           );
         }
         if (
-          subEventDetail.userStatusInProgram == 'UNSUBSCRIBED' &&
+          subEventDetail.userStatusInProgram == "UNSUBSCRIBED" &&
           subEventDetail.canRejoin
         ) {
           return (
@@ -688,8 +688,8 @@ const MarketPlace = ({
                 onClick={() =>
                   subscribeSubEventCall({
                     dataSource:
-                      currentEventObj.dataSource === 'WHATSAPP'
-                        ? 'WEB'
+                      currentEventObj.dataSource === "WHATSAPP"
+                        ? "WEB"
                         : currentEventObj.dataSource,
                     eventId: currentEventObj.id,
                     subEventId: subEventDetail.id,
@@ -699,7 +699,7 @@ const MarketPlace = ({
                     handleSubscription();
                   })
                 }
-                style={{background: '#ffa726', marginBottom: '10px'}}
+                style={{ background: "#ffa726", marginBottom: "10px" }}
               >
                 Rejoin
               </button>
@@ -711,27 +711,27 @@ const MarketPlace = ({
   };
 
   const renderJoinBtn = () => {
-    if (subEventDetail.timePeriod == 'PAST') {
+    if (subEventDetail.timePeriod == "PAST") {
       return;
     }
 
     if (subEventDetail.registrationFees == 0) {
       if (
-        subEventDetail.userStatusInProgram === 'SUBSCRIBED' &&
+        subEventDetail.userStatusInProgram === "SUBSCRIBED" &&
         subEventDetail.eventLink
       ) {
         return (
           <div
-            style={{width: 'fit-content', fontSize: 12, marginBottom: '10px'}}
+            style={{ width: "fit-content", fontSize: 12, marginBottom: "10px" }}
           >
             <a
               target="_blank"
               href={subEventDetail.eventLink}
               style={{
-                color: '#fff',
-                background: '#518ad6',
+                color: "#fff",
+                background: "#518ad6",
                 borderRadius: 4,
-                padding: '0px 4px',
+                padding: "0px 4px",
               }}
             >
               Join
@@ -740,19 +740,19 @@ const MarketPlace = ({
         );
       }
     } else {
-      if (subEventDetail.userStatusInProgram === 'SUBSCRIBED') {
+      if (subEventDetail.userStatusInProgram === "SUBSCRIBED") {
         return (
           <div
-            style={{width: 'fit-content', fontSize: 12, marginBottom: '10px'}}
+            style={{ width: "fit-content", fontSize: 12, marginBottom: "10px" }}
           >
             <a
               target="_blank"
               href={subEventDetail.eventLink}
               style={{
-                color: '#fff',
-                background: '#518ad6',
+                color: "#fff",
+                background: "#518ad6",
                 borderRadius: 4,
-                padding: '0px 4px',
+                padding: "0px 4px",
               }}
             >
               Join
@@ -760,23 +760,23 @@ const MarketPlace = ({
           </div>
         );
       } else {
-        if (subEventDetail.userStatusInProgram === 'PENDING') {
+        if (subEventDetail.userStatusInProgram === "PENDING") {
           return (
             <div
               style={{
-                width: 'fit-content',
+                width: "fit-content",
                 fontSize: 12,
-                marginBottom: '10px',
+                marginBottom: "10px",
               }}
             >
               <a
                 target="_blank"
                 href={subEventDetail.paymentLink}
                 style={{
-                  color: '#fff',
-                  background: '#518ad6',
+                  color: "#fff",
+                  background: "#518ad6",
                   borderRadius: 4,
-                  padding: '0px 4px',
+                  padding: "0px 4px",
                 }}
               >
                 Pay Here
@@ -788,7 +788,7 @@ const MarketPlace = ({
     }
   };
   const getTime = (time) => {
-    return (time && time.substr(0, 5)) || '';
+    return (time && time.substr(0, 5)) || "";
   };
 
   // NEW CODE ENDED
@@ -802,77 +802,72 @@ const MarketPlace = ({
       ></path>
     </svg>
   );
-  const [queryModal,setQueryModal]=useState(false)
-  const [querySentModal,setQuerySetModal]=useState(false)
-  const [atach,setatach]=useState(false)
-  const [query,setQuery]=useState('')
+  const [queryModal, setQueryModal] = useState(false);
+  const [querySentModal, setQuerySetModal] = useState(false);
+  const [atach, setatach] = useState(false);
+  const [query, setQuery] = useState("");
   const [open, setOpen] = useState(false);
- const condition = JSON.parse(localStorage.getItem('condition'));
+  const condition = JSON.parse(localStorage.getItem("condition"));
 
-   const geAttached = (id) => {
-     const adminurl = `${urlPrefix}v1.0/attachSubEvent?eventId=${eventId}&keyword=attach&subEventId=${id}`;
-     //  setDependentValue(true);
-     return axios
-       .put(
-         adminurl,
-         {},
-         {
-           headers: {
-             Authorization: `Bearer ${localStorage.getItem('token')}`,
-             timeStamp: 'timestamp',
-             accept: '*/*',
-             'Access-Control-Allow-Origin': '*',
-             withCredentials: true,
-             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-             'Access-Control-Allow-Headers':
-               'accept, content-type, x-access-token, x-requested-with',
-           },
-         }
-       )
-       .then((res) => {
-         handleSubscription();
-         setatach(false);
-         Message.success(res.data.response.responseMessage)
-       });
-   };
-    const postQuery = (event,id) => {
-      event.preventDefault();
-      const adminurl = `${urlPrefix}v1.0/queryRaised`;
-     const payload = {
-       id: null,
-       createdBy: localStorage.getItem('userId'),
-       createdOn: '',
-       eventId: eventId,
-       queryDescription: query,
-       subEventId: id,
-       isActive:1
-     };
-      return axios
-        .post(
-          adminurl,
-          payload,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-              timeStamp: 'timestamp',
-              accept: '*/*',
-              'Access-Control-Allow-Origin': '*',
-              withCredentials: true,
-              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-              'Access-Control-Allow-Headers':
-                'accept, content-type, x-access-token, x-requested-with',
-            },
-          }
-        )
-        .then((res) => {
-          // handleSubscription();
-        setQueryModal(false)
-          Message.success(res.data.response.responseMessage);
-          handleSubscription()
-        });
+  const geAttached = (id) => {
+    const adminurl = `${urlPrefix}v1.0/attachSubEvent?eventId=${eventId}&keyword=attach&subEventId=${id}`;
+    //  setDependentValue(true);
+    return axios
+      .put(
+        adminurl,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
+            withCredentials: true,
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
+          },
+        }
+      )
+      .then((res) => {
+        handleSubscription();
+        setatach(false);
+        Message.success(res.data.response.responseMessage);
+      });
+  };
+  const postQuery = (event, id) => {
+    event.preventDefault();
+    const adminurl = `${urlPrefix}v1.0/queryRaised`;
+    const payload = {
+      id: null,
+      createdBy: localStorage.getItem("userId"),
+      createdOn: "",
+      eventId: eventId,
+      queryDescription: query,
+      subEventId: id,
+      isActive: 1,
     };
+    return axios
+      .post(adminurl, payload, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
+          withCredentials: true,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
+        },
+      })
+      .then((res) => {
+        // handleSubscription();
+        setQueryModal(false);
+        Message.success(res.data.response.responseMessage);
+        handleSubscription();
+      });
+  };
 
-  
   const onOpenModal = () => {
     setOpen(true);
 
@@ -880,14 +875,14 @@ const MarketPlace = ({
       const url = `${urlPrefix}v1.0/searchAndViewCoachProfile?phoneNumber=${subEventDetail.coachPhoneNumber}`;
       const x = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       });
       const datares = await x.json();

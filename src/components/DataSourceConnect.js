@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import List from '@material-ui/core/List';
-import {useHistory} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import List from "@material-ui/core/List";
+import { useHistory } from "react-router-dom";
 
-import {APP} from '../utils/appConfig';
-import DataSourceListItem from './DataSourceListItem';
-import {getAuthLink} from '../services/challengeApi';
-import TopUserDetails from './TopUserDetails';
-import Navbar from './Navbar';
-import {getUserDetailsHandler} from '../services/userprofileApi';
+import { APP } from "../utils/appConfig";
+import DataSourceListItem from "./DataSourceListItem";
+import { getAuthLink } from "../services/challengeApi";
+import TopUserDetails from "./TopUserDetails";
+import Navbar from "./Navbar";
+import { getUserDetailsHandler } from "../services/userprofileApi";
 
 export default function DataSourceConnect() {
   const [dataSourceList, setDataSourceList] = useState([]);
@@ -29,10 +29,10 @@ export default function DataSourceConnect() {
         let testArray = promiseRes.map((el, index) => {
           let newObj = {};
           if (connectedSources[index]) {
-            newObj = {...connectedSources[index]};
+            newObj = { ...connectedSources[index] };
           }
-          newObj['authLink'] =
-            el.data.response.responseMessage === 'SUCCESS' &&
+          newObj["authLink"] =
+            el.data.response.responseMessage === "SUCCESS" &&
             el.data.response.responseData &&
             el.data.response.responseData.authorizationLink
               ? el.data.response.responseData.authorizationLink
@@ -50,20 +50,20 @@ export default function DataSourceConnect() {
         res.data.response.responseData.authorizedDatasource
       ) {
         localStorage.setItem(
-          'authorizedDatasource',
+          "authorizedDatasource",
           JSON.stringify(res.data.response.responseData.authorizedDatasource)
         );
       }
     });
 
   function isLoggedIn() {
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem("token")) {
       return true;
     }
     return false;
   }
   function callme() {
-    if (isLoggedIn() && history && history.location.pathname == '/source') {
+    if (isLoggedIn() && history && history.location.pathname == "/source") {
       //This promise will resolve when the network call succeeds
       //Feel free to make a REST fetch using promises and assign it to networkPromise
       var networkPromise = fetchSourceDetails();
@@ -71,12 +71,12 @@ export default function DataSourceConnect() {
       //This promise will resolve when 2 seconds have passed
       var timeOutPromise = new Promise(function (resolve, reject) {
         // 2 Second delay
-        setTimeout(resolve, 10000, 'Timeout Done');
+        setTimeout(resolve, 10000, "Timeout Done");
       });
 
       Promise.all([networkPromise, timeOutPromise]).then(function (values) {
         //Repeat
-        if (isLoggedIn() && history && history.location.pathname == '/source') {
+        if (isLoggedIn() && history && history.location.pathname == "/source") {
           callme();
         }
       });
@@ -90,14 +90,14 @@ export default function DataSourceConnect() {
     <div className="Profile">
       <TopUserDetails />
       <Navbar />
-      <div className="profile-background" style={{flexDirection: 'column'}}>
+      <div className="profile-background" style={{ flexDirection: "column" }}>
         <div className="dataSourceDiv">
-          <div className="heading" style={{textAlign: 'center'}}>
+          <div className="heading" style={{ textAlign: "center" }}>
             Authorize Data Source
           </div>
           <List>
             {Object.entries(APP.dataSourceLogo)
-              .filter((val) => val[0] !== 'NOT_REGISTERED')
+              .filter((val) => val[0] !== "NOT_REGISTERED")
               .map((val) => (
                 <DataSourceListItem
                   val={val}
