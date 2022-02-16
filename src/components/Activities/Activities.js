@@ -92,28 +92,28 @@ const Activities = () => {
     //     });
     //   }
     // });
-       getEventRoleWiseList().then((res) => {
-         if (res.data.response.responseMessage === "SUCCESS") {
-           let currentPresentEvents = res.data.response.responseData.filter(
-             (item) => {
-               return item.isActive == 1;
-             }
-           );
-           // setadmin(res.data.response.responseData.isAdmin);
-           // localStorage.setItem(
-           //   'event',
-           //   res.data.response.responseData.keyword.eventId
-           // );
+    getEventRoleWiseList().then((res) => {
+      if (res.data.response.responseMessage === "SUCCESS") {
+        let currentPresentEvents = res.data.response.responseData.filter(
+          (item) => {
+            return item.isActive == 1;
+          }
+        );
+        // setadmin(res.data.response.responseData.isAdmin);
+        // localStorage.setItem(
+        //   'event',
+        //   res.data.response.responseData.keyword.eventId
+        // );
 
-           // console.log(res.data.response.responseData.isModerator, 'adminlog');
-           setActivityState((prevState) => {
-             return {
-               ...prevState,
-               listOfEventsData: currentPresentEvents,
-             };
-           });
-         }
-       });
+        // console.log(res.data.response.responseData.isModerator, 'adminlog');
+        setActivityState((prevState) => {
+          return {
+            ...prevState,
+            listOfEventsData: currentPresentEvents,
+          };
+        });
+      }
+    });
 
     getAllSubActivities(localStorage.getItem("event")).then((res) => {
       if (res.data.response.responseMessage === "SUCCESS") {
@@ -281,7 +281,6 @@ const Activities = () => {
   };
 
   const handleEvent = (e) => {
-    console.log(e.target.value, "value");
     if (e.target.value !== "Select") {
       let URL = `${urlPrefix}v1.0/getAllSubActivities?challengerzoneId=${e.target.value}`;
 
@@ -359,9 +358,6 @@ const Activities = () => {
             }
           );
         }
-        console.log(eventCode, "5 - listOfSubEventUsers");
-
-        console.log(marvelHeroes, "5 - listOfSubEventUsers");
         setActivityState((prevState) => {
           return {
             ...prevState,
@@ -412,9 +408,6 @@ const Activities = () => {
                 });
             }
 
-            console.log(eventCode, "5 - listOfSubEventUsers");
-
-            console.log(marvelHeroes, "5 - listOfSubEventUsers");
             setActivityState((prevState) => {
               return {
                 ...prevState,

@@ -5,10 +5,9 @@ import useActivity from "../hooks/useActivity";
 import NoData from "../../NoData";
 import DateRangePickerW from "./DateRangePickerW";
 import TriStateToggle from "./TriStateToggle";
-import ScrollableList from "./../../ScrollableList";
 import "../../../styles/Activity.css";
 
-const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
+const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
   const [selval, setselval] = useState("");
 
   const [mystyle, setmystyle] = useState({
@@ -80,102 +79,92 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
       });
 
       return (
-        <div style={{ width: "100%" }}>
+        <>
           {selval === "" && (
-            <div style={{ width: "100%" }}>
-              <ScrollableList>
-                {data.map((subEventDetail) => (
-                  <>
-                    {subEventDetail.timePeriod !== "PAST" ? (
-                      <SubEventCard
-                        subEventDetail={subEventDetail}
-                        currentEventObj={currentEventObj}
-                        handleSubscription={handleSubscription}
-                        type="view"
-                      />
-                    ) : (
-                      ""
-                    )}
-                  </>
-                ))}
-              </ScrollableList>
-            </div>
+            <>
+              {data.map((subEventDetail) => (
+                <>
+                  {subEventDetail.timePeriod !== "PAST" ? (
+                    <SubEventCard
+                      subEventDetail={subEventDetail}
+                      currentEventObj={currentEventObj}
+                      handleSubscription={handleSubscription}
+                      type="view"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
+              ))}
+            </>
           )}
           {selval === "all" && (
             <>
-              <div style={{ width: "100%" }}>
-                <ScrollableList>
-                  {data.map((subEventDetail) => (
-                    <>
-                      {subEventDetail.timePeriod !== "PAST" ? (
-                        <SubEventCard
-                          subEventDetail={subEventDetail}
-                          currentEventObj={currentEventObj}
-                          handleSubscription={handleSubscription}
-                          type="view"
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  ))}
-                </ScrollableList>
-              </div>
+              {data.map((subEventDetail) => (
+                <>
+                  {subEventDetail.timePeriod !== "PAST" ? (
+                    <SubEventCard
+                      subEventDetail={subEventDetail}
+                      currentEventObj={currentEventObj}
+                      handleSubscription={handleSubscription}
+                      type="view"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
+              ))}
             </>
           )}
           {selectedFilter === "old" && (
             <>
-              <div style={{ width: "100%" }}>
-                <ScrollableList>
-                  {data.map((subEventDetail) => (
-                    <>
-                      {subEventDetail.timePeriod === "PAST" ? (
-                        <SubEventCard
-                          subEventDetail={subEventDetail}
-                          currentEventObj={currentEventObj}
-                          handleSubscription={handleSubscription}
-                          type="view"
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  ))}
-                </ScrollableList>
-              </div>
+              {data.map((subEventDetail) => (
+                <>
+                  {subEventDetail.timePeriod === "PAST" ? (
+                    <SubEventCard
+                      subEventDetail={subEventDetail}
+                      currentEventObj={currentEventObj}
+                      handleSubscription={handleSubscription}
+                      type="view"
+                    />
+                  ) : (
+                    ""
+                  )}
+                </>
+              ))}
             </>
           )}
           {marvelHeroes.length > 0 && (
-            <div style={{ width: "100%" }}>
-              <ScrollableList>
-                {marvelHeroes.map((subEventDetail) => (
-                  <SubEventCard
-                    subEventDetail={subEventDetail}
-                    currentEventObj={currentEventObj}
-                    handleSubscription={handleSubscription}
-                    type="view"
-                  />
-                ))}
-              </ScrollableList>
-            </div>
+            <>
+              {marvelHeroes.map((subEventDetail) => (
+                <SubEventCard
+                  subEventDetail={subEventDetail}
+                  currentEventObj={currentEventObj}
+                  handleSubscription={handleSubscription}
+                  type="view"
+                />
+              ))}
+            </>
           )}
-        </div>
+        </>
       );
     } else {
       return (
-        <div className="noProgram">
-          {currentEventObj.challengeName && (
-            <div>
-              No program available for&nbsp;
-              <span
-                style={{
-                  fontWeight: 800,
-                }}
-              >
-                {`${currentEventObj.challengeName}`}
-              </span>
-            </div>
-          )}
+        <div>
+          <div className="noProgram">
+            {currentEventObj.challengeName && (
+              <div>
+                No program available for&nbsp;
+                <span
+                  style={{
+                    fontWeight: 800,
+                  }}
+                >
+                  {`${currentEventObj.challengeName}`}
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       );
     }
@@ -220,12 +209,12 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
         : filteredSubEvent
       : subEventList;
   return (
-    <div className="activityContainer">
+    <>
       {/* Todo: Remove top filters if not needed */}
-      <div className="filterContainer">
-        <div className="challenge-selector">
-          <div className="ch-heading">Programs</div>
-          <div>
+      <div className="activityContainerv2">
+        <div className="filterContainer">
+          <div className="challenge-selector">
+            <div className="ch-heading">Programs</div>
             <TriStateToggle
               values={["all", "old", "Subscribed", "Available"]}
               selected={selectedFilter}
@@ -234,30 +223,30 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
               }}
             />
           </div>
-        </div>
 
-        <div className="challenge-selector">
-          <div>
-            <DateRangePickerW {...{ value, handleDateChange }} />
+          <div className="challenge-selector">
+            <div>
+              <DateRangePickerW {...{ value, handleDateChange }} />
+            </div>
+            <div>{renderFilterButton("Schedule")}</div>
           </div>
-          <div>{renderFilterButton("Schedule")}</div>
-        </div>
 
-        <div>
-          <select onChange={sel}>
-            <option value="all"> select :- </option>
-            {dataarr.map((curelem, index) => {
-              return (
-                <>
-                  <option> {curelem.eventType} </option>
-                </>
-              );
-            })}
-          </select>
+          <div>
+            <select onChange={sel}>
+              <option value="all"> select :- </option>
+              {dataarr.map((curelem, index) => {
+                return (
+                  <>
+                    <option> {curelem.eventType} </option>
+                  </>
+                );
+              })}
+            </select>
+          </div>
         </div>
+        <div className="programCardContainerv2">{renderSubEventList()}</div>
       </div>
-      <div className="programCardContainer">{renderSubEventList()}</div>
-    </div>
+    </>
   );
 };
-export default Activity;
+export default ActivityV2;

@@ -54,7 +54,9 @@ const Login = () => {
   });
 
   const [match, setmatch] = useState(
-    window.location.href == "https://weblite.mhealth.ai/#/login" ? "true" : "false"
+    window.location.href == "https://weblite.mhealth.ai/#/login"
+      ? "true"
+      : "false"
   );
 
   const parenthandel = (name) => {
@@ -70,7 +72,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    isLoggedIn() && history.push("/dashboard");
+    isLoggedIn() && history.push("/programs");
   }, []);
 
   const handleInput = (type, value) => {
@@ -384,7 +386,7 @@ const Login = () => {
             }
           });
 
-          history.push("./dashboard");
+          history.push("./programs");
         } else {
           message.error(res.data.response.responseMessage);
         }

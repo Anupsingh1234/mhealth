@@ -1,0 +1,143 @@
+.gridCenter {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+}
+
+.dashboardActionContainer{
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(4, 80px);
+  grid-row: auto;
+  text-align: center;
+  justify-self: center;
+}
+
+.challengesContainer {
+    display: flex;
+    margin-top: 1rem;
+    width: calc(100% - 40px);
+    border: 1px solid #f3f4f6;
+    padding: 1rem;
+    background: #f9fafb;
+}
+
+.challenge-selector{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ch-heading {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.eventDropdown {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+    margin-left: 15px;
+}
+
+.eventDropdown select {
+    max-width: 130px;
+    min-width: 130px;
+}
+
+.viewEventButton {
+  display: inline-flex;
+  background: var(--blue);
+  color: var(--white);
+  border-radius: 4px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 0.25rem 1rem;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  text-align: center;
+  width: 173px;
+  justify-content: center;
+}
+
+.viewEventButton:hover {
+  box-shadow: rgba(149, 157, 165, 0.3) 0px 8px 24px;
+  background: var(--hover-blue);
+}
+
+.actions {
+    height: 116px;
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.actionButton {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  font-weight: 800;
+  letter-spacing: .5px;
+  background: #000;
+   color: #fff;
+}
+
+.actionButton:hover {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  opacity: 1;
+}
+
+.actionName {
+   font-size: 12px;
+   overflow-wrap: break-word;
+   width: 100%;
+   text-align: center;
+    height: 2.25rem;
+    margin-top: 0.25rem;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+@media (max-width: 767.98px) {
+    .challenge-selector {
+        flex-direction: column;
+    }
+   .challengesContainer {
+        gap: 10px;
+        flex-direction: column;
+    } 
+    .eventDropdown {
+        margin-left: 0px;
+    }
+}
+
+@media screen and (min-width: 768px)  {
+   .challenge-selector{
+       gap: 15px;
+   }
+   .challengesContainer {
+        width: max-content;
+        background-color: #fff;
+        border: 0;
+    }
+    .eventDropdown select {
+        max-width: 190px;
+        min-width: 190px;
+    }
+}

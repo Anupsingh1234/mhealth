@@ -29,7 +29,7 @@ import {
 import TopUserDetails from "./TopUserDetails";
 import EventRegisterModal from "./EventRegisterModal";
 import TargetSetting from "./TargetSetting";
-import Activity from "./Dashboard/Activity/Activity";
+import ActivityV2 from "./Dashboard/Activity/Activity.v2";
 import FullScreen from "./Utility/FullScreen";
 
 import ChallengeStatus from "./Dashboard/ChallengeStatus";
@@ -47,94 +47,13 @@ import {
   ACTION_ICONS_COLOR,
   ACTION_ICONS_BGCOLOR,
 } from "../constants/dashboardAction";
+import { useHistory } from "react-router-dom";
+import { PROGRAMS } from "../constants/footerTabs";
+import "../styles/DashboardWithParam.css";
 
-function FacebookCircularProgress(props) {
-  const useStylesFacebook = makeStyles((theme) => ({
-    root: {
-      position: "absolute",
-      left: "50%",
-      top: "50%",
-    },
-    bottom: {
-      color: theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
-    },
-    top: {
-      color: "#1a90ff",
-      animationDuration: "550ms",
-      position: "absolute",
-      left: 0,
-    },
-    circle: {
-      strokeLinecap: "round",
-    },
-  }));
-  const classes = useStylesFacebook();
-
-  return (
-    <div className={classes.root}>
-      <CircularProgress
-        variant="determinate"
-        className={classes.bottom}
-        size={20}
-        thickness={4}
-        {...props}
-        value={100}
-      />
-      <CircularProgress
-        variant="indeterminate"
-        disableShrink
-        className={classes.top}
-        classes={{
-          circle: classes.circle,
-        }}
-        size={20}
-        thickness={4}
-        {...props}
-      />
-    </div>
-  );
-}
-const Dashboard = () => {
+const Programs = (props) => {
   // Getting default tab for dashboard
-  const getDefaultTab = () => {
-    if (!localStorage.dashboard_default_tab) {
-      return "Activities";
-    }
-
-    if (
-      localStorage.getItem("dashboard_default_tab") !== undefined &&
-      localStorage.getItem("dashboard_default_tab") !== null
-    ) {
-      switch (localStorage.getItem("dashboard_default_tab")) {
-        case "leaderboard":
-          return "Leaderboard";
-        case "event_gallery":
-          return "Gallery";
-        case "invite":
-          return "Challenge";
-        case "program":
-          return "Activities";
-        case "performance":
-          return "Performance";
-        case "target":
-          return "Target";
-        case "source":
-          return "Source";
-        case "compare":
-          return "Compare";
-        case "team":
-          return "team";
-        case "achievement":
-          return "achievement";
-        case "challenge":
-          return "challenge";
-        case "quiz":
-          return "quiz";
-        default:
-          return "Activities";
-      }
-    }
-  };
+  const history = useHistory();
   const [dashboardState, setDashboardState] = useState({
     listOfChallenges: [],
     leaderBoardData: {
@@ -199,7 +118,8 @@ const Dashboard = () => {
   // }, [localStorage.getItem("dashboard_default_tab")]);
 
   useEffect(() => {
-    // Fetching challenges
+    const { setFooterTabs } = props;
+    setFooterTabs(PROGRAMS);
     fetchChallenges();
   }, []);
 
@@ -248,12 +168,14 @@ const Dashboard = () => {
   }, [dashboardState.selectedChallenge, reloadChallengeAccepted]);
 
   useEffect(() => {
-    if (dashboardState.listOfChallenges.length > 0 && !showDefaultView) {
+    if (dashboardState.listOfChallenges.length > 0) {
       const isAnyEventSubscribed = dashboardState.listOfChallenges.filter(
         (e) => e.isSubscribed == true
       ).length;
       setDefaultView(isAnyEventSubscribed === 0);
-      localStorage.setItem("showDefaultView", isAnyEventSubscribed === 0);
+      if (isAnyEventSubscribed === 0 && localStorage.view !== "program") {
+        window.location.replace("/#/default-view");
+      }
     }
   }, [dashboardState.listOfChallenges]);
 
@@ -1170,11 +1092,12 @@ const Dashboard = () => {
   return (
     <div className="Dasboard">
       <Navbar />
-      {dashboardState.selectedAction === "Activities" ? (
-        <div className="Main">
-          <ChallengeList>
-            <TopUserDetails />
-            <div className="display-row mt-4 flex items-center">
+
+      <div className="Main">
+        <ChallengeList>
+          <TopUserDetails />
+          <div className="challengesContainer">
+            <div className="challenge-selector">
               <div className="challenges-heading" style={{ marginRight: 20 }}>
                 Challenges
               </div>
@@ -1183,109 +1106,80 @@ const Dashboard = () => {
                 selected={dashboardState.challengeSwitch}
                 handleChange={handleToggleStateChange}
               />
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {!showDefaultView && (
-                  <>
-                    <SelectBox
-                      options={events || []}
-                      selectedValue={dashboardState.selectedChallengeObject.id}
-                      handleChange={(e) => {
-                        const eventObj = dashboardState.listOfChallenges.find(
-                          (ev) => ev.id === parseInt(e.target.value)
-                        );
-                        handleChallengeCardClick(eventObj);
-                      }}
-                    />
-                    <FA
-                      icon={faInfoCircle}
-                      color="#518ad6"
-                      onClick={() => {
-                        setEventDetailModal(true);
-                      }}
-                    />
-                  </>
-                )}
-                {eventDetailModal && (
-                  <EventInfoModal
-                    challenge={dashboardState.selectedChallengeObject}
-                    modalView={eventDetailModal}
-                    setModalView={() => {
-                      setEventDetailModal(false);
-                    }}
-                  />
-                )}
-                <div
-                  style={{ marginLeft: "1rem" }}
-                  onClick={() => {
-                    setDefaultView(!showDefaultView);
-                    localStorage.setItem("showDefaultView", !showDefaultView);
+            </div>
+            <div className="eventDropdown">
+              <SelectBox
+                options={events || []}
+                selectedValue={dashboardState.selectedChallengeObject.id}
+                handleChange={(e) => {
+                  const eventObj = dashboardState.listOfChallenges.find(
+                    (ev) => ev.id === parseInt(e.target.value)
+                  );
+                  handleChallengeCardClick(eventObj);
+                }}
+              />
+              <FA
+                icon={faInfoCircle}
+                color="#518ad6"
+                onClick={() => {
+                  setEventDetailModal(true);
+                }}
+              />
+              {eventDetailModal && (
+                <EventInfoModal
+                  challenge={dashboardState.selectedChallengeObject}
+                  modalView={eventDetailModal}
+                  setModalView={() => {
+                    setEventDetailModal(false);
                   }}
-                  className="viewEventButton"
-                >
-                  {showDefaultView ? "View Dashboard" : "View Events"}
-                </div>
+                />
+              )}
+              <div
+                style={{ marginLeft: "1rem" }}
+                onClick={() => {
+                  localStorage.setItem("view", "event");
+                  history.push("/default-view");
+                }}
+                className="viewEventButton"
+              >
+                View Events
               </div>
             </div>
+          </div>
 
-            {!showDefaultView && (
-              <Activity
-                eventId={dashboardState.selectedChallenge}
-                currentEventObj={dashboardState.selectedChallengeObject}
-                isProgramAvailable={(value) => {
-                  setDashboardState({
-                    ...dashboardState,
-                    isProgramAvailable: value,
-                  });
-                }}
-              />
-            )}
-          </ChallengeList>
+          <ActivityV2
+            eventId={dashboardState.selectedChallenge}
+            currentEventObj={dashboardState.selectedChallengeObject}
+            isProgramAvailable={(value) => {
+              setDashboardState({
+                ...dashboardState,
+                isProgramAvailable: value,
+              });
+            }}
+          />
+        </ChallengeList>
 
-          {showDefaultView && (
-            <DefaultDashboard handleSearchEvent={handleSearchEvent}>
-              <ListOfEvents
-                handleChallengeCardClick={handleChallengeCardClick}
-                fetchChallenges={fetchChallenges}
-                data={
-                  dashboardState.searchedEvent.length > 0
-                    ? dashboardState.searchedEvent
-                    : dashboardState.listOfChallenges
-                }
-                dashboardState={dashboardState}
-                setDashboardState={setDashboardState}
-                selectedAction={dashboardState.selectedAction}
-                listType="event"
-                selectedChallengeArray={dashboardState.selectedChallengeArray}
-                selectedChallenge={dashboardState.selectedChallenge}
-              />
-            </DefaultDashboard>
+        {/* Event Register Modal by localStorage */}
+        {localStorage.challengeIDRegister &&
+          localStorage.mobileNumber &&
+          dashboardState.allChallenge.length > 0 && (
+            <EventRegisterModal
+              challenge={
+                dashboardState.allChallenge.filter(
+                  (ch) => ch.id === parseInt(localStorage.challengeIDRegister)
+                )[0] ?? {}
+              }
+              modalView={showRegisterModal}
+              setModalView={() => {
+                localStorage.removeItem("challengeIDRegister");
+                setShowRegisterModal(false);
+              }}
+              setDashboardState={setDashboardState}
+              instruction_details={dashboardState?.instruction_details}
+            />
           )}
 
-          {/* Event Register Modal by localStorage */}
-          {localStorage.challengeIDRegister &&
-            localStorage.mobileNumber &&
-            dashboardState.allChallenge.length > 0 && (
-              <EventRegisterModal
-                challenge={
-                  dashboardState.allChallenge.filter(
-                    (ch) => ch.id === parseInt(localStorage.challengeIDRegister)
-                  )[0] ?? {}
-                }
-                modalView={showRegisterModal}
-                setModalView={() => {
-                  localStorage.removeItem("challengeIDRegister");
-                  setShowRegisterModal(false);
-                }}
-                setDashboardState={setDashboardState}
-                instruction_details={dashboardState?.instruction_details}
-              />
-            )}
-
-          {/* Action Cards */}
-          {!showDefaultView && (
-            <div style={{ marginTop: "2rem" }}>
-              <div>
-                {/* 
+        {/* 
                 // Todo: Place no of days of event somewhere
                 <div
                   className="challenges-heading"
@@ -1299,298 +1193,8 @@ const Dashboard = () => {
                       dashboardState.selectedAction
                     )}
                 </div> 
-                */}
-
-                {/* <div className="leaderboard-actions"> */}
-
-                <div className="dashboardActionContainer">
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="leaderboard"
-                    display={true}
-                    onClick={() =>
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "Leaderboard",
-                          selectedChallengeArray: [],
-                          compareData: { data: [], categories: [] },
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      })
-                    }
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="daily_score"
-                    display={
-                      dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => handlePerformanceClick()}
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="set_target"
-                    display={
-                      dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "Target",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="team"
-                    display={
-                      dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "team",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="sunday_challenge"
-                    display={
-                      dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "challenge",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="achievement"
-                    display={
-                      dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "achievement",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="compare"
-                    display={dashboardState.challengeSwitch !== "upcoming"}
-                    onClick={() =>
-                      setDashboardState((prevState) => {
-                        let comparableEvents = dashboardState.allChallenge
-                          ? dashboardState.allChallenge.filter(
-                              (item) => item.isParticipated
-                            )
-                          : [];
-                        return {
-                          ...prevState,
-                          selectedAction: "Compare",
-                          listOfChallenges: comparableEvents,
-                        };
-                      })
-                    }
-                  />
-
-                  <>
-                    <ActionCard
-                      isProgramAvailable={dashboardState.isProgramAvailable}
-                      name="invite"
-                      display={dashboardState.listOfChallenges.length > 0}
-                      onClick={() => {
-                        setDashboardState((prevState) => {
-                          return {
-                            ...prevState,
-                            selectedAction: "Challenge",
-                            listOfChallenges: getCurrentAllEvents(),
-                          };
-                        });
-                      }}
-                    />
-                    {/* {pendingInviteCount ? (
-                        <div className="badge-invite">
-                          <Badge badgeContent={pendingInviteCount} color="error">
-                            Invite Friends
-                          </Badge>
-                        </div>
-                      ) : (
-                        "Invite Friends"
-                      )} */}
-                  </>
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="data_source"
-                    display={
-                      (dashboardState.challengeSwitch === "current" ||
-                        dashboardState.challengeSwitch === "upcoming") &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "Source",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="gallery"
-                    display={
-                      dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "Gallery",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
-
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="quiz"
-                    display={
-                      dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "quiz",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
-
-                  {/* <div style={{ marginLeft: "1em" }}>
-                      <FullScreen id="Challenges" />
-                    </div> */}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        <Actions
-          setDashboardState={setDashboardState}
-          dashboardState={dashboardState}
-          getCurrentAllEvents={getCurrentAllEvents}
-          handleCompare={handleCompare}
-        >
-          {dashboardState.selectedAction === "Challenge" && (
-            <ChallengeByInvite
-              eventId={dashboardState.selectedChallenge}
-              {...{ reloadChallengeAccepted, setReloadChallengeAccepted }}
-            />
-          )}
-          {dashboardState.selectedAction === "Leaderboard" &&
-          dashboardState.leaderBoardData.loading === false ? (
-            <LeaderboardTable
-              leaderBoardData={dashboardState.leaderBoardData}
-              currentEvent={dashboardState.selectedChallengeObject}
-              challengeSwitch={dashboardState.challengeSwitch}
-            />
-          ) : (
-            dashboardState.selectedAction === "Leaderboard" && (
-              <FacebookCircularProgress />
-            )
-          )}
-
-          {dashboardState.selectedAction === "team" && (
-            <CreateTeam eventId={dashboardState.selectedChallenge} />
-          )}
-          {dashboardState.selectedAction === "achievement" && (
-            <Achievments
-              eventId={dashboardState.selectedChallenge}
-              logos={distancelogo}
-            />
-          )}
-
-          {dashboardState.selectedAction === "challenge" && (
-            <SundayChallenge eventId={dashboardState.selectedChallenge} />
-          )}
-
-          {dashboardState.selectedAction === "Performance" && (
-            <PerformanceTab
-              data={dashboardState.performanceTableData}
-              eventId={dashboardState.selectedChallenge}
-              handlePerformanceClick={handlePerformanceClick}
-              challengeSwitch={dashboardState.challengeSwitch}
-            />
-          )}
-
-          {dashboardState.selectedAction === "quiz" && (
-            <Quiz
-              eventId={dashboardState.selectedChallenge}
-              challengeSwitch={dashboardState.listOfChallenges}
-            />
-          )}
-
-          {/* {dashboardState.selectedAction === "Performance"} */}
-          {dashboardState.selectedAction === "Compare" && displayChart()}
-          {/* Gallery */}
-          {dashboardState.selectedAction === "Gallery" && (
-            <EventGallery
-              eventGalleryData={dashboardState.eventGalleryData}
-              fetchEventGallery={fetchEventGallery}
-            />
-          )}
-
-          {/* Data Source */}
-          {dashboardState.selectedAction === "Source" &&
-            (dashboardState.challengeSwitch === "current" ||
-              dashboardState.challengeSwitch === "upcoming") && (
-              <UpdateDataSource dashboardState={dashboardState} />
-            )}
-
-          {/* Target Setting */}
-          {dashboardState.selectedAction === "Target" && (
-            <TargetSetting dashboardState={dashboardState} />
-          )}
-        </Actions>
-      )}
+        */}
+      </div>
 
       {/* Challenge Status */}
       {displayChallengeStatus && (
@@ -1606,41 +1210,4 @@ const Dashboard = () => {
   );
 };
 
-const ActionCard = ({ onClick, name, display, isProgramAvailable }) => {
-  return (
-    display && (
-      <div
-        className="actionButton"
-        onClick={isProgramAvailable && onClick}
-        style={{
-          background: isProgramAvailable
-            ? ACTION_ICONS_BGCOLOR[name]
-            : "#fafafa",
-          color: isProgramAvailable ? ACTION_ICONS_COLOR[name] : "#171717",
-          opacity: isProgramAvailable ? 1 : 0.5,
-          cursor: isProgramAvailable ? "pointer" : "not-allowed",
-        }}
-      >
-        <div style={{ display: "flex", flex: "0 auto" }}>
-          <FA
-            icon={ACTION_ICONS[name]}
-            size="3x"
-            color={isProgramAvailable ? ACTION_ICONS_COLOR[name] : "#171717"}
-          />
-        </div>
-        <div
-          style={{
-            fontSize: 12,
-            overflowWrap: "break-word",
-            width: "68%",
-            textAlign: "center",
-          }}
-        >
-          {name.replace("_", " ")}
-        </div>
-      </div>
-    )
-  );
-};
-
-export default Dashboard;
+export default Programs;

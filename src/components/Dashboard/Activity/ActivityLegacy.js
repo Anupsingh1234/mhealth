@@ -5,10 +5,8 @@ import useActivity from "../hooks/useActivity";
 import NoData from "../../NoData";
 import DateRangePickerW from "./DateRangePickerW";
 import TriStateToggle from "./TriStateToggle";
-import ScrollableList from "./../../ScrollableList";
-import "../../../styles/Activity.css";
 
-const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
+const Activity = ({ eventId, currentEventObj }) => {
   const [selval, setselval] = useState("");
 
   const [mystyle, setmystyle] = useState({
@@ -41,10 +39,6 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
     value
   );
 
-  useEffect(() => {
-    isProgramAvailable(subEventList.length > 0);
-  }, [subEventList]);
-
   const handleDateChange = (ob) => {
     onChange(ob);
   };
@@ -70,8 +64,14 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
       let unique = [
         ...new Map(data.map((item) => [item["eventType"], item])).values(),
       ];
+      console.log(unique.typeof);
       setdataarr(unique);
+      // setuniquearr()
     }, [data]);
+
+    // useEffect(() => {  } , [])
+
+    // console.log(dataarr)
 
     if (data.length) {
       var marvelHeroes = data.filter(function (hero) {
@@ -80,10 +80,26 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
       });
 
       return (
-        <div style={{ width: "100%" }}>
-          {selval === "" && (
-            <div style={{ width: "100%" }}>
-              <ScrollableList>
+        <>
+          <div style={mystyle}>
+            {data.map((subEventDetail) => (
+              <>
+                {subEventDetail.timePeriod !== "PAST" ? (
+                  <SubEventCard
+                    subEventDetail={subEventDetail}
+                    currentEventObj={currentEventObj}
+                    handleSubscription={handleSubscription}
+                    type="view"
+                  />
+                ) : (
+                  ""
+                )}
+              </>
+            ))}
+          </div>
+          {selval === "all" && (
+            <>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
                 {data.map((subEventDetail) => (
                   <>
                     {subEventDetail.timePeriod !== "PAST" ? (
@@ -98,87 +114,53 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
                     )}
                   </>
                 ))}
-              </ScrollableList>
-            </div>
-          )}
-          {selval === "all" && (
-            <>
-              <div style={{ width: "100%" }}>
-                <ScrollableList>
-                  {data.map((subEventDetail) => (
-                    <>
-                      {subEventDetail.timePeriod !== "PAST" ? (
-                        <SubEventCard
-                          subEventDetail={subEventDetail}
-                          currentEventObj={currentEventObj}
-                          handleSubscription={handleSubscription}
-                          type="view"
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  ))}
-                </ScrollableList>
               </div>
             </>
           )}
           {selectedFilter === "old" && (
             <>
-              <div style={{ width: "100%" }}>
-                <ScrollableList>
-                  {data.map((subEventDetail) => (
-                    <>
-                      {subEventDetail.timePeriod === "PAST" ? (
-                        <SubEventCard
-                          subEventDetail={subEventDetail}
-                          currentEventObj={currentEventObj}
-                          handleSubscription={handleSubscription}
-                          type="view"
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </>
-                  ))}
-                </ScrollableList>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {data.map((subEventDetail) => (
+                  <>
+                    {subEventDetail.timePeriod === "PAST" ? (
+                      <SubEventCard
+                        subEventDetail={subEventDetail}
+                        currentEventObj={currentEventObj}
+                        handleSubscription={handleSubscription}
+                        type="view"
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </>
+                ))}
               </div>
             </>
           )}
-          {marvelHeroes.length > 0 && (
-            <div style={{ width: "100%" }}>
-              <ScrollableList>
-                {marvelHeroes.map((subEventDetail) => (
-                  <SubEventCard
-                    subEventDetail={subEventDetail}
-                    currentEventObj={currentEventObj}
-                    handleSubscription={handleSubscription}
-                    type="view"
-                  />
-                ))}
-              </ScrollableList>
-            </div>
-          )}
-        </div>
-      );
-    } else {
-      return (
-        <div className="noProgram">
-          {currentEventObj.challengeName && (
-            <div>
-              No program available for&nbsp;
-              <span
-                style={{
-                  fontWeight: 800,
-                }}
-              >
-                {`${currentEventObj.challengeName}`}
-              </span>
-            </div>
-          )}
-        </div>
+          <div style={filterstyle}>
+            {marvelHeroes.map((subEventDetail) => (
+              <SubEventCard
+                subEventDetail={subEventDetail}
+                currentEventObj={currentEventObj}
+                handleSubscription={handleSubscription}
+                type="view"
+              />
+            ))}
+          </div>
+        </>
       );
     }
+
+    return (
+      <FallbackDiv
+        {...{
+          width: "100%",
+          padding: "20px",
+        }}
+      >
+        <NoData />
+      </FallbackDiv>
+    );
   };
   useEffect(() => {
     if (selectedFilter.toUpperCase() !== "SCHEDULE") {
@@ -213,38 +195,41 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
       </div>
     );
   };
-  const data =
-    selectedFilter !== "all"
-      ? selectedFilter == "Schedule"
-        ? scheduledData
-        : filteredSubEvent
-      : subEventList;
+
   return (
-    <div className="activityContainer">
-      {/* Todo: Remove top filters if not needed */}
-      <div className="filterContainer">
-        <div className="challenge-selector">
-          <div className="ch-heading">Programs</div>
-          <div>
-            <TriStateToggle
-              values={["all", "old", "Subscribed", "Available"]}
-              selected={selectedFilter}
-              handleChange={(value) => {
-                setSelectedFilter(value);
-              }}
-            />
-          </div>
+    <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+        }}
+      >
+        <div
+          style={{ overflow: "hidden", marginBottom: 5, marginRight: "0.5em" }}
+        >
+          <TriStateToggle
+            values={["all", "old", "Subscribed", "Available"]}
+            selected={selectedFilter}
+            handleChange={(value) => {
+              setSelectedFilter(value);
+            }}
+          />
         </div>
-
-        <div className="challenge-selector">
-          <div>
-            <DateRangePickerW {...{ value, handleDateChange }} />
-          </div>
-          <div>{renderFilterButton("Schedule")}</div>
+        <div style={{ marginRight: "0.5em" }}>
+          <DateRangePickerW {...{ value, handleDateChange }} />
         </div>
-
+        <div>{renderFilterButton("Schedule")}</div>
         <div>
-          <select onChange={sel}>
+          <select
+            onChange={sel}
+            style={{
+              height: "30px",
+              fontSize: "12px",
+              baackground: "transparent",
+            }}
+          >
             <option value="all"> select :- </option>
             {dataarr.map((curelem, index) => {
               return (
@@ -256,7 +241,7 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
           </select>
         </div>
       </div>
-      <div className="programCardContainer">{renderSubEventList()}</div>
+      <div style={{ paddingBottom: 30 }}>{renderSubEventList()}</div>
     </div>
   );
 };

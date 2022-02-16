@@ -1,7 +1,7 @@
-import React from 'react';
-import ScrollableList from './ScrollableList';
+import React from "react";
+import ScrollableList from "./ScrollableList";
 
-import EventCard from './EventCard';
+import EventCard from "./EventCard";
 
 const ListOfEvents = ({
   handleChallengeCardClick,
@@ -19,7 +19,7 @@ const ListOfEvents = ({
     if (data && data.length > 0) {
       /** show public and private? */
       let tempList =
-        selectedAction === 'Leaderboard' || listType !== 'subEvent'
+        selectedAction === "Leaderboard" || listType !== "subEvent"
           ? data
           : data.filter((item) => item.isParticipated);
       list = tempList.map((challenge) => {
@@ -40,12 +40,30 @@ const ListOfEvents = ({
       });
     } else {
       for (let i = 0; i < 4; i++) {
-        list.push(<div className="challenge-card" key={i}></div>);
+        list.push(
+          <div
+            className="challenge-card"
+            style={{
+              width: 320,
+              height: 240,
+            }}
+            key={i}
+          ></div>
+        );
       }
     }
     if (list.length === 0) {
       for (let i = 0; i < 4; i++) {
-        list.push(<div className="challenge-card" key={i}></div>);
+        list.push(
+          <div
+            className="challenge-card"
+            style={{
+              width: 320,
+              height: 240,
+            }}
+            key={i}
+          ></div>
+        );
       }
     }
     return list;

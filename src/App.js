@@ -1,6 +1,6 @@
 import "./App.css";
 
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState } from "react";
 import {
   Route,
   Redirect,
@@ -8,9 +8,30 @@ import {
   useLocation,
   useHistory,
 } from "react-router-dom";
+import {
+  faComments,
+  faUserFriends,
+  faRunning,
+  faDatabase,
+  faPhotoVideo,
+  faNotEqual,
+  faAward,
+  faCalendarWeek,
+  faBullseye,
+  faChess,
+  faTrophy,
+  faWalking,
+  faHiking,
+  faBook,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Login = lazy(() => import("./components/Login/Login"));
 const Dashboard = lazy(() => import("./components/Dashboard"));
+const DashboardLegacy = lazy(() => import("./components/DashboardLegacy"));
+const DashboardWithParam = lazy(() =>
+  import("./components/DashboardWithParam")
+);
 const Profile = lazy(() => import("./components/Profile"));
 const ResetPin = lazy(() => import("./components/ResetPin"));
 const DataSource = lazy(() => import("./components/DataSourceConnect"));
@@ -24,11 +45,73 @@ const CreateQuiz = lazy(() => import("./components/CreateQuizQuestion"));
 const MarketPlace = lazy(() => import("./components/MarketDashboard"));
 // const MarketPlace = lazy(() => import('./components/Activities/MarketActivity'));
 const Pdf = lazy(() => import("./components/Pdf"));
+const Actions = lazy(() => import("./components/Actions"));
+const Programs = lazy(() => import("./components/Programs"));
+const DefaultView = lazy(() => import("./components/DefaultView"));
+const Footer = lazy(() => import("./components/Footer"));
 import axios from "axios";
 
 const App = () => {
-  const location = useLocation();
   const history = useHistory();
+  const defaultTabs = [
+    {
+      key: "programs",
+      title: "Programs",
+      onClick: () => {
+        window.location.replace("/#/programs");
+      },
+      icon: faHiking,
+      selected: window.location.hash === "#/programs",
+    },
+    {
+      key: "walkathon",
+      title: "Walkathon",
+      onClick: () => {
+        window.location.replace("/#/program/walkathon");
+      },
+      icon: faWalking,
+      selected: window.location.hash === "#/program/walkathon",
+    },
+    {
+      key: "quiz",
+      title: "Quiz",
+      onClick: () => {
+        window.location.replace("/#/program/quiz");
+      },
+      icon: faComments,
+      selected: window.location.hash === "#/program/quiz",
+    },
+    {
+      key: "gallery",
+      title: "Gallery",
+      onClick: () => {
+        window.location.replace("/#/program/gallery");
+      },
+      icon: faPhotoVideo,
+      selected: window.location.hash === "#/program/gallery",
+    },
+    {
+      key: "settings",
+      title: "Settings",
+      onClick: () => {
+        window.location.replace("/#/program/settings");
+      },
+      icon: faCog,
+      selected: window.location.hash === "#/program/settings",
+    },
+    {
+      key: "report",
+      title: "Report",
+      onClick: () => {
+        window.location.replace("/#/report");
+      },
+      icon: faBook,
+      selected: window.location.hash === "#/program/report",
+    },
+    // { key: "manage", title: "Manage", onClick: () => { window.location.replace("/#/program/manage") }, icon: faChess, selected: window.location.hash === "#/program/manage" },
+  ];
+  const [footerTabs, setFooterTabs] = useState(defaultTabs);
+  const location = useLocation();
   const condition = JSON?.parse(localStorage.getItem("condition"));
   const pages =
     condition && condition.isAdmin === true
@@ -47,7 +130,7 @@ const App = () => {
           },
           {
             pageLink: "/dashboard",
-            view: Dashboard,
+            view: DashboardLegacy,
             displayName: "Dashboard",
             showInNavbar: true,
           },
@@ -102,7 +185,7 @@ const App = () => {
           {
             pageLink: "/report",
             view: MisReport,
-            displayName: "Reset Pin",
+            displayName: "Report",
             showInNavbar: true,
           },
           {
@@ -115,6 +198,24 @@ const App = () => {
             pageLink: "/logout",
             view: Logout,
             displayName: "Logout",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/program/:id",
+            view: DashboardWithParam,
+            displayName: "DashboardWithParam",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/programs",
+            view: Programs,
+            displayName: "Programs",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/default-view",
+            view: DefaultView,
+            displayName: "DashboardWithParam",
             showInNavbar: false,
           },
         ]
@@ -134,7 +235,7 @@ const App = () => {
           },
           {
             pageLink: "/dashboard",
-            view: Dashboard,
+            view: DashboardLegacy,
             displayName: "Dashboard",
             showInNavbar: true,
           },
@@ -189,7 +290,7 @@ const App = () => {
           {
             pageLink: "/report",
             view: MisReport,
-            displayName: "Reset Pin",
+            displayName: "Report",
             showInNavbar: true,
           },
           {
@@ -202,6 +303,24 @@ const App = () => {
             pageLink: "/logout",
             view: Logout,
             displayName: "Logout",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/action/:id",
+            view: DashboardWithParam,
+            displayName: "DashboardWithParam",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/programs",
+            view: Programs,
+            displayName: "Programs",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/default-view",
+            view: DefaultView,
+            displayName: "DefaultView",
             showInNavbar: false,
           },
         ]
@@ -220,7 +339,7 @@ const App = () => {
           },
           {
             pageLink: "/dashboard",
-            view: Dashboard,
+            view: DashboardLegacy,
             displayName: "Dashboard",
             showInNavbar: true,
           },
@@ -254,7 +373,26 @@ const App = () => {
             displayName: "Logout",
             showInNavbar: false,
           },
+          {
+            pageLink: "/action/:id",
+            view: DashboardWithParam,
+            displayName: "DashboardWithParam",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/programs",
+            view: Programs,
+            displayName: "DashboardWithParam",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/default-view",
+            view: DefaultView,
+            displayName: "DashboardWithParam",
+            showInNavbar: false,
+          },
         ];
+
   function isLoggedIn() {
     if (localStorage.getItem("token")) {
       return true;
@@ -287,7 +425,7 @@ const App = () => {
                 <Route
                   exact
                   path={page.pageLink}
-                  render={() => <page.view />}
+                  render={() => <page.view setFooterTabs={setFooterTabs} />}
                   key={index}
                 />
               );
@@ -316,6 +454,9 @@ const App = () => {
           <Redirect to="/" />
         </Switch>
       </Suspense>
+      {!["/", "/login", "/default-view"].includes(location.pathname) && (
+        <Footer tabs={footerTabs} />
+      )}
     </div>
   );
 };

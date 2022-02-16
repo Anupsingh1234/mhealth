@@ -1,28 +1,28 @@
-import React, {useState, useEffect} from 'react';
-import {PlusCircle} from 'react-feather';
+import React, { useState, useEffect } from "react";
+import { PlusCircle } from "react-feather";
 
-import {getOldEvents} from '../../services/challengeApi';
-import Navbar from '../Navbar';
-import TopUserDetails from '../TopUserDetails';
-import ScrollableList from '../ScrollableList';
-import Message from 'antd-message';
-import RegisteredUserTable from './RegisteredUserTable';
-import {getUserDetailsByEventID} from '../../services/challengeApi';
-import TriStateToggle from '../toggle/TriStateToggle';
-import EventManagementCard from './EventManagementCard';
-import CreateEventModal from './CreateEventModal';
-import FullScreen from '../Utility/FullScreen';
+import { getOldEvents } from "../../services/challengeApi";
+import Navbar from "../Navbar";
+import TopUserDetails from "../TopUserDetails";
+import ScrollableList from "../ScrollableList";
+import Message from "antd-message";
+import RegisteredUserTable from "./RegisteredUserTable";
+import { getUserDetailsByEventID } from "../../services/challengeApi";
+import TriStateToggle from "../toggle/TriStateToggle";
+import EventManagementCard from "./EventManagementCard";
+import CreateEventModal from "./CreateEventModal";
+import FullScreen from "../Utility/FullScreen";
 
 const EventManagement = () => {
   const [eventList, setEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
   const [registeredUserList, setRegisteredUserList] = useState({
     data: [],
-    message: '',
+    message: "",
     loading: false,
   });
   const [currentSwitchSelection, setCurrentSwitchSelection] =
-    useState('current');
+    useState("current");
   const [createEventModal, setCreateEventModal] = useState(false);
   const [editEventObject, setEditEventObject] = useState();
 
@@ -30,7 +30,7 @@ const EventManagement = () => {
     setSelectedEvent(currentEvent);
     setRegisteredUserList({
       loading: true,
-      message: '',
+      message: "",
       data: [],
     });
     getUserDetailsByEventID(currentEvent)
@@ -52,7 +52,7 @@ const EventManagement = () => {
       .catch((err) => {
         setRegisteredUserList({
           loading: false,
-          message: '',
+          message: "",
           data: [],
         });
       });
@@ -79,7 +79,7 @@ const EventManagement = () => {
         ) {
           let zerothUpcomingEvent =
             res.data.response.responseData.events.filter((item) => {
-              return item.isActive == 1 && item.timePeriod === 'CURRENT';
+              return item.isActive == 1 && item.timePeriod === "CURRENT";
             })[0];
 
           if (zerothUpcomingEvent) {
@@ -100,16 +100,16 @@ const EventManagement = () => {
     let list = [];
 
     let currentEventsList =
-      currentSwitchSelection === 'old'
+      currentSwitchSelection === "old"
         ? eventList.filter((item) => {
             return item.isActive == 0;
           })
-        : currentSwitchSelection === 'upcoming'
+        : currentSwitchSelection === "upcoming"
         ? eventList.filter((item) => {
-            return item.isActive == 1 && item.timePeriod === 'FUTURE';
+            return item.isActive == 1 && item.timePeriod === "FUTURE";
           })
         : eventList.filter((item) => {
-            return item.isActive == 1 && item.timePeriod === 'CURRENT';
+            return item.isActive == 1 && item.timePeriod === "CURRENT";
           });
 
     if (currentEventsList && currentEventsList.length > 0) {
@@ -136,7 +136,7 @@ const EventManagement = () => {
   };
   return (
     <>
-      <div style={{minHeight: '100vh', width: '100vw', background: '#fff'}}>
+      <div style={{ minHeight: "100vh", width: "100vw", background: "#fff" }}>
         <TopUserDetails />
         <Navbar />
 
@@ -145,31 +145,31 @@ const EventManagement = () => {
             <div className="event-list" id="event-list">
               <div
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  flexWrap: 'wrap',
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
                 }}
               >
-                <div className="challenges-heading" style={{marginRight: 20}}>
+                <div className="challenges-heading" style={{ marginRight: 20 }}>
                   Events
                 </div>
                 <TriStateToggle
-                  values={['old', 'current', 'upcoming']}
+                  values={["old", "current", "upcoming"]}
                   selected={currentSwitchSelection}
                   handleChange={(value) => setCurrentSwitchSelection(value)}
                 />
-                {localStorage.getItem('role') &&
-                  localStorage.getItem('role') !== 'Customer' && (
-                    <div style={{marginRight: 'auto'}}>
+                {localStorage.getItem("role") &&
+                  localStorage.getItem("role") !== "Customer" && (
+                    <div style={{ marginRight: "auto" }}>
                       <button
                         className="create-event-button target-btn"
                         onClick={() => {
                           setCreateEventModal(true);
                           setEditEventObject();
                         }}
-                        style={{width: 'max-content'}}
+                        style={{ width: "max-content" }}
                       >
-                        <PlusCircle size="18" style={{marginRight: 2}} />
+                        <PlusCircle size="18" style={{ marginRight: 2 }} />
                         Create Event
                       </button>
                     </div>
@@ -179,7 +179,7 @@ const EventManagement = () => {
             </div>
             <div
               className="d-flex j-c-sp-btn cursor-pointer"
-              style={{margin: '2em 0'}}
+              style={{ margin: "2em 0" }}
             >
               <div className="challenges-heading">List of Participants</div>
               <FullScreen id="event-list" />

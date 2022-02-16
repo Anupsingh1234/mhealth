@@ -1,38 +1,39 @@
-import React, {useState, useEffect} from 'react';
-import Navbar from './Navbar';
+import React, { useState, useEffect } from "react";
+import Navbar from "./Navbar";
 import {
   getUserDetailsHandler,
   updateUserDetailsHandler,
   updateAvatarAndAliasHandler,
   validateAliasName,
   getDashboardTabs,
-} from '../services/userprofileApi';
-import {urlPrefix} from '../services/apicollection';
-import axios from 'axios';
-import Message from 'antd-message';
-import Avatar from '@material-ui/core/Avatar';
-import {APP} from '../utils/appConfig';
-import TopUserDetails from './TopUserDetails';
-import DatePicker from './DatePicker';
-import message from 'antd-message';
-import * as Icon from 'react-feather';
-import InfoDialog from './Utility/InfoDialog';
-import CancelIcon from '@material-ui/icons/Cancel';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import {PlusCircle, Copy} from 'react-feather';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import IconButton from '@material-ui/core/IconButton';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
+} from "../services/userprofileApi";
+import { urlPrefix } from "../services/apicollection";
+import axios from "axios";
+import Message from "antd-message";
+import Avatar from "@material-ui/core/Avatar";
+import { APP } from "../utils/appConfig";
+import TopUserDetails from "./TopUserDetails";
+import DatePicker from "./DatePicker";
+import message from "antd-message";
+import * as Icon from "react-feather";
+import InfoDialog from "./Utility/InfoDialog";
+import CancelIcon from "@material-ui/icons/Cancel";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import { PlusCircle, Copy } from "react-feather";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import { faAddressCard, faHome } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -42,71 +43,71 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 1, 0, 0),
   },
   root: {
-    width: '100%',
+    width: "100%",
     // border: "1px solid black"
   },
   paper: {
-    position: 'absolute',
-    width: '90%',
-    backgroundColor: '#fff',
+    position: "absolute",
+    width: "90%",
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     // maxHeight: 500,
-    marginLeft: '195px',
+    marginLeft: "195px",
   },
   table: {
-    position: 'relative',
-    width: '100%',
-    backgroundColor: '#fff',
+    position: "relative",
+    width: "100%",
+    backgroundColor: "#fff",
     // padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     // maxHeight: 1200,
     // marginLeft: '195px',
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     width: 1,
   },
 }));
-const Profile = () => {
+const Profile = (props) => {
   const [userDetails, setUserDetails] = useState({
-    firstName: '',
-    lastName: '',
-    country: '',
-    emailId: '',
-    gender: '',
-    city: '',
-    dob: '',
-    avtarImg: '',
-    avtarImgObject: '',
-    aliasName: '',
+    firstName: "",
+    lastName: "",
+    country: "",
+    emailId: "",
+    gender: "",
+    city: "",
+    dob: "",
+    avtarImg: "",
+    avtarImgObject: "",
+    aliasName: "",
     authorizedDatasource: [],
-    state: '',
-    pinCode: '',
-    dashboard_default_tab: '',
-    dashboard_view_status: '',
-    emailVerified: '',
-    address: '',
+    state: "",
+    pinCode: "",
+    dashboard_default_tab: "",
+    dashboard_view_status: "",
+    emailVerified: "",
+    address: "",
   });
 
   const [isLoadingUserDetails, setLoadingUserDetails] = useState(false);
   const [isLoadingAvatar, setLoadingAvatar] = useState(false);
   const [isCheckingAlias, setCheckingAlias] = useState(false);
-  const [aliasErrMessage, setAliasErrMessage] = useState('');
+  const [aliasErrMessage, setAliasErrMessage] = useState("");
   const [profileUpdatedFlag, setProfileUpdatedFlag] = useState(false);
   const [listOfTabs, setListOfTabs] = useState([]);
   const [depenName, setDepenName] = useState();
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -115,47 +116,47 @@ const Profile = () => {
 
   const headCells = [
     {
-      label: 'S.No',
-      id: 'index',
+      label: "S.No",
+      id: "index",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Name',
+      label: "Name",
 
-      id: 'firstName',
-      numeric: false,
-      disablePadding: true,
-    },
-
-    {
-      label: 'Relation',
-      id: 'dependantRelation',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'D.O.B.',
-      id: 'dob',
+      id: "firstName",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Gender',
-      id: 'gender',
+      label: "Relation",
+      id: "dependantRelation",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "D.O.B.",
+      id: "dob",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Contact Detail',
-      id: 'contactDetails',
+      label: "Gender",
+      id: "gender",
+      numeric: false,
+      disablePadding: true,
+    },
+
+    {
+      label: "Contact Detail",
+      id: "contactDetails",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Update',
+      label: "Update",
       // id: 'contactDetails',
       // numeric: false,
       // disablePadding: true,
@@ -163,7 +164,7 @@ const Profile = () => {
   ];
 
   function EnhancedTableHead(props) {
-    const {classes, order, orderBy, onRequestSort} = props;
+    const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -180,15 +181,15 @@ const Profile = () => {
             >
               <TableSortLabel
                 active={orderBy === headCell.id}
-                direction={orderBy === headCell.id ? order : 'asc'}
+                direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
               >
                 {headCell.label}
                 {orderBy === headCell.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </span>
                 ) : null}
               </TableSortLabel>
@@ -211,7 +212,7 @@ const Profile = () => {
   }
 
   function getComparator(order, orderBy) {
-    return order === 'desc'
+    return order === "desc"
       ? (a, b) => descendingComparator(a, b, orderBy)
       : (a, b) => -descendingComparator(a, b, orderBy);
   }
@@ -236,7 +237,7 @@ const Profile = () => {
   function TablePaginationActions(props) {
     const classes = useStyles1();
     const theme = useTheme();
-    const {count, page, rowsPerPage, onChangePage} = props;
+    const { count, page, rowsPerPage, onChangePage } = props;
 
     const handleFirstPageButtonClick = (event) => {
       onChangePage(event, 0);
@@ -255,22 +256,22 @@ const Profile = () => {
     };
 
     return (
-      <div className={classes.root} style={{display: 'flex'}}>
+      <div className={classes.root} style={{ display: "flex" }}>
         <IconButton
           onClick={handleFirstPageButtonClick}
           disabled={page === 0}
           aria-label="first page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+          {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
         </IconButton>
         <IconButton
           onClick={handleBackButtonClick}
           disabled={page === 0}
           aria-label="previous page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowRight />
           ) : (
             <KeyboardArrowLeft />
@@ -280,9 +281,9 @@ const Profile = () => {
           onClick={handleNextButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="next page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? (
+          {theme.direction === "rtl" ? (
             <KeyboardArrowLeft />
           ) : (
             <KeyboardArrowRight />
@@ -292,16 +293,16 @@ const Profile = () => {
           onClick={handleLastPageButtonClick}
           disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="last page"
-          style={{width: 30, padding: 0}}
+          style={{ width: 30, padding: 0 }}
         >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+          {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
         </IconButton>
       </div>
     );
   }
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -325,12 +326,12 @@ const Profile = () => {
           emailId:
             res.data.response.responseData.emailId !== null
               ? res.data.response.responseData.emailId
-              : '',
+              : "",
           gender: res.data.response.responseData.gender,
           city: res.data.response.responseData.city,
           dob: res.data.response.responseData.dob
-            ? res.data.response.responseData.dob.split(' ')[0]
-            : '',
+            ? res.data.response.responseData.dob.split(" ")[0]
+            : "",
           avtarImg: res.data.response.responseData.avtarImg,
           aliasName: res.data.response.responseData.aliasName,
           authorizedDatasource:
@@ -345,20 +346,20 @@ const Profile = () => {
           address: res.data.response.responseData.address,
         });
         localStorage.setItem(
-          'authorizedDatasource',
+          "authorizedDatasource",
           JSON.stringify(res.data.response.responseData.authorizedDatasource)
         );
 
         localStorage.setItem(
-          'emailVerified',
+          "emailVerified",
           res.data.response.responseData.emailVerified
         );
         localStorage.setItem(
-          'dashboard_default_tab',
+          "dashboard_default_tab",
           res.data.response.responseData.dashboard_default_tab
         );
         localStorage.setItem(
-          'dashboard_view_status',
+          "dashboard_view_status",
           res.data.response.responseData.dashboard_view_status
         );
       })
@@ -378,6 +379,30 @@ const Profile = () => {
       });
   }, []);
 
+  useEffect(() => {
+    const { setFooterTabs } = props;
+    const SETTINGS_TABS = [
+      {
+        key: "home",
+        title: "Home",
+        onClick: () => {
+          window.location.replace("/#/program/settings");
+        },
+        selected: false,
+        icon: faHome,
+      },
+      {
+        key: "profile",
+        title: "Profile",
+        onClick: () => {
+          window.location.replace("/#/profile");
+        },
+        icon: faAddressCard,
+        selected: window.location.hash === "#/profile",
+      },
+    ];
+    setFooterTabs(SETTINGS_TABS);
+  }, []);
   const handleInputChange = (type, value) => {
     setUserDetails({
       ...userDetails,
@@ -390,14 +415,14 @@ const Profile = () => {
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -412,14 +437,14 @@ const Profile = () => {
     axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -430,13 +455,12 @@ const Profile = () => {
     setEmailValidVerifiedMessage(false);
   };
   const [addDept, setAddDept] = useState({
-    
-    contactDetail: '',
-    dependantRelation: '',
-    firstName: '',
-    dob: '',
-    gender: '',
-    lastName: '',
+    contactDetail: "",
+    dependantRelation: "",
+    firstName: "",
+    dob: "",
+    gender: "",
+    lastName: "",
   });
   const [editDept, setEditDept] = useState(addDept);
   const editDependent = (id) => {
@@ -445,28 +469,28 @@ const Profile = () => {
       return x;
     });
 
-    setAddDept(marvelHeroes && marvelHeroes[0], 'marvels');
+    setAddDept(marvelHeroes && marvelHeroes[0], "marvels");
   };
-  console.log(addDept, 'edit dept');
+  console.log(addDept, "edit dept");
   const [error1, setError1] = useState(false);
   const inputDept = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setAddDept((values) => ({...values, [name]: value}));
+    setAddDept((values) => ({ ...values, [name]: value }));
     // setError1((values) => ({...values, [name]: value}));
   };
-  const [message1, setMessage1] = useState('');
+  const [message1, setMessage1] = useState("");
   console.log(userDetails);
   const submitdept = (e) => {
     e.preventDefault();
     if (
-      addDept?.firstName !== '' &&
-      addDept?.gender !== '' &&
-      addDept?.dependantRelation !== ''
+      addDept?.firstName !== "" &&
+      addDept?.gender !== "" &&
+      addDept?.dependantRelation !== ""
     ) {
       // setLoadingUserDetails(true);
       let payload = {
-        id: null||addDept.id,
+        id: null || addDept.id,
         contactDetail: addDept.contactDetail,
         dependantRelation: addDept.dependantRelation,
         firstName: addDept.firstName,
@@ -479,14 +503,14 @@ const Profile = () => {
       return axios
         .post(adminurl, payload, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         })
         .then((res) => {
@@ -494,12 +518,12 @@ const Profile = () => {
           // , setDeptValue(false);
           setError1(false);
           setAddDept({
-            contactDetail: '',
-            dependentRelation: '',
-            firstName: '',
-            dob: '',
-            gender: '',
-            lastName: '',
+            contactDetail: "",
+            dependentRelation: "",
+            firstName: "",
+            dob: "",
+            gender: "",
+            lastName: "",
           });
           Message.success(res.data.response.responseMessage);
         });
@@ -525,68 +549,68 @@ const Profile = () => {
       address,
     } = userDetails;
 
-    if (!userDetails.country || userDetails.country === '') {
-      message.error('Country cannot be empty');
+    if (!userDetails.country || userDetails.country === "") {
+      message.error("Country cannot be empty");
       return;
     }
-    if (dashboard_view_status === '' && dashboard_default_tab === '') {
-      message.error('Default Tab and View cannot be empty');
+    if (dashboard_view_status === "" && dashboard_default_tab === "") {
+      message.error("Default Tab and View cannot be empty");
       return;
     }
-    if (!dashboard_default_tab || dashboard_default_tab === '') {
-      message.error('Default Tab cannot be empty');
+    if (!dashboard_default_tab || dashboard_default_tab === "") {
+      message.error("Default Tab cannot be empty");
       return;
     }
 
-    if (dashboard_view_status === '') {
-      message.error('Default View cannot be empty');
+    if (dashboard_view_status === "") {
+      message.error("Default View cannot be empty");
       return;
     }
-    if (emailId === '') {
-      message.error('Default View cannot be empty');
+    if (emailId === "") {
+      message.error("Default View cannot be empty");
       return;
     }
 
     setLoadingUserDetails(true);
     let payload = {};
 
-    if (firstName && firstName !== '') {
-      payload['firstName'] = firstName;
+    if (firstName && firstName !== "") {
+      payload["firstName"] = firstName;
     }
 
-    if (address && address !== '') {
-      payload['address'] = address;
+    if (address && address !== "") {
+      payload["address"] = address;
     }
-    if (lastName && lastName !== '') {
-      payload['lastName'] = lastName;
+    if (lastName && lastName !== "") {
+      payload["lastName"] = lastName;
     }
-    if (country && country !== '') {
-      payload['country'] = APP.countryCode[country.toUpperCase()];
+    if (country && country !== "") {
+      payload["country"] = APP.countryCode[country.toUpperCase()];
     }
-    if (emailId && emailId !== '') {
-      payload['emailId'] = emailId;
+    if (emailId && emailId !== "") {
+      payload["emailId"] = emailId;
     }
-    if (gender && gender !== '') {
-      payload['gender'] = gender;
+    if (gender && gender !== "") {
+      payload["gender"] = gender;
     }
-    if (city && city !== '') {
-      payload['city'] = city;
+    if (city && city !== "") {
+      payload["city"] = city;
     }
-    if (state && state !== '') {
-      payload['state'] = state;
+    if (state && state !== "") {
+      payload["state"] = state;
     }
-    if (pinCode && pinCode !== '') {
-      payload['pinCode'] = pinCode;
+    if (pinCode && pinCode !== "") {
+      payload["pinCode"] = pinCode;
     }
-    if (dob && dob !== '') {
-      payload['dob'] = dob + ' 12:00:00';
+    if (dob && dob !== "") {
+      payload["dob"] = dob + " 12:00:00";
     }
 
-    if (dashboard_default_tab && dashboard_default_tab != '') {
-      payload['dashboard_default_tab'] = dashboard_default_tab;
+    if (dashboard_default_tab && dashboard_default_tab != "") {
+      payload["dashboard_default_tab"] = dashboard_default_tab;
     }
     if (dashboard_view_status == 0 || dashboard_view_status == 1) {
-      payload['dashboard_view_status'] = dashboard_view_status;
+      payload["dashboard_view_status"] = dashboard_view_status;
     }
     // if (
     //   userDetails.emailVerified === null ||
@@ -601,29 +625,29 @@ const Profile = () => {
         setUpdateAgain(true);
         getUserDetailsHandler();
         setProfileUpdatedFlag(true);
-        message.success('Profile Updated');
+        message.success("Profile Updated");
         console.log(emailVerified);
-        localStorage.setItem('emailId', payload.emailId);
-        localStorage.setItem('gender', payload.gender);
-        localStorage.setItem('dob', payload.dob);
-        localStorage.setItem('state', payload.state);
-        localStorage.setItem('pinCode', payload.pinCode);
+        localStorage.setItem("emailId", payload.emailId);
+        localStorage.setItem("gender", payload.gender);
+        localStorage.setItem("dob", payload.dob);
+        localStorage.setItem("state", payload.state);
+        localStorage.setItem("pinCode", payload.pinCode);
         localStorage.setItem(
-          'dashboard_default_tab',
+          "dashboard_default_tab",
           payload.dashboard_default_tab
         );
-        console.log(localStorage.setItem('emailVerified', emailVerified));
+        console.log(localStorage.setItem("emailVerified", emailVerified));
         localStorage.setItem(
-          'dashboard_view_status',
+          "dashboard_view_status",
           payload.dashboard_view_status
         );
       })
       .catch((err) => {
         setLoadingUserDetails(false);
-        message.error('Something went wrong');
+        message.error("Something went wrong");
       });
   };
-  console.log(localStorage.getItem('emailVerified') === null);
+  console.log(localStorage.getItem("emailVerified") === null);
   const updateAvatrAndAlias = () => {
     window.message = Message;
     setCheckingAlias(true);
@@ -632,17 +656,17 @@ const Profile = () => {
         setCheckingAlias(false);
         if (res.data.response.responseCode === 181) {
           setAliasErrMessage(res.data.response.responseMessage);
-          message.warning('Failed to update');
+          message.warning("Failed to update");
           return false;
         } else {
-          setAliasErrMessage('');
+          setAliasErrMessage("");
         }
 
-        const {avtarImgObject, aliasName} = userDetails;
+        const { avtarImgObject, aliasName } = userDetails;
         setLoadingAvatar(true);
         const formData = new FormData();
-        if (avtarImgObject && avtarImgObject !== '') {
-          formData.append('avatar', avtarImgObject);
+        if (avtarImgObject && avtarImgObject !== "") {
+          formData.append("avatar", avtarImgObject);
         }
 
         if (avtarImgObject || aliasName) {
@@ -651,20 +675,20 @@ const Profile = () => {
               setLoadingAvatar(false);
               setProfileUpdatedFlag(true);
               if (res.data.response.responseCode === 0) {
-                localStorage.setItem('aliasName', userDetails.aliasName);
-                localStorage.setItem('avatarImg', userDetails.avtarImg);
-                message.success('Updated Successfully!!!');
+                localStorage.setItem("aliasName", userDetails.aliasName);
+                localStorage.setItem("avatarImg", userDetails.avtarImg);
+                message.success("Updated Successfully!!!");
                 setUpdateAgain(!updateAgain);
               }
             })
             .catch((err) => {
               setLoadingAvatar(false);
-              message.error('Something went wrong');
+              message.error("Something went wrong");
             });
         }
       })
       .catch((err) => {
-        message.error('Failed to save. Try again');
+        message.error("Failed to save. Try again");
       });
   };
 
@@ -694,7 +718,7 @@ const Profile = () => {
 
   const onFileChange = (event) => {
     if (event.target.files) {
-      const {files} = event.target;
+      const { files } = event.target;
       if (files && files.length > 0) {
         getBase64(files[0]).then((res) => {
           setUserDetails({
@@ -742,7 +766,7 @@ const Profile = () => {
                           style={{ border: "2px solid #fff" }}
                         />
                       </div>
-                       {window.location.href !==
+                      {window.location.href !==
                       "https://weblite.mhealth.ai/#/profile" ? (
                         <>
                           <input
