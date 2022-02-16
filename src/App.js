@@ -1,6 +1,6 @@
 import "./App.css";
 
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useState } from "react";
 import {
   Route,
   Redirect,
@@ -277,8 +277,14 @@ const App = () => {
     }
   );
 
+  const [YottaMatch, setYottamatch] = useState(
+    window.location.href == "https://yottacare.mhealth.ai/#/login"
+      ? true
+      : false
+  );
+
   return (
-    <div className="App">
+    <div className={YottaMatch ? "Yotta-App" : "App"}>
       <Suspense fallback={<div />}>
         <Switch location={location}>
           {pages.map((page, index) => {
@@ -297,7 +303,7 @@ const App = () => {
                   <Route
                     exact
                     path={"/login"}
-                    render={() => <Login />}
+                    render={() => <Login YottaMatch={YottaMatch} />}
                     key={0}
                   />
                 );

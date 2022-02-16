@@ -21,7 +21,7 @@ import {
 import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
 
-const Login = () => {
+const Login = ({ YottaMatch }) => {
   window.message = Message;
   const history = useHistory();
   const [userData, setUserData] = useState({
@@ -57,12 +57,6 @@ const Login = () => {
     window.location.href == "https://weblite.mhealth.ai/#/login"
       ? "true"
       : "false"
-  );
-
-  const [YottaMatch, setYottamatch] = useState(
-    window.location.href == "https://yottacare.mhealth.ai/#/login"
-      ? false
-      : true
   );
 
   const parenthandel = (name) => {
