@@ -54,7 +54,15 @@ const Login = () => {
   });
 
   const [match, setmatch] = useState(
-    window.location.href == "https://weblite.mhealth.ai/#/login" ? "true" : "false"
+    window.location.href == "https://weblite.mhealth.ai/#/login"
+      ? "true"
+      : "false"
+  );
+
+  const [YottaMatch, setYottamatch] = useState(
+    window.location.href == "https://yottacare.mhealth.ai/#/login"
+      ? true
+      : false
   );
 
   const parenthandel = (name) => {
@@ -466,7 +474,15 @@ const Login = () => {
   return (
     <div className="Login">
       <div className="illustration">
-        <img src={login} />
+        {YottaMatch ? (
+          <img
+            src={
+              "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/yottacare.svg"
+            }
+          />
+        ) : (
+          <img src={login} />
+        )}
       </div>
       <div className="Logo">
         <img src={logoPng} />
