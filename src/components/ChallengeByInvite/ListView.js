@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Avatar from '@material-ui/core/Avatar';
-import NoData from '../NoData';
-import ViewAllModal from './ViewAllModal';
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Avatar from "@material-ui/core/Avatar";
+import NoData from "../NoData";
+import ViewAllModal from "./ViewAllModal";
 
 const useStyles = makeStyles({
   table: {
@@ -17,8 +17,8 @@ const useStyles = makeStyles({
   },
 });
 
-const ListView = ({data = []}) => {
-  const [modalData, setModalData] = useState({challenge: {}, data: []});
+const ListView = ({ data = [] }) => {
+  const [modalData, setModalData] = useState({ challenge: {}, data: [] });
   const [viewAll, setViewAll] = useState(false);
   const classes = useStyles();
   return (
@@ -26,12 +26,12 @@ const ListView = ({data = []}) => {
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell style={{fontWeight: 800}}>Receiver</TableCell>
-            <TableCell style={{fontWeight: 800}}>Challenger</TableCell>
-            <TableCell style={{fontWeight: 800}} align="center">
+            <TableCell style={{ fontWeight: 800 }}>Receiver</TableCell>
+            <TableCell style={{ fontWeight: 800 }}>Challenger</TableCell>
+            <TableCell style={{ fontWeight: 800 }} align="center">
               Score
             </TableCell>
-            <TableCell style={{fontWeight: 800}} align="center">
+            <TableCell style={{ fontWeight: 800 }} align="center">
               Actions
             </TableCell>
           </TableRow>
@@ -52,72 +52,75 @@ const ListView = ({data = []}) => {
               return (
                 <TableRow key={row.name}>
                   <TableCell component="th" scope="row">
-                    <div style={{display: 'flex'}}>
+                    <div style={{ display: "flex" }}>
                       <Avatar
                         className="avatar-component sponser-logo"
                         src={row.receiverAvatarImage}
-                      />{' '}
+                      />{" "}
                       <div
                         style={{
-                          display: 'flex',
-                          flexDirection: 'column',
+                          display: "flex",
+                          flexDirection: "column",
                           marginLeft: 10,
-                          alignItems: 'flex-start',
+                          alignItems: "flex-start",
                         }}
                       >
-                        <div>{row.receiverName || '-'}</div>
+                        <div>{row.receiverName || "-"}</div>
 
                         {row.totalReceiverDistance ? (
                           <>
                             <div>Last - {row.lastDayReceiverScore}</div>
                             <div>
-                              Total -{' '}
+                              Total -{" "}
                               {row.totalReceiverDistance ??
                                 row.totalReceiverDistance.toFixed(2)}
                             </div>
                           </>
                         ) : (
-                          '-'
+                          "-"
                         )}
                       </div>
                     </div>
                   </TableCell>
 
                   <TableCell align="center">
-                    <div style={{display: 'flex'}}>
+                    <div style={{ display: "flex" }}>
                       <Avatar
                         className="avatar-component sponser-logo"
                         src={row.senderAvatarImage}
-                      />{' '}
+                      />{" "}
                       <div
                         style={{
-                          display: 'flex',
-                          flexDirection: 'column',
+                          display: "flex",
+                          flexDirection: "column",
                           marginLeft: 10,
-                          alignItems: 'flex-start',
+                          alignItems: "flex-start",
                         }}
                       >
-                        <div>{row.senderName || '-'}</div>
+                        <div>{row.senderName || "-"}</div>
 
                         {row.totalSenderDistance ? (
                           <>
                             <div>Last - {row.lastDaySenderScore}</div>
                             <div>
-                              Total -{' '}
+                              Total -{" "}
                               {row.totalSenderDistance ??
                                 row.totalSenderDistance.toFixed(2)}
                             </div>
                           </>
                         ) : (
-                          '-'
+                          "-"
                         )}
                       </div>
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    <div className="d-flex" style={{justifyContent: 'center'}}>
+                    <div
+                      className="d-flex"
+                      style={{ justifyContent: "center" }}
+                    >
                       <div className="scoreNo">{row.receiverPoints}</div>
-                      <div className="scoreNo">{'-'}</div>
+                      <div className="scoreNo">{"-"}</div>
                       <div className="scoreNo"> {row.senderPoints}</div>
                     </div>
                     <div>
@@ -131,13 +134,16 @@ const ListView = ({data = []}) => {
                       <button
                         onClick={() => {
                           if (formattedData.length > 0) {
-                            setModalData({challenge: row, data: formattedData});
+                            setModalData({
+                              challenge: row,
+                              data: formattedData,
+                            });
                             setViewAll((viewAll) => !viewAll);
                           }
                         }}
                         style={
                           formattedData.length == 0
-                            ? {background: '#cdcdcd'}
+                            ? { background: "#cdcdcd" }
                             : {}
                         }
                         disabled={formattedData.length == 0}
@@ -154,15 +160,15 @@ const ListView = ({data = []}) => {
               <TableCell
                 colSpan={4}
                 style={{
-                  position: 'relative',
+                  position: "relative",
                   height: 100,
                 }}
               >
                 <p
                   style={{
-                    textAlign: 'center',
-                    margin: '100px 0',
-                    color: '#8e8e8e',
+                    textAlign: "center",
+                    margin: "100px 0",
+                    color: "#8e8e8e",
                   }}
                 >
                   <NoData />
@@ -175,7 +181,7 @@ const ListView = ({data = []}) => {
       <ViewAllModal
         viewAll={viewAll}
         handleClose={() => {
-          setModalData({challenge: {}, data: []});
+          setModalData({ challenge: {}, data: [] });
           setViewAll(false);
         }}
         challenge={modalData.challenge}

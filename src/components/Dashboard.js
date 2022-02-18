@@ -154,7 +154,7 @@ const Dashboard = () => {
     allChallenge: [],
     instruction_details: undefined,
   });
-localStorage.setItem('selectTab', dashboardState.selectedAction);
+  localStorage.setItem("selectTab", dashboardState.selectedAction);
   useEffect(() => {
     if (
       localStorage.getItem("dashboard_default_tab") !== undefined &&

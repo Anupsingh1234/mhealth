@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import {APP} from '../../utils/appConfig';
-import {sendInviteForChallenge} from '../../services/challengeApi';
-import Message from 'antd-message';
+import React, { useState } from "react";
+import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import { APP } from "../../utils/appConfig";
+import { sendInviteForChallenge } from "../../services/challengeApi";
+import Message from "antd-message";
 
 const Invite = ({ userFound, mobileNo, eventId, countryCode }) => {
   const [inviteeName, setInviteeName] = useState("");

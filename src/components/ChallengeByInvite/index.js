@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import SendChallenge from './SendChallenge';
-import ActionSelector from './ActionSelector';
-import AcceptedChallengeList from './AcceptedChallengeList';
-import ChallengeContext from './context/ChallengeContext';
+import React, { useState } from "react";
+import SendChallenge from "./SendChallenge";
+import ActionSelector from "./ActionSelector";
+import AcceptedChallengeList from "./AcceptedChallengeList";
+import ChallengeContext from "./context/ChallengeContext";
 
 const ChallengeByInvite = ({
   eventId,
@@ -16,14 +16,14 @@ const ChallengeByInvite = ({
           <SendChallenge eventId={eventId} />
         </div>
         <div className="d-flex">
-          <div style={{width: '20%'}}>
+          <div style={{ width: "20%" }}>
             <ActionSelector
               eventId={eventId}
               reloadChallengeAccepted={reloadChallengeAccepted}
               setReloadChallengeAccepted={setReloadChallengeAccepted}
             />
           </div>
-          <div style={{width: '80%'}}>
+          <div style={{ width: "80%" }}>
             <AcceptedChallengeList
               eventId={eventId}
               reloadChallengeAccepted={reloadChallengeAccepted}

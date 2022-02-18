@@ -1,38 +1,38 @@
-import React, {useState, useEffect} from 'react';
-import 'react-responsive-modal/styles.css';
-import {Modal} from 'react-responsive-modal';
-import TextField from '@material-ui/core/TextField';
+import React, { useState, useEffect } from "react";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import TextField from "@material-ui/core/TextField";
 import {
   createcoach,
   urlPrefix,
   uploadImage,
   getAllCoahes,
-} from '../../services/apicollection';
-import axios from 'axios';
-import Message from 'antd-message';
-import CancelIcon from '@material-ui/icons/Cancel';
+} from "../../services/apicollection";
+import axios from "axios";
+import Message from "antd-message";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 const AdInstructor = () => {
-  const [image, setimage] = useState('d-none');
-  const [nameImp, setnameImp] = useState('d-none');
+  const [image, setimage] = useState("d-none");
+  const [nameImp, setnameImp] = useState("d-none");
   const [alldata, setalldata] = useState({});
   const [data, setData] = useState({
-    coachname: '',
-    bio: '',
-    special: '',
-    mobile: '',
-    language: '',
-    experience: '',
-    email: '',
-    twitter: '',
-    facebook: '',
-    instagram: '',
-    linkedin: '',
-    img: '',
+    coachname: "",
+    bio: "",
+    special: "",
+    mobile: "",
+    language: "",
+    experience: "",
+    email: "",
+    twitter: "",
+    facebook: "",
+    instagram: "",
+    linkedin: "",
+    img: "",
   });
-  const [err, seterr] = useState('');
+  const [err, seterr] = useState("");
   const handelchange = (event) => {
-    const {name, value} = event.target;
+    const { name, value } = event.target;
     setData((preval) => {
       return {
         ...preval,
@@ -43,26 +43,26 @@ const AdInstructor = () => {
 
   const onFileChange = (event) => {
     if (event.target.files) {
-      const {files} = event.target;
+      const { files } = event.target;
       if (files && files.length > 0) {
         const formData = new FormData();
-        formData.append('media', files[0]);
+        formData.append("media", files[0]);
 
         axios
           .post(`${urlPrefix}${uploadImage}`, formData, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-              timeStamp: 'timestamp',
-              accept: '*/*',
-              'Content-type': 'multipart/form-data; boundary=???',
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              timeStamp: "timestamp",
+              accept: "*/*",
+              "Content-type": "multipart/form-data; boundary=???",
             },
           })
           .then((res) => {
-            message.success('Success');
+            message.success("Success");
             window.image = res.data.response.responseData.image;
           })
           .catch((err) => {
-            message.error('Try Again');
+            message.error("Try Again");
           });
       }
     }
@@ -90,18 +90,18 @@ const AdInstructor = () => {
     };
 
     const URL = `${urlPrefix}${createcoach}`;
-    if (payload.coachName != '' && payload.coachImage != '') {
+    if (payload.coachName != "" && payload.coachImage != "") {
       axios
         .post(URL, payload, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            timeStamp: 'timestamp',
-            accept: '*/*',
-            'Access-Control-Allow-Origin': '*',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
             withCredentials: true,
-            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-            'Access-Control-Allow-Headers':
-              'accept, content-type, x-access-token, x-requested-with',
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
           },
         })
         .then((res) => {
@@ -130,13 +130,13 @@ const AdInstructor = () => {
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
-    setOpen(false), seterr('');
+    setOpen(false), seterr("");
   };
 
   return (
-    <div style={{width: ''}}>
+    <div style={{ width: "" }}>
       <button onClick={onOpenModal} className="create-event-button target-btn">
-        {' '}
+        {" "}
         Add Instructor
       </button>
       <Modal
@@ -144,31 +144,31 @@ const AdInstructor = () => {
         closeIcon={closeIcon}
         onClose={onCloseModal}
         center
-        styles={{modal: {borderRadius: '10px'}}}
+        styles={{ modal: { borderRadius: "10px" } }}
       >
         <CancelIcon
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 20,
             right: 5,
-            color: '#ef5350',
-            cursor: 'pointer',
+            color: "#ef5350",
+            cursor: "pointer",
           }}
         />
 
         <h4> Coach Details </h4>
 
-        <form style={{padding: '10px'}}>
-          <div className="name" style={{display: 'flex', fontSize: 12}}>
+        <form style={{ padding: "10px" }}>
+          <div className="name" style={{ display: "flex", fontSize: 12 }}>
             <div
-              style={{width: '50%', display: 'flex', flexDirection: 'column'}}
+              style={{ width: "50%", display: "flex", flexDirection: "column" }}
             >
               <label>
-                {' '}
-                Coach Name <span style={{color: 'red'}}> *</span>
+                {" "}
+                Coach Name <span style={{ color: "red" }}> *</span>
               </label>
-              <label className={nameImp} style={{color: 'red'}}>
-                required field *{' '}
+              <label className={nameImp} style={{ color: "red" }}>
+                required field *{" "}
               </label>
               <input
                 required
@@ -178,12 +178,12 @@ const AdInstructor = () => {
                 accept="image/*"
                 maxLength="75"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="enter name"
@@ -192,18 +192,18 @@ const AdInstructor = () => {
 
             <div
               style={{
-                width: '50%',
-                marginLeft: '10px',
-                display: 'flex',
-                flexDirection: 'column',
+                width: "50%",
+                marginLeft: "10px",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
               <label>
-                {' '}
-                Phone number <span style={{color: 'red'}}> *</span>
+                {" "}
+                Phone number <span style={{ color: "red" }}> *</span>
               </label>
-              <label className={nameImp} style={{color: 'red'}}>
-                required field *{' '}
+              <label className={nameImp} style={{ color: "red" }}>
+                required field *{" "}
               </label>
               <input
                 onChange={handelchange}
@@ -211,32 +211,32 @@ const AdInstructor = () => {
                 type="text"
                 maxLength="10"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="enter number"
-              />{' '}
+              />{" "}
             </div>
           </div>
 
           <div
             className="name"
-            style={{display: 'flex', fontSize: 12, marginTop: '15px'}}
+            style={{ display: "flex", fontSize: 12, marginTop: "15px" }}
           >
             <div
-              style={{width: '50%', display: 'flex', flexDirection: 'column'}}
+              style={{ width: "50%", display: "flex", flexDirection: "column" }}
             >
               <label>
-                {' '}
-                Short Bio <span style={{color: 'red'}}> *</span>{' '}
+                {" "}
+                Short Bio <span style={{ color: "red" }}> *</span>{" "}
               </label>
-              <label className={nameImp} style={{color: 'red'}}>
-                required field *{' '}
+              <label className={nameImp} style={{ color: "red" }}>
+                required field *{" "}
               </label>
 
               <TextField
@@ -244,7 +244,7 @@ const AdInstructor = () => {
                 id="standard-basic"
                 placeholder="Enter short bio"
                 style={{
-                  width: '95%',
+                  width: "95%",
                 }}
                 variant="outlined"
                 multiline
@@ -254,43 +254,43 @@ const AdInstructor = () => {
               />
             </div>
 
-            <div style={{width: '50%', marginLeft: '10px'}}>
+            <div style={{ width: "50%", marginLeft: "10px" }}>
               <label>
-                {' '}
-                Specialization <span style={{color: 'red'}}> *</span>
+                {" "}
+                Specialization <span style={{ color: "red" }}> *</span>
               </label>
-              <label className={nameImp} style={{color: 'red'}}>
-                required field *{' '}
+              <label className={nameImp} style={{ color: "red" }}>
+                required field *{" "}
               </label>
               <TextField
                 id="standard-basic"
                 placeholder="Enter specialization"
                 style={{
-                  width: '95%',
-                  background: '#f2f0eb',
+                  width: "95%",
+                  background: "#f2f0eb",
                 }}
                 variant="outlined"
                 multiline
                 name="special"
                 onChange={handelchange}
                 className="event-text-field"
-              />{' '}
+              />{" "}
             </div>
           </div>
 
           <div
             className="name"
-            style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+            style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
           >
             <div
-              style={{width: '50%', display: 'flex', flexDirection: 'column'}}
+              style={{ width: "50%", display: "flex", flexDirection: "column" }}
             >
               <label>
-                {' '}
-                Language known <span style={{color: 'red'}}> *</span>
+                {" "}
+                Language known <span style={{ color: "red" }}> *</span>
               </label>
-              <label className={nameImp} style={{color: 'red'}}>
-                required field *{' '}
+              <label className={nameImp} style={{ color: "red" }}>
+                required field *{" "}
               </label>
               <input
                 className="border-danger"
@@ -300,24 +300,24 @@ const AdInstructor = () => {
                 type="text"
                 accept="image/*"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="Language known "
-              />{' '}
+              />{" "}
             </div>
 
             <div
               style={{
-                width: '50%',
-                marginLeft: '10px',
-                display: 'flex',
-                flexDirection: 'column',
+                width: "50%",
+                marginLeft: "10px",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
               <label> Total experience </label>
@@ -328,29 +328,29 @@ const AdInstructor = () => {
                 accept="image/*"
                 maxLength="50"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="Experience"
-              />{' '}
+              />{" "}
             </div>
           </div>
 
           <div
             className="name"
-            style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+            style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
           >
             <div
-              style={{width: '50%', display: 'flex', flexDirection: 'column'}}
+              style={{ width: "50%", display: "flex", flexDirection: "column" }}
             >
               <label>
-                {' '}
-                Email id <span style={{color: 'red'}}> *</span>
+                {" "}
+                Email id <span style={{ color: "red" }}> *</span>
               </label>
 
               <input
@@ -359,12 +359,12 @@ const AdInstructor = () => {
                 type="email"
                 accept="image/*"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="Enter email"
@@ -373,10 +373,10 @@ const AdInstructor = () => {
 
             <div
               style={{
-                width: '50%',
-                marginLeft: '10px',
-                display: 'flex',
-                flexDirection: 'column',
+                width: "50%",
+                marginLeft: "10px",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
               <label> Twitter </label>
@@ -385,25 +385,25 @@ const AdInstructor = () => {
                 name="twitter"
                 type="text"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="enter twitter link"
-              />{' '}
+              />{" "}
             </div>
           </div>
 
           <div
             className="name"
-            style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+            style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
           >
             <div
-              style={{width: '50%', display: 'flex', flexDirection: 'column'}}
+              style={{ width: "50%", display: "flex", flexDirection: "column" }}
             >
               <label> Instagram </label>
               <input
@@ -412,24 +412,24 @@ const AdInstructor = () => {
                 type="text"
                 accept="image/*"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="enter instagram link"
-              />{' '}
+              />{" "}
             </div>
 
             <div
               style={{
-                width: '50%',
-                marginLeft: '10px',
-                display: 'flex',
-                flexDirection: 'column',
+                width: "50%",
+                marginLeft: "10px",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
               <label> LinkedIn </label>
@@ -439,25 +439,25 @@ const AdInstructor = () => {
                 type="text"
                 accept="image/*"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="enter linkedin link"
-              />{' '}
+              />{" "}
             </div>
           </div>
 
           <div
             className="name"
-            style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+            style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
           >
             <div
-              style={{width: '50%', display: 'flex', flexDirection: 'column'}}
+              style={{ width: "50%", display: "flex", flexDirection: "column" }}
             >
               <label> Facebook </label>
               <input
@@ -466,22 +466,22 @@ const AdInstructor = () => {
                 type="text"
                 accept="image/*"
                 style={{
-                  background: '#f2f0eb',
-                  textAlign: 'left',
+                  background: "#f2f0eb",
+                  textAlign: "left",
                   fontSize: 12,
                   border: 0,
                   outline: 0,
-                  height: '30px',
+                  height: "30px",
                   borderRadius: 5,
                 }}
                 placeholder="enter facebook link"
-              />{' '}
+              />{" "}
             </div>
 
-            <div style={{width: '50%', fontSize: 12, marginLeft: '0px'}}>
+            <div style={{ width: "50%", fontSize: 12, marginLeft: "0px" }}>
               <label id="img">
-                {' '}
-                select Image <span style={{color: 'red'}}> *</span>
+                {" "}
+                select Image <span style={{ color: "red" }}> *</span>
               </label>
 
               <input
@@ -490,27 +490,27 @@ const AdInstructor = () => {
                 onChange={(e) => {
                   onFileChange(e);
                 }}
-                style={{fontSize: 12, marginTop: 10}}
+                style={{ fontSize: 12, marginTop: 10 }}
               />
             </div>
           </div>
-          <div style={{display: 'flex'}}>
-            <div style={{width: '50%'}}></div>
-            <div style={{width: '50%'}}>
+          <div style={{ display: "flex" }}>
+            <div style={{ width: "50%" }}></div>
+            <div style={{ width: "50%" }}>
               <p
                 style={{
                   marginTop: 10,
-                  color: 'red',
+                  color: "red",
                 }}
               >
-                {' '}
-                {err}{' '}
+                {" "}
+                {err}{" "}
               </p>
               <button
                 className="is-success"
                 onClick={saveData}
                 style={{
-                  float: 'right',
+                  float: "right",
                   marginTop: 0,
                   width: 100,
                   height: 32,

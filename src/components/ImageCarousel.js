@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from "react";
 
-const ImageCarousel = ({selectedUserData}) => {
+const ImageCarousel = ({ selectedUserData }) => {
   let slideIndex = 1;
   useEffect(() => {
     showSlides(1);
@@ -8,7 +8,7 @@ const ImageCarousel = ({selectedUserData}) => {
 
   function showSlides(n) {
     let i;
-    let slides = document.getElementsByClassName('mySlides');
+    let slides = document.getElementsByClassName("mySlides");
     if (n > slides.length) {
       slideIndex = 1;
     }
@@ -16,10 +16,10 @@ const ImageCarousel = ({selectedUserData}) => {
       slideIndex = slides.length;
     }
     for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = 'none';
+      slides[i].style.display = "none";
     }
 
-    slides[slideIndex - 1].style.display = 'block';
+    slides[slideIndex - 1].style.display = "block";
   }
   function plusSlides(n) {
     showSlides((slideIndex += n));

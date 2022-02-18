@@ -1,35 +1,35 @@
-import React, {useEffect, useState} from 'react';
-import SubEventCard from './SubEventCard';
-import FallbackDiv from '../../Utility/FallbackDiv';
-import useActivity from '../hooks/useActivity';
-import NoData from '../../NoData';
-import DateRangePickerW from './DateRangePickerW';
-import TriStateToggle from './TriStateToggle';
+import React, { useEffect, useState } from "react";
+import SubEventCard from "./SubEventCard";
+import FallbackDiv from "../../Utility/FallbackDiv";
+import useActivity from "../hooks/useActivity";
+import NoData from "../../NoData";
+import DateRangePickerW from "./DateRangePickerW";
+import TriStateToggle from "./TriStateToggle";
 
-const Activity = ({eventId, currentEventObj}) => {
-  const [selval, setselval] = useState('');
+const Activity = ({ eventId, currentEventObj }) => {
+  const [selval, setselval] = useState("");
 
   const [mystyle, setmystyle] = useState({
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   });
-  const setcardstyle = {display: 'flex', flexWrap: 'wrap', display: 'none'};
-  const agsetcardstyle = {display: 'flex', flexWrap: 'wrap', display: 'none'};
-  const agcardstyle = {display: 'flex', flexWrap: 'wrap'};
+  const setcardstyle = { display: "flex", flexWrap: "wrap", display: "none" };
+  const agsetcardstyle = { display: "flex", flexWrap: "wrap", display: "none" };
+  const agcardstyle = { display: "flex", flexWrap: "wrap" };
   const [filterstyle, setfilterstyle] = useState({
-    display: 'flex',
-    flexWrap: 'wrap',
-    display: 'none',
+    display: "flex",
+    flexWrap: "wrap",
+    display: "none",
   });
   const [dataarr, setdataarr] = useState([]);
   const [uniquearr, setuniquearr] = useState([]);
-  const setfiltercardstyle = {display: 'flex', flexWrap: 'wrap'};
+  const setfiltercardstyle = { display: "flex", flexWrap: "wrap" };
 
   function sel(e) {
     setmystyle(setcardstyle), setfilterstyle(setfiltercardstyle);
     setselval(e.target.value);
   }
-  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [selectedFilter, setSelectedFilter] = useState("all");
   const [filteredSubEvent, setFilteredSubEvent] = useState([]);
   const today = new Date();
 
@@ -47,22 +47,22 @@ const Activity = ({eventId, currentEventObj}) => {
     fetchSubEvents(value);
   };
   useEffect(() => {
-    setSelectedFilter('all');
+    setSelectedFilter("all");
     setmystyle(agcardstyle), setfilterstyle(agsetcardstyle);
     setFilteredSubEvent([]);
   }, [eventId]);
 
   const renderSubEventList = () => {
     const data =
-      selectedFilter !== 'all'
-        ? selectedFilter == 'Schedule'
+      selectedFilter !== "all"
+        ? selectedFilter == "Schedule"
           ? scheduledData
           : filteredSubEvent
         : subEventList;
 
     useEffect(() => {
       let unique = [
-        ...new Map(data.map((item) => [item['eventType'], item])).values(),
+        ...new Map(data.map((item) => [item["eventType"], item])).values(),
       ];
       console.log(unique.typeof);
       setdataarr(unique);
@@ -79,83 +79,83 @@ const Activity = ({eventId, currentEventObj}) => {
         return x;
       });
 
-       return (
-         <>
-           <div style={mystyle}>
-             {data.map((subEventDetail) => (
-               <>
-                 {subEventDetail.timePeriod !== "PAST" ? (
-                   <SubEventCard
-                     subEventDetail={subEventDetail}
-                     currentEventObj={currentEventObj}
-                     handleSubscription={handleSubscription}
-                     type="view"
-                   />
-                 ) : (
-                   ""
-                 )}
-               </>
-             ))}
-           </div>
-           {selval === "all" && (
-             <>
-               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                 {data.map((subEventDetail) => (
-                   <>
-                     {subEventDetail.timePeriod !== "PAST" ? (
-                       <SubEventCard
-                         subEventDetail={subEventDetail}
-                         currentEventObj={currentEventObj}
-                         handleSubscription={handleSubscription}
-                         type="view"
-                       />
-                     ) : (
-                       ""
-                     )}
-                   </>
-                 ))}
-               </div>
-             </>
-           )}
-           {selectedFilter === "old" && (
-             <>
-               <div style={{ display: "flex", flexWrap: "wrap" }}>
-                 {data.map((subEventDetail) => (
-                   <>
-                     {subEventDetail.timePeriod === "PAST" ? (
-                       <SubEventCard
-                         subEventDetail={subEventDetail}
-                         currentEventObj={currentEventObj}
-                         handleSubscription={handleSubscription}
-                         type="view"
-                       />
-                     ) : (
-                       ""
-                     )}
-                   </>
-                 ))}
-               </div>
-             </>
-           )}
-           <div style={filterstyle}>
-             {marvelHeroes.map((subEventDetail) => (
-               <SubEventCard
-                 subEventDetail={subEventDetail}
-                 currentEventObj={currentEventObj}
-                 handleSubscription={handleSubscription}
-                 type="view"
-               />
-             ))}
-           </div>
-         </>
-       );
+      return (
+        <>
+          <div style={mystyle}>
+            {data.map((subEventDetail) => (
+              <>
+                {subEventDetail.timePeriod !== "PAST" ? (
+                  <SubEventCard
+                    subEventDetail={subEventDetail}
+                    currentEventObj={currentEventObj}
+                    handleSubscription={handleSubscription}
+                    type="view"
+                  />
+                ) : (
+                  ""
+                )}
+              </>
+            ))}
+          </div>
+          {selval === "all" && (
+            <>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {data.map((subEventDetail) => (
+                  <>
+                    {subEventDetail.timePeriod !== "PAST" ? (
+                      <SubEventCard
+                        subEventDetail={subEventDetail}
+                        currentEventObj={currentEventObj}
+                        handleSubscription={handleSubscription}
+                        type="view"
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </>
+                ))}
+              </div>
+            </>
+          )}
+          {selectedFilter === "old" && (
+            <>
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {data.map((subEventDetail) => (
+                  <>
+                    {subEventDetail.timePeriod === "PAST" ? (
+                      <SubEventCard
+                        subEventDetail={subEventDetail}
+                        currentEventObj={currentEventObj}
+                        handleSubscription={handleSubscription}
+                        type="view"
+                      />
+                    ) : (
+                      ""
+                    )}
+                  </>
+                ))}
+              </div>
+            </>
+          )}
+          <div style={filterstyle}>
+            {marvelHeroes.map((subEventDetail) => (
+              <SubEventCard
+                subEventDetail={subEventDetail}
+                currentEventObj={currentEventObj}
+                handleSubscription={handleSubscription}
+                type="view"
+              />
+            ))}
+          </div>
+        </>
+      );
     }
 
     return (
       <FallbackDiv
         {...{
-          width: '100%',
-          padding: '20px',
+          width: "100%",
+          padding: "20px",
         }}
       >
         <NoData />
@@ -163,8 +163,8 @@ const Activity = ({eventId, currentEventObj}) => {
     );
   };
   useEffect(() => {
-    if (selectedFilter.toUpperCase() !== 'SCHEDULE') {
-      setselval('');
+    if (selectedFilter.toUpperCase() !== "SCHEDULE") {
+      setselval("");
       setFilteredSubEvent(
         subEventList.filter(
           (val) =>
@@ -184,8 +184,8 @@ const Activity = ({eventId, currentEventObj}) => {
       <div
         className={
           type.toUpperCase() === selectedFilter.toUpperCase()
-            ? 'filter-button-program selected-filter-button'
-            : 'filter-button-program'
+            ? "filter-button-program selected-filter-button"
+            : "filter-button-program"
         }
         onClick={() => {
           setSelectedFilter(type);

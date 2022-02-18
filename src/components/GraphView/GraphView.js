@@ -1,17 +1,17 @@
-import axios from 'axios';
-import {makeStyles} from '@material-ui/core/styles';
-import React, {useState, useEffect} from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import Charts from 'react-google-charts';
-import {CSVLink} from 'react-csv';
-import './GraphView.css';
-import Tooltip from '@material-ui/core/Tooltip';
-import SystemUpdateAltIcon from '@material-ui/icons/SystemUpdateAlt';
-import {useTheme} from '@material-ui/core/styles';
-import Message from 'antd-message';
-import {LocalSeeOutlined} from '@material-ui/icons';
-import {urlPrefix, secretToken} from '../../services/apicollection';
+import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Charts from "react-google-charts";
+import { CSVLink } from "react-csv";
+import "./GraphView.css";
+import Tooltip from "@material-ui/core/Tooltip";
+import SystemUpdateAltIcon from "@material-ui/icons/SystemUpdateAlt";
+import { useTheme } from "@material-ui/core/styles";
+import Message from "antd-message";
+import { LocalSeeOutlined } from "@material-ui/icons";
+import { urlPrefix, secretToken } from "../../services/apicollection";
 const GraphReport = (props) => {
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -24,7 +24,7 @@ const GraphReport = (props) => {
   console.log(props.events);
   const [Event, setEvent] = useState([]);
   const [data, setData] = useState([]);
-  const [Err, setErr] = useState('');
+  const [Err, setErr] = useState("");
   const geteventrlist = () => {
     setData(props.events);
   };
@@ -40,14 +40,14 @@ const GraphReport = (props) => {
     axios
       .get(`${urlPrefix}v1.0/getDashboardReport?challengerZoneId=${Event}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -69,27 +69,27 @@ const GraphReport = (props) => {
   return (
     <>
       {/* <div style={{ backgroundColor: "white" }}> */}
-      <div style={{height: '80vh', background: 'white', overflowY: 'scroll'}}>
-        <div class="container" style={{maxWidth: '50%'}}>
+      <div style={{ height: "80vh", background: "white", overflowY: "scroll" }}>
+        <div class="container" style={{ maxWidth: "50%" }}>
           <form
             onSubmit={(e) =>
-              Event ? submit(e) : setErr('Please select an event')
+              Event ? submit(e) : setErr("Please select an event")
             }
           >
             <div
               class="row"
-              style={{display: 'flex', justifyContent: 'space-around'}}
+              style={{ display: "flex", justifyContent: "space-around" }}
             >
               <div
                 className="select_date"
                 style={{
-                  maxWidth: '250px',
+                  maxWidth: "250px",
                 }}
               >
                 <fieldset>
                   <legend>Select Event</legend>
                   <Select
-                    style={{width: '250px'}}
+                    style={{ width: "250px" }}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
                     // open={open}
@@ -115,36 +115,36 @@ const GraphReport = (props) => {
 
               <button
                 style={{
-                  color: 'white',
-                  background: 'green',
+                  color: "white",
+                  background: "green",
                   height: 30,
                   width: 80,
                   marginTop: 20,
                 }}
                 class="btn btn-success"
               >
-                {' '}
+                {" "}
                 Submit
               </button>
             </div>
           </form>
-        </div>{' '}
+        </div>{" "}
         <p
           style={{
-            marginLeft: '1000px',
+            marginLeft: "1000px",
           }}
         >
           Total Member: {circle}
         </p>
-        <hr />{' '}
+        <hr />{" "}
         <div style={{}}>
           <div
             style={{
               //   height: "50vh",
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexDirection: 'row',
-              flexWrap: 'wrap',
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              flexWrap: "wrap",
             }}
           >
             {chartData && chartData.length > 0 ? (
@@ -155,13 +155,13 @@ const GraphReport = (props) => {
                     <div>
                       <div
                         style={{
-                          height: '20px',
+                          height: "20px",
                         }}
                       >
                         <p
                           style={{
-                            marginLeft: '30px',
-                            fontSize: '12px',
+                            marginLeft: "30px",
+                            fontSize: "12px",
                           }}
                         >
                           <strong>
@@ -169,51 +169,51 @@ const GraphReport = (props) => {
                           </strong>
                         </p>
                       </div>
-                      <div style={{marginLeft: '-40px', marginTop: '10px'}}>
+                      <div style={{ marginLeft: "-40px", marginTop: "10px" }}>
                         <Charts
-                          width={'250px'}
-                          height={'200px'}
-                          marginLeft={'30px'}
+                          width={"250px"}
+                          height={"200px"}
+                          marginLeft={"30px"}
                           options={{
-                            legend: 'none',
+                            legend: "none",
                             is3D: true,
                             // colors:['','','#ffad33']
                           }}
                           chartType="PieChart"
                           loader={<div>Loading Chart</div>}
                           data={[
-                            ['Task', 'Hours per Day'],
+                            ["Task", "Hours per Day"],
 
                             [
-                              'Not Subscribed',
+                              "Not Subscribed",
                               circle -
                                 item.noOfSubscribers -
                                 item.noOfAttendies,
                             ],
-                            ['Total Subscribers', item.noOfSubscribers],
-                            ['Total Joined', item.noOfAttendies],
+                            ["Total Subscribers", item.noOfSubscribers],
+                            ["Total Joined", item.noOfAttendies],
                           ]}
                           // options={{
                           //   // is3D: true
                           // }}
                         />
                       </div>
-                      <div style={{marginTop: '10px'}}>
-                        <span class="dot2"></span>{' '}
-                        <span style={{fontSize: '12px'}}>
+                      <div style={{ marginTop: "10px" }}>
+                        <span class="dot2"></span>{" "}
+                        <span style={{ fontSize: "12px" }}>
                           Total Joined: {item.noOfAttendies}
                         </span>
                       </div>
-                      <div style={{marginTop: '-10px'}}>
-                        <span class="dot1"></span>{' '}
-                        <span style={{fontSize: '12px'}}>
+                      <div style={{ marginTop: "-10px" }}>
+                        <span class="dot1"></span>{" "}
+                        <span style={{ fontSize: "12px" }}>
                           Total Subscribers: {item.noOfSubscribers}
                         </span>
                       </div>
-                      <div style={{marginTop: '-10px'}}>
-                        <span class="dot"></span>{' '}
-                        <span style={{fontSize: '12px'}}>
-                          Not Subscribed:{' '}
+                      <div style={{ marginTop: "-10px" }}>
+                        <span class="dot"></span>{" "}
+                        <span style={{ fontSize: "12px" }}>
+                          Not Subscribed:{" "}
                           {circle - item.noOfSubscribers - item.noOfAttendies}
                         </span>
                       </div>
@@ -226,25 +226,25 @@ const GraphReport = (props) => {
                 <div
                   style={{
                     height: 250,
-                    padding: '5px',
+                    padding: "5px",
                     marginTop: 30,
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
                     fontSize: 12,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                   className=""
                 >
-                  {' '}
+                  {" "}
                   <img
-                    style={{width: 200, height: 200}}
+                    style={{ width: 200, height: 200 }}
                     src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                   />
                   Data is not present
-                </div>{' '}
+                </div>{" "}
               </>
             )}
           </div>

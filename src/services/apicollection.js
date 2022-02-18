@@ -1,25 +1,25 @@
 const cred = {
   url: {
-    staging: 'https://testapi.mhealth.ai:8081/',
-    production: 'https://api.mhealth.ai/',
+    staging: "https://testapi.mhealth.ai:8081/",
+    production: "https://api.mhealth.ai/",
   },
   baseUrl: {
-    staging: 'https://w21.mhealth.ai/#/?',
-    production: 'https://walkathon21.mhealth.ai/#/?',
+    staging: "https://w21.mhealth.ai/#/?",
+    production: "https://walkathon21.mhealth.ai/#/?",
     // dev: 'http://localhost:3000/',
   },
   client_secret: {
-    staging: '2d1376db3fa7e6d87e1c0e119da0d4c0d882704a94131196dd1ee550a192d4ac',
+    staging: "2d1376db3fa7e6d87e1c0e119da0d4c0d882704a94131196dd1ee550a192d4ac",
     production:
-      'b189505ccb4f4c83fe2ef7939dc34a887738206df24bdad69779356688566279',
+      "b189505ccb4f4c83fe2ef7939dc34a887738206df24bdad69779356688566279",
   },
   secret_token: {
-    staging: 'I_BCUcoklG_yLk_gTLUAC-UBcr85RzYjGE1I9cCLx6g',
-    production: '6rNzSZnJsfpS0nWqwtYvvdtB0o7WrMvIlEgJLm2wv3k',
+    staging: "I_BCUcoklG_yLk_gTLUAC-UBcr85RzYjGE1I9cCLx6g",
+    production: "6rNzSZnJsfpS0nWqwtYvvdtB0o7WrMvIlEgJLm2wv3k",
   },
   client_id: {
-    staging: 'mHealth',
-    production: 'Walkathon21',
+    staging: "mHealth",
+    production: "Walkathon21",
   },
 };
 

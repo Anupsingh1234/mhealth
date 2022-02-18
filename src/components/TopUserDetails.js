@@ -1,35 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import {useHistory} from 'react-router-dom';
-import Menu from '@material-ui/core/Menu';
-import {withStyles} from '@material-ui/core/styles';
-import * as Icon from 'react-feather';
-import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import Expert from './AppointmentExpert';
-import SocialPost from './SocialPost';
-import SocialLink from './SocialLink';
-import {getOldEvents} from '../services/challengeApi';
-import {SignalCellularNullRounded} from '@material-ui/icons';
-const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import Menu from "@material-ui/core/Menu";
+import { withStyles } from "@material-ui/core/styles";
+import * as Icon from "react-feather";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import Expert from "./AppointmentExpert";
+import SocialPost from "./SocialPost";
+import SocialLink from "./SocialLink";
+import { getOldEvents } from "../services/challengeApi";
+import { SignalCellularNullRounded } from "@material-ui/icons";
+const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   let history = useHistory();
   const StyledMenu = withStyles({
     paper: {
-      border: '1px solid #d3d4d5',
+      border: "1px solid #d3d4d5",
     },
   })((props) => {
-    const [avatarImg, setAvatrImg] = useState('');
+    const [avatarImg, setAvatrImg] = useState("");
 
     return (
       <Menu
         elevation={0}
         getContentAnchorEl={null}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
+          vertical: "bottom",
+          horizontal: "center",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
+          vertical: "top",
+          horizontal: "center",
         }}
         avatarImg={avatarImg}
         userDetails={userDetails}
@@ -54,7 +54,7 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.clear();
-    history.push('/');
+    history.push("/");
   };
   const [admincondition, setAdminCondition] = useState();
   const [modiator, setmodiator] = useState();
@@ -62,21 +62,19 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
   useEffect(() => {
     getOldEvents().then((res) => {
       localStorage.setItem(
-        'condition',
+        "condition",
         JSON.stringify(res?.data?.response?.responseData)
       );
       // console.log(res.data.response.responseData);
       setAdminCondition(res?.data?.response?.responseData?.isAdmin);
       setmodiator(res?.data?.response?.responseData?.isModerator);
       setCoach(res?.data?.response?.responseData?.isCoach);
-      
     });
   }, []);
 
-  
   const [userDetails, setUserDetails] = useState({
-    aliasName: '',
-    avatarImg: '',
+    aliasName: "",
+    avatarImg: "",
   });
   useEffect(() => {
     setUserDetails({
@@ -92,20 +90,20 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
             <div>
               <button
                 style={{
-                  color: 'white',
-                  backgroundColor: 'green',
-                  marginRight: '25px',
+                  color: "white",
+                  backgroundColor: "green",
+                  marginRight: "25px",
                   // marginTop: '-5px',
-                  height: '30px',
-                  width: '100px',
+                  height: "30px",
+                  width: "100px",
                 }}
                 onClick={() => {
                   setAppointmentView(true);
                 }}
               >
-                {' '}
+                {" "}
                 {/* <Icon.Calendar /> */}
-                <span style={{marginRight: 0}}>
+                <span style={{ marginRight: 0 }}>
                   Appointment
                   {/* <ListItemText primary="Appointment" /> */}
                 </span>
@@ -124,7 +122,7 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
             </div>
           </>
         ) : (
-          ''
+          ""
         )}
         <div className="dashboard-avatar" onClick={handleClick}>
           <Avatar
@@ -132,15 +130,15 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
             style={{
               width: 30,
               height: 30,
-              border: '2px solid #f8f8f8',
+              border: "2px solid #f8f8f8",
             }}
           />
         </div>
         <div onClick={handleClick}>
-          {localStorage.getItem('aliasName')
+          {localStorage.getItem("aliasName")
             ? userDetails.aliasName
-            : `${localStorage.getItem('firstName')} ${localStorage.getItem(
-                'lastName'
+            : `${localStorage.getItem("firstName")} ${localStorage.getItem(
+                "lastName"
               )}`}
         </div>
         <Icon.ChevronDown onClick={handleClick} />
@@ -166,7 +164,7 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
                 // }}
                 onClick={() => setSocialPost(true)}
               >
-                <span style={{marginRight: 0}}>
+                <span style={{ marginRight: 0 }}>
                   <Icon.Navigation />
                   Social Post
                   {/* <ListItemText primary="Appointment" /> */}
@@ -196,7 +194,7 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
                 // }}
                 onClick={() => setSocialLink(true)}
               >
-                <span style={{marginRight: 0}}>
+                <span style={{ marginRight: 0 }}>
                   <Icon.Link />
                   Social Link
                   {/* <ListItemText primary="Appointment" /> */}
@@ -216,26 +214,26 @@ const TopUserDetails = ({updateAgain = false, subEventDetail}) => {
             </div>
           </>
         ) : (
-          ''
+          ""
         )}
         <div
           style={{
-            display: 'flex',
+            display: "flex",
             paddingLeft: 10,
             paddingRight: 10,
             marginTop: 10,
             width: 120,
-            justifyContent: 'center',
-            alignItems: 'center',
-            cursor: 'pointer',
-            outline: 'none !important',
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            outline: "none !important",
             // lineHeight:'20px'
           }}
           onClick={(e) => {
             handleLogout(e);
           }}
         >
-          <span style={{marginRight: 2}}>
+          <span style={{ marginRight: 2 }}>
             <Icon.LogOut />
           </span>
           <ListItemText primary="Logout" />

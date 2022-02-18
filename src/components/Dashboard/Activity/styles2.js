@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Switch = styled.div`
-  font-family: 'Nunito, Lucida Grande', Tahoma, Verdana, sans-serif;
+  font-family: "Nunito, Lucida Grande", Tahoma, Verdana, sans-serif;
   position: relative;
   height: 26px;
   width: 150px;

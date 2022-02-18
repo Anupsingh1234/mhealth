@@ -21,7 +21,7 @@ import {
 import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
 
-const Login = () => {
+const Login = ({ YottaMatch }) => {
   window.message = Message;
   const history = useHistory();
   const [userData, setUserData] = useState({
@@ -54,11 +54,12 @@ const Login = () => {
   });
 
   const [match, setmatch] = useState(
-    window.location.href == "https://weblite.mhealth.ai/#/login" ? "true" : "false"
+    window.location.href == "https://weblite.mhealth.ai/#/login"
+      ? "true"
+      : "false"
   );
 
   const parenthandel = (name) => {
-    console.log("clicked", name);
     setmatch("false");
   };
 
@@ -466,7 +467,15 @@ const Login = () => {
   return (
     <div className="Login">
       <div className="illustration">
-        <img src={login} />
+        {YottaMatch ? (
+          <img
+            src={
+              "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/yottacare.svg"
+            }
+          />
+        ) : (
+          <img src={login} />
+        )}
       </div>
       <div className="Logo">
         <img src={logoPng} />
@@ -481,6 +490,7 @@ const Login = () => {
                 handleInput,
                 loaderInfo,
                 handleMobileInputSubmit,
+                YottaMatch,
               }}
             />
           )}
@@ -495,12 +505,19 @@ const Login = () => {
                 handleOtpInputSubmit,
                 OTPRequestHandler,
                 handleSettingNewPassword,
+                YottaMatch,
               }}
             />
           )}
           {ismobileNoVerified && !isExistingUser && !isOtpVerified && (
             <OTPVerifyForm
-              {...{ userData, loaderInfo, handleInput, handleOtpInputSubmit }}
+              {...{
+                userData,
+                loaderInfo,
+                handleInput,
+                handleOtpInputSubmit,
+                YottaMatch,
+              }}
             />
           )}
 

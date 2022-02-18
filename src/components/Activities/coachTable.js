@@ -1,32 +1,32 @@
-import React, {useState, useEffect} from 'react';
-import {lighten, makeStyles, useTheme} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import message from 'antd-message';
-import {Edit} from 'react-feather';
+import React, { useState, useEffect } from "react";
+import { lighten, makeStyles, useTheme } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TextField from "@material-ui/core/TextField";
+import axios from "axios";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import message from "antd-message";
+import { Edit } from "react-feather";
 import {
   urlPrefix,
   createcoach,
   uploadImage,
-} from '../../services/apicollection';
-import {Modal} from 'react-responsive-modal';
-import CancelIcon from '@material-ui/icons/Cancel';
+} from "../../services/apicollection";
+import { Modal } from "react-responsive-modal";
+import CancelIcon from "@material-ui/icons/Cancel";
 
 const CoachTable = (props) => {
   const [preval, setpreval] = useState({});
   const [alldata, setalldata] = useState({});
-  const [editImage, seteditImage] = useState('');
+  const [editImage, seteditImage] = useState("");
 
   const data = props.gdata;
   useEffect(() => {
@@ -36,7 +36,7 @@ const CoachTable = (props) => {
   // console.log(props , preval);
 
   const handelchange = (event) => {
-    const {name, value} = event.target;
+    const { name, value } = event.target;
 
     setpreval((prestate) => {
       console.warn(prestate);
@@ -54,7 +54,7 @@ const CoachTable = (props) => {
 
     let payload = {};
     {
-      editImage == ''
+      editImage == ""
         ? (payload = {
             id: preval.id,
             coachName: preval.coachName,
@@ -91,14 +91,14 @@ const CoachTable = (props) => {
     axios
       .post(URL, payload, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          timeStamp: 'timestamp',
-          accept: '*/*',
-          'Access-Control-Allow-Origin': '*',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
           withCredentials: true,
-          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-          'Access-Control-Allow-Headers':
-            'accept, content-type, x-access-token, x-requested-with',
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
         },
       })
       .then((res) => {
@@ -107,7 +107,7 @@ const CoachTable = (props) => {
         onCloseModal();
         data();
         setpreval(props.coach);
-        message.success('Coach Updated');
+        message.success("Coach Updated");
       })
       .catch((err) => {
         // seterr(err.data.response.responseMessage)
@@ -118,21 +118,21 @@ const CoachTable = (props) => {
   function FacebookCircularProgress(props) {
     const useStylesFacebook = makeStyles((theme) => ({
       root: {
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
+        position: "absolute",
+        left: "50%",
+        top: "50%",
       },
       bottom: {
-        color: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+        color: theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
       },
       top: {
-        color: '#1a90ff',
-        animationDuration: '550ms',
-        position: 'absolute',
+        color: "#1a90ff",
+        animationDuration: "550ms",
+        position: "absolute",
         left: 0,
       },
       circle: {
-        strokeLinecap: 'round',
+        strokeLinecap: "round",
       },
     }));
     const classes = useStylesFacebook();
@@ -164,40 +164,40 @@ const CoachTable = (props) => {
 
   const coachHeads = [
     {
-      label: 'coach name',
-      id: 'coachname',
+      label: "coach name",
+      id: "coachname",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'total experience',
-      id: 'experience',
-      numeric: false,
-      disablePadding: true,
-    },
-
-    {
-      label: 'specialization',
-      id: 'specialization',
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: 'phone number',
-      id: 'phonenumber',
+      label: "total experience",
+      id: "experience",
       numeric: false,
       disablePadding: true,
     },
 
     {
-      label: 'Email  id',
-      id: 'email',
+      label: "specialization",
+      id: "specialization",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: 'Languagees known',
-      id: 'language',
+      label: "phone number",
+      id: "phonenumber",
+      numeric: false,
+      disablePadding: true,
+    },
+
+    {
+      label: "Email  id",
+      id: "email",
+      numeric: false,
+      disablePadding: true,
+    },
+    {
+      label: "Languagees known",
+      id: "language",
       numeric: false,
       disablePadding: true,
     },
@@ -205,7 +205,7 @@ const CoachTable = (props) => {
 
   // function coach(props)
   const EnhancedTableHead = (prop) => {
-    const {classes, order, orderBy, onRequestSort} = prop;
+    const { classes, order, orderBy, onRequestSort } = prop;
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
     };
@@ -220,22 +220,22 @@ const CoachTable = (props) => {
               padding="none"
               sortDirection={orderBy === coachTableHeads.id ? order : false}
               style={{
-                width: 'max-content',
-                paddingLeft: coachTableHeads.id == 'index' ? 5 : 0,
+                width: "max-content",
+                paddingLeft: coachTableHeads.id == "index" ? 5 : 0,
               }}
             >
               <TableSortLabel
                 active={orderBy === coachTableHeads.id}
-                direction={orderBy === coachTableHeads.id ? order : 'asc'}
+                direction={orderBy === coachTableHeads.id ? order : "asc"}
                 onClick={createSortHandler(coachTableHeads.id)}
-                style={{width: 'max-content'}}
+                style={{ width: "max-content" }}
               >
                 {coachTableHeads.label}
                 {orderBy === coachTableHeads.id ? (
                   <span className={classes.visuallyHidden}>
-                    {order === 'desc'
-                      ? 'sorted descending'
-                      : 'sorted ascending'}
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
                   </span>
                 ) : null}
               </TableSortLabel>
@@ -248,10 +248,10 @@ const CoachTable = (props) => {
 
   const useStyles = makeStyles((theme) => ({
     root: {
-      width: '100%',
+      width: "100%",
     },
     paper: {
-      width: '100%',
+      width: "100%",
       marginBottom: theme.spacing(2),
     },
     table: {
@@ -259,26 +259,26 @@ const CoachTable = (props) => {
     },
     visuallyHidden: {
       border: 0,
-      clip: 'rect(0 0 0 0)',
+      clip: "rect(0 0 0 0)",
       height: 1,
       margin: -1,
-      overflow: 'hidden',
+      overflow: "hidden",
       padding: 0,
-      position: 'absolute',
+      position: "absolute",
       top: 20,
       width: 1,
     },
   }));
 
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
   const classes = useStyles();
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
 
   const [open, setOpen] = useState(false);
   const onCloseModal = () => {
@@ -291,27 +291,27 @@ const CoachTable = (props) => {
 
   const editFile = (event) => {
     if (event.target.files) {
-      const {files} = event.target;
+      const { files } = event.target;
       if (files && files.length > 0) {
         const formData = new FormData();
-        formData.append('media', files[0]);
+        formData.append("media", files[0]);
 
         axios
           .post(`${urlPrefix}${uploadImage}`, formData, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-              timeStamp: 'timestamp',
-              accept: '*/*',
-              'Content-type': 'multipart/form-data; boundary=???',
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              timeStamp: "timestamp",
+              accept: "*/*",
+              "Content-type": "multipart/form-data; boundary=???",
             },
           })
           .then((res) => {
-            message.success('Success');
+            message.success("Success");
 
             seteditImage(res.data.response.responseData.image);
           })
           .catch((err) => {
-            message.error('Try Again');
+            message.error("Try Again");
           });
       }
     }
@@ -332,41 +332,41 @@ const CoachTable = (props) => {
     <>
       <Modal
         open={open}
-        styles={{modal: {borderRadius: '10px', maxWidth: '600px'}}}
+        styles={{ modal: { borderRadius: "10px", maxWidth: "600px" } }}
         onClose={onCloseModal}
         center
         closeIcon={closeIcon}
       >
         <CancelIcon
           style={{
-            position: 'absolute',
+            position: "absolute",
             top: 15,
             right: 5,
-            color: '#ef5350',
-            cursor: 'pointer',
+            color: "#ef5350",
+            cursor: "pointer",
           }}
         />
         <div
           style={{
-            padding: '20px',
-            paddingLeft: '5px',
-            paddingBottom: '0px',
-            paddingTop: '10px',
+            padding: "20px",
+            paddingLeft: "5px",
+            paddingBottom: "0px",
+            paddingTop: "10px",
           }}
         >
-          <form style={{padding: '10px'}}>
-            <div className="name" style={{display: 'flex', fontSize: 12}}>
+          <form style={{ padding: "10px" }}>
+            <div className="name" style={{ display: "flex", fontSize: 12 }}>
               {/* <input type="text"   > */}
               <div
                 style={{
-                  width: '50%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label>
-                  {' '}
-                  Coach Name <span style={{color: 'red'}}> *</span>
+                  {" "}
+                  Coach Name <span style={{ color: "red" }}> *</span>
                 </label>
 
                 <input
@@ -376,12 +376,12 @@ const CoachTable = (props) => {
                   accept="image/*"
                   maxLength="75"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   onChange={handelchange}
@@ -391,15 +391,15 @@ const CoachTable = (props) => {
 
               <div
                 style={{
-                  width: '50%',
-                  marginLeft: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  marginLeft: "10px",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label>
-                  {' '}
-                  Phone number <span style={{color: 'red'}}> *</span>
+                  {" "}
+                  Phone number <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   value={preval.phoneNumber}
@@ -408,33 +408,33 @@ const CoachTable = (props) => {
                   type="text"
                   maxLength="10"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="enter number"
-                />{' '}
+                />{" "}
               </div>
             </div>
 
             <div
               className="name"
-              style={{display: 'flex', fontSize: 12, marginTop: '15px'}}
+              style={{ display: "flex", fontSize: 12, marginTop: "15px" }}
             >
               <div
                 style={{
-                  width: '50%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label>
-                  {' '}
-                  Short Bio <span style={{color: 'red'}}> *</span>{' '}
+                  {" "}
+                  Short Bio <span style={{ color: "red" }}> *</span>{" "}
                 </label>
 
                 <TextField
@@ -442,7 +442,7 @@ const CoachTable = (props) => {
                   id="standard-basic"
                   placeholder="Enter short bio"
                   style={{
-                    width: '95%',
+                    width: "95%",
                   }}
                   variant="outlined"
                   multiline
@@ -453,17 +453,17 @@ const CoachTable = (props) => {
                 />
               </div>
 
-              <div style={{width: '50%', marginLeft: '10px'}}>
+              <div style={{ width: "50%", marginLeft: "10px" }}>
                 <label>
-                  {' '}
-                  Specialization <span style={{color: 'red'}}> *</span>
+                  {" "}
+                  Specialization <span style={{ color: "red" }}> *</span>
                 </label>
                 <TextField
                   id="standard-basic"
                   placeholder="Enter specialization"
                   style={{
-                    width: '95%',
-                    background: '#f2f0eb',
+                    width: "95%",
+                    background: "#f2f0eb",
                   }}
                   variant="outlined"
                   multiline
@@ -471,24 +471,24 @@ const CoachTable = (props) => {
                   onChange={handelchange}
                   name="specialization"
                   className="event-text-field"
-                />{' '}
+                />{" "}
               </div>
             </div>
 
             <div
               className="name"
-              style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+              style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
             >
               <div
                 style={{
-                  width: '50%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label>
-                  {' '}
-                  Language known <span style={{color: 'red'}}> *</span>
+                  {" "}
+                  Language known <span style={{ color: "red" }}> *</span>
                 </label>
                 <input
                   className="border-danger"
@@ -499,24 +499,24 @@ const CoachTable = (props) => {
                   type="text"
                   accept="image/*"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="Language known "
-                />{' '}
+                />{" "}
               </div>
 
               <div
                 style={{
-                  width: '50%',
-                  marginLeft: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  marginLeft: "10px",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label> Total experience </label>
@@ -528,33 +528,33 @@ const CoachTable = (props) => {
                   accept="image/*"
                   maxLength="50"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="Experience"
-                />{' '}
+                />{" "}
               </div>
             </div>
 
             <div
               className="name"
-              style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+              style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
             >
               <div
                 style={{
-                  width: '50%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label>
-                  {' '}
-                  Email id <span style={{color: 'red'}}> *</span>
+                  {" "}
+                  Email id <span style={{ color: "red" }}> *</span>
                 </label>
 
                 <input
@@ -564,12 +564,12 @@ const CoachTable = (props) => {
                   type="email"
                   accept="image/*"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="Enter email"
@@ -578,10 +578,10 @@ const CoachTable = (props) => {
 
               <div
                 style={{
-                  width: '50%',
-                  marginLeft: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  marginLeft: "10px",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label> Twitter </label>
@@ -591,28 +591,28 @@ const CoachTable = (props) => {
                   name="twitterId"
                   type="text"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="enter twitter link"
-                />{' '}
+                />{" "}
               </div>
             </div>
 
             <div
               className="name"
-              style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+              style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
             >
               <div
                 style={{
-                  width: '50%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label> Instagram </label>
@@ -623,24 +623,24 @@ const CoachTable = (props) => {
                   type="text"
                   accept="image/*"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="enter instagram link"
-                />{' '}
+                />{" "}
               </div>
 
               <div
                 style={{
-                  width: '50%',
-                  marginLeft: '10px',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  marginLeft: "10px",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label> LinkedIn </label>
@@ -651,28 +651,28 @@ const CoachTable = (props) => {
                   type="text"
                   accept="image/*"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="enter linkedin link"
-                />{' '}
+                />{" "}
               </div>
             </div>
 
             <div
               className="name"
-              style={{display: 'flex', marginTop: '15px', fontSize: 12}}
+              style={{ display: "flex", marginTop: "15px", fontSize: 12 }}
             >
               <div
                 style={{
-                  width: '50%',
-                  display: 'flex',
-                  flexDirection: 'column',
+                  width: "50%",
+                  display: "flex",
+                  flexDirection: "column",
                 }}
               >
                 <label> Facebook </label>
@@ -683,19 +683,19 @@ const CoachTable = (props) => {
                   type="text"
                   accept="image/*"
                   style={{
-                    background: '#f2f0eb',
-                    textAlign: 'left',
+                    background: "#f2f0eb",
+                    textAlign: "left",
                     fontSize: 12,
                     border: 0,
                     outline: 0,
-                    height: '30px',
+                    height: "30px",
                     borderRadius: 5,
                   }}
                   placeholder="enter facebook link"
-                />{' '}
+                />{" "}
               </div>
 
-              <div style={{width: '50%', fontSize: 12, marginLeft: '0px'}}>
+              <div style={{ width: "50%", fontSize: 12, marginLeft: "0px" }}>
                 {/* <input type="file"  name="img" 
                                  onChange={(e) => {
                                     onFileChange(e);
@@ -705,23 +705,23 @@ const CoachTable = (props) => {
                   src={preval.coachImage}
                   style={{
                     marginLeft: 50,
-                    width: '100px',
-                    height: '100px',
-                    borderRadius: '100%',
+                    width: "100px",
+                    height: "100px",
+                    borderRadius: "100%",
                   }}
                 />
                 <label for="editimg">
-                  {' '}
+                  {" "}
                   <Edit
                     size={12}
                     style={{
                       marginLeft: -25,
                       marginTop: -15,
-                      color: '#069b3f',
-                      cursor: 'pointer',
+                      color: "#069b3f",
+                      cursor: "pointer",
                     }}
-                  />{' '}
-                </label>{' '}
+                  />{" "}
+                </label>{" "}
                 <input
                   onChange={(e) => {
                     editFile(e);
@@ -729,17 +729,17 @@ const CoachTable = (props) => {
                   name="teamLogo"
                   type="file"
                   id="editimg"
-                  style={{fontSize: 12, display: 'none'}}
+                  style={{ fontSize: 12, display: "none" }}
                 />
               </div>
             </div>
-            <div style={{display: 'flex'}}>
-              <div style={{width: '50%'}}>
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "50%" }}>
                 <button
                   className="is-success"
                   onClick={editCoach}
                   style={{
-                    float: 'left',
+                    float: "left",
                     marginTop: 0,
                     width: 100,
                     height: 32,
@@ -749,7 +749,7 @@ const CoachTable = (props) => {
                   Submit
                 </button>
               </div>
-              <div style={{width: '50%'}}></div>
+              <div style={{ width: "50%" }}></div>
             </div>
           </form>
         </div>
@@ -758,7 +758,7 @@ const CoachTable = (props) => {
       <Table
         className={classes.table}
         aria-labelledby="tableTitle"
-        size={'small'}
+        size={"small"}
         aria-label="enhanced table"
       >
         <EnhancedTableHead
@@ -772,7 +772,7 @@ const CoachTable = (props) => {
             <TableCell
               colSpan={10}
               style={{
-                position: 'relative',
+                position: "relative",
               }}
             >
               {/* <FacebookCircularProgress /> */}
@@ -780,51 +780,51 @@ const CoachTable = (props) => {
           </TableRow>
           <TableRow hover tabIndex={-1}>
             <TableCell align="center">
-              <div style={{fontSize: 12, width: 'max-content'}}>
-                <div style={{display: 'flex'}}>
-                  {' '}
+              <div style={{ fontSize: 12, width: "max-content" }}>
+                <div style={{ display: "flex" }}>
+                  {" "}
                   <img
                     src={props.coach.coachImage}
-                    style={{width: '25px', height: '25px', borderRadius: 100}}
-                  />{' '}
-                  <span style={{marginTop: 5, marginLeft: 10}}>
-                    {props.coach.coachName}{' '}
-                  </span>{' '}
+                    style={{ width: "25px", height: "25px", borderRadius: 100 }}
+                  />{" "}
+                  <span style={{ marginTop: 5, marginLeft: 10 }}>
+                    {props.coach.coachName}{" "}
+                  </span>{" "}
                 </div>
                 {/* {props.coachPhoneNumber} */}
               </div>
             </TableCell>
 
             <TableCell align="center">
-              <div style={{fontSize: 12, width: 'max-content'}}>
+              <div style={{ fontSize: 12, width: "max-content" }}>
                 {props.coach.totalExperience}
                 {/* {props.coachPhoneNumber} */}
               </div>
             </TableCell>
 
             <TableCell align="center">
-              <div style={{fontSize: 12, width: 'max-content'}}>
+              <div style={{ fontSize: 12, width: "max-content" }}>
                 {props.coach.specialization}
                 {/* {props.coachPhoneNumber} */}
               </div>
             </TableCell>
 
             <TableCell align="center">
-              <div style={{fontSize: 12, width: 'max-content'}}>
+              <div style={{ fontSize: 12, width: "max-content" }}>
                 {props.coach.phoneNumber}
                 {/* {props.coachPhoneNumber} */}
               </div>
             </TableCell>
 
             <TableCell align="center">
-              <div style={{fontSize: 12, width: 'max-content'}}>
+              <div style={{ fontSize: 12, width: "max-content" }}>
                 {props.coach.emailId}
                 {/* {props.coachPhoneNumber} */}
               </div>
             </TableCell>
 
             <TableCell align="center">
-              <div style={{fontSize: 12, width: 'max-content'}}>
+              <div style={{ fontSize: 12, width: "max-content" }}>
                 {props.coach.languagesKnow}
                 {/* {props.coachPhoneNumber} */}
               </div>
@@ -834,8 +834,8 @@ const CoachTable = (props) => {
                 size={16}
                 style={{
                   marginLeft: 5,
-                  color: '#069b3f',
-                  cursor: 'pointer',
+                  color: "#069b3f",
+                  cursor: "pointer",
                 }}
                 onClick={() => {
                   onOpenModal();

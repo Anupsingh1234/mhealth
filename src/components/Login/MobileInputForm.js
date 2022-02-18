@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import PhoneInput from 'react-phone-input-2';
-import ReactLoadingWrapper from '../loaders/ReactLoadingWrapper';
-import {getCountryListData} from '../../services/challengeApi';
+import React, { useEffect, useState } from "react";
+import PhoneInput from "react-phone-input-2";
+import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
+import { getCountryListData } from "../../services/challengeApi";
 
 const MobileInputForm = ({
   userData,
   handleInput,
   loaderInfo,
   handleMobileInputSubmit,
+  YottaMatch,
 }) => {
   const [countryList, setCountryList] = useState([]);
 
@@ -21,7 +22,7 @@ const MobileInputForm = ({
   return (
     <>
       {userData.isForgetPassSuccess && (
-        <div className={'success-message fadeInUp'}>
+        <div className={"success-message fadeInUp"}>
           <h2>
             <div>Your Pin has been updated</div>
           </h2>
@@ -35,7 +36,7 @@ const MobileInputForm = ({
       <div className="input-area input-mobile fadeInUp">
         {countryList.length > 0 ? (
           <PhoneInput
-            country={'in'}
+            country={"in"}
             autoFormat={true}
             value={userData.mobileNo.value}
             onChange={(value, country) => {
@@ -50,9 +51,9 @@ const MobileInputForm = ({
                 userData?.mobileNo?.dialCode != currLocalCountryObj.countryId
               ) {
                 //clear data on switching country
-                handleInput('mobile', {
+                handleInput("mobile", {
                   dialCode: dialCode,
-                  phoneNumber: '',
+                  phoneNumber: "",
                   value: dialCode,
                 });
               }
@@ -61,7 +62,7 @@ const MobileInputForm = ({
                 currLocalCountryObj &&
                 phoneNumber.length <= currLocalCountryObj.mobileNumberLength
               ) {
-                handleInput('mobile', {
+                handleInput("mobile", {
                   dialCode: dialCode,
                   phoneNumber: phoneNumber,
                   value: value,
@@ -76,26 +77,26 @@ const MobileInputForm = ({
           />
         ) : (
           <ReactLoadingWrapper
-            color={'#518ad6'}
-            height={'10%'}
-            width={'10%'}
-            type={'spin'}
+            color={"#518ad6"}
+            height={"10%"}
+            width={"10%"}
+            type={"spin"}
           />
         )}
       </div>
-      <div className={'submit-button'}>
+      <div className={"submit-button"}>
         {loaderInfo.mobileVerification ? (
           <div className="loader">
             <ReactLoadingWrapper
-              color={'#518ad6'}
-              height={'10%'}
-              width={'10%'}
-              type={'spin'}
+              color={"#518ad6"}
+              height={"10%"}
+              width={"10%"}
+              type={"spin"}
             />
           </div>
         ) : (
           <button
-            className={'is-success'}
+            className={YottaMatch ? "is-yotta-success" : "is-success"}
             onClick={() => {
               handleMobileInputSubmit();
             }}

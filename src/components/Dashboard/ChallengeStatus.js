@@ -1,5 +1,5 @@
-import React from 'react';
-import InfoDialog from '../Utility/InfoDialog';
+import React from "react";
+import InfoDialog from "../Utility/InfoDialog";
 
 const ChallengeStatus = ({
   challengeStatusMsg,
@@ -18,17 +18,17 @@ const ChallengeStatus = ({
         <div
           style={{
             padding: 12,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <p>{challengeStatusMsg}</p>
           <button
             style={{
-              background: 'green',
-              color: '#fff',
-              width: '50%',
+              background: "green",
+              color: "#fff",
+              width: "50%",
             }}
             onClick={() => {
               setDisplayChallengeStatus(false);

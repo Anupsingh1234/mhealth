@@ -1,72 +1,72 @@
-import React, {useState, useEffect} from 'react';
-import Modal from '@material-ui/core/Modal';
-import CancelIcon from '@material-ui/icons/Cancel';
-import Avatar from '@material-ui/core/Avatar';
-import {makeStyles} from '@material-ui/core/styles';
-import ReactStars from 'react-rating-stars-component';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faStar} from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
-import StarRatings from 'react-star-ratings';
+import React, { useState, useEffect } from "react";
+import Modal from "@material-ui/core/Modal";
+import CancelIcon from "@material-ui/icons/Cancel";
+import Avatar from "@material-ui/core/Avatar";
+import { makeStyles } from "@material-ui/core/styles";
+import ReactStars from "react-rating-stars-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import StarRatings from "react-star-ratings";
 import {
   ratingProgramByUser,
   urlPrefix,
   getSubEvent,
   getCoachData,
-} from '../services/apicollection';
-import InfoDialog from './Utility/InfoDialog';
+} from "../services/apicollection";
+import InfoDialog from "./Utility/InfoDialog";
 
 function getModalStyle() {
   return {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    background: '#fff',
-    transform: 'translate(-50%, -50%)',
-    width: '200px',
-    outline: 'none',
-    padding: '15px',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    background: "#fff",
+    transform: "translate(-50%, -50%)",
+    width: "200px",
+    outline: "none",
+    padding: "15px",
   };
 }
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
+    position: "absolute",
     width: 500,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    maxHeight: '90vh',
-    overflow: 'scroll',
+    maxHeight: "90vh",
+    overflow: "scroll",
   },
 }));
 
 const programTypeConfig = {
-  YOGA: 'Yoga',
-  ZUMBA: 'Zumba',
-  FUN_DAY: 'Fun Day',
-  MEDITATION: 'Meditation',
-  HIIT: 'HIIT',
-  CONSULTATION: 'Consultation',
-  WELLNESS_CAMP: ' Wellness Camp',
-  PLANK: 'Plank',
-  DANCE_FITNESS: ' Dance Fitness',
-  MASTER_CLASS: 'Master Class',
-  VACCINATION_CAMP: 'Vaccination Camp',
-  DIET_NUTRITION: 'Diet Nutrition',
-  DANCE: 'Dance',
-  WALKING: 'Walking',
-  RUNNING: 'Running',
-  WELLNESS_PARTNER: 'Wellness Partner',
-  FITNESS_CLASS: 'Fitness Class',
-  AEROBICS: 'Aerobics',
-  BIKING: 'Biking',
-  HIKING: 'Hiking',
-  SWIMMING: 'Swimmming',
-  COOKING: 'Cooking',
-  ARTICLE: 'Article',
-  CYCLING: 'Cycling',
-  OTHERS: 'Others',
+  YOGA: "Yoga",
+  ZUMBA: "Zumba",
+  FUN_DAY: "Fun Day",
+  MEDITATION: "Meditation",
+  HIIT: "HIIT",
+  CONSULTATION: "Consultation",
+  WELLNESS_CAMP: " Wellness Camp",
+  PLANK: "Plank",
+  DANCE_FITNESS: " Dance Fitness",
+  MASTER_CLASS: "Master Class",
+  VACCINATION_CAMP: "Vaccination Camp",
+  DIET_NUTRITION: "Diet Nutrition",
+  DANCE: "Dance",
+  WALKING: "Walking",
+  RUNNING: "Running",
+  WELLNESS_PARTNER: "Wellness Partner",
+  FITNESS_CLASS: "Fitness Class",
+  AEROBICS: "Aerobics",
+  BIKING: "Biking",
+  HIKING: "Hiking",
+  SWIMMING: "Swimmming",
+  COOKING: "Cooking",
+  ARTICLE: "Article",
+  CYCLING: "Cycling",
+  OTHERS: "Others",
 };
 
 export default function EventInfoModal({
@@ -90,14 +90,14 @@ export default function EventInfoModal({
     const url = `${urlPrefix}${getSubEvent}?eventId=${challenge.eventId}`;
     const x = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        timeStamp: 'timestamp',
-        accept: '*/*',
-        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        timeStamp: "timestamp",
+        accept: "*/*",
+        "Access-Control-Allow-Origin": "*",
         withCredentials: true,
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-        'Access-Control-Allow-Headers':
-          'accept, content-type, x-access-token, x-requested-with',
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers":
+          "accept, content-type, x-access-token, x-requested-with",
       },
     });
     const datares = await x.json();
@@ -119,8 +119,8 @@ export default function EventInfoModal({
 
     const [showUnsubscribeModal, setUnsubModal] = useState(false);
 
-    const [rateMessage, setrateMessage] = useState('');
-    const [eventId, seteventId] = useState('10');
+    const [rateMessage, setrateMessage] = useState("");
+    const [eventId, seteventId] = useState("10");
 
     const feedBack = (e) => {
       setrateMessage(e.target.value);
@@ -130,7 +130,7 @@ export default function EventInfoModal({
     const rateDone = () => {
       setUnsubModal(false);
       const URL = `${urlPrefix}${ratingProgramByUser}?comment=${rateMessage}&rateValue=${localStorage.getItem(
-        'rating'
+        "rating"
       )}&subEventId=${challenge.id}`;
       return axios
         .put(
@@ -138,14 +138,14 @@ export default function EventInfoModal({
           {},
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-              timeStamp: 'timestamp',
-              accept: '*/*',
-              'Access-Control-Allow-Origin': '*',
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              timeStamp: "timestamp",
+              accept: "*/*",
+              "Access-Control-Allow-Origin": "*",
               withCredentials: true,
-              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-              'Access-Control-Allow-Headers':
-                'accept, content-type, x-access-token, x-requested-with',
+              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+              "Access-Control-Allow-Headers":
+                "accept, content-type, x-access-token, x-requested-with",
             },
           }
         )
@@ -154,29 +154,29 @@ export default function EventInfoModal({
           userRated();
           blankStar();
           // console.log(challenge.id);
-          localStorage.setItem('rated', challenge.id);
+          localStorage.setItem("rated", challenge.id);
           //  localStorage.setItem('rating', 4)
-          message.success('Rated succesfully ! Thank you');
+          message.success("Rated succesfully ! Thank you");
         });
     };
 
     const ratingChanged = (newRating) => {
-      localStorage.setItem('rating', newRating);
+      localStorage.setItem("rating", newRating);
 
-      if (newRating <= 5 && localStorage.getItem('rated') != challenge.id) {
+      if (newRating <= 5 && localStorage.getItem("rated") != challenge.id) {
         setUnsubModal(true);
       }
     };
 
     const InputRate = () => {
       if (
-        challenge.otherStatus == 'SUBSCRIBED' &&
-        challenge.userStatusInProgram != 'PENDING' &&
+        challenge.otherStatus == "SUBSCRIBED" &&
+        challenge.userStatusInProgram != "PENDING" &&
         challenge.isRated == false
       ) {
         return (
           <>
-            <div style={{marginTop: '-5px'}}>
+            <div style={{ marginTop: "-5px" }}>
               <ReactStars
                 onChange={ratingChanged}
                 count={5}
@@ -199,14 +199,14 @@ export default function EventInfoModal({
     };
 
     const blankStar = () => {
-      if (challenge.otherStatus === 'SUBSCRIBED' && challenge.isRated == true) {
+      if (challenge.otherStatus === "SUBSCRIBED" && challenge.isRated == true) {
         return (
-          <div style={{marginLeft: '-5px'}}>
+          <div style={{ marginLeft: "-5px" }}>
             {actualData.map((curData, ind) => {
               // console.log(curData)
               if (challenge.id == curData.id && curData.isRated == true) {
                 return (
-                  <div style={{marginLeft: '5px', marginTop: '-5px'}}>
+                  <div style={{ marginLeft: "5px", marginTop: "-5px" }}>
                     <ReactStars
                       count={5 - curData.userStarRateValue}
                       size={20}
@@ -224,8 +224,8 @@ export default function EventInfoModal({
 
     const userRated = () => {
       if (
-        challenge.otherStatus === 'SUBSCRIBED' &&
-        challenge.userStatusInProgram == 'SUBSCRIBED' &&
+        challenge.otherStatus === "SUBSCRIBED" &&
+        challenge.userStatusInProgram == "SUBSCRIBED" &&
         challenge.isRated == true
       ) {
         return (
@@ -235,7 +235,7 @@ export default function EventInfoModal({
               if (challenge.id == curData.id && curData.isRated == true) {
                 const userStar = parseFloat(curData.userStarRateValue);
                 return (
-                  <div style={{marginTop: '-5px', border: 'none'}}>
+                  <div style={{ marginTop: "-5px", border: "none" }}>
                     <ReactStars
                       count={curData.userStarRateValue}
                       size={20}
@@ -255,7 +255,7 @@ export default function EventInfoModal({
     // if (challenge.userStatusInProgram === 'SUBSCRIBED' ) {
     return (
       <>
-        <div style={{display: 'flex', height: '22px', border: 'none'}}>
+        <div style={{ display: "flex", height: "22px", border: "none" }}>
           {InputRate()}
 
           {userRated()}
@@ -268,29 +268,29 @@ export default function EventInfoModal({
           title=""
           style={{}}
         >
-          <div style={{paddingLeft: '100px', paddingRight: '100px'}}>
+          <div style={{ paddingLeft: "100px", paddingRight: "100px" }}>
             <div
               class=""
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
             >
-              <div style={{display: 'flex', justifyContent: 'center'}}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 <ReactStars
-                  style={{marginBottom: '15px', marginLeft: '400px'}}
+                  style={{ marginBottom: "15px", marginLeft: "400px" }}
                   onChange={ratingChanged}
-                  count={localStorage.getItem('rating')}
+                  count={localStorage.getItem("rating")}
                   size={20}
                   color="#ffd700"
                 />
               </div>
               <div
                 className=""
-                style={{display: 'flex', flexDirection: 'column'}}
+                style={{ display: "flex", flexDirection: "column" }}
               >
-                <p style={{marginLeft: '40px'}}> Comment your review </p>
+                <p style={{ marginLeft: "40px" }}> Comment your review </p>
 
                 <div style={{}}>
                   <input
@@ -302,7 +302,7 @@ export default function EventInfoModal({
                   <input
                     type="hidden"
                     name="rating"
-                    value={localStorage.getItem('rating')}
+                    value={localStorage.getItem("rating")}
                   />
                   <input type="hidden" name="programId" value={challenge.id} />
                   <textarea
@@ -326,7 +326,7 @@ export default function EventInfoModal({
                   className="is-success"
                   onClick={rateDone}
                   style={{
-                    background: '#F43F5E',
+                    background: "#F43F5E",
                     marginTop: 10,
                     width: 100,
                     height: 25,
@@ -665,7 +665,7 @@ export default function EventInfoModal({
         aria-describedby="simple-modal-description"
         disableAutoFocus
       >
-        <div style={{outline: 'none'}}>{modalBody}</div>
+        <div style={{ outline: "none" }}>{modalBody}</div>
       </Modal>
     </div>
   );

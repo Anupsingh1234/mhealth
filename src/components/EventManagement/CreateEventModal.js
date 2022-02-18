@@ -1,37 +1,37 @@
-import React, {useState, useEffect} from 'react';
-import Modal from '@material-ui/core/Modal';
-import {makeStyles} from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import DatePicker from '../DatePicker';
-import CancelIcon from '@material-ui/icons/Cancel';
-import {checkForFalsy} from '../../utils/commonFunctions';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import {PlusCircle, Copy, Bold, Plus} from 'react-feather';
-import InfoDialog from '../Utility/InfoDialog';
+import React, { useState, useEffect } from "react";
+import Modal from "@material-ui/core/Modal";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
+import DatePicker from "../DatePicker";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { checkForFalsy } from "../../utils/commonFunctions";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Stepper from "@material-ui/core/Stepper";
+import Step from "@material-ui/core/Step";
+import StepLabel from "@material-ui/core/StepLabel";
+import { PlusCircle, Copy, Bold, Plus } from "react-feather";
+import InfoDialog from "../Utility/InfoDialog";
 import {
   urlPrefix,
   getAllMobile,
   postChallenge,
-} from '../../services/apicollection';
-import Message from 'antd-message';
-import Input from '@material-ui/core/Input';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Chip from '@material-ui/core/Chip';
+} from "../../services/apicollection";
+import Message from "antd-message";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Chip from "@material-ui/core/Chip";
 
 import {
   createOrUpdateEvent,
   postEventImages,
-} from '../../services/challengeApi';
-import {baseUrl} from '../../services/apicollection';
+} from "../../services/challengeApi";
+import { baseUrl } from "../../services/apicollection";
 
-import ReactLoadingWrapper from '../../components/loaders/ReactLoadingWrapper';
-import {tsUndefinedKeyword} from '@babel/types';
+import ReactLoadingWrapper from "../../components/loaders/ReactLoadingWrapper";
+import { tsUndefinedKeyword } from "@babel/types";
 
 function getModalStyle() {
   const top = 65;
@@ -45,18 +45,18 @@ function getModalStyle() {
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
-    width: '90%',
-    backgroundColor: '#fff',
+    position: "absolute",
+    width: "90%",
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 12,
-    outline: 'none',
+    outline: "none",
     maxHeight: 1200,
-    marginLeft: '195px',
+    marginLeft: "195px",
   },
   chips: {
-    display: 'flex',
-    flexWrap: 'wrap',
+    display: "flex",
+    flexWrap: "wrap",
   },
   chip: {
     margin: 2,
@@ -77,14 +77,14 @@ const MenuProps = {
 
 const returnTransformedDate = (date) => {
   let d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
     year = d.getFullYear();
 
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
 
-  return [year, month, day].join('-');
+  return [year, month, day].join("-");
 };
 const CreateEventModal = ({
   createEventModal,
@@ -110,7 +110,7 @@ const CreateEventModal = ({
     targetDays: undefined,
     targetDistance: undefined,
     registrationCode: undefined,
-    eventView: 'PUBLIC',
+    eventView: "PUBLIC",
     moderator: 191,
     eventType: undefined,
     termAndCondition: undefined,
@@ -141,8 +141,8 @@ const CreateEventModal = ({
     sponsorLogo: undefined,
   });
 
-  const [inputgmail, setInputGmail] = useState('');
-  console.log(inputgmail, 'inputgmail');
+  const [inputgmail, setInputGmail] = useState("");
+  console.log(inputgmail, "inputgmail");
 
   const [gmailList, setGmailList] = useState([]);
 
@@ -152,7 +152,7 @@ const CreateEventModal = ({
   );
   const AddGmail = () => {
     if (
-      inputgmail !== '' &&
+      inputgmail !== "" &&
       /[.]/gi.test(inputgmail.toString()) === true &&
       /[@]/gi.test(inputgmail.toString()) === false &&
       /[!]/gi.test(inputgmail.toString()) === false &&
@@ -164,15 +164,15 @@ const CreateEventModal = ({
     ) {
       setGmailList([...gmailList, inputgmail]);
       setRegMessage({
-        type: 'error',
-        msg: '',
+        type: "error",
+        msg: "",
       });
       // setEventObject
-      setInputGmail('');
+      setInputGmail("");
     } else {
       setRegMessage({
-        type: 'error',
-        msg: 'Email Domains,invalid input',
+        type: "error",
+        msg: "Email Domains,invalid input",
       });
     }
   };
@@ -194,10 +194,10 @@ const CreateEventModal = ({
         rewards: editEventObject.rewards,
 
         registrationStartDate:
-          editEventObject.registrationStartDate?.split(' ')[0],
-        registrationEndDate: editEventObject.registrationEndDate?.split(' ')[0],
-        challengeStartDate: editEventObject.challengeStartDate?.split(' ')[0],
-        challengeEndDate: editEventObject.challengeEndDate?.split(' ')[0],
+          editEventObject.registrationStartDate?.split(" ")[0],
+        registrationEndDate: editEventObject.registrationEndDate?.split(" ")[0],
+        challengeStartDate: editEventObject.challengeStartDate?.split(" ")[0],
+        challengeEndDate: editEventObject.challengeEndDate?.split(" ")[0],
         targetDays: editEventObject.targetDays,
         targetDistance: editEventObject.targetDistance,
         registrationCode: editEventObject.registrationCode,
@@ -218,14 +218,14 @@ const CreateEventModal = ({
         sponsorText: editEventObject.sponsorText,
         subDomains: editEventObject.subDomains,
       };
-      if (editEventObject.eventView === 'LINKED') {
-        newObj['linkedEvents'] =
+      if (editEventObject.eventView === "LINKED") {
+        newObj["linkedEvents"] =
           editEventObject.linkedEvents &&
           Array.isArray(editEventObject.linkedEvents)
             ? editEventObject.linkedEvents.map((item) => {
                 if (eventsList.filter((elm) => elm.id == item)[0]) {
                   return eventsList.filter((elm) => elm.id == item)[0][
-                    'challengeName'
+                    "challengeName"
                   ];
                 }
               })
@@ -255,7 +255,7 @@ const CreateEventModal = ({
   //   setGmailList([]);
   // }
 
-  console.log(gmailList, 'object');
+  console.log(gmailList, "object");
   const bannerInputRef = React.createRef();
   const sponsorLogoInputRef = React.createRef();
   const eventLogoInputRef = React.createRef();
@@ -263,33 +263,33 @@ const CreateEventModal = ({
   const handleInputChange = (name, value) => {
     setEventObject((prevState) => {
       console.log(prevState);
-      return {...prevState, [name]: value};
+      return { ...prevState, [name]: value };
     });
   };
 
   const [editgmail, setEditGmail] = useState(
-    editEventObject ? editEventObject.subDomains : ''
+    editEventObject ? editEventObject.subDomains : ""
   );
 
   // console.log(editEventObject.subDomains);
   const handleInputSubDomainChange = (name, value, index) => {
     let UpdatedValue = editEventObject.subDomains;
     UpdatedValue[index] = value;
-    console.log('updatedvalue', UpdatedValue);
+    console.log("updatedvalue", UpdatedValue);
     setEventObject((prevState) => {
       console.log(prevState);
-      return {...prevState, [name]: UpdatedValue};
+      return { ...prevState, [name]: UpdatedValue };
     });
   };
-  const [editinputgmail, setEditInputGmail] = useState('');
-  console.log(inputgmail, 'inputgmail');
+  const [editinputgmail, setEditInputGmail] = useState("");
+  console.log(inputgmail, "inputgmail");
 
   const [editgmailList, setEditGmailList] = useState([]);
   // console.log([...editgmail ,...editgmailList], 'editgmail');
   // console.log(inputgmail.match('/./'));
   const EditAddGmail = () => {
     if (
-      editinputgmail !== '' &&
+      editinputgmail !== "" &&
       /[.]/gi.test(editinputgmail.toString()) === true &&
       /[@]/gi.test(editinputgmail.toString()) === false &&
       /[!]/gi.test(editinputgmail.toString()) === false &&
@@ -302,11 +302,11 @@ const CreateEventModal = ({
       setEditGmailList([...editgmailList, editinputgmail]);
 
       // setEventObject
-      setEditInputGmail('');
+      setEditInputGmail("");
     } else {
       setRegMessage({
-        type: 'error',
-        msg: 'Email Domains,invalid input',
+        type: "error",
+        msg: "Email Domains,invalid input",
       });
     }
   };
@@ -319,16 +319,16 @@ const CreateEventModal = ({
   {
     finaleditgmail.length > 0 &&
       finaleditgmail.map((item) => {
-        if (item !== '') {
+        if (item !== "") {
           findvalue.push(item);
         }
       });
   }
-  console.log(finaleditgmail, findvalue, 'findvalue');
+  console.log(finaleditgmail, findvalue, "findvalue");
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [modId, setmodId] = useState(
-    editEventObject ? editEventObject.moderatorId : ''
+    editEventObject ? editEventObject.moderatorId : ""
   );
   const [errorObj, setErrorObj] = useState({});
   const [activeStep, setActiveStep] = useState(1);
@@ -338,28 +338,28 @@ const CreateEventModal = ({
   const getDisableStatus = () => {
     let disabled = false;
     if (activeStep == 1) {
-      let checkObject = {...eventObject};
+      let checkObject = { ...eventObject };
 
-      if (eventObject.eventView !== 'LINKED') {
-        delete checkObject['linkedEvents'];
+      if (eventObject.eventView !== "LINKED") {
+        delete checkObject["linkedEvents"];
       }
 
       disabled =
         Object.values(checkObject).includes(undefined) ||
-        Object.values(checkObject).includes('');
+        Object.values(checkObject).includes("");
     }
 
     if (activeStep == 2) {
       disabled =
         Object.values(mediaObj).includes(undefined) ||
-        Object.values(mediaObj).includes('');
+        Object.values(mediaObj).includes("");
     }
     return disabled;
   };
 
   const [regMessage, setRegMessage] = useState({
-    type: 'error',
-    msg: '',
+    type: "error",
+    msg: "",
   });
 
   const handleSubmit = () => {
@@ -377,8 +377,8 @@ const CreateEventModal = ({
           dailyMinKm: parseFloat(eventObject.dailyMinKm),
           registrationFees: parseFloat(eventObject.registrationFees),
           moderator: parseFloat(modId),
-          id: 'null',
-          sponsorLink: 'null',
+          id: "null",
+          sponsorLink: "null",
           subDomains: [...gmailList],
         };
         // if(eventObject.verificationRequired==1)
@@ -389,39 +389,39 @@ const CreateEventModal = ({
         // }
 
         // payload["subDomains"]=gmailList;
-        if (eventObject.eventView === 'LINKED') {
-          payload['linkedEvents'] = eventObject.linkedEvents.map((item) => {
+        if (eventObject.eventView === "LINKED") {
+          payload["linkedEvents"] = eventObject.linkedEvents.map((item) => {
             return eventsList.filter(
               (elm) =>
                 elm.isActive == 1 &&
-                elm.timePeriod !== 'PAST' &&
+                elm.timePeriod !== "PAST" &&
                 elm.challengeName == item
-            )[0]['id'];
+            )[0]["id"];
           });
         }
 
         if (editEventObject?.id) {
-          payload['id'] = editEventObject?.id;
-          payload['sponsorLink'] = editEventObject?.sponsorLink;
+          payload["id"] = editEventObject?.id;
+          payload["sponsorLink"] = editEventObject?.sponsorLink;
 
           // payload = {
           //   subDomains: [...gmailList],
           // };
-          payload['subDomains'] = [...findvalue];
+          payload["subDomains"] = [...findvalue];
         }
         console.log(payload);
         createOrUpdateEvent(payload)
           .then((res) => {
             setLoading(false);
             if (
-              res.data.mhealthResponseMessage == 'SUCCESS' &&
+              res.data.mhealthResponseMessage == "SUCCESS" &&
               res.data.response &&
               res.data.response.responseMessage ==
-                'Successfully Registered in Event' &&
+                "Successfully Registered in Event" &&
               res.data.response.responseData
             ) {
               setRegMessage({
-                type: 'success',
+                type: "success",
                 msg: res.data.response.responseMessage,
               });
               setEventCreated(true);
@@ -432,11 +432,11 @@ const CreateEventModal = ({
                   id: res.data.response.responseData?.id,
                 };
 
-                if (payload.eventView === 'LINKED') {
-                  newPayload['linkedEvents'] = payload.linkedEvents.map(
+                if (payload.eventView === "LINKED") {
+                  newPayload["linkedEvents"] = payload.linkedEvents.map(
                     (item) => {
                       return eventsList.filter((elm) => elm.id == item)[0][
-                        'challengeName'
+                        "challengeName"
                       ];
                     }
                   );
@@ -445,7 +445,7 @@ const CreateEventModal = ({
               }
             } else {
               setRegMessage({
-                type: 'error',
+                type: "error",
                 msg: res.data.response.responseMessage,
               });
             }
@@ -454,8 +454,8 @@ const CreateEventModal = ({
           .catch((err) => {
             setLoading(false);
             setRegMessage({
-              type: 'error',
-              msg: 'Event cant be configured',
+              type: "error",
+              msg: "Event cant be configured",
             });
           });
       }
@@ -469,18 +469,18 @@ const CreateEventModal = ({
           .then((res) => {
             setLoading(false);
             if (
-              res.data.mhealthResponseMessage == 'SUCCESS' &&
+              res.data.mhealthResponseMessage == "SUCCESS" &&
               res.data.response &&
-              res.data.response.responseMessage == 'SUCCESS' &&
+              res.data.response.responseMessage == "SUCCESS" &&
               res.data.response.responseData
             ) {
               setRegMessage({
-                type: 'success',
+                type: "success",
                 msg: res.data.response.responseMessage,
               });
             } else {
               setRegMessage({
-                type: 'error',
+                type: "error",
                 msg: res.data.response.responseMessage,
               });
             }
@@ -489,8 +489,8 @@ const CreateEventModal = ({
           .catch((err) => {
             setLoading(false);
             setRegMessage({
-              type: 'error',
-              msg: 'Images updation failed',
+              type: "error",
+              msg: "Images updation failed",
             });
           });
       }
@@ -515,22 +515,22 @@ const CreateEventModal = ({
 
   //MODERATOR BUTTON
 
-  const [btn, setbtn] = useState('Set ');
+  const [btn, setbtn] = useState("Set ");
   //MODERATOR CODE
-  const [mobValue, setmobValue] = useState('');
-  const [Reg, setReg] = useState('');
+  const [mobValue, setmobValue] = useState("");
+  const [Reg, setReg] = useState("");
   const getres = async () => {
     const url = `${urlPrefix}${getAllMobile}?phoneNumber=${mobValue}`;
     const x = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-        timeStamp: 'timestamp',
-        accept: '*/*',
-        'Access-Control-Allow-Origin': '*',
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        timeStamp: "timestamp",
+        accept: "*/*",
+        "Access-Control-Allow-Origin": "*",
         withCredentials: true,
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-        'Access-Control-Allow-Headers':
-          'accept, content-type, x-access-token, x-requested-with',
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+        "Access-Control-Allow-Headers":
+          "accept, content-type, x-access-token, x-requested-with",
       },
     });
     const datares = await x.json();
@@ -544,9 +544,9 @@ const CreateEventModal = ({
     });
 
     if (marvelHeroes == 0) {
-      setReg('Invalid phone number');
+      setReg("Invalid phone number");
     } else {
-      setReg(marvelHeroes[0].firstName + ' ' + marvelHeroes[0].lastName);
+      setReg(marvelHeroes[0].firstName + " " + marvelHeroes[0].lastName);
       window.value = marvelHeroes[0].id;
       setmodId(marvelHeroes[0].id);
     }
@@ -554,7 +554,7 @@ const CreateEventModal = ({
 
   const moderateSet = () => {
     setUnsubModal(false);
-    setbtn('Change');
+    setbtn("Change");
     // console.log(typeof(modId))
   };
 
@@ -2453,7 +2453,7 @@ const CreateEventModal = ({
         setCreateEventModal(false);
         setEditEventObject();
       }}
-      style={{overflowY: 'auto'}}
+      style={{ overflowY: "auto" }}
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >

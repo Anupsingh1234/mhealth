@@ -1,46 +1,46 @@
-import React, {useState, useEffect} from 'react';
-import {lighten, makeStyles, useTheme} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Paper from '@material-ui/core/Paper';
-import IconButton from '@material-ui/core/IconButton';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Avatar from '@material-ui/core/Avatar';
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
-import {APP} from '../../utils/appConfig';
-import CSVExport from '../CSVExport';
-import Tooltip from '@material-ui/core/Tooltip';
-import NoData from '../NoData';
-import {checkForFalsy} from '../../utils/commonFunctions';
-import ActiveButton from '../Utility/ActiveButton';
+import React, { useState, useEffect } from "react";
+import { lighten, makeStyles, useTheme } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import Paper from "@material-ui/core/Paper";
+import IconButton from "@material-ui/core/IconButton";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Avatar from "@material-ui/core/Avatar";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import LastPageIcon from "@material-ui/icons/LastPage";
+import { APP } from "../../utils/appConfig";
+import CSVExport from "../CSVExport";
+import Tooltip from "@material-ui/core/Tooltip";
+import NoData from "../NoData";
+import { checkForFalsy } from "../../utils/commonFunctions";
+import ActiveButton from "../Utility/ActiveButton";
 
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
+      position: "absolute",
+      left: "50%",
+      top: "50%",
     },
     bottom: {
-      color: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+      color: theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
     },
     top: {
-      color: '#1a90ff',
-      animationDuration: '550ms',
-      position: 'absolute',
+      color: "#1a90ff",
+      animationDuration: "550ms",
+      position: "absolute",
       left: 0,
     },
     circle: {
-      strokeLinecap: 'round',
+      strokeLinecap: "round",
     },
   }));
   const classes = useStylesFacebook();
@@ -73,14 +73,14 @@ function FacebookCircularProgress(props) {
 function descendingComparator(a, b, orderBy) {
   let firstValue =
     a[orderBy] == null
-      ? 'zzzzzzzzzzzz'
-      : typeof a[orderBy] == 'string'
+      ? "zzzzzzzzzzzz"
+      : typeof a[orderBy] == "string"
       ? a[orderBy]?.toLowerCase()
       : a[orderBy];
   let secondValue =
     b[orderBy] == null
-      ? 'zzzzzzzzzzzz'
-      : typeof b[orderBy] == 'string'
+      ? "zzzzzzzzzzzz"
+      : typeof b[orderBy] == "string"
       ? b[orderBy]?.toLowerCase()
       : b[orderBy];
   if (secondValue < firstValue) {
@@ -93,7 +93,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
+  return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -110,68 +110,68 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    label: 'S.No',
-    id: 'index',
+    label: "S.No",
+    id: "index",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Name',
-    id: 'name',
+    label: "Name",
+    id: "name",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'D.O.B',
-    id: 'dob',
+    label: "D.O.B",
+    id: "dob",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Gender',
-    id: 'gender',
+    label: "Gender",
+    id: "gender",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'City',
-    id: 'city',
+    label: "City",
+    id: "city",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Email',
-    id: 'email',
+    label: "Email",
+    id: "email",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Mobile',
-    id: 'mobileNumber',
+    label: "Mobile",
+    id: "mobileNumber",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'ActiveDays',
-    id: 'daysActive',
+    label: "ActiveDays",
+    id: "daysActive",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'TotalKms',
-    id: 'totalKms',
+    label: "TotalKms",
+    id: "totalKms",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Source',
-    id: 'dataSource',
+    label: "Source",
+    id: "dataSource",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'RegOn',
-    id: 'registrationDate',
+    label: "RegOn",
+    id: "registrationDate",
     numeric: false,
     disablePadding: true,
   },
@@ -182,33 +182,33 @@ const headCells = [
   //   disablePadding: true,
   // },
   {
-    label: 'RegSource',
-    id: 'registrationSource',
+    label: "RegSource",
+    id: "registrationSource",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'Amount',
-    id: 'paymentAmount',
+    label: "Amount",
+    id: "paymentAmount",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'TrnStatus',
-    id: 'paymentStatus',
+    label: "TrnStatus",
+    id: "paymentStatus",
     numeric: false,
     disablePadding: true,
   },
   {
-    label: 'TrnID',
-    id: 'paymentTxnId',
+    label: "TrnID",
+    id: "paymentTxnId",
     numeric: false,
     disablePadding: true,
   },
 ];
 
 function EnhancedTableHead(props) {
-  const {classes, order, orderBy, onRequestSort} = props;
+  const { classes, order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -223,20 +223,20 @@ function EnhancedTableHead(props) {
             padding="none"
             sortDirection={orderBy === headCell.id ? order : false}
             style={{
-              width: 'max-content',
-              paddingLeft: headCell.id == 'index' ? 5 : 0,
+              width: "max-content",
+              paddingLeft: headCell.id == "index" ? 5 : 0,
             }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : 'asc'}
+              direction={orderBy === headCell.id ? order : "asc"}
               onClick={createSortHandler(headCell.id)}
-              style={{width: 'max-content'}}
+              style={{ width: "max-content" }}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                  {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -260,7 +260,7 @@ function TablePaginationActions(props) {
   const { count, page, rowsPerPage, onChangePage } = props;
 
   const handleFirstPageButtonClick = (event) => {
-   onChangePage(event, 0);
+    onChangePage(event, 0);
   };
 
   const handleBackButtonClick = (event) => {
@@ -276,22 +276,22 @@ function TablePaginationActions(props) {
   };
 
   return (
-    <div className={classes.root} style={{display: 'flex'}}>
+    <div className={classes.root} style={{ display: "flex" }}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? (
+        {theme.direction === "rtl" ? (
           <KeyboardArrowRight />
         ) : (
           <KeyboardArrowLeft />
@@ -301,9 +301,9 @@ function TablePaginationActions(props) {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? (
+        {theme.direction === "rtl" ? (
           <KeyboardArrowLeft />
         ) : (
           <KeyboardArrowRight />
@@ -313,9 +313,9 @@ function TablePaginationActions(props) {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
-        style={{width: 30, padding: 0}}
+        style={{ width: 30, padding: 0 }}
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );
@@ -323,10 +323,10 @@ function TablePaginationActions(props) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: "100%",
   },
   paper: {
-    width: '100%',
+    width: "100%",
     marginBottom: theme.spacing(2),
   },
   table: {
@@ -334,12 +334,12 @@ const useStyles = makeStyles((theme) => ({
   },
   visuallyHidden: {
     border: 0,
-    clip: 'rect(0 0 0 0)',
+    clip: "rect(0 0 0 0)",
     height: 1,
     margin: -1,
-    overflow: 'hidden',
+    overflow: "hidden",
     padding: 0,
-    position: 'absolute',
+    position: "absolute",
     top: 20,
     width: 1,
   },
@@ -350,20 +350,20 @@ export default function EnhancedTable({
   selectedEvent,
 }) {
   const classes = useStyles();
-  const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('');
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-  const [searchText, setSearchText] = useState('');
-  const [registeredUserList, setRegisteredUserList] = useState({data: []});
+  const [searchText, setSearchText] = useState("");
+  const [registeredUserList, setRegisteredUserList] = useState({ data: [] });
   const [isActive, setActive] = useState(true);
 
   useEffect(() => {
     setPage(0);
-    setOrder('asc');
-    setOrderBy('');
+    setOrder("asc");
+    setOrderBy("");
     setRowsPerPage(50);
-    setSearchText('');
+    setSearchText("");
     setRegisteredUserList(
       isActive
         ? {
@@ -376,8 +376,8 @@ export default function EnhancedTable({
     );
   }, [defaultRegisteredUserList]);
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
 
@@ -396,7 +396,7 @@ export default function EnhancedTable({
         ? v.aliasName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
         : v.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
     );
-    setRegisteredUserList({data: filterData});
+    setRegisteredUserList({ data: filterData });
   };
 
   const handleActive = () => {
@@ -414,7 +414,7 @@ export default function EnhancedTable({
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <TableContainer>
-          <div style={{fontSize: 12, marginLeft: 10, marginTop: 10}}>
+          <div style={{ fontSize: 12, marginLeft: 10, marginTop: 10 }}>
             {selectedEvent?.challengeName}
           </div>
           <div className="table-search-container">
@@ -424,7 +424,7 @@ export default function EnhancedTable({
               value={searchText}
               onChange={(e) => {
                 setSearchText(e.target.value);
-                if (e.target.value === '') {
+                if (e.target.value === "") {
                   setRegisteredUserList(defaultRegisteredUserList);
                   return;
                 }
@@ -434,9 +434,9 @@ export default function EnhancedTable({
 
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
               }}
             >
               <ActiveButton isActive={isActive} handleActive={handleActive} />
@@ -468,7 +468,7 @@ export default function EnhancedTable({
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={'small'}
+            size={"small"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -484,7 +484,7 @@ export default function EnhancedTable({
                   <TableCell
                     colSpan={10}
                     style={{
-                      position: 'relative',
+                      position: "relative",
                       height: 200,
                     }}
                   >
@@ -505,16 +505,16 @@ export default function EnhancedTable({
                           tabIndex={-1}
                           key={row.mobileNumber}
                           className={
-                            row.isSubscribed == 'SUBSCRIBED'
-                              ? 'success-row'
-                              : 'danger-row'
+                            row.isSubscribed == "SUBSCRIBED"
+                              ? "success-row"
+                              : "danger-row"
                           }
                         >
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
+                            <div style={{ fontSize: 12, width: "max-content" }}>
                               {index + 1}
                             </div>
                           </TableCell>
@@ -523,88 +523,92 @@ export default function EnhancedTable({
                             scope="row"
                             padding="none"
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
                             <div
                               style={{
-                                display: 'flex',
-                                alignItems: 'center',
+                                display: "flex",
+                                alignItems: "center",
                                 fontSize: 12,
-                                width: 'max-content',
+                                width: "max-content",
                               }}
                             >
                               <Avatar
-                                style={{width: 30, height: 30, marginRight: 5}}
+                                style={{
+                                  width: 30,
+                                  height: 30,
+                                  marginRight: 5,
+                                }}
                                 src={row.avtarImg}
                                 className="avatar-component"
                               />
-                              <div style={{width: 'max-content'}}>
-                                {row.name ? row.name : '-'}
+                              <div style={{ width: "max-content" }}>
+                                {row.name ? row.name : "-"}
                               </div>
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
-                              {row.dob ? row.dob.split(' ')[0] : '-'}
+                            <div style={{ fontSize: 12, width: "max-content" }}>
+                              {row.dob ? row.dob.split(" ")[0] : "-"}
                             </div>
                           </TableCell>
 
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
-                              {row.gender ? row.gender : '-'}
+                            <div style={{ fontSize: 12, width: "max-content" }}>
+                              {row.gender ? row.gender : "-"}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
-                              {row.city ? row.city : '-'}
+                            <div style={{ fontSize: 12, width: "max-content" }}>
+                              {row.city ? row.city : "-"}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
-                              {row.email ? row.email : '-'}
+                            <div style={{ fontSize: 12, width: "max-content" }}>
+                              {row.email ? row.email : "-"}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
-                              {row.mobileNumber ? row.mobileNumber : '-'}
+                            <div style={{ fontSize: 12, width: "max-content" }}>
+                              {row.mobileNumber ? row.mobileNumber : "-"}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
+                            <div style={{ fontSize: 12, width: "max-content" }}>
                               {row.daysActive ? row.daysActive : 0}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
+                            <div style={{ fontSize: 12, width: "max-content" }}>
                               {row.totalKms ? row.totalKms : 0}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
+                            <div style={{ fontSize: 12, width: "max-content" }}>
                               <img
                                 src={APP.dataSourceLogo[row.dataSource]}
                                 style={{
@@ -616,12 +620,12 @@ export default function EnhancedTable({
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
+                            <div style={{ fontSize: 12, width: "max-content" }}>
                               {row.registrationDate
                                 ? row.registrationDate
-                                : '-'}
+                                : "-"}
                             </div>
                           </TableCell>
 
@@ -638,16 +642,16 @@ export default function EnhancedTable({
 
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
+                            <div style={{ fontSize: 12, width: "max-content" }}>
                               <img
                                 src={
                                   APP.regSource[
                                     row.registrationSource &&
-                                    row.registrationSource !== ''
+                                    row.registrationSource !== ""
                                       ? row.registrationSource
-                                      : 'NOTSET'
+                                      : "NOTSET"
                                   ]
                                 }
                                 style={{
@@ -659,26 +663,26 @@ export default function EnhancedTable({
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
+                            <div style={{ fontSize: 12, width: "max-content" }}>
                               {row.paymentAmount ? row.paymentAmount : 0}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
-                              {row.paymentStatus ? row.paymentStatus : '-'}
+                            <div style={{ fontSize: 12, width: "max-content" }}>
+                              {row.paymentStatus ? row.paymentStatus : "-"}
                             </div>
                           </TableCell>
                           <TableCell
                             align="center"
-                            style={{padding: '5px 15px'}}
+                            style={{ padding: "5px 15px" }}
                           >
-                            <div style={{fontSize: 12, width: 'max-content'}}>
-                              {row.paymentTxnId ? row.paymentTxnId : '-'}
+                            <div style={{ fontSize: 12, width: "max-content" }}>
+                              {row.paymentTxnId ? row.paymentTxnId : "-"}
                             </div>
                           </TableCell>
                         </TableRow>
@@ -690,19 +694,19 @@ export default function EnhancedTable({
                   <TableCell
                     colSpan={16}
                     style={{
-                      position: 'relative',
+                      position: "relative",
                       height: 100,
                     }}
                   >
                     <p
                       style={{
-                        textAlign: 'center',
-                        margin: '100px 0',
-                        color: '#8e8e8e',
+                        textAlign: "center",
+                        margin: "100px 0",
+                        color: "#8e8e8e",
                       }}
                     >
-                      {registeredUserList.message === 'SUCCESS' ? (
-                        'Data is not present'
+                      {registeredUserList.message === "SUCCESS" ? (
+                        "Data is not present"
                       ) : (
                         <NoData />
                       )}

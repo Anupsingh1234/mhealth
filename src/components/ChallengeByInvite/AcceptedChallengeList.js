@@ -1,26 +1,26 @@
-import React, {useEffect, useContext, useState} from 'react';
-import {Grid, List} from 'react-feather';
+import React, { useEffect, useContext, useState } from "react";
+import { Grid, List } from "react-feather";
 
-import {viewScorecard, getChallenges} from '../../services/challengeApi';
-import Scoreboard from './Scoreboard';
-import NoData from '../NoData';
-import ListView from './ListView';
+import { viewScorecard, getChallenges } from "../../services/challengeApi";
+import Scoreboard from "./Scoreboard";
+import NoData from "../NoData";
+import ListView from "./ListView";
 
-const AcceptedChallengeList = ({eventId, reloadChallengeAccepted}) => {
+const AcceptedChallengeList = ({ eventId, reloadChallengeAccepted }) => {
   useEffect(() => {
-    getChallenges('', eventId)
+    getChallenges("", eventId)
       .then((res) => {
         if (res.status == 200 && res.data.response.responseCode == 0) {
           const acceptedChallengeId = res.data.response.responseData.Receiver
             ? res.data.response.responseData.Receiver.filter(
-                (ch) => ch.challengeStatus.toUpperCase() === 'ACCEPT'
+                (ch) => ch.challengeStatus.toUpperCase() === "ACCEPT"
               ).map((ch) => ch.challengerId)
             : [];
 
           if (acceptedChallengeId.length === 0) {
             setScoreboardData([]);
           }
-          viewScorecard('', eventId)
+          viewScorecard("", eventId)
             .then((res) => {
               if (res.status === 200 && res.data.response.responseCode === 0) {
                 setScoreboardData(res.data.response.responseData);
@@ -41,40 +41,40 @@ const AcceptedChallengeList = ({eventId, reloadChallengeAccepted}) => {
   }, [eventId, reloadChallengeAccepted]);
 
   const [scoreboardData, setScoreboardData] = useState([]);
-  const [scoreCardView, setScoreCardView] = useState('grid');
+  const [scoreCardView, setScoreCardView] = useState("grid");
 
   return (
     <div className="challenge-scoreboard">
       <div className="headingScoreboard">
-        <span style={{paddingLeft: 10}}>Scorecard</span>
+        <span style={{ paddingLeft: 10 }}>Scorecard</span>
         <span
           style={{
             paddingRight: 10,
             fontSize: 14,
-            cursor: 'pointer',
-            userSelect: 'none',
+            cursor: "pointer",
+            userSelect: "none",
           }}
         >
-          {scoreCardView === 'grid' ? (
+          {scoreCardView === "grid" ? (
             <span
-              style={{display: 'flex', alignItems: 'center'}}
-              onClick={() => setScoreCardView('list')}
+              style={{ display: "flex", alignItems: "center" }}
+              onClick={() => setScoreCardView("list")}
             >
-              <List size={14} style={{marginRight: 3}} /> List
+              <List size={14} style={{ marginRight: 3 }} /> List
             </span>
           ) : (
             <span
-              style={{display: 'flex', alignItems: 'center'}}
-              onClick={() => setScoreCardView('grid')}
+              style={{ display: "flex", alignItems: "center" }}
+              onClick={() => setScoreCardView("grid")}
             >
-              <Grid size={14} style={{marginRight: 3}} /> Grid
+              <Grid size={14} style={{ marginRight: 3 }} /> Grid
             </span>
           )}
         </span>
       </div>
       <div className="challenges-list-container">
-        {'acceptedChallenge' in scoreboardData ? (
-          scoreCardView == 'grid' ? (
+        {"acceptedChallenge" in scoreboardData ? (
+          scoreCardView == "grid" ? (
             scoreboardData.acceptedChallenge.length > 0 ? (
               scoreboardData.acceptedChallenge.map((challenge, index) => (
                 <div key={challenge.challengeId}>
@@ -84,12 +84,12 @@ const AcceptedChallengeList = ({eventId, reloadChallengeAccepted}) => {
             ) : (
               <div
                 style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  height: '100%',
-                  padding: '80px 20px',
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "100%",
+                  padding: "80px 20px",
                 }}
               >
                 <NoData />
@@ -101,12 +101,12 @@ const AcceptedChallengeList = ({eventId, reloadChallengeAccepted}) => {
         ) : (
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: '100%',
-              height: '100%',
-              padding: '80px 20px',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+              padding: "80px 20px",
             }}
           >
             <NoData />

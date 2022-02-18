@@ -1194,43 +1194,42 @@ const SundayChallenge = (props) => {
                   </div>
                 </div>
               ) : (
-                    <> 
-                      <div
-                  style={{
-                    // height: 400,
-                    padding: "5px",
+                <>
+                  <div
+                    style={{
+                      // height: 400,
+                      padding: "5px",
 
-                    display: "flex",
-                    flexDirection: "row",
-                    fontSize: 12,
+                      display: "flex",
+                      flexDirection: "row",
+                      fontSize: 12,
 
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                  className=""
-                >
-                  {" "}
-                  <div style={{ width: "30%" }}>
-                    <img
-                      style={{ height: 100, width: 100 }}
-                      src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Distance/D_0K_GreyScale_20210929.png"
-                    />
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                    className=""
+                  >
+                    {" "}
+                    <div style={{ width: "30%" }}>
+                      <img
+                        style={{ height: 100, width: 100 }}
+                        src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Distance/D_0K_GreyScale_20210929.png"
+                      />
+                    </div>
+                    <div style={{ width: "80%" }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        style={{ marginLeft: 20, fontSize: 12, wordSpacing: 3 }}
+                      >
+                        {" "}
+                        <h4 style={{ width: "80%", fontWeight: "lighter" }}>
+                          {distanceTrack.errorMsg}
+                        </h4>
+                      </Typography>{" "}
+                    </div>
                   </div>
-                  <div style={{ width: "80%" }}>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      style={{ marginLeft: 20, fontSize: 12, wordSpacing: 3 }}
-                    >
-                      {" "}
-                      <h4 style={{ width: "80%", fontWeight: "lighter" }}>
-                       
-                              {distanceTrack.errorMsg}
-                      </h4>
-                    </Typography>{" "}
-                  </div>
-                </div>
-                      </>     
+                </>
               )}
             </>
           )}

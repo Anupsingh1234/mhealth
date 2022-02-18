@@ -22,6 +22,8 @@
   --disabled: var(--gray);
   --danger: var(--red);
   --input-box: var(--light-grey);
+
+  --yotta-button: #f29f43;
 }
 
 .sticky {
@@ -189,6 +191,29 @@ a:hover {
   border: var(--disabled);
 }
 
+.is-yotta-success {
+  background: var(--yotta-button);
+  color: var(--white);
+}
+
+.is-yotta-secondary {
+  color: var(--yotta-button);
+  background: var(--white);
+  border: 1px solid var(--yotta-button);
+}
+
+.yotta-get-otp-button {
+  margin-top: 1em;
+  border: 1px solid var(--yotta-button);
+  width: fit-content;
+  border-radius: 6px;
+  padding: 0em 1em;
+  background: var(--yotta-button);
+  color: var(--white);
+  height: 28px;
+}
+
+
 .App {
   display: flex;
   flex-direction: column;
@@ -201,6 +226,13 @@ a:hover {
     #65c7f7,
     #9cecfb
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.Yotta-App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #283E81;
 }
 
 .Login {
