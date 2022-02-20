@@ -125,6 +125,7 @@ const CreateEventModal = ({
     totalTeam: undefined,
     whitelabelKeyword: undefined,
     verificationRequired: undefined,
+    forum: undefined,
     // subDomains: undefined,
   });
   // console.log(gmailList);
@@ -184,7 +185,7 @@ const CreateEventModal = ({
     if (editEventObject) {
       let newObj = {
         verificationRequired: editEventObject.verificationRequired,
-
+forum: editEventObject.forum,
         whitelabelKeyword: editEventObject.whitelabelKeyword,
         challengeName: editEventObject.challengeName,
         challengeType: editEventObject.challengeType,
@@ -2171,6 +2172,31 @@ const CreateEventModal = ({
                 ) : (
                   ""
                 )}
+                 <div
+                  className="mhealth-input-box padding-025em"
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <div style={{width: '25%'}}>
+                    <label>Forum</label>
+                    <br />
+                    <select
+                      value={eventObject.forum}
+                      onChange={(e) =>
+                        handleInputChange('forum', e.target.value)
+                      }
+                    >
+                      <option value="NONE">None</option>
+                      <option value="IDENTITY">Identity</option>
+                      <option value="ALIAS">Alias</option>
+                      <option value="ANONYMOUS">Anonymous</option>
+                    </select>
+                  </div>
+                </div>
               </>
             )}
 

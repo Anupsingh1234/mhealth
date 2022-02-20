@@ -1,72 +1,73 @@
-import React, { useState, useEffect } from "react";
-import { lighten, makeStyles, useTheme } from "@material-ui/core/styles";
-import Chart from "react-apexcharts";
-import moment from "moment";
-import CancelIcon from "@material-ui/icons/Cancel";
+import React, {useState, useEffect} from 'react';
+import {lighten, makeStyles, useTheme} from '@material-ui/core/styles';
+import Chart from 'react-apexcharts';
+import moment from 'moment';
+import CancelIcon from '@material-ui/icons/Cancel';
 // import InfoDialog from './Utility/InfoDialog'
-import Select from "@material-ui/core/Select";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import Paper from "@material-ui/core/Paper";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import IconButton from "@material-ui/core/IconButton";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import FirstPageIcon from "@material-ui/icons/FirstPage";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import LastPageIcon from "@material-ui/icons/LastPage";
-import { APP } from "../utils/appConfig";
-import AddPastDetailForm from "./AddPastDetailForm";
-import { urlPrefix, secretToken } from "../services/apicollection";
-import ReactScrollToBottom from "react-scroll-to-bottom";
-import Avatar from "@material-ui/core/Avatar";
-import axios from "axios";
+import Select from '@material-ui/core/Select';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TablePagination from '@material-ui/core/TablePagination';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Paper from '@material-ui/core/Paper';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import IconButton from '@material-ui/core/IconButton';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import {APP} from '../utils/appConfig';
+import AddPastDetailForm from './AddPastDetailForm';
+import {urlPrefix, secretToken} from '../services/apicollection';
+import ReactScrollToBottom from 'react-scroll-to-bottom';
+import Avatar from '@material-ui/core/Avatar';
+import axios from 'axios';
 
 import {
   getDataCurrentSource,
   syncGFitAndStrava,
   getChallengesByDate,
-} from "../services/challengeApi";
-import { Paperclip } from "react-feather";
-import Tooltip from "@material-ui/core/Tooltip";
-import Message from "antd-message";
-import Switch from "react-switch";
-import Modal from "@material-ui/core/Modal";
+} from '../services/challengeApi';
+import {Paperclip} from 'react-feather';
+import Tooltip from '@material-ui/core/Tooltip';
+import Message from 'antd-message';
+import Switch from 'react-switch';
+import Modal from '@material-ui/core/Modal';
 // import Message12 from './Message';
-import TriStateToggle from "./toggle/TriStateToggle";
+import TriStateToggle from './toggle/TriStateToggle';
 // import socketIo from 'socket.io-client';
-import InfoDialog from "./Utility/InfoDialog";
-import { ListItemAvatar } from "@material-ui/core";
+import InfoDialog from './Utility/InfoDialog';
+import {ListItemAvatar} from '@material-ui/core';
+import {FormatListBulletedRounded} from '@material-ui/icons';
 let socket;
 
 // const ENDPOINT = 'https://demo-cchat.herokuapp.com/';
-const ENDPOINT = "http://localhost:5000";
+const ENDPOINT = 'http://localhost:5000';
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
-      position: "absolute",
-      left: "50%",
-      top: "50%",
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
     },
     bottom: {
-      color: theme.palette.grey[theme.palette.type === "light" ? 200 : 700],
+      color: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
     },
     top: {
-      color: "#1a90ff",
-      animationDuration: "550ms",
-      position: "absolute",
+      color: '#1a90ff',
+      animationDuration: '550ms',
+      position: 'absolute',
       left: 0,
     },
     circle: {
-      strokeLinecap: "round",
+      strokeLinecap: 'round',
     },
   }));
   const classes = useStylesFacebook();
@@ -97,75 +98,81 @@ function FacebookCircularProgress(props) {
 }
 const headCells = [
   {
-    label: "S.No",
-    id: "index",
+    label: 'S.No',
+    id: 'index',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Date",
+    label: 'Date',
 
-    id: "meetingDate",
+    id: 'meetingDate',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Type",
-    id: "programType",
+    label: 'Type',
+    id: 'programType',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Program Name",
-    id: "programName",
+    label: 'Program Name',
+    id: 'programName',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Name",
-    id: "userName",
+    label: 'Name',
+    id: 'userName',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Relation",
-    id: "relation",
+    label: 'Relation',
+    id: 'relation',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Dependent Name",
-    id: "dependentName",
+    label: 'Dependent Name',
+    id: 'dependentName',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Notes",
-    id: "notes",
+    label: 'Notes',
+    id: 'notes',
     numeric: false,
     disablePadding: true,
   },
 
   {
-    label: "Mobile",
-    id: "mobilePhone",
+    label: 'Mobile',
+    id: 'mobilePhone',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: " Time",
-    id: "meetingTime",
+    label: ' Time',
+    id: 'meetingTime',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Chat",
+    label: 'Chat',
     // id: 'addData',
     numeric: false,
     disablePadding: true,
   },
   {
-    label: "Join",
+    label: 'Message',
+    // id: 'addData',
+    numeric: false,
+    disablePadding: true,
+  },
+  {
+    label: 'Join',
     // id: 'addData',
     numeric: false,
     disablePadding: true,
@@ -173,7 +180,7 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { classes, order, orderBy, onRequestSort } = props;
+  const {classes, order, orderBy, onRequestSort} = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -189,13 +196,13 @@ function EnhancedTableHead(props) {
           >
             <TableSortLabel
               active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
+              direction={orderBy === headCell.id ? order : 'asc'}
               onClick={createSortHandler(headCell.id)}
             >
               {headCell.label}
               {orderBy === headCell.id ? (
                 <span className={classes.visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
+                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                 </span>
               ) : null}
             </TableSortLabel>
@@ -216,7 +223,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === "desc"
+  return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
@@ -241,7 +248,7 @@ const useStyles1 = makeStyles((theme) => ({
 function TablePaginationActions(props) {
   const classes = useStyles1();
   const theme = useTheme();
-  const { count, page, rowsPerPage, onChangePage } = props;
+  const {count, page, rowsPerPage, onChangePage} = props;
 
   const handleFirstPageButtonClick = (event) => {
     onChangePage(event, 0);
@@ -260,22 +267,22 @@ function TablePaginationActions(props) {
   };
 
   return (
-    <div className={classes.root} style={{ display: "flex" }}>
+    <div className={classes.root} style={{display: 'flex'}}>
       <IconButton
         onClick={handleFirstPageButtonClick}
         disabled={page === 0}
         aria-label="first page"
-        style={{ width: 30, padding: 0 }}
+        style={{width: 30, padding: 0}}
       >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
-        style={{ width: 30, padding: 0 }}
+        style={{width: 30, padding: 0}}
       >
-        {theme.direction === "rtl" ? (
+        {theme.direction === 'rtl' ? (
           <KeyboardArrowRight />
         ) : (
           <KeyboardArrowLeft />
@@ -285,9 +292,9 @@ function TablePaginationActions(props) {
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
-        style={{ width: 30, padding: 0 }}
+        style={{width: 30, padding: 0}}
       >
-        {theme.direction === "rtl" ? (
+        {theme.direction === 'rtl' ? (
           <KeyboardArrowLeft />
         ) : (
           <KeyboardArrowRight />
@@ -297,9 +304,9 @@ function TablePaginationActions(props) {
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
-        style={{ width: 30, padding: 0 }}
+        style={{width: 30, padding: 0}}
       >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </div>
   );
@@ -307,29 +314,29 @@ function TablePaginationActions(props) {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
+    width: '100%',
   },
   paper: {
-    position: "absolute",
+    position: 'absolute',
     width: 800,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
     padding: theme.spacing(0, 4, 0),
-    marginLeft: "-200px",
+    marginLeft: '-200px',
     maxHeight: 900,
-    overflow: "scroll",
+    overflow: 'scroll',
   },
   table: {
     minWidth: 750,
   },
   visuallyHidden: {
     border: 0,
-    clip: "rect(0 0 0 0)",
+    clip: 'rect(0 0 0 0)',
     height: 1,
     margin: -1,
-    overflow: "hidden",
+    overflow: 'hidden',
     padding: 0,
-    position: "absolute",
+    position: 'absolute',
     top: 20,
     width: 1,
   },
@@ -346,24 +353,89 @@ export default function AppointmentExpert({
     setModalView(false);
   };
 
-  const [order, setOrder] = useState("desc");
-  const [orderBy, setOrderBy] = useState("");
+  const [order, setOrder] = useState('desc');
+  const [orderBy, setOrderBy] = useState('');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState('');
   const [displayModal, setDisplayModal] = useState(false);
   const [chatModal, setchatModal] = useState(false);
   const [coachbreakModal, setCoachBreakModal] = useState(false);
   const [weekMonth, setWeekMonth] = useState();
-  const [radioValue, setRadioValue] = useState("current");
+  const [radioValue, setRadioValue] = useState('current');
   const [options, setOptions] = useState([]);
   const [series, setSeries] = useState([]);
+  const [messageModal, setMessageModal] = useState(false);
+  const [messageData, setMessageData] = useState({
+    coachName:
+      localStorage.getItem('firstName') +
+      ' ' +
+      localStorage.getItem('lastName'),
+    customerName: '',
+    message: '',
+    programName: '',
+    type: 'text',
+    mobileNumber: '',
+  });
+  const ViewMessageData = (customerName, mobile, programName) => {
+    setMessageData({
+      ...messageData,
+      customerName: customerName,
+      mobileNumber: mobile,
+      programName: programName,
+    });
+    setMessageModal(true);
+  };
+  const [displaymessage, setDisplay] = useState('');
+  const CustomerMessage = () => {
+    let payload = {
+      coachName: messageData.coachName,
+      customerName: messageData.customerName,
+      message: messageData.message,
+      programName: messageData.programName,
+      type: messageData.type,
+    };
+    if (messageData.message !== '') {
+      const adminurl = `${urlPrefix}clients/sendMessageOnWhatsapp?mobileNumber=${messageData.mobileNumber}`;
+      return axios
+        .post(adminurl, payload, {
+          headers: {
+            Authorization: `Bearer ${secretToken}`,
+            timeStamp: 'timestamp',
+            accept: '*/*',
+            'Access-Control-Allow-Origin': '*',
+            withCredentials: true,
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+            'Access-Control-Allow-Headers':
+              'accept, content-type, x-access-token, x-requested-with',
+          },
+        })
+        .then((res) => {
+          setMessageData({
+            coachName:
+              localStorage.getItem('firstName') +
+              ' ' +
+              localStorage.getItem('lastName'),
+            customerName: '',
+            message: '',
+            programName: '',
+            type: 'text',
+            mobileNumber: '',
+          });
+          setMessageModal(false);
+          Message.success(res.data.response.responseMessage);
+          setDisplay('');
+        });
+    } else {
+      setDisplay('Input Message');
+    }
+  };
   const startdate = [];
   const weeksum = [];
-  console.log(localStorage.getItem("selectEvent"));
+  console.log(messageData, 'mesage');
   const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
 
@@ -383,25 +455,25 @@ export default function AppointmentExpert({
   const [greater, setGreater] = useState();
   const [active, setActive] = useState(1);
   const [chatUserDetail, setChatUserDetail] = useState([]);
-  const [registrationId11, setRegistrationId11] = useState("");
-  const [users, setUser] = useState("");
+  const [registrationId11, setRegistrationId11] = useState('');
+  const [users, setUser] = useState('');
   console.log(culength, oldlength);
 
   const [chatData, setChatData] = useState({
-    data: "",
-    avatar: "",
+    data: '',
+    avatar: '',
     registrationId: 0,
-    avtarImgObject: "",
+    avtarImgObject: '',
   });
   const [BreakData, setBreakData] = useState({
-    subEventId: "",
+    subEventId: '',
     offDate: null,
     offFromTime: null,
     offToTime: null,
   });
 
   const onFileChange = (e) => {
-    console.log(e.target.files[0].name, "filesimage");
+    console.log(e.target.files[0].name, 'filesimage');
 
     let files = e.target.files;
     let render = new FileReader();
@@ -409,19 +481,19 @@ export default function AppointmentExpert({
     const formData = new FormData();
     render.readAsDataURL(files[0]);
     render.onload = (event) => {
-      formData.append("avatar", files[0]);
+      formData.append('avatar', files[0]);
       const adminurl = `${urlPrefix}v1.0/sendMsgCoachCustomer?data=${chatData.data}&registrationId=${registrationId11}&avatar=${img}`;
       return axios
         .post(adminurl, formData, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            timeStamp: "timestamp",
-            accept: "*/*",
-            "Content-type": "multipart/form-data; boundary=???",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            timeStamp: 'timestamp',
+            accept: '*/*',
+            'Content-type': 'multipart/form-data; boundary=???',
           },
         })
         .then((res) => {
-          if (res.data.response.responseMessage === "SUCCESS") {
+          if (res.data.response.responseMessage === 'SUCCESS') {
             handleChat(registrationId11);
             setChatId(res.data.response.responseData);
           }
@@ -429,40 +501,40 @@ export default function AppointmentExpert({
     };
   };
 
-  console.log(chatData.avatar, "images path");
+  console.log(chatData.avatar, 'images path');
   const Open = () => {
-    document.getElementById("get_file").onclick = function () {
-      document.getElementById("input_file").click();
+    document.getElementById('get_file').onclick = function () {
+      document.getElementById('input_file').click();
     };
   };
   const handleMeetingBreak = (e) => {
     const value = e.target.value;
     const name = e.target.name;
-    setBreakData((values) => ({ ...values, [name]: value }));
+    setBreakData((values) => ({...values, [name]: value}));
   };
   const handleChatData = (e) => {
     const value = e.target.value;
     const name = e.target.name;
-    setChatData((values) => ({ ...values, [name]: value }));
+    setChatData((values) => ({...values, [name]: value}));
   };
 
   const [messageChat, setMessageChat] = useState([]);
   const [chatId, setChatId] = useState(chatModal === false ? 0 : 0);
-  const [dateTimeMessage, setDateTimeMessage] = useState("");
+  const [dateTimeMessage, setDateTimeMessage] = useState('');
 
   const handleCloseBreakModal = () => {
     setCoachBreakModal(false);
     setBreakData({
-      subEventId: "",
+      subEventId: '',
       offDate: null,
       offFromTime: null,
       offToTime: null,
     });
-    setDateTimeMessage("");
+    setDateTimeMessage('');
   };
-  console.log(BreakData.offFromTime + ":00", "seccc");
+  console.log(BreakData.offFromTime + ':00', 'seccc');
   const BreakMeeting = () => {
-    if (BreakData.subEventId !== "") {
+    if (BreakData.subEventId !== '') {
       if (
         BreakData.offDate !== null ||
         (BreakData.offFromTime !== null && BreakData.offToTime !== null)
@@ -473,43 +545,43 @@ export default function AppointmentExpert({
           offDate: BreakData.offDate,
           offFromTime:
             BreakData.offFromTime !== null
-              ? BreakData.offFromTime + ":00"
+              ? BreakData.offFromTime + ':00'
               : BreakData.offFromTime,
           offToTime:
             BreakData.offToTime !== null
-              ? BreakData.offToTime + ":00"
+              ? BreakData.offToTime + ':00'
               : BreakData.offToTime,
         };
         const adminurl = `${urlPrefix}v1.0/expertOffDays`;
         return axios
           .post(adminurl, payload, {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              timeStamp: "timestamp",
-              accept: "*/*",
-              "Access-Control-Allow-Origin": "*",
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              timeStamp: 'timestamp',
+              accept: '*/*',
+              'Access-Control-Allow-Origin': '*',
               withCredentials: true,
-              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-              "Access-Control-Allow-Headers":
-                "accept, content-type, x-access-token, x-requested-with",
+              'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+              'Access-Control-Allow-Headers':
+                'accept, content-type, x-access-token, x-requested-with',
             },
           })
           .then((res) => {
             setCoachBreakModal(false);
             handle();
             setBreakData({
-              subEventId: "",
+              subEventId: '',
               offDate: null,
               offFromTime: null,
               offToTime: null,
             });
-            setDateTimeMessage("");
+            setDateTimeMessage('');
           });
       } else {
-        setDateTimeMessage("Date Or Time must be fill");
+        setDateTimeMessage('Date Or Time must be fill');
       }
     } else {
-      setDateTimeMessage("Please Select Your Porgram");
+      setDateTimeMessage('Please Select Your Porgram');
     }
     // }
   };
@@ -521,14 +593,14 @@ export default function AppointmentExpert({
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            timeStamp: "timestamp",
-            accept: "*/*",
-            "Access-Control-Allow-Origin": "*",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            timeStamp: 'timestamp',
+            accept: '*/*',
+            'Access-Control-Allow-Origin': '*',
             withCredentials: true,
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-            "Access-Control-Allow-Headers":
-              "accept, content-type, x-access-token, x-requested-with",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+            'Access-Control-Allow-Headers':
+              'accept, content-type, x-access-token, x-requested-with',
           },
         }
       )
@@ -537,25 +609,25 @@ export default function AppointmentExpert({
         setchatModal(false), clearInterval(interval1);
       });
   };
-  console.log(registrationId11, "idraeaeaeea");
+  console.log(registrationId11, 'idraeaeaeea');
   const handleChat = (id) => {
-    console.log(id, "iddddddddddd");
+    console.log(id, 'iddddddddddd');
     const adminurl = `${urlPrefix}v1.0/getCoachClientChat?lastChatId=${0}&registrationId=${id}`;
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          timeStamp: "timestamp",
-          accept: "*/*",
-          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          timeStamp: 'timestamp',
+          accept: '*/*',
+          'Access-Control-Allow-Origin': '*',
           withCredentials: true,
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-          "Access-Control-Allow-Headers":
-            "accept, content-type, x-access-token, x-requested-with",
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+          'Access-Control-Allow-Headers':
+            'accept, content-type, x-access-token, x-requested-with',
         },
       })
       .then((res) => {
-        console.log(res, "response");
+        console.log(res, 'response');
         setRegistrationId11(id);
         setMessageChat(res.data.response.responseData);
       });
@@ -567,14 +639,14 @@ export default function AppointmentExpert({
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          timeStamp: "timestamp",
-          accept: "*/*",
-          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          timeStamp: 'timestamp',
+          accept: '*/*',
+          'Access-Control-Allow-Origin': '*',
           withCredentials: true,
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-          "Access-Control-Allow-Headers":
-            "accept, content-type, x-access-token, x-requested-with",
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+          'Access-Control-Allow-Headers':
+            'accept, content-type, x-access-token, x-requested-with',
         },
       })
       .then((res) => {
@@ -584,8 +656,8 @@ export default function AppointmentExpert({
   };
   const ChatSendApi = (e) => {
     setChatData({
-      data: "",
-      avatar: "",
+      data: '',
+      avatar: '',
     });
 
     const adminurl = `${urlPrefix}v1.0/sendMsgCoachCustomer?data=${chatData.data}&registrationId=${registrationId11}&avatar=${chatData.avatar}`;
@@ -595,20 +667,20 @@ export default function AppointmentExpert({
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            timeStamp: "timestamp",
-            accept: "*/*",
-            "Access-Control-Allow-Origin": "*",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            timeStamp: 'timestamp',
+            accept: '*/*',
+            'Access-Control-Allow-Origin': '*',
             withCredentials: true,
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-            "Access-Control-Allow-Headers":
-              "accept,  x-access-token, x-requested-with",
-            "Content-type": "multipart/form-data; boundary=???",
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+            'Access-Control-Allow-Headers':
+              'accept,  x-access-token, x-requested-with',
+            'Content-type': 'multipart/form-data; boundary=???',
           },
         }
       )
       .then((res) => {
-        if (res.data.response.responseMessage === "SUCCESS") {
+        if (res.data.response.responseMessage === 'SUCCESS') {
           handleChat(registrationId11);
           setChatId(res.data.response.responseData);
         }
@@ -623,7 +695,7 @@ export default function AppointmentExpert({
       return x;
     });
     setchatModal(true);
-    setChatUserDetail(marvelHeroes && marvelHeroes[0], "marvels");
+    setChatUserDetail(marvelHeroes && marvelHeroes[0], 'marvels');
   };
   const oldchatCustomer = (id, name) => {
     setRegistrationId11(id);
@@ -633,7 +705,7 @@ export default function AppointmentExpert({
       return x;
     });
     setchatModal(true);
-    setChatUserDetail(marvelHeroes && marvelHeroes[0], "marvels");
+    setChatUserDetail(marvelHeroes && marvelHeroes[0], 'marvels');
   };
   const handleActive = () => {
     if (active === 0) {
@@ -644,20 +716,20 @@ export default function AppointmentExpert({
       getCoachStatus(0);
     }
   };
-  console.log(users, chatUserDetail, "users");
+  console.log(users, chatUserDetail, 'users');
 
   const getCoachStatus = (value) => {
     const adminurl = `${urlPrefix}v1.0/setCoachActiveStatus?status=${value}`;
     return axios.get(adminurl, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        timeStamp: "timestamp",
-        accept: "*/*",
-        "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        timeStamp: 'timestamp',
+        accept: '*/*',
+        'Access-Control-Allow-Origin': '*',
         withCredentials: true,
-        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-        "Access-Control-Allow-Headers":
-          "accept, content-type, x-access-token, x-requested-with",
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+        'Access-Control-Allow-Headers':
+          'accept, content-type, x-access-token, x-requested-with',
       },
     });
   };
@@ -668,14 +740,14 @@ export default function AppointmentExpert({
     return axios
       .get(adminurl, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          timeStamp: "timestamp",
-          accept: "*/*",
-          "Access-Control-Allow-Origin": "*",
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          timeStamp: 'timestamp',
+          accept: '*/*',
+          'Access-Control-Allow-Origin': '*',
           withCredentials: true,
-          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-          "Access-Control-Allow-Headers":
-            "accept, content-type, x-access-token, x-requested-with",
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
+          'Access-Control-Allow-Headers':
+            'accept, content-type, x-access-token, x-requested-with',
         },
       })
       .then((res) => {
@@ -715,7 +787,7 @@ export default function AppointmentExpert({
   };
   console.log(expert);
 
-  const [id, setid] = useState("");
+  const [id, setid] = useState('');
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
@@ -725,17 +797,17 @@ export default function AppointmentExpert({
   }, []);
 
   const current = new Date();
-  const date = moment(current).format("YYYY-MM-DD").toString();
+  const date = moment(current).format('YYYY-MM-DD').toString();
   console.log(date);
   console.log(radioValue);
   const [displayAddButton, setDisplayAddButton] = useState(false);
-  const [dataButtonType, setDataButtonType] = useState("");
+  const [dataButtonType, setDataButtonType] = useState('');
   const [isCheckingData, setCheckingData] = useState(false);
   const [eventIDForSync, setEventIDForSync] = useState([]);
   useEffect(() => {
     setPage(0);
-    setOrder("desc");
-    setOrderBy("");
+    setOrder('desc');
+    setOrderBy('');
 
     setRowsPerPage(50);
   }, []);
@@ -745,9 +817,9 @@ export default function AppointmentExpert({
   const [options1, setOptions1] = useState();
   const valuestartdate = [];
   const valuevalue = [];
-  console.log(expert, "expert");
+  console.log(expert, 'expert');
   console.log(series, options);
-  const [chatmessage, setChatMessage] = useState("");
+  const [chatmessage, setChatMessage] = useState('');
   const [messageList, setViewMessageList] = useState([]);
   const viewmessage = [];
   const sendMessage = (message1) => {
@@ -755,24 +827,24 @@ export default function AppointmentExpert({
     // viewmessage.push(message1.toString());
 
     setViewMessageList([...messageList, message1]);
-    setChatMessage("");
+    setChatMessage('');
   };
-  console.log(messageList, "message");
+  console.log(messageList, 'message');
   const modalBody = (
     <div
       style={{
-        width: "90%",
+        width: '90%',
         // position: 'fixed',
-        transform: "translate(5%,20%)",
-        height: "200px",
+        transform: 'translate(5%,20%)',
+        height: '200px',
       }}
     >
       <Paper>
         <div>
           <TableContainer>
-            <div style={{ display: "flex" }}>
+            <div style={{display: 'flex'}}>
               <div
-                style={{ width: "10%", marginLeft: "20px", marginTop: "10px" }}
+                style={{width: '10%', marginLeft: '20px', marginTop: '10px'}}
               >
                 <button
                   className="is-success"
@@ -782,10 +854,10 @@ export default function AppointmentExpert({
                   Break
                 </button>
               </div>
-              <div style={{ width: "20%", marginLeft: "20px" }}></div>
-              <div style={{ width: "40%", marginTop: "10px" }}>
+              <div style={{width: '20%', marginLeft: '20px'}}></div>
+              <div style={{width: '40%', marginTop: '10px'}}>
                 {active === 1 ? <span>Online</span> : <span>Offline</span>}
-                <span style={{ marginLeft: "20px", marginTop: "20px" }}>
+                <span style={{marginLeft: '20px', marginTop: '20px'}}>
                   <Switch
                     height={22}
                     width={52}
@@ -796,24 +868,22 @@ export default function AppointmentExpert({
                 </span>
               </div>
               <div
-                style={{ marginTop: "10px", width: "30%", marginLeft: "20px" }}
+                style={{marginTop: '10px', width: '30%', marginLeft: '20px'}}
               >
                 <b>Today's Appointment : </b>
-                {radioValue === "current" || radioValue === "old"
+                {radioValue === 'current' || radioValue === 'old'
                   ? culength
                   : 0}
               </div>
             </div>
 
-            <div style={{ display: "flex" }}>
-              <div
-                style={{ width: "60%", display: "flex", marginLeft: "20px" }}
-              >
+            <div style={{display: 'flex'}}>
+              <div style={{width: '60%', display: 'flex', marginLeft: '20px'}}>
                 <div
                   className="first_div"
-                  style={{ width: "80px", marginTop: "20px" }}
+                  style={{width: '80px', marginTop: '20px'}}
                   onChange={() => {
-                    setRadioValue("old"), handle;
+                    setRadioValue('old'), handle;
                   }}
                   value={radioValue}
                 >
@@ -822,9 +892,9 @@ export default function AppointmentExpert({
                 </div>
                 <div
                   className="first_div"
-                  style={{ width: "400px", marginTop: "20px" }}
+                  style={{width: '400px', marginTop: '20px'}}
                   onChange={() => {
-                    setRadioValue("current"), handle;
+                    setRadioValue('current'), handle;
                   }}
                   value={radioValue}
                 >
@@ -847,8 +917,8 @@ export default function AppointmentExpert({
                   checked={active === 1 ? true : false}
                 />
               </div> */}
-              <div style={{ width: "40%" }}>
-                {radioValue === "current" ? (
+              <div style={{width: '40%'}}>
+                {radioValue === 'current' ? (
                   <TablePagination
                     rowsPerPageOptions={[25, 50, 75, 100]}
                     component="div"
@@ -859,7 +929,7 @@ export default function AppointmentExpert({
                     onChangeRowsPerPage={handleChangeRowsPerPage}
                     ActionsComponent={TablePaginationActions}
                   />
-                ) : "" || radioValue === "old" ? (
+                ) : '' || radioValue === 'old' ? (
                   <TablePagination
                     rowsPerPageOptions={[25, 50, 75, 100]}
                     component="div"
@@ -871,16 +941,16 @@ export default function AppointmentExpert({
                     ActionsComponent={TablePaginationActions}
                   />
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
             </div>
-            <div style={{ height: "500px", marginLeft: "20px" }}>
+            <div style={{height: '500px', marginLeft: '20px'}}>
               {expert && expert.length > 0 ? (
                 <Table
                   // className={classes.table}
                   aria-labelledby="tableTitle"
-                  size={"small"}
+                  size={'small'}
                   aria-label="enhanced table"
                 >
                   <EnhancedTableHead
@@ -891,7 +961,7 @@ export default function AppointmentExpert({
                   />
 
                   <TableBody>
-                    {radioValue === "current" &&
+                    {radioValue === 'current' &&
                     greater &&
                     greater.length > 0 ? (
                       <>
@@ -910,13 +980,13 @@ export default function AppointmentExpert({
                                   className="performace-table-row"
                                 >
                                   <TableCell align="left" width="2%">
-                                    <div style={{ fontSize: 12 }}>
+                                    <div style={{fontSize: 12}}>
                                       {index + 1}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
-                                    <div style={{ fontSize: 12 }}>
-                                      {row.meetingDate ? row.meetingDate : "-"}
+                                    <div style={{fontSize: 12}}>
+                                      {row.meetingDate ? row.meetingDate : '-'}
                                     </div>
                                   </TableCell>
 
@@ -924,64 +994,64 @@ export default function AppointmentExpert({
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.programType ? row.programType : "-"}
+                                      {row.programType ? row.programType : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left">
                                     <div
                                       style={{
-                                        whiteSpace: "nowrap",
-                                        textOverflow: "ellipsis",
-                                        width: "180px",
-                                        display: "block",
-                                        overflow: "hidden",
+                                        whiteSpace: 'nowrap',
+                                        textOverflow: 'ellipsis',
+                                        width: '180px',
+                                        display: 'block',
+                                        overflow: 'hidden',
                                         fontSize: 12,
                                       }}
                                     >
-                                      {row.programName ? row.programName : "-"}
+                                      {row.programName ? row.programName : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.userName ? row.userName : "-"}
+                                      {row.userName ? row.userName : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.relation ? row.relation : "-"}
+                                      {row.relation ? row.relation : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
                                       {row.dependentName
                                         ? row.dependentName
-                                        : "-"}
+                                        : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
@@ -989,32 +1059,32 @@ export default function AppointmentExpert({
                                       style={{
                                         // whiteSpace: 'nowrap',
                                         // textOverflow: 'ellipsis',
-                                        width: "120px",
-                                        display: "flex",
+                                        width: '120px',
+                                        display: 'flex',
                                         // overflow: 'hidden',
                                         fontSize: 12,
                                       }}
                                     >
-                                      {row.notes ? row.notes : "-"}
+                                      {row.notes ? row.notes : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
                                       }}
                                     >
-                                      {row.mobilePhone ? row.mobilePhone : "-"}
+                                      {row.mobilePhone ? row.mobilePhone : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="20%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
@@ -1027,21 +1097,21 @@ export default function AppointmentExpert({
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
                                       }}
                                     >
-                                      {" "}
+                                      {' '}
                                       {row.message === true &&
                                       row.id !== null ? (
                                         <button
                                           style={{
-                                            color: "white",
-                                            backgroundColor: "green",
-                                            borderRadius: "25px",
-                                            height: "20px",
-                                            width: "40px",
+                                            color: 'white',
+                                            backgroundColor: 'green',
+                                            borderRadius: '25px',
+                                            height: '20px',
+                                            width: '40px',
                                           }}
                                           onClick={() => {
                                             handleChat(row.id),
@@ -1054,26 +1124,56 @@ export default function AppointmentExpert({
                                           Chat
                                         </button>
                                       ) : (
-                                        "-"
+                                        '-'
                                       )}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell align="left" width="5%">
+                                    <div
+                                      style={{
+                                        fontSize: 12,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                      }}
+                                    >
+                                      {' '}
+                                      <button
+                                        style={{
+                                          color: 'white',
+                                          backgroundColor: 'green',
+                                          borderRadius: '25px',
+                                          height: '20px',
+                                          width: '70px',
+                                        }}
+                                        onClick={() => {
+                                          ViewMessageData(
+                                            row.userName,
+                                            row.mobilePhone,
+                                            row.programName
+                                          );
+                                        }}
+                                      >
+                                        Message
+                                      </button>
                                     </div>
                                   </TableCell>
                                   <TableCell align="center" width="5%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
                                       }}
                                     >
                                       <button
                                         style={{
-                                          color: "white",
-                                          backgroundColor: "green",
-                                          borderRadius: "25px",
-                                          height: "20px",
-                                          width: "40px",
+                                          color: 'white',
+                                          backgroundColor: 'green',
+                                          borderRadius: '25px',
+                                          height: '20px',
+                                          width: '40px',
                                         }}
                                         onClick={() => {
                                           return (
@@ -1093,7 +1193,7 @@ export default function AppointmentExpert({
                               );
                             })}
                       </>
-                    ) : radioValue === "old" &&
+                    ) : radioValue === 'old' &&
                       oldlength &&
                       oldlength.length > 0 ? (
                       <>
@@ -1109,17 +1209,17 @@ export default function AppointmentExpert({
                                 <TableRow
                                   hover
                                   // tabIndex={-1}
-                                  // key={row.id}
+                                  key={row.id}
                                   className="performace-table-row"
                                 >
                                   <TableCell align="left" width="2%">
-                                    <div style={{ fontSize: 12 }}>
+                                    <div style={{fontSize: 12}}>
                                       {index + 1}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
-                                    <div style={{ fontSize: 12 }}>
-                                      {row.meetingDate ? row.meetingDate : "-"}
+                                    <div style={{fontSize: 12}}>
+                                      {row.meetingDate ? row.meetingDate : '-'}
                                     </div>
                                   </TableCell>
 
@@ -1127,93 +1227,93 @@ export default function AppointmentExpert({
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.programType ? row.programType : "-"}
+                                      {row.programType ? row.programType : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="20%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.programName ? row.programName : "-"}
+                                      {row.programName ? row.programName : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.userName ? row.userName : "-"}
+                                      {row.userName ? row.userName : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.relation ? row.relation : "-"}
+                                      {row.relation ? row.relation : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
                                       {row.dependentName
                                         ? row.dependentName
-                                        : "-"}
+                                        : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
                                     >
-                                      {row.notes ? row.notes : "-"}
+                                      {row.notes ? row.notes : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="10%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
                                       }}
                                     >
-                                      {row.mobilePhone ? row.mobilePhone : "-"}
+                                      {row.mobilePhone ? row.mobilePhone : '-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="left" width="20%">
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
+                                        display: 'flex',
                                         // alignItems: 'center',
                                         // justifyContent: 'center',
                                       }}
@@ -1225,21 +1325,21 @@ export default function AppointmentExpert({
                                     <div
                                       style={{
                                         fontSize: 12,
-                                        display: "flex",
-                                        alignItems: "center",
-                                        justifyContent: "center",
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
                                       }}
                                     >
-                                      {" "}
+                                      {' '}
                                       {row.message === true &&
                                       row.id !== null ? (
                                         <button
                                           style={{
-                                            color: "white",
-                                            backgroundColor: "green",
-                                            borderRadius: "25px",
-                                            height: "20px",
-                                            width: "40px",
+                                            color: 'white',
+                                            backgroundColor: 'green',
+                                            borderRadius: '25px',
+                                            height: '20px',
+                                            width: '40px',
                                           }}
                                           onClick={() => {
                                             handleChat(row.id),
@@ -1252,8 +1352,38 @@ export default function AppointmentExpert({
                                           Chat
                                         </button>
                                       ) : (
-                                        "-"
+                                        '-'
                                       )}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell align="left" width="5%">
+                                    <div
+                                      style={{
+                                        fontSize: 12,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                      }}
+                                    >
+                                      {' '}
+                                      <button
+                                        style={{
+                                          color: 'white',
+                                          backgroundColor: 'green',
+                                          borderRadius: '25px',
+                                          height: '20px',
+                                          width: '70px',
+                                        }}
+                                        onClick={() => {
+                                          ViewMessageData(
+                                            row.userName,
+                                            row.mobilePhone,
+                                            row.programName
+                                          );
+                                        }}
+                                      >
+                                        Message
+                                      </button>
                                     </div>
                                   </TableCell>
                                 </TableRow>
@@ -1267,14 +1397,14 @@ export default function AppointmentExpert({
                           style={{
                             // position: 'relative',
                             height: 400,
-                            marginTop: "-20%",
+                            marginTop: '-20%',
                           }}
                         >
                           <p
                             style={{
-                              textAlign: "center",
+                              textAlign: 'center',
                               // margin: '100px 0',
-                              color: "#8e8e8e",
+                              color: '#8e8e8e',
                             }}
                           >
                             Data is not present
@@ -1287,18 +1417,18 @@ export default function AppointmentExpert({
               ) : (
                 <p
                   style={{
-                    width: "100%",
-                    height: "200px",
+                    width: '100%',
+                    height: '200px',
                     // display: 'flex',
                     // marginTop: '260px',
-                    marginLeft: "500px",
+                    marginLeft: '500px',
                   }}
                 >
-                  {" "}
+                  {' '}
                   <div>
-                    {" "}
-                    <h2 style={{ marginTop: "10px" }}> No data present</h2>{" "}
-                  </div>{" "}
+                    {' '}
+                    <h2 style={{marginTop: '10px'}}> No data present</h2>{' '}
+                  </div>{' '}
                 </p>
               )}
             </div>
@@ -1319,11 +1449,11 @@ export default function AppointmentExpert({
       )} */}
       <CancelIcon
         style={{
-          position: "absolute",
+          position: 'absolute',
           top: 5,
           right: 5,
-          color: "#ef5350",
-          cursor: "pointer",
+          color: '#ef5350',
+          cursor: 'pointer',
         }}
         onClick={() => handleClose()}
       />
@@ -1341,17 +1471,17 @@ export default function AppointmentExpert({
         aria-describedby="simple-modal-description"
         disableAutoFocus
       >
-        <div style={{ outline: "none" }}>{modalBody}</div>
+        <div style={{outline: 'none'}}>{modalBody}</div>
       </Modal>
       {chatModal && (
         <InfoDialog open={chatModal} onClose={() => setchatModal(false)}>
           <CancelIcon
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: 5,
               right: 5,
-              color: "#ef5350",
-              cursor: "pointer",
+              color: '#ef5350',
+              cursor: 'pointer',
             }}
             onClick={() => {
               setchatModal(false), clearInterval(interval1);
@@ -1362,19 +1492,19 @@ export default function AppointmentExpert({
             <div className="chatContainer">
               <div className="header1">
                 <p>
-                  {" "}
+                  {' '}
                   <Avatar
                     // src={userDetails.avatarImg}
                     style={{
                       width: 40,
                       height: 40,
-                      border: "2px solid #f8f8f8",
+                      border: '2px solid #f8f8f8',
                       // marginTop: '10px',
                       marginLeft: 10,
                     }}
                   />
                 </p>
-                <h2 style={{ marginLeft: "" }}> {chatUserDetail.userName}</h2>
+                <h2 style={{marginLeft: ''}}> {chatUserDetail.userName}</h2>
 
                 {/* <a href="/">
                   {' '}
@@ -1383,12 +1513,12 @@ export default function AppointmentExpert({
                 <div>
                   <button
                     style={{
-                      backgroundColor: "red",
-                      color: "white",
+                      backgroundColor: 'red',
+                      color: 'white',
                       // marginTop: '-30px',
-                      width: "150px",
+                      width: '150px',
                       // float:'right'
-                      marginLeft: "80%",
+                      marginLeft: '80%',
                     }}
                     onClick={() => endChat(chatUserDetail.id)}
                   >
@@ -1406,37 +1536,37 @@ export default function AppointmentExpert({
                     //   classs={item.id === id ? 'right1' : 'left'}
                     // />
                     {
-                      if (item.contentBy === "CUSTOMER") {
+                      if (item.contentBy === 'CUSTOMER') {
                         return (
                           <>
-                            <br />{" "}
+                            <br />{' '}
                             <p className=" messageBox left ">
-                              {item.contentType === "text" ? (
+                              {item.contentType === 'text' ? (
                                 <>
-                                  {" "}
+                                  {' '}
                                   <span>{item.content} </span>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginTop: "20px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginTop: '20px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
-                              ) : item.contentType === "image" ? (
+                              ) : item.contentType === 'image' ? (
                                 <>
                                   <a
                                     target="_blank"
                                     href={item.content.substring(
-                                      item.content.indexOf("http")
+                                      item.content.indexOf('http')
                                     )}
                                     style={{
-                                      cursor: "pointer",
-                                      width: "200px",
-                                      height: "200px",
+                                      cursor: 'pointer',
+                                      width: '200px',
+                                      height: '200px',
                                     }}
                                   >
                                     <span>
@@ -1444,7 +1574,7 @@ export default function AppointmentExpert({
 
                                       <img
                                         src={item.content.substring(
-                                          item.content.indexOf("https")
+                                          item.content.indexOf('https')
                                         )}
                                         height="200px"
                                         width="200px"
@@ -1452,41 +1582,41 @@ export default function AppointmentExpert({
                                     </span>
                                   </a>
                                   <div
-                                    style={{ width: "200px", display: "flex" }}
+                                    style={{width: '200px', display: 'flex'}}
                                   >
                                     {item.content.substring(
                                       0,
-                                      item.content.indexOf("https")
+                                      item.content.indexOf('https')
                                     )}
                                   </div>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginBootom: "10px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginBootom: '10px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
-                              ) : item.contentType === "document" ? (
+                              ) : item.contentType === 'document' ? (
                                 <>
                                   <a
                                     target="_blank"
                                     href={item.content.substring(
-                                      item.content.indexOf("http")
+                                      item.content.indexOf('http')
                                     )}
                                     style={{
-                                      cursor: "pointer",
-                                      width: "200px",
-                                      height: "200px",
+                                      cursor: 'pointer',
+                                      width: '200px',
+                                      height: '200px',
                                     }}
                                   >
                                     <span>
                                       <embed
                                         src={item.content.substring(
-                                          item.content.indexOf("https")
+                                          item.content.indexOf('https')
                                         )}
                                         width="200"
                                         height="200"
@@ -1495,31 +1625,31 @@ export default function AppointmentExpert({
                                   </a>
 
                                   <div
-                                    style={{ width: "200px", display: "flex" }}
+                                    style={{width: '200px', display: 'flex'}}
                                   >
                                     {item.content.substring(
                                       0,
-                                      item.content.indexOf("https")
+                                      item.content.indexOf('https')
                                     )}
                                   </div>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginBootom: "10px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginBootom: '10px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
-                              ) : item.contentType === "video" ? (
+                              ) : item.contentType === 'video' ? (
                                 <>
                                   <span>
                                     <video width="200" height="200" controls>
                                       <source
                                         src={item.content.substring(
-                                          item.content.indexOf("https")
+                                          item.content.indexOf('https')
                                         )}
                                         type="video/mp4"
                                       />
@@ -1528,31 +1658,31 @@ export default function AppointmentExpert({
                                     </video>
                                   </span>
                                   <div
-                                    style={{ width: "200px", display: "flex" }}
+                                    style={{width: '200px', display: 'flex'}}
                                   >
                                     {item.content.substring(
                                       0,
-                                      item.content.indexOf("https")
+                                      item.content.indexOf('https')
                                     )}
                                   </div>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginBootom: "10px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginBootom: '10px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
-                              ) : item.contentType === "audio" ? (
+                              ) : item.contentType === 'audio' ? (
                                 <>
                                   <span>
                                     <audio width="200" height="200" controls>
                                       <source
                                         src={item.content.substring(
-                                          item.content.indexOf("https")
+                                          item.content.indexOf('https')
                                         )}
                                         type="audio/mp4"
                                       />
@@ -1561,26 +1691,26 @@ export default function AppointmentExpert({
                                     </audio>
                                   </span>
                                   <div
-                                    style={{ width: "200px", display: "flex" }}
+                                    style={{width: '200px', display: 'flex'}}
                                   >
                                     {item.content.substring(
                                       0,
-                                      item.content.indexOf("https")
+                                      item.content.indexOf('https')
                                     )}
                                   </div>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginBootom: "10px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginBootom: '10px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
                               ) : (
-                                ""
+                                ''
                               )}
                             </p>
                           </>
@@ -1589,35 +1719,35 @@ export default function AppointmentExpert({
                         return (
                           <>
                             <p className="messageBox right1">
-                              {item.contentType === "text" ? (
+                              {item.contentType === 'text' ? (
                                 <>
-                                  {" "}
+                                  {' '}
                                   <span>{item.content} </span>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginTop: "20px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginTop: '20px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
                               ) : item.contentType.substring(
                                   0,
-                                  item.contentType.indexOf("/")
-                                ) === "image" ? (
+                                  item.contentType.indexOf('/')
+                                ) === 'image' ? (
                                 <>
                                   <a
                                     target="_blank"
                                     href={item.content.substring(
-                                      item.content.indexOf("http")
+                                      item.content.indexOf('http')
                                     )}
                                     style={{
-                                      cursor: "pointer",
-                                      width: "200px",
-                                      height: "200px",
+                                      cursor: 'pointer',
+                                      width: '200px',
+                                      height: '200px',
                                     }}
                                   >
                                     <span>
@@ -1625,7 +1755,7 @@ export default function AppointmentExpert({
 
                                       <img
                                         src={item.content.substring(
-                                          item.content.indexOf("https")
+                                          item.content.indexOf('https')
                                         )}
                                         height="200px"
                                         width="200px"
@@ -1633,42 +1763,42 @@ export default function AppointmentExpert({
                                     </span>
                                   </a>
                                   <div
-                                    style={{ width: "200px", display: "flex" }}
+                                    style={{width: '200px', display: 'flex'}}
                                   >
                                     {item.content.substring(
                                       0,
-                                      item.content.indexOf("https")
+                                      item.content.indexOf('https')
                                     )}
                                   </div>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginBootom: "10px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginBootom: '10px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
                               ) : item.contentType.substring(
                                   0,
-                                  item.contentType.indexOf("/")
-                                ) === "application" ? (
+                                  item.contentType.indexOf('/')
+                                ) === 'application' ? (
                                 <>
                                   <a
                                     target="_blank"
                                     href={item.content.substring(
-                                      item.content.indexOf("http")
+                                      item.content.indexOf('http')
                                     )}
                                     style={{
-                                      cursor: "pointer",
+                                      cursor: 'pointer',
                                     }}
                                   >
                                     <span>
                                       <embed
                                         src={item.content.substring(
-                                          item.content.indexOf("https")
+                                          item.content.indexOf('https')
                                         )}
                                         width="200"
                                         height="200"
@@ -1677,31 +1807,31 @@ export default function AppointmentExpert({
 
                                     <div
                                       style={{
-                                        width: "200px",
-                                        display: "flex",
+                                        width: '200px',
+                                        display: 'flex',
                                       }}
                                     >
                                       {item.content.substring(
                                         0,
-                                        item.content.indexOf("https")
+                                        item.content.indexOf('https')
                                       )}
                                     </div>
                                     <span
                                       style={{
-                                        fontSize: "11px",
-                                        marginBootom: "10px",
-                                        float: "right",
-                                        marginLeft: "10px",
+                                        fontSize: '11px',
+                                        marginBootom: '10px',
+                                        float: 'right',
+                                        marginLeft: '10px',
                                       }}
                                     >
-                                      {item.dateTime.substring(11, 16)}{" "}
+                                      {item.dateTime.substring(11, 16)}{' '}
                                     </span>
                                   </a>
                                 </>
                               ) : item.contentType.substring(
                                   0,
-                                  item.contentType.indexOf("/")
-                                ) === "video" ? (
+                                  item.contentType.indexOf('/')
+                                ) === 'video' ? (
                                 <>
                                   <span>
                                     {}
@@ -1710,7 +1840,7 @@ export default function AppointmentExpert({
                                       width="200"
                                       height="200"
                                       src={item.content.substring(
-                                        item.content.indexOf("https")
+                                        item.content.indexOf('https')
                                       )}
                                       title="YouTube video player"
                                       frameborder="0"
@@ -1719,34 +1849,34 @@ export default function AppointmentExpert({
                                     ></iframe>
                                   </span>
                                   <div
-                                    style={{ width: "200px", display: "flex" }}
+                                    style={{width: '200px', display: 'flex'}}
                                   >
                                     {item.content.substring(
                                       0,
-                                      item.content.indexOf("https")
+                                      item.content.indexOf('https')
                                     )}
                                   </div>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginBootom: "10px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginBootom: '10px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
                               ) : item.contentType.substring(
                                   0,
-                                  item.contentType.indexOf("/")
-                                ) === "audio" ? (
+                                  item.contentType.indexOf('/')
+                                ) === 'audio' ? (
                                 <>
                                   <span>
                                     <audio width="200" height="200" controls>
                                       <source
                                         src={item.content.substring(
-                                          item.content.indexOf("https")
+                                          item.content.indexOf('https')
                                         )}
                                         type="audio/mp4"
                                       />
@@ -1755,26 +1885,26 @@ export default function AppointmentExpert({
                                     </audio>
                                   </span>
                                   <div
-                                    style={{ width: "200px", display: "flex" }}
+                                    style={{width: '200px', display: 'flex'}}
                                   >
                                     {item.content.substring(
                                       0,
-                                      item.content.indexOf("https")
+                                      item.content.indexOf('https')
                                     )}
                                   </div>
                                   <span
                                     style={{
-                                      fontSize: "11px",
-                                      marginBootom: "10px",
-                                      float: "right",
-                                      marginLeft: "10px",
+                                      fontSize: '11px',
+                                      marginBootom: '10px',
+                                      float: 'right',
+                                      marginLeft: '10px',
                                     }}
                                   >
-                                    {item.dateTime.substring(11, 16)}{" "}
+                                    {item.dateTime.substring(11, 16)}{' '}
                                   </span>
                                 </>
                               ) : (
-                                ""
+                                ''
                               )}
                             </p>
                             <br />
@@ -1793,7 +1923,7 @@ export default function AppointmentExpert({
                     /^[a-z0-9]+( [a-z0-9]+)*$/gi.test(chatData.data[0]) !==
                     false
                       ? chatData.data
-                      : ""
+                      : ''
                   }
                   onChange={handleChatData}
                   name="data"
@@ -1801,12 +1931,12 @@ export default function AppointmentExpert({
                     chatData.data.length > 0 &&
                     /^[a-z0-9]+( [a-z0-9]+)*$/gi.test(chatData.data[0]) !==
                       false &&
-                    event.key === "Enter"
+                    event.key === 'Enter'
                       ? ChatSendApi(id)
                       : null
                   }
                 />
-                <div style={{ width: "10%", marginTop: "5%" }}>
+                <div style={{width: '10%', marginTop: '5%'}}>
                   <button
                     id="get_file"
                     variant="outlined"
@@ -1818,7 +1948,7 @@ export default function AppointmentExpert({
                     type="file"
                     id="input_file"
                     accept=".jpg,.jpeg,.png"
-                    style={{ display: "none" }}
+                    style={{display: 'none'}}
                     onChange={(e) => {
                       onFileChange(e);
                     }}
@@ -1840,7 +1970,7 @@ export default function AppointmentExpert({
                     />
                   </button>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
             </div>
@@ -1852,28 +1982,28 @@ export default function AppointmentExpert({
         <InfoDialog open={coachbreakModal} onClose={handleCloseBreakModal}>
           <CancelIcon
             style={{
-              position: "absolute",
+              position: 'absolute',
               top: 5,
               right: 5,
-              color: "#ef5350",
-              cursor: "pointer",
+              color: '#ef5350',
+              cursor: 'pointer',
             }}
             onClick={handleCloseBreakModal}
           />
-          <div style={{ width: "400px", height: "200px" }}>
-            <div style={{ display: "flex" }}>
-              <div style={{ width: "50%", marginLeft: "10px" }}>
+          <div style={{width: '400px', height: '200px'}}>
+            <div style={{display: 'flex'}}>
+              <div style={{width: '50%', marginLeft: '10px'}}>
                 <label>Program</label>
                 <br />
                 <select
                   style={{
-                    background: "#f3f4f6",
-                    padding: "8px 12px",
+                    background: '#f3f4f6',
+                    padding: '8px 12px',
                     borderRadius: 6,
                     fontSize: 15,
-                    width: "92%",
-                    height: "38px",
-                    border: "1px solid black",
+                    width: '92%',
+                    height: '38px',
+                    border: '1px solid black',
                   }}
                   value={BreakData.subEventId}
                   name="subEventId"
@@ -1890,19 +2020,19 @@ export default function AppointmentExpert({
                     })}
                 </select>
               </div>
-              <div style={{ width: "50%" }}>
+              <div style={{width: '50%'}}>
                 <label>Date</label>
                 <br />
                 <input
                   type="date"
                   style={{
-                    background: "#f3f4f6",
-                    padding: "10px 10px",
+                    background: '#f3f4f6',
+                    padding: '10px 10px',
                     borderRadius: 6,
                     fontSize: 18,
-                    width: "80%",
-                    height: "15px",
-                    border: "1px solid black",
+                    width: '80%',
+                    height: '15px',
+                    border: '1px solid black',
                   }}
                   value={BreakData.offDate}
                   name="offDate"
@@ -1910,39 +2040,39 @@ export default function AppointmentExpert({
                 />
               </div>
             </div>
-            <div style={{ display: "flex" }}>
-              <div style={{ width: "50%", marginLeft: "10px" }}>
+            <div style={{display: 'flex'}}>
+              <div style={{width: '50%', marginLeft: '10px'}}>
                 <label>From Time</label>
                 <br />
                 <input
                   type="time"
                   style={{
-                    background: "#f3f4f6",
-                    padding: "10px 10px",
+                    background: '#f3f4f6',
+                    padding: '10px 10px',
                     borderRadius: 6,
                     fontSize: 18,
-                    width: "80%",
-                    height: "15px",
-                    border: "1px solid black",
+                    width: '80%',
+                    height: '15px',
+                    border: '1px solid black',
                   }}
                   value={BreakData.offFromTime}
                   name="offFromTime"
                   onChange={handleMeetingBreak}
                 />
               </div>
-              <div style={{ width: "50%" }}>
+              <div style={{width: '50%'}}>
                 <label>End Time</label>
                 <br />
                 <input
                   type="time"
                   style={{
-                    background: "#f3f4f6",
-                    padding: "10px 10px",
+                    background: '#f3f4f6',
+                    padding: '10px 10px',
                     borderRadius: 6,
                     fontSize: 18,
-                    width: "80%",
-                    height: "15px",
-                    border: "1px solid black",
+                    width: '80%',
+                    height: '15px',
+                    border: '1px solid black',
                   }}
                   value={BreakData.offToTime}
                   name="offToTime"
@@ -1950,29 +2080,118 @@ export default function AppointmentExpert({
                 />
               </div>
             </div>
-            <div style={{ display: "flex" }}>
+            <div style={{display: 'flex'}}>
               <div
                 style={{
-                  width: "65%",
-                  marginLeft: "10px",
-                  float: "right",
-                  color: "red",
-                  marginTop: "5%",
+                  width: '65%',
+                  marginLeft: '10px',
+                  float: 'right',
+                  color: 'red',
+                  marginTop: '5%',
                 }}
               >
-                {" "}
+                {' '}
                 {dateTimeMessage}
               </div>
-              <div style={{ width: "30%", marginTop: "5%" }}>
+              <div style={{width: '30%', marginTop: '5%'}}>
                 <button
                   style={{
-                    color: "white",
-                    backgroundColor: "green",
-                    borderRadius: "20px",
+                    color: 'white',
+                    backgroundColor: 'green',
+                    borderRadius: '20px',
                   }}
                   onClick={BreakMeeting}
                 >
                   Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </InfoDialog>
+      )}
+      {messageModal && (
+        <InfoDialog
+          open={messageModal}
+          onClose={() => {
+            setMessageModal(false),
+              setMessageData({
+                coachName:
+                  localStorage.getItem('firstName') +
+                  ' ' +
+                  localStorage.getItem('lastName'),
+                customerName: '',
+                message: '',
+                programName: '',
+                type: 'text',
+                mobileNumber: '',
+              }),
+              setDisplay('');
+          }}
+        >
+          <CancelIcon
+            style={{
+              position: 'absolute',
+              top: 5,
+              right: 5,
+              color: '#ef5350',
+              cursor: 'pointer',
+            }}
+            onClick={() => {
+              setMessageModal(false),
+                setMessageData({
+                  coachName:
+                    localStorage.getItem('firstName') +
+                    ' ' +
+                    localStorage.getItem('lastName'),
+                  customerName: '',
+                  message: '',
+                  programName: '',
+                  type: 'text',
+                  mobileNumber: '',
+                }),
+                setDisplay('');
+            }}
+          />
+          <div style={{height: '300px', width: '400px'}}>
+            <div style={{padding: '10px 10px 10px 30px'}}>
+              <label>Message </label>
+              <textarea
+                style={{height: '180px', width: '90%'}}
+                placeholder="Type Messages ..."
+                value={messageData.message}
+                onChange={(e) =>
+                  setMessageData({
+                    ...messageData,
+                    message: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div style={{display: 'flex'}}>
+              <div style={{width: '40%'}}>
+                {messageData.message === '' && displaymessage !== '' && (
+                  <span
+                    style={{
+                      marginLeft: '30%',
+                      color: 'red',
+                    }}
+                  >
+                    {displaymessage}
+                  </span>
+                )}
+              </div>
+              <div style={{width: '40%'}}>
+                <button
+                  style={{
+                    height: '40px',
+                    width: '90px',
+                    backgroundColor: 'green',
+                    color: 'white',
+                    marginLeft: '69%',
+                  }}
+                  onClick={CustomerMessage}
+                >
+                  Send
                 </button>
               </div>
             </div>
