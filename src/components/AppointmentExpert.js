@@ -1137,7 +1137,7 @@ export default function AppointmentExpert({
                                         justifyContent: 'center',
                                       }}
                                     >
-                                      {' '}
+                                    {row.programType==='INDIVIDUAL'?
                                       <button
                                         style={{
                                           color: 'white',
@@ -1155,7 +1155,7 @@ export default function AppointmentExpert({
                                         }}
                                       >
                                         Message
-                                      </button>
+                                      </button>:'-'}
                                     </div>
                                   </TableCell>
                                   <TableCell align="center" width="5%">
@@ -1365,7 +1365,8 @@ export default function AppointmentExpert({
                                         justifyContent: 'center',
                                       }}
                                     >
-                                      {' '}
+                                      {row.programType==='INDIVIDUAL'?
+                                     
                                       <button
                                         style={{
                                           color: 'white',
@@ -1384,6 +1385,7 @@ export default function AppointmentExpert({
                                       >
                                         Message
                                       </button>
+                                      :"-"}
                                     </div>
                                   </TableCell>
                                 </TableRow>
