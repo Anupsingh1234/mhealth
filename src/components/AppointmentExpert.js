@@ -1137,25 +1137,28 @@ export default function AppointmentExpert({
                                         justifyContent: 'center',
                                       }}
                                     >
-                                    {row.programType==='INDIVIDUAL'?
-                                      <button
-                                        style={{
-                                          color: 'white',
-                                          backgroundColor: 'green',
-                                          borderRadius: '25px',
-                                          height: '20px',
-                                          width: '70px',
-                                        }}
-                                        onClick={() => {
-                                          ViewMessageData(
-                                            row.userName,
-                                            row.mobilePhone,
-                                            row.programName
-                                          );
-                                        }}
-                                      >
-                                        Message
-                                      </button>:'-'}
+                                      {row.programType === 'INDIVIDUAL' ? (
+                                        <button
+                                          style={{
+                                            color: 'white',
+                                            backgroundColor: 'green',
+                                            borderRadius: '25px',
+                                            height: '20px',
+                                            width: '70px',
+                                          }}
+                                          onClick={() => {
+                                            ViewMessageData(
+                                              row.userName,
+                                              row.mobilePhone,
+                                              row.programName
+                                            );
+                                          }}
+                                        >
+                                          Message
+                                        </button>
+                                      ) : (
+                                        '-'
+                                      )}
                                     </div>
                                   </TableCell>
                                   <TableCell align="center" width="5%">
@@ -1209,7 +1212,7 @@ export default function AppointmentExpert({
                                 <TableRow
                                   hover
                                   // tabIndex={-1}
-                                  key={row.id}
+                                  // key={row.id}
                                   className="performace-table-row"
                                 >
                                   <TableCell align="left" width="2%">
@@ -1365,27 +1368,28 @@ export default function AppointmentExpert({
                                         justifyContent: 'center',
                                       }}
                                     >
-                                      {row.programType==='INDIVIDUAL'?
-                                     
-                                      <button
-                                        style={{
-                                          color: 'white',
-                                          backgroundColor: 'green',
-                                          borderRadius: '25px',
-                                          height: '20px',
-                                          width: '70px',
-                                        }}
-                                        onClick={() => {
-                                          ViewMessageData(
-                                            row.userName,
-                                            row.mobilePhone,
-                                            row.programName
-                                          );
-                                        }}
-                                      >
-                                        Message
-                                      </button>
-                                      :"-"}
+                                      {row.programType === 'INDIVIDUAL' ? (
+                                        <button
+                                          style={{
+                                            color: 'white',
+                                            backgroundColor: 'green',
+                                            borderRadius: '25px',
+                                            height: '20px',
+                                            width: '70px',
+                                          }}
+                                          onClick={() => {
+                                            ViewMessageData(
+                                              row.userName,
+                                              row.mobilePhone,
+                                              row.programName
+                                            );
+                                          }}
+                                        >
+                                          Message
+                                        </button>
+                                      ) : (
+                                        '-'
+                                      )}
                                     </div>
                                   </TableCell>
                                 </TableRow>
