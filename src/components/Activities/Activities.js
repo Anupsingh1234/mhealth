@@ -586,7 +586,11 @@ const Activities = () => {
                     setCreateActivityModal(true);
                     setEditActivityObject();
                   }}
-                  style={{ width: "max-content" }}
+                  style={{
+                    width: "max-content",
+                    padding: "2px 4px",
+                    borderRadius: "2px",
+                  }}
                 >
                   <PlusCircle size="18" style={{ marginRight: 2 }} />
                   Create Program
@@ -630,7 +634,14 @@ const Activities = () => {
                     }}
                     style={{ width: "max-content" }}
                   >
-                    <PlusCircle size="18" style={{ marginRight: 2 }} />
+                    <PlusCircle
+                      size="18"
+                      style={{
+                        marginRight: 2,
+                        padding: "2px 4px",
+                        borderRadius: "2px",
+                      }}
+                    />
                     Create Program
                   </button>
 

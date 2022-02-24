@@ -665,14 +665,12 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
                         background: "#e0f2fe",
                         color: "#518ad6",
                       }}
@@ -685,7 +683,6 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
@@ -695,7 +692,6 @@ const MisReport = () => {
                         background: "#e0f2fe",
                         color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                       // className={classes}
                       // onClick={auditReportFun}
@@ -708,7 +704,6 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
@@ -719,7 +714,6 @@ const MisReport = () => {
                         background: "#e0f2fe",
                         color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Performance{" "}
@@ -730,7 +724,6 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
@@ -739,7 +732,6 @@ const MisReport = () => {
                         background: "#e0f2fe",
                         color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Charts{" "}
@@ -750,7 +742,6 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
@@ -759,7 +750,6 @@ const MisReport = () => {
                         background: "#e0f2fe",
                         color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Quiz{" "}
@@ -770,7 +760,6 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
@@ -779,7 +768,6 @@ const MisReport = () => {
                         background: "#e0f2fe",
                         color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Event Report{" "}
@@ -790,14 +778,13 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
+
                         background: "#e0f2fe",
                         color: "#518ad6",
                       }}
@@ -811,14 +798,13 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
+
                         background: "#e0f2fe",
                         color: "#518ad6",
                       }}
@@ -832,14 +818,13 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
+
                         background: "#e0f2fe",
                         color: "#518ad6",
                       }}
@@ -852,14 +837,13 @@ const MisReport = () => {
                       fontSize: 12,
                       border: "0px",
                       background: "#e0f2fe",
-                      height: 30,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
+
                         background: "#e0f2fe",
                         color: "#518ad6",
                       }}
@@ -1002,7 +986,6 @@ const MisReport = () => {
                     <button
                       className="is-success"
                       style={{
-                        height: 30,
                         width: 80,
                         marginTop: 25,
                       }}

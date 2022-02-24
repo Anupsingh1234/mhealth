@@ -525,12 +525,11 @@ const AuditReport = (props) => {
                 style={{
                   color: "white",
                   background: "green",
-                  height: 30,
-                  width: 80,
                   marginTop: 25,
                   marginLeft: "10%",
+                  padding: "6px 8px",
                 }}
-                class="btn btn-success"
+                class="btn btn-success rounded-full"
               >
                 {" "}
                 Submit

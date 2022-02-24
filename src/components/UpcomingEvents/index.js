@@ -321,10 +321,12 @@ const UpcomingEvents = (props) => {
           {" "}
           <button
             style={{
-              width: 160,
+              width: 150,
               color: "#fff",
               background: "green",
               borderRadius: "5px",
+              padding: "3px 9px",
+              fontSize: "12px",
             }}
             onClick={() => {
               history.push("/login");

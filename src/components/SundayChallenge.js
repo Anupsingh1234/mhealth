@@ -616,7 +616,7 @@ const SundayChallenge = (props) => {
               }}
             >
               <div style={{ display: "flex" }}>
-                <h2 style={{ marginLeft: 150 }}> Streak </h2>
+                <h2 style={{ marginLeft: 150, marginTop: 16 }}> Streak </h2>
                 <ReactTooltip multiline={true} className="reactTool" />{" "}
                 <div
                   style={{ marginLeft: 130 }}
@@ -991,7 +991,7 @@ const SundayChallenge = (props) => {
             }}
           >
             <div style={{ display: "flex" }}>
-              <h2 style={{ marginLeft: 150 }}> Distance </h2>{" "}
+              <h2 style={{ marginLeft: 150, marginTop: 16 }}> Distance </h2>{" "}
               <ReactTooltip multiline={true} />
               <div
                 style={{ marginLeft: 110 }}
@@ -1367,7 +1367,7 @@ const SundayChallenge = (props) => {
             }}
           >
             <div style={{ display: "flex" }}>
-              <h2 style={{ marginLeft: 150 }}> Average </h2>{" "}
+              <h2 style={{ marginLeft: 150, marginTop: 16 }}> Average </h2>{" "}
               <ReactTooltip multiline={true} />{" "}
               <div
                 style={{ marginLeft: 110 }}

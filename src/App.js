@@ -24,7 +24,12 @@ const CreateQuiz = lazy(() => import("./components/CreateQuizQuestion"));
 const MarketPlace = lazy(() => import("./components/MarketDashboard"));
 // const MarketPlace = lazy(() => import('./components/Activities/MarketActivity'));
 const Pdf = lazy(() => import("./components/Pdf"));
+const Forum = lazy(() => import("./components/Forum"));
+const Messages = lazy(() => import("./components/Forum/components/Messages"));
+import Modal from "react-modal";
+
 import axios from "axios";
+Modal.setAppElement("#root");
 
 const App = () => {
   const location = useLocation();
@@ -117,6 +122,18 @@ const App = () => {
             displayName: "Logout",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/forum/:forumID",
+            view: Messages,
+            displayName: "Messages",
+            showInNavbar: false,
+          },
         ]
       : condition && condition.isModerator === true
       ? [
@@ -204,6 +221,18 @@ const App = () => {
             displayName: "Logout",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/forum/:forumID",
+            view: Messages,
+            displayName: "Messages",
+            showInNavbar: false,
+          },
         ]
       : [
           {
@@ -252,6 +281,18 @@ const App = () => {
             pageLink: "/logout",
             view: Logout,
             displayName: "Logout",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/forum/:forumID",
+            view: Messages,
+            displayName: "Messages",
             showInNavbar: false,
           },
         ];

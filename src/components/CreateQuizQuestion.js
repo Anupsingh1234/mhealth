@@ -828,17 +828,11 @@ const Admin123 = () => {
                   <div style={{ width: "80%" }}></div>
                   <div style={{ width: "20%" }}>
                     <button
-                      className="is-success"
+                      className="is-success mt-5"
                       onClick={
                         handleSubmit
                         // Quizdata2(localStorage.getItem('selectEvent'));
                       }
-                      style={{
-                        marginTop: 50,
-                        width: 100,
-                        height: 32,
-                        // marginLeft: 20,
-                      }}
                     >
                       Save Quiz
                     </button>

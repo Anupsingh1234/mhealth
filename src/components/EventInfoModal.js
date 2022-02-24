@@ -328,8 +328,6 @@ export default function EventInfoModal({
                   style={{
                     background: "#F43F5E",
                     marginTop: 10,
-                    width: 100,
-                    height: 25,
                   }}
                 >
                   Submit

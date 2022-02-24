@@ -35,6 +35,7 @@ import FullScreen from "./Utility/FullScreen";
 import ChallengeStatus from "./Dashboard/ChallengeStatus";
 import Badge from "@material-ui/core/Badge";
 import Quiz from "./QuizForEvents/quiz";
+import Forum from "./Forum";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -154,6 +155,7 @@ const Dashboard = () => {
     allChallenge: [],
     instruction_details: undefined,
   });
+  console.log({ dashboardState });
   localStorage.setItem("selectTab", dashboardState.selectedAction);
   useEffect(() => {
     if (
@@ -992,16 +994,19 @@ const Dashboard = () => {
     }
 
     if (
-      dashboardState.selectedAction === "Leaderboard" ||
-      dashboardState.selectedAction === "Gallery" ||
-      dashboardState.selectedAction === "Source" ||
-      dashboardState.selectedAction === "Target" ||
-      dashboardState.selectedAction === "Activities" ||
-      dashboardState.selectedAction === "Challenge" ||
-      dashboardState.selectedAction === "team" ||
-      dashboardState.selectedAction === "achievement" ||
-      dashboardState.selectedAction === "challenge" ||
-      dashboardState.selectedAction === "quiz"
+      [
+        "Leaderboard",
+        "Gallery",
+        "Source",
+        "Target",
+        "Activities",
+        "Challenge",
+        "team",
+        "achievement",
+        "challenge",
+        "quiz",
+        "forum",
+      ].includes(dashboardState.selectedAction)
     ) {
       setDashboardState({
         ...updatedObj,
@@ -1051,7 +1056,6 @@ const Dashboard = () => {
             };
           });
         });
-      console.log(dashboardState.selectedChallenge, "event");
       await getEventGalleryData(eventObj.id).then((galleryResponse) => {
         if (galleryResponse.data.response.responseMessage === "SUCCESS") {
           setDashboardState((prevState) => {
@@ -1103,7 +1107,6 @@ const Dashboard = () => {
       }
     }
   };
-  // console.log(distancelogo, ' logo');
   return (
     <div className="Dasboard">
       <Navbar />
@@ -1154,6 +1157,24 @@ const Dashboard = () => {
               style={{ justifyContent: "flex-end" }}
             >
               <div className="leaderboard-actions">
+                {dashboardState.listOfChallenges.length > 0 && (
+                  <button
+                    className={classnames({
+                      selected: dashboardState.selectedAction === "forum",
+                    })}
+                    onClick={() => {
+                      setDashboardState((prevState) => {
+                        return {
+                          ...prevState,
+                          selectedAction: "forum",
+                          listOfChallenges: getCurrentAllEvents(),
+                        };
+                      });
+                    }}
+                  >
+                    Forum{" "}
+                  </button>
+                )}
                 {dashboardState.challengeSwitch !== "upcoming" &&
                   dashboardState.listOfChallenges.length > 0 && (
                     <button
@@ -1472,6 +1493,10 @@ const Dashboard = () => {
             eventId={dashboardState.selectedChallenge}
             currentEventObj={dashboardState.selectedChallengeObject}
           />
+        )}
+
+        {dashboardState.selectedAction.toUpperCase() === "FORUM" && (
+          <Forum eventID={dashboardState.selectedChallenge} />
         )}
       </div>
 

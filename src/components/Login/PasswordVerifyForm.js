@@ -87,6 +87,13 @@ const inputPasswordWrapper = (
             separator={<span>-</span>}
             isInputNum={true}
             isInputSecure={true}
+            inputStyle={{
+              border: "1px solid",
+              padding: "2px 4px",
+              width: "25px",
+              marginTop: "10px",
+              borderRadius: "4px",
+            }}
           />
         </div>
       </div>
@@ -194,6 +201,13 @@ const forgotPinWrapper = (
             numInputs={6}
             separator={<span>-</span>}
             isInputNum={true}
+            inputStyle={{
+              border: "1px solid",
+              padding: "2px 4px",
+              width: "25px",
+              marginTop: "10px",
+              borderRadius: "4px",
+            }}
           />
 
           <button
@@ -303,6 +317,13 @@ const passwordResetForm = (
             separator={<span>-</span>}
             isInputNum={true}
             isInputSecure={true}
+            inputStyle={{
+              border: "1px solid",
+              padding: "2px 4px",
+              width: "25px",
+              marginTop: "10px",
+              borderRadius: "4px",
+            }}
           />
         </div>
         <div className="mhealth-input-box padding-1em">
@@ -315,6 +336,13 @@ const passwordResetForm = (
             separator={<span>-</span>}
             isInputNum={true}
             isInputSecure={true}
+            inputStyle={{
+              border: "1px solid",
+              padding: "2px 4px",
+              width: "25px",
+              marginTop: "10px",
+              borderRadius: "4px",
+            }}
           />
         </div>
       </div>

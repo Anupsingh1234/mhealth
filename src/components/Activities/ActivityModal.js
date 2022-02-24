@@ -1866,8 +1866,6 @@ const CreateActivityModal = ({
             onClick={() => handleSubmit()}
             style={{
               marginTop: 0,
-              width: 100,
-              height: 32,
               marginLeft: 20,
             }}
           >

@@ -144,6 +144,13 @@ const CompnyForm = ({
               separator={<span>-</span>}
               isInputNum={true}
               isInputSecure={true}
+              inputStyle={{
+                border: "1px solid",
+                padding: "2px 4px",
+                width: "25px",
+                marginTop: "10px",
+                borderRadius: "4px",
+              }}
             />
           </div>
 
@@ -158,6 +165,13 @@ const CompnyForm = ({
                 separator={<span>-</span>}
                 isInputNum={true}
                 isInputSecure={true}
+                inputStyle={{
+                  border: "1px solid",
+                  padding: "2px 4px",
+                  width: "25px",
+                  marginTop: "10px",
+                  borderRadius: "4px",
+                }}
               />
             </div>
           </div>

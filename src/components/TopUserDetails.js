@@ -94,9 +94,8 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
                   backgroundColor: "green",
                   marginRight: "25px",
                   // marginTop: '-5px',
-                  height: "30px",
-                  width: "100px",
                 }}
+                className="rounded-full px-4 py-1 mt-1"
                 onClick={() => {
                   setAppointmentView(true);
                 }}

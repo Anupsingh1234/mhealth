@@ -608,9 +608,6 @@ const CreateEventModal = ({
                 onClick={moderateSet}
                 style={{
                   background: "#F43F5E",
-
-                  width: 100,
-                  height: 32,
                 }}
               >
                 Set Moderator
@@ -1113,8 +1110,6 @@ const CreateEventModal = ({
                         onClick={() => setUnsubModal(true)}
                         style={{
                           marginTop: 0,
-                          width: 100,
-                          height: 22,
                           marginLeft: 0,
                         }}
                       >
@@ -1794,6 +1789,7 @@ const CreateEventModal = ({
                           cursor: "pointer",
                           height: "20px",
                           width: "20px",
+                          marginRight: "5px",
                           // marginLeft: '20%',
                         }}
                         name="verificationRequired"
@@ -1814,6 +1810,7 @@ const CreateEventModal = ({
                           height: "20px",
                           width: "20px",
                           marginLeft: "20%",
+                          marginRight: "5px",
                         }}
                         name="verificationRequired"
                         value={0}
@@ -2424,9 +2421,8 @@ const CreateEventModal = ({
               onClick={() => handleSubmit()}
               style={{
                 marginTop: 0,
-                width: 100,
-                height: 32,
                 marginLeft: 20,
+                marginBottom: 20,
               }}
             >
               Submit

@@ -48,11 +48,9 @@ const EventCard = ({
   const [emailValidVerifiedMessage, setEmailValidVerifiedMessage] =
     useState(false);
   const [sudomain, setSubdomain] = useState([]);
-  console.log(sudomain);
   const getValidEmail = (id) => {
     const adminurl = `${urlPrefix}v1.0/validateEmailId?eventId=${id}`;
     setSubdomain([...challenge.subDomains]);
-    console.log(adminurl);
     axios
       .get(adminurl, {
         headers: {
@@ -67,7 +65,6 @@ const EventCard = ({
         },
       })
       .then((res) => {
-        console.log(res.data.response.responseMessage);
         if (res.data.response.responseMessage === "User is Already Verified") {
           setRegisterModalView(true);
         }
@@ -109,10 +106,8 @@ const EventCard = ({
       : "" || inputEmail !== null
       ? inputEmail.substring(a)
       : "";
-  console.log(window.key, a, sudomain[0], "domain");
   const [message1, setMessage1] = useState("");
   const updateEmail = (id) => {
-    console.log(id);
     if (
       (inputEmail !== "" &&
         (window.key == sudomain[0] ||
@@ -149,7 +144,6 @@ const EventCard = ({
         inputEmail || validinputEmail
       }`;
 
-      console.log(adminurl);
       axios
         .put(
           adminurl,
@@ -195,18 +189,6 @@ const EventCard = ({
     if (listType == "event" && challenge.eventView !== "LINKED") {
       if (dashboardState.challengeSwitch !== "old") {
         if (dashboardState.challengeSwitch == "current") {
-          // if (challenge?.regOpen && challenge?.verificationRequired===1)
-          // {
-          //   if (challenge?.regOpen && !challenge?.isUserVerifiedInEvent) {
-          //     return (
-          //       <div className="register-button">
-          //         <button onClick={() =>{}}>
-          //           Validate
-          //         </button>
-          //       </div>
-          //     );
-          //   }
-          // }
           if (challenge?.regOpen && !challenge?.isParticipated) {
             return (
               <div className="register-button">
@@ -532,8 +514,6 @@ const EventCard = ({
                     onClick={() => updateEmail(challenge.id)}
                     style={{
                       // marginTop: 50,
-                      width: 100,
-                      height: 32,
                       marginLeft: "60%",
                     }}
                   >

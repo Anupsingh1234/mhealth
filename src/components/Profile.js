@@ -764,7 +764,7 @@ const Profile = () => {
                             </span>
                           )}
                           <button
-                            className="select-avatar-button"
+                            className="select-avatar-button w-full border-green-400 border p-2 mx-2 rounded-full"
                             onClick={() => {
                               document
                                 .getElementById("avatar-select-input")
@@ -813,7 +813,7 @@ const Profile = () => {
                 <div className="box bx">
                   <div className="parallel" style={{ marginTop: "-2%" }}>
                     <div className="mhealth-input-box padding-05em">
-                      <label>First name</label>
+                      <label className="text-black">First name</label>
                       <input
                         placeholder="Enter your first name"
                         value={firstName}
@@ -893,14 +893,16 @@ const Profile = () => {
                             ) ? (
                               <button
                                 className="is-success"
+                                onClick={updateEmail}
                                 style={{
                                   right: "10px",
                                   height: "40%",
                                   width: "50%",
-                                  marginLeft: "20%",
+                                  marginLeft: "5%",
                                   marginTop: "10%",
+                                  padding: 2,
+                                  fontSize: 13,
                                 }}
-                                onClick={updateEmail}
                               >
                                 {" "}
                                 Validate
@@ -953,7 +955,7 @@ const Profile = () => {
                       <label>City</label>
                       <input
                         placeholder="Enter your city"
-                        style={{ width: "50%" }}
+                        style={{ width: "100%" }}
                         value={city}
                         onChange={(e) =>
                           handleInputChange("city", e.target.value)
@@ -965,7 +967,7 @@ const Profile = () => {
                       <input
                         placeholder="Enter your state"
                         value={state}
-                        style={{ width: "50%" }}
+                        style={{ width: "100%" }}
                         onChange={(e) =>
                           handleInputChange("state", e.target.value)
                         }
@@ -976,7 +978,7 @@ const Profile = () => {
                       <input
                         placeholder="Enter your country"
                         value={country}
-                        style={{ width: "50%" }}
+                        style={{ width: "100%" }}
                         onChange={(e) =>
                           handleInputChange("country", e.target.value)
                         }
@@ -1086,12 +1088,14 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="box bx1">
-                  <p style={{ marginTop: "-5%" }}>Add Dependent</p>
+                  <p className="text-black mb-4" style={{ marginTop: "-5%" }}>
+                    Add Dependent
+                  </p>
                   <div
                     className="mhealth-input-box padding-05em"
                     style={{ marginTop: "-8%" }}
                   >
-                    <span>
+                    <span className="text-black">
                       Relation
                       <span style={{ color: "red", fontSize: "20px" }}>
                         {error1 === true ? (
@@ -1124,7 +1128,7 @@ const Profile = () => {
                     className="mhealth-input-box padding-05em"
                     style={{ marginTop: "-8%" }}
                   >
-                    <span>
+                    <span className="text-black">
                       First Name{" "}
                       <span style={{ color: "red", fontSize: "20px" }}>
                         {error1 === true ? (
@@ -1171,7 +1175,7 @@ const Profile = () => {
                     className="mhealth-input-box padding-05em"
                     style={{ marginTop: "-8%" }}
                   >
-                    <span>
+                    <span className="text-black">
                       Gender
                       <span style={{ color: "red", fontSize: "20px" }}>
                         {error1 === true ? (
@@ -1231,12 +1235,12 @@ const Profile = () => {
               </div>
             </div>
             <div className="basic-info-container">
-              <div className="basic-info flex-row">
+              <div className="basic-info flex-row flex">
                 {depenName && depenName.length > 0 ? (
                   <>
                     <div
-                      className="box "
-                      style={{ width: "58%", marginLeft: "23%" }}
+                      className="box"
+                      style={{ width: "100%", marginLeft: "23%" }}
                     >
                       {depenName && depenName.length > 0 ? (
                         <TablePagination

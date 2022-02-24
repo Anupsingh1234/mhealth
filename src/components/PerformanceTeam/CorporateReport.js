@@ -505,11 +505,10 @@ const CorporateReport = (props) => {
           }}
         >
           <button
-            className="is-success"
+            className="is-success rounded-full"
             style={{
-              height: 30,
-              width: 80,
               marginTop: 25,
+              padding: "6px 8px",
             }}
             onClick={handleChange}
           >
