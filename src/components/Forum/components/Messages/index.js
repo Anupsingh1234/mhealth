@@ -207,6 +207,13 @@ const Messages = ({
     }
   };
 
+  const getReadableDate = (date) => {
+    if (!date) {
+      return "";
+    }
+    return date.substring(0, date.length - 3);
+  };
+
   const getMessageByType = (message) => {
     switch (message.contentType) {
       case "image/png":
@@ -332,9 +339,7 @@ const Messages = ({
                 {/* date time */}
                 <div className="ml-4 flex justify-end items-center">
                   <p className="font-semibold text-xs ">
-                    {new Date(message.entryDatetime).getHours() +
-                      ":" +
-                      new Date(message.entryDatetime).getSeconds()}
+                    {getReadableDate(message.entryDatetime)}
                   </p>
                 </div>
               </div>
