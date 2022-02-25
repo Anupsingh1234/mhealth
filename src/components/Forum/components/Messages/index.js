@@ -191,22 +191,6 @@ const Messages = ({
       });
   };
 
-  const getMessageByType2 = (message) => {
-    switch (message.contentType) {
-      case "image/png":
-      case "image/jpeg":
-        return <img src={message.content} width={125} />;
-      case "video/mp4":
-        return (
-          <video controls width="125">
-            <source src={message.content} type="video/mp4" />
-          </video>
-        );
-      case "text":
-        return <h3 className="text-black">{message.content}</h3>;
-    }
-  };
-
   const getReadableDate = (date) => {
     if (!date) {
       return "";
@@ -214,18 +198,54 @@ const Messages = ({
     return date.substring(0, date.length - 3);
   };
 
+
+  const getTaggedMessageByType = (taggedMessage) => {
+    if (taggedMessage?.tagMessageContentType) {
+      switch (taggedMessage.tagMessageContentType) {
+        case "image/png":
+        case "image/jpeg":
+          return (
+            <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-black rounded mb-2 opacity-75">
+              <p className="text-sm font-semibold text-black mb-y ml-2">{taggedMessage.name}</p>
+              <img className="m-2" src={taggedMessage.tagMessageContent} width={125} />
+            </div>
+          );
+        case "video/mp4":
+          return (
+            <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-black rounded mb-2 opacity-75">
+              <p className="text-sm font-semibold text-black my-1 ml-2">{taggedMessage.name}</p>
+              <video controls width="125" className="m-2">
+                <source src={taggedMessage.tagMessageContent} type="video/mp4" />
+              </video>
+            </div>
+          );
+        case "text":
+          return (
+            <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-black rounded mb-2 opacity-75">
+              <p className="text-sm font-semibold text-black mb-y ml-2">{taggedMessage.name}</p>
+              <h3 className="text-sm font-semibold px-2 py-1">{taggedMessage.tagMessageContent}</h3>
+            </div>
+          );
+      }
+    } else {
+      return ""
+    }
+  };
+
   const getMessageByType = (message) => {
     switch (message.contentType) {
       case "image/png":
       case "image/jpeg":
         return (
-          <div className="flex">
+          <div className="flex flex-col">
+            {getTaggedMessageByType(message.taggedMessageDetails)}
             <img src={message.content} width={125} />
           </div>
         );
       case "video/mp4":
         return (
-          <div className="flex">
+          <div className="flex flex-col">
+            {getTaggedMessageByType(message.taggedMessageDetails)}
             <video controls width="125">
               <source src={message.content} type="video/mp4" />
             </video>
@@ -233,7 +253,8 @@ const Messages = ({
         );
       case "text":
         return (
-          <div className="flex">
+          <div className="flex flex-col">
+            {getTaggedMessageByType(message.taggedMessageDetails)}
             <h3 className="text-black">{message.content}</h3>
           </div>
         );
