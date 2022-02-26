@@ -1457,7 +1457,7 @@ const Dashboard = () => {
         ) : (
           <>
             <h1 style={{textAlign: 'center'}}>
-              Event starts in {remainingDays} Days
+              {remainingDays} Days to GO....
             </h1>
           </>
         )}
