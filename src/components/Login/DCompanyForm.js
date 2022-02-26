@@ -6,7 +6,7 @@ const DCompanyForm = ({
   loaderInfo,
   handleInput,
   handleInfoSubmit,
-}) => {
+}) => (
   <>
     <div className="user-detail-heading center fadeInUp">
       Getting started is easy
@@ -212,7 +212,7 @@ const DCompanyForm = ({
         </button>
       )}
     </div>
-  </>;
-};
+  </>
+);
 
 export default DCompanyForm;
