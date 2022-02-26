@@ -415,6 +415,7 @@ const Login = ({ YottaMatch }) => {
       window.location.href == 'https://druvacares.mhealth.ai/#/login' ||
       window.location.href == 'https://druvacarespartners.mhealth.ai/#/login'
     ) {
+      return(
       <DCompany
         {...{
           userData,
@@ -422,7 +423,7 @@ const Login = ({ YottaMatch }) => {
           handleInput,
           handleInfoSubmit,
         }}
-      />;
+      />);
     }
     else if (match == "true") {
       return <CodeMatch parenthandel={parenthandel} />;
