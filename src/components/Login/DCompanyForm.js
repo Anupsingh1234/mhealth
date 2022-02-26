@@ -1,5 +1,6 @@
 import React from 'react';
-
+import OtpInput from 'react-otp-input';
+import ReactLoadingWrapper from '../loaders/ReactLoadingWrapper';
 const DCompanyForm = ({
   userData,
   loaderInfo,
