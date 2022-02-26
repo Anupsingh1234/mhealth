@@ -103,7 +103,7 @@ const DCompanyForm = ({
             flexWrap: 'wrap',
           }}
         >
-          <div className="registration-form-field">
+          <div style={{width: '100%'}}>
             <div>
               <label style={{fontSize: 12}}>Company name</label>
             </div>
