@@ -1104,6 +1104,7 @@ const Dashboard = () => {
     }
   };
   // console.log(distancelogo, ' logo');
+  const remainingDays = dashboardState.selectedChallengeObject.remainingDay;
   return (
     <div className="Dasboard">
       <Navbar />
@@ -1133,7 +1134,8 @@ const Dashboard = () => {
             selectedChallenge={dashboardState.selectedChallenge}
           />
         </ChallengeList>
-
+{remainingDays === 0 ? (
+          <>
         <div className="Leaderboard" id="Leaderboard">
           <div className="leaderboard-header">
             <div
@@ -1451,6 +1453,14 @@ const Dashboard = () => {
           {dashboardState.selectedAction === "Performance"}
           {dashboardState.selectedAction === "Compare" && displayChart()}
         </div>
+         </>
+        ) : (
+          <>
+            <h1 style={{textAlign: 'center'}}>
+              Event starts in {remainingDays} Days
+            </h1>
+          </>
+        )}
         {dashboardState.selectedAction === "Gallery" && (
           <EventGallery
             eventGalleryData={dashboardState.eventGalleryData}

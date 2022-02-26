@@ -10,6 +10,7 @@ import PasswordVerifyForm from "./PasswordVerifyForm";
 import Message from "antd-message";
 import logoPng from "../../assets/logo.png";
 import CompnyForm from "./Complog";
+import DCompany from './DCompanyForm';
 import {
   validateUserHandler,
   sendOTPHandler,
@@ -409,7 +410,21 @@ const Login = ({ YottaMatch }) => {
           }}
         />
       );
-    } else if (match == "true") {
+    } 
+    else if (
+      window.location.href == 'https://druvacares.mhealth.ai/#/login' ||
+      window.location.href == 'https://druvacarespartners.mhealth.ai/#/login'
+    ) {
+      <DCompany
+        {...{
+          userData,
+          loaderInfo,
+          handleInput,
+          handleInfoSubmit,
+        }}
+      />;
+    }
+    else if (match == "true") {
       return <CodeMatch parenthandel={parenthandel} />;
     } else {
       return (

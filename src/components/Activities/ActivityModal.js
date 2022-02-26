@@ -154,7 +154,7 @@ const CreateActivityModal = ({
     gapBetweenSession: undefined,
     eventNature: undefined,
     associateName: undefined,
-    forum: undefined,
+    forum: 'NONE',
   });
 
   const [mediaObj, setMediaObj] = useState({

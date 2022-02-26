@@ -125,7 +125,7 @@ const CreateEventModal = ({
     totalTeam: undefined,
     whitelabelKeyword: undefined,
     verificationRequired: undefined,
-    forum: undefined,
+    forum: 'NONE',
     // subDomains: undefined,
   });
   // console.log(gmailList);
