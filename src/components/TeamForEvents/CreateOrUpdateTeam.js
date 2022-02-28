@@ -2466,7 +2466,7 @@ const CreateTeam = (props) => {
             {" "}
             <img
               style={{ width: 200, height: 200 }}
-              src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+              src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/PlaceHolderNoData.svg"
             />
             Data is not present
           </div>{" "}

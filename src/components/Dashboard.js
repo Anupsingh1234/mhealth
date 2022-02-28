@@ -1107,6 +1107,8 @@ const Dashboard = () => {
       }
     }
   };
+  // console.log(distancelogo, ' logo');
+  const remainingDays = dashboardState.selectedChallengeObject.remainingDay;
   return (
     <div className="Dasboard">
       <Navbar />
@@ -1136,370 +1138,385 @@ const Dashboard = () => {
             selectedChallenge={dashboardState.selectedChallenge}
           />
         </ChallengeList>
-
-        <div className="Leaderboard" id="Leaderboard">
-          <div className="leaderboard-header">
-            <div
-              className="challenges-heading"
-              style={{ textTransform: "capitalize" }}
-            >
-              {dashboardState.selectedAction !== "Compare" &&
-                dashboardState.selectedAction !== "Gallery" &&
-                dashboardState.selectedAction !== "Source" &&
-                getLeaderBoardHeading(
-                  dashboardState.selectedChallengeObject,
-                  dashboardState.selectedAction
-                )}
-            </div>
-
-            <div
-              className="d-flex j-c-sp-btn a-i-center cursor-pointer"
-              style={{ justifyContent: "flex-end" }}
-            >
-              <div className="leaderboard-actions">
-                {dashboardState.listOfChallenges.length > 0 && (
-                  <button
-                    className={classnames({
-                      selected: dashboardState.selectedAction === "forum",
-                    })}
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "forum",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  >
-                    Forum{" "}
-                  </button>
-                )}
-                {dashboardState.challengeSwitch !== "upcoming" &&
-                  dashboardState.listOfChallenges.length > 0 && (
-                    <button
-                      className={classnames({
-                        selected: dashboardState.selectedAction === "quiz",
-                      })}
-                      onClick={() => {
-                        setDashboardState((prevState) => {
-                          return {
-                            ...prevState,
-                            selectedAction: "quiz",
-                            listOfChallenges: getCurrentAllEvents(),
-                          };
-                        });
-                      }}
-                    >
-                      Quiz{" "}
-                    </button>
-                  )}
-
-                {dashboardState.challengeSwitch !== "upcoming" &&
-                  dashboardState.listOfChallenges.length > 0 && (
-                    <button
-                      className={classnames({
-                        selected: dashboardState.selectedAction === "team",
-                      })}
-                      onClick={() => {
-                        setDashboardState((prevState) => {
-                          return {
-                            ...prevState,
-                            selectedAction: "team",
-                            listOfChallenges: getCurrentAllEvents(),
-                          };
-                        });
-                      }}
-                    >
-                      Team{" "}
-                    </button>
-                  )}
-
-                {dashboardState.listOfChallenges.length > 0 && (
-                  <button
-                    className={classnames({
-                      selected: dashboardState.selectedAction === "Challenge",
-                    })}
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "Challenge",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  >
-                    {pendingInviteCount ? (
-                      <div className="badge-invite">
-                        <Badge badgeContent={pendingInviteCount} color="error">
-                          Invite Friends
-                        </Badge>
-                      </div>
-                    ) : (
-                      "Invite Friends"
+        {remainingDays === 0 ? (
+          <>
+            <div className="Leaderboard" id="Leaderboard">
+              <div className="leaderboard-header">
+                <div
+                  className="challenges-heading"
+                  style={{ textTransform: "capitalize" }}
+                >
+                  {dashboardState.selectedAction !== "Compare" &&
+                    dashboardState.selectedAction !== "Gallery" &&
+                    dashboardState.selectedAction !== "Source" &&
+                    getLeaderBoardHeading(
+                      dashboardState.selectedChallengeObject,
+                      dashboardState.selectedAction
                     )}
-                  </button>
-                )}
+                </div>
 
-                {dashboardState.challengeSwitch !== "upcoming" &&
-                  dashboardState.listOfChallenges.length > 0 && (
-                    <button
-                      className={classnames({
-                        selected:
-                          dashboardState.selectedAction === "Activities",
-                      })}
-                      onClick={() => {
-                        setDashboardState((prevState) => {
-                          return {
-                            ...prevState,
-                            selectedAction: "Activities",
-                            listOfChallenges: getCurrentAllEvents(),
-                          };
-                        });
-                      }}
-                    >
-                      Programs
-                    </button>
-                  )}
-
-                {(dashboardState.challengeSwitch === "current" ||
-                  dashboardState.challengeSwitch === "upcoming") &&
-                  dashboardState.listOfChallenges.length > 0 && (
-                    <button
-                      className={classnames({
-                        selected: dashboardState.selectedAction === "Source",
-                      })}
-                      onClick={() => {
-                        setDashboardState((prevState) => {
-                          return {
-                            ...prevState,
-                            selectedAction: "Source",
-                            listOfChallenges: getCurrentAllEvents(),
-                          };
-                        });
-                      }}
-                    >
-                      Data Source
-                    </button>
-                  )}
-
-                {dashboardState.challengeSwitch !== "upcoming" && (
-                  <>
+                <div
+                  className="d-flex j-c-sp-btn a-i-center cursor-pointer"
+                  style={{ justifyContent: "flex-end" }}
+                >
+                  <div className="leaderboard-actions">
                     {dashboardState.listOfChallenges.length > 0 && (
                       <button
                         className={classnames({
-                          selected: dashboardState.selectedAction === "Gallery",
+                          selected: dashboardState.selectedAction === "forum",
                         })}
                         onClick={() => {
                           setDashboardState((prevState) => {
                             return {
                               ...prevState,
-                              selectedAction: "Gallery",
+                              selectedAction: "forum",
                               listOfChallenges: getCurrentAllEvents(),
                             };
                           });
                         }}
                       >
-                        Gallery
+                        Forum{" "}
                       </button>
+                    )}
+                    {dashboardState.challengeSwitch !== "upcoming" &&
+                      dashboardState.listOfChallenges.length > 0 && (
+                        <button
+                          className={classnames({
+                            selected: dashboardState.selectedAction === "quiz",
+                          })}
+                          onClick={() => {
+                            setDashboardState((prevState) => {
+                              return {
+                                ...prevState,
+                                selectedAction: "quiz",
+                                listOfChallenges: getCurrentAllEvents(),
+                              };
+                            });
+                          }}
+                        >
+                          Quiz{" "}
+                        </button>
+                      )}
+
+                    {dashboardState.challengeSwitch !== "upcoming" &&
+                      dashboardState.listOfChallenges.length > 0 && (
+                        <button
+                          className={classnames({
+                            selected: dashboardState.selectedAction === "team",
+                          })}
+                          onClick={() => {
+                            setDashboardState((prevState) => {
+                              return {
+                                ...prevState,
+                                selectedAction: "team",
+                                listOfChallenges: getCurrentAllEvents(),
+                              };
+                            });
+                          }}
+                        >
+                          Team{" "}
+                        </button>
+                      )}
+
+                    {dashboardState.listOfChallenges.length > 0 && (
+                      <button
+                        className={classnames({
+                          selected:
+                            dashboardState.selectedAction === "Challenge",
+                        })}
+                        onClick={() => {
+                          setDashboardState((prevState) => {
+                            return {
+                              ...prevState,
+                              selectedAction: "Challenge",
+                              listOfChallenges: getCurrentAllEvents(),
+                            };
+                          });
+                        }}
+                      >
+                        {pendingInviteCount ? (
+                          <div className="badge-invite">
+                            <Badge
+                              badgeContent={pendingInviteCount}
+                              color="error"
+                            >
+                              Invite Friends
+                            </Badge>
+                          </div>
+                        ) : (
+                          "Invite Friends"
+                        )}
+                      </button>
+                    )}
+
+                    {dashboardState.challengeSwitch !== "upcoming" &&
+                      dashboardState.listOfChallenges.length > 0 && (
+                        <button
+                          className={classnames({
+                            selected:
+                              dashboardState.selectedAction === "Activities",
+                          })}
+                          onClick={() => {
+                            setDashboardState((prevState) => {
+                              return {
+                                ...prevState,
+                                selectedAction: "Activities",
+                                listOfChallenges: getCurrentAllEvents(),
+                              };
+                            });
+                          }}
+                        >
+                          Programs
+                        </button>
+                      )}
+
+                    {(dashboardState.challengeSwitch === "current" ||
+                      dashboardState.challengeSwitch === "upcoming") &&
+                      dashboardState.listOfChallenges.length > 0 && (
+                        <button
+                          className={classnames({
+                            selected:
+                              dashboardState.selectedAction === "Source",
+                          })}
+                          onClick={() => {
+                            setDashboardState((prevState) => {
+                              return {
+                                ...prevState,
+                                selectedAction: "Source",
+                                listOfChallenges: getCurrentAllEvents(),
+                              };
+                            });
+                          }}
+                        >
+                          Data Source
+                        </button>
+                      )}
+
+                    {dashboardState.challengeSwitch !== "upcoming" && (
+                      <>
+                        {dashboardState.listOfChallenges.length > 0 && (
+                          <button
+                            className={classnames({
+                              selected:
+                                dashboardState.selectedAction === "Gallery",
+                            })}
+                            onClick={() => {
+                              setDashboardState((prevState) => {
+                                return {
+                                  ...prevState,
+                                  selectedAction: "Gallery",
+                                  listOfChallenges: getCurrentAllEvents(),
+                                };
+                              });
+                            }}
+                          >
+                            Gallery
+                          </button>
+                        )}
+                        <button
+                          className={classnames({
+                            selected:
+                              dashboardState.selectedAction === "Compare",
+                          })}
+                          onClick={() =>
+                            setDashboardState((prevState) => {
+                              let comparableEvents = dashboardState.allChallenge
+                                ? dashboardState.allChallenge.filter(
+                                    (item) => item.isParticipated
+                                  )
+                                : [];
+                              return {
+                                ...prevState,
+                                selectedAction: "Compare",
+                                listOfChallenges: comparableEvents,
+                              };
+                            })
+                          }
+                        >
+                          Compare
+                        </button>
+                        {dashboardState.challengeSwitch !== "upcoming" &&
+                          dashboardState.listOfChallenges.length > 0 && (
+                            <button
+                              className={classnames({
+                                selected:
+                                  dashboardState.selectedAction ===
+                                  "achievement",
+                              })}
+                              onClick={() => {
+                                setDashboardState((prevState) => {
+                                  return {
+                                    ...prevState,
+                                    selectedAction: "achievement",
+                                    listOfChallenges: getCurrentAllEvents(),
+                                  };
+                                });
+                              }}
+                            >
+                              Achievement{" "}
+                            </button>
+                          )}
+                        {dashboardState.challengeSwitch !== "upcoming" &&
+                          dashboardState.listOfChallenges.length > 0 && (
+                            <button
+                              className={classnames({
+                                selected:
+                                  dashboardState.selectedAction === "challenge",
+                              })}
+                              onClick={() => {
+                                setDashboardState((prevState) => {
+                                  return {
+                                    ...prevState,
+                                    selectedAction: "challenge",
+                                    listOfChallenges: getCurrentAllEvents(),
+                                  };
+                                });
+                              }}
+                            >
+                              Sunday Challenge{" "}
+                            </button>
+                          )}
+                        {dashboardState.challengeSwitch !== "upcoming" &&
+                          dashboardState.listOfChallenges.length > 0 && (
+                            <button
+                              className={classnames({
+                                selected:
+                                  dashboardState.selectedAction === "Target",
+                              })}
+                              onClick={() => {
+                                setDashboardState((prevState) => {
+                                  return {
+                                    ...prevState,
+                                    selectedAction: "Target",
+                                    listOfChallenges: getCurrentAllEvents(),
+                                  };
+                                });
+                              }}
+                            >
+                              Set Target
+                            </button>
+                          )}
+                        <button
+                          className={classnames({
+                            selected:
+                              dashboardState.selectedAction === "Performance",
+                          })}
+                          onClick={() => handlePerformanceClick()}
+                        >
+                          Daily Score
+                        </button>
+                      </>
                     )}
                     <button
                       className={classnames({
-                        selected: dashboardState.selectedAction === "Compare",
+                        selected:
+                          dashboardState.selectedAction === "Leaderboard",
                       })}
                       onClick={() =>
                         setDashboardState((prevState) => {
-                          let comparableEvents = dashboardState.allChallenge
-                            ? dashboardState.allChallenge.filter(
-                                (item) => item.isParticipated
-                              )
-                            : [];
                           return {
                             ...prevState,
-                            selectedAction: "Compare",
-                            listOfChallenges: comparableEvents,
+                            selectedAction: "Leaderboard",
+                            selectedChallengeArray: [],
+                            compareData: { data: [], categories: [] },
+                            listOfChallenges: getCurrentAllEvents(),
                           };
                         })
                       }
                     >
-                      Compare
+                      Leaderboard
                     </button>
-                    {dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0 && (
-                        <button
-                          className={classnames({
-                            selected:
-                              dashboardState.selectedAction === "achievement",
-                          })}
-                          onClick={() => {
-                            setDashboardState((prevState) => {
-                              return {
-                                ...prevState,
-                                selectedAction: "achievement",
-                                listOfChallenges: getCurrentAllEvents(),
-                              };
-                            });
-                          }}
-                        >
-                          Achievement{" "}
-                        </button>
-                      )}
-                    {dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0 && (
-                        <button
-                          className={classnames({
-                            selected:
-                              dashboardState.selectedAction === "challenge",
-                          })}
-                          onClick={() => {
-                            setDashboardState((prevState) => {
-                              return {
-                                ...prevState,
-                                selectedAction: "challenge",
-                                listOfChallenges: getCurrentAllEvents(),
-                              };
-                            });
-                          }}
-                        >
-                          Sunday Challenge{" "}
-                        </button>
-                      )}
-                    {dashboardState.challengeSwitch !== "upcoming" &&
-                      dashboardState.listOfChallenges.length > 0 && (
-                        <button
-                          className={classnames({
-                            selected:
-                              dashboardState.selectedAction === "Target",
-                          })}
-                          onClick={() => {
-                            setDashboardState((prevState) => {
-                              return {
-                                ...prevState,
-                                selectedAction: "Target",
-                                listOfChallenges: getCurrentAllEvents(),
-                              };
-                            });
-                          }}
-                        >
-                          Set Target
-                        </button>
-                      )}
-                    <button
-                      className={classnames({
-                        selected:
-                          dashboardState.selectedAction === "Performance",
-                      })}
-                      onClick={() => handlePerformanceClick()}
-                    >
-                      Daily Score
-                    </button>
-                  </>
-                )}
-                <button
-                  className={classnames({
-                    selected: dashboardState.selectedAction === "Leaderboard",
-                  })}
-                  onClick={() =>
-                    setDashboardState((prevState) => {
-                      return {
-                        ...prevState,
-                        selectedAction: "Leaderboard",
-                        selectedChallengeArray: [],
-                        compareData: { data: [], categories: [] },
-                        listOfChallenges: getCurrentAllEvents(),
-                      };
-                    })
-                  }
-                >
-                  Leaderboard
-                </button>
-                <div style={{ marginLeft: "1em" }}>
-                  <FullScreen id="Challenges" />
+                    <div style={{ marginLeft: "1em" }}>
+                      <FullScreen id="Challenges" />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          {dashboardState.selectedAction === "Challenge" && (
-            <ChallengeByInvite
-              eventId={dashboardState.selectedChallenge}
-              {...{ reloadChallengeAccepted, setReloadChallengeAccepted }}
-            />
-          )}
-          {dashboardState.selectedAction === "Leaderboard" &&
-          dashboardState.leaderBoardData.loading === false ? (
-            <LeaderboardTable
-              leaderBoardData={dashboardState.leaderBoardData}
-              currentEvent={dashboardState.selectedChallengeObject}
-              challengeSwitch={dashboardState.challengeSwitch}
-            />
-          ) : (
-            dashboardState.selectedAction === "Leaderboard" && (
-              <FacebookCircularProgress />
-            )
-          )}
 
-          {dashboardState.selectedAction === "team" && (
-            <CreateTeam eventId={dashboardState.selectedChallenge} />
-          )}
-          {dashboardState.selectedAction === "achievement" && (
-            <Achievments
-              eventId={dashboardState.selectedChallenge}
-              logos={distancelogo}
-            />
-          )}
+              {dashboardState.selectedAction === "Challenge" && (
+                <ChallengeByInvite
+                  eventId={dashboardState.selectedChallenge}
+                  {...{ reloadChallengeAccepted, setReloadChallengeAccepted }}
+                />
+              )}
+              {dashboardState.selectedAction === "Leaderboard" &&
+              dashboardState.leaderBoardData.loading === false ? (
+                <LeaderboardTable
+                  leaderBoardData={dashboardState.leaderBoardData}
+                  currentEvent={dashboardState.selectedChallengeObject}
+                  challengeSwitch={dashboardState.challengeSwitch}
+                />
+              ) : (
+                dashboardState.selectedAction === "Leaderboard" && (
+                  <FacebookCircularProgress />
+                )
+              )}
 
-          {dashboardState.selectedAction === "challenge" && (
-            <SundayChallenge eventId={dashboardState.selectedChallenge} />
-          )}
+              {dashboardState.selectedAction === "team" && (
+                <CreateTeam eventId={dashboardState.selectedChallenge} />
+              )}
+              {dashboardState.selectedAction === "achievement" && (
+                <Achievments
+                  eventId={dashboardState.selectedChallenge}
+                  logos={distancelogo}
+                />
+              )}
 
-          {dashboardState.selectedAction === "Performance" && (
-            <PerformanceTab
-              data={dashboardState.performanceTableData}
-              eventId={dashboardState.selectedChallenge}
-              handlePerformanceClick={handlePerformanceClick}
-              challengeSwitch={dashboardState.challengeSwitch}
-            />
-          )}
+              {dashboardState.selectedAction === "challenge" && (
+                <SundayChallenge eventId={dashboardState.selectedChallenge} />
+              )}
 
-          {dashboardState.selectedAction === "quiz" && (
-            <Quiz
-              eventId={dashboardState.selectedChallenge}
-              challengeSwitch={dashboardState.listOfChallenges}
-            />
-          )}
+              {dashboardState.selectedAction === "Performance" && (
+                <PerformanceTab
+                  data={dashboardState.performanceTableData}
+                  eventId={dashboardState.selectedChallenge}
+                  handlePerformanceClick={handlePerformanceClick}
+                  challengeSwitch={dashboardState.challengeSwitch}
+                />
+              )}
 
-          {dashboardState.selectedAction === "Performance"}
-          {dashboardState.selectedAction === "Compare" && displayChart()}
-        </div>
-        {dashboardState.selectedAction === "Gallery" && (
-          <EventGallery
-            eventGalleryData={dashboardState.eventGalleryData}
-            fetchEventGallery={fetchEventGallery}
-          />
+              {dashboardState.selectedAction === "quiz" && (
+                <Quiz
+                  eventId={dashboardState.selectedChallenge}
+                  challengeSwitch={dashboardState.listOfChallenges}
+                />
+              )}
+
+              {dashboardState.selectedAction === "Performance"}
+              {dashboardState.selectedAction === "Compare" && displayChart()}
+            </div>{" "}
+            {dashboardState.selectedAction === "Gallery" && (
+              <EventGallery
+                eventGalleryData={dashboardState.eventGalleryData}
+                fetchEventGallery={fetchEventGallery}
+              />
+            )}
+            {dashboardState.selectedAction === "Target" && (
+              <TargetSetting dashboardState={dashboardState} />
+            )}
+            {dashboardState.selectedAction === "Activities" && (
+              <Activity
+                eventId={dashboardState.selectedChallenge}
+                currentEventObj={dashboardState.selectedChallengeObject}
+              />
+            )}
+            {dashboardState.selectedAction.toUpperCase() === "FORUM" && (
+              <Forum eventID={dashboardState.selectedChallenge} />
+            )}
+          </>
+        ) : (
+          <>
+            <h1 style={{ textAlign: "center" }}>
+              {remainingDays} Days to GO....
+            </h1>
+          </>
         )}
         {dashboardState.selectedAction === "Source" &&
           (dashboardState.challengeSwitch === "current" ||
             dashboardState.challengeSwitch === "upcoming") && (
             <UpdateDataSource dashboardState={dashboardState} />
           )}
-
-        {dashboardState.selectedAction === "Target" && (
-          <TargetSetting dashboardState={dashboardState} />
-        )}
-
-        {dashboardState.selectedAction === "Activities" && (
-          <Activity
-            eventId={dashboardState.selectedChallenge}
-            currentEventObj={dashboardState.selectedChallengeObject}
-          />
-        )}
-
-        {dashboardState.selectedAction.toUpperCase() === "FORUM" && (
-          <Forum eventID={dashboardState.selectedChallenge} />
-        )}
       </div>
-
       {localStorage.challengeIDRegister &&
         localStorage.mobileNumber &&
         dashboardState.allChallenge.length > 0 && (

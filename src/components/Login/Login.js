@@ -10,6 +10,7 @@ import PasswordVerifyForm from "./PasswordVerifyForm";
 import Message from "antd-message";
 import logoPng from "../../assets/logo.png";
 import CompnyForm from "./Complog";
+import DCompany from "./DCompanyForm";
 import {
   validateUserHandler,
   sendOTPHandler,
@@ -401,6 +402,20 @@ const Login = ({ YottaMatch }) => {
     if (window.location.href == "https://global.mhealth.ai/#/login") {
       return (
         <CompnyForm
+          {...{
+            userData,
+            loaderInfo,
+            handleInput,
+            handleInfoSubmit,
+          }}
+        />
+      );
+    } else if (
+      window.location.href == "https://druvacares.mhealth.ai/#/login" ||
+      window.location.href == "https://druvacarespartners.mhealth.ai/#/login"
+    ) {
+      return (
+        <DCompany
           {...{
             userData,
             loaderInfo,
