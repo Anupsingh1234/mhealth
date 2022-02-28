@@ -19,6 +19,14 @@ const Button = ({ type, id, className, text, onClick, loading = false }) => {
         {
           "bg-red-600 hover:bg-red-800 text-white border-0": type === "danger",
         },
+        {
+          "bg-green-600 hover:bg-green-800 text-white border-0":
+            type === "success",
+        },
+        {
+          "bg-orange-600 hover:bg-orange-800 text-white border-0":
+            type === "orange",
+        },
         className
       )}
       onClick={onClick}

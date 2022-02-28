@@ -23,7 +23,6 @@ export const ForumCard = ({
   handleForumsFetch,
   showMessage,
   setSelectedForum,
-  setLeave,
   setShowMessagePage,
 }) => {
   const forumBaner =
@@ -114,11 +113,14 @@ export const ForumCard = ({
           <div className="mt-2 mb-4">
             {forum?.forumStatus?.toUpperCase() === "INACTIVE" && (
               <Button
-                type="default"
+                type="success"
                 text="Join"
                 id="join-forum-button"
                 onClick={() => {
-                  if (forum.programForumNature.toUpperCase() === "ALIAS") {
+                  if (
+                    forum.programForumNature.toUpperCase() === "ALIAS" &&
+                    forum.forumStatus.toUpperCase() === "INACTIVE"
+                  ) {
                     setAskAlias(true);
                     return;
                   }
@@ -129,15 +131,11 @@ export const ForumCard = ({
             )}
             {forum?.forumStatus?.toUpperCase() === "REJOIN" && (
               <Button
-                type="default"
+                type="orange"
                 text="ReJoin"
                 id="rejoin-forum-button"
                 loading={loading}
                 onClick={() => {
-                  if (forum.programForumNature.toUpperCase() === "ALIAS") {
-                    setAskAlias(true);
-                    return;
-                  }
                   handleJoinForum(forum.forumId);
                 }}
               />
@@ -146,19 +144,8 @@ export const ForumCard = ({
             {forum?.forumStatus?.toUpperCase() === "ACTIVE" && (
               <div className="flex flex-col md:flex-row w-full md:space-x-2 mb-4">
                 <Button
-                  type="danger"
-                  text="Leave"
-                  id="leave-forum-button"
-                  loading={loading}
-                  onClick={() => {
-                    /*handleLeaveForum()*/
-                    setSelectedForum(forum);
-                    setLeave(true);
-                  }}
-                />
-                <Button
                   type="primary"
-                  text="Show Messages"
+                  text="Enter Forum"
                   id="show-forum-button"
                   loading={loading}
                   onClick={() => {

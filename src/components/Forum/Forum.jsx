@@ -94,10 +94,10 @@ const Forum = (props) => {
   return (
     <div>
       {loading && <CircularSpinner />}
-      {!loading && (
+      {!loading && !showMessagePage && (
         <div className="flex flex-col w-full mt-8 border overflow-y-scroll">
           {forums.length === 0 && (
-            <div className="border rounded-lg p-24 flex items-center justify-center">
+            <div className="rounded-lg p-24 flex items-center justify-center">
               No Forum Available
             </div>
           )}
@@ -111,7 +111,6 @@ const Forum = (props) => {
                       handleForumsFetch={handleForumFetch}
                       showMessage={handleFetchMessages}
                       setSelectedForum={setSelectedForum}
-                      setLeave={setLeave}
                       setShowMessagePage={setShowMessagePage}
                     />
                   </li>
@@ -130,6 +129,8 @@ const Forum = (props) => {
             selectedForum={selectedForum}
             setSelectedForum={setSelectedForum}
             handleFetchMessages={handleFetchMessages}
+            setLeave={setLeave}
+            loading={loading}
           />
         </div>
       )}

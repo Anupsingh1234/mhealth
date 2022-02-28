@@ -4,6 +4,8 @@ import {
   faTimes,
   faThumbsUp,
   faTrash,
+  faHandsClapping,
+  faAngleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { faPaperclip, faReply } from "@fortawesome/free-solid-svg-icons";
 import Button from "../../../Common/Form/Button";
@@ -28,6 +30,8 @@ const Messages = ({
   setSelectedForum,
   handleFetchMessages,
   setShowMessagePage,
+  loading,
+  setLeave,
 }) => {
   const [hasMore, setHasMore] = useState(true);
   const [text, setText] = useState("");
@@ -168,7 +172,7 @@ const Messages = ({
       text,
       contentType,
       replyTo.trnsForumDiscussionId,
-      replyTo.forumRegistrationId,
+      selectedForum.forumRegistrationId,
       payload
     )
       .then((res) => {
@@ -328,7 +332,7 @@ const Messages = ({
                       >
                         <span className="flex items-center space-x-1">
                           <FA
-                            icon={faThumbsUp}
+                            icon={faHandsClapping}
                             size="xs"
                             className="transition-all duration-200 text-gray-400 hover:text-gray-600 hover:scale-110 cursor-pointer"
                           />
@@ -382,9 +386,9 @@ const Messages = ({
               {/* receiver action */}
               {receivedMessage && (
                 <div className="flex gap-2 bg-[#F4F7FC] rounded-md px-2 py-1">
-                  <span className="flex flex-col items-center space-x-1">
+                  <span className="flex items-center space-x-1">
                     <FA
-                      icon={faThumbsUp}
+                      icon={faHandsClapping}
                       size="xs"
                       className={classNames(
                         "transition-all duration-200",
@@ -416,7 +420,7 @@ const Messages = ({
     );
   };
 
-  const renderMediaFile = () => {
+  const renderMediaFile = (replyTo) => {
     switch (fileObj.type) {
       case "image/png":
       case "image/jpeg":
@@ -470,12 +474,37 @@ const Messages = ({
       }
     }
   };
-  console.log({ replyTo });
   return (
     <div className="flex flex-col w-full bg-[#F4F7FC] border rounded-lg mt-8">
       <div className="flex flex-col bg-white md:m-6 p-8 rounded-md md:max-w-5xl md:w-full md:mx-auto">
-        <div className="mb-8">
-          <p className="font-semibold">{`Messages (${subEventName})`}</p>
+        <div className="flex justify-between mb-8 items-center">
+          <div className="flex items-center space-x-2">
+            <IconCircleButton
+              iconSize={15}
+              size={20}
+              icon={faAngleLeft}
+              className="text-white bg-gray-400"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedForum(undefined);
+                setShowMessagePage(false);
+                setMessages([]);
+              }}
+            />
+            <p className="font-semibold text-xs md:text-base">{`Messages (${subEventName})`}</p>
+          </div>
+          <div>
+            <Button
+              type="danger"
+              text="Leave"
+              id="leave-forum-button"
+              loading={loading}
+              onClick={() => {
+                // setSelectedForum(forum);
+                setLeave(true);
+              }}
+            />
+          </div>
         </div>
         <div>
           <InfiniteScroll
@@ -495,7 +524,7 @@ const Messages = ({
         {/* INPUT */}
         <div className="flex items-center space-x-3 justify-between w-full">
           <div className="space-x-2 flex-0">
-            <div class="image-upload">
+            <div className="image-upload">
               <label for="file-input">
                 <FA
                   icon={faPaperclip}
@@ -554,7 +583,7 @@ const Messages = ({
             )}
             <div className="mt-2">
               {file && fileObj ? (
-                renderMediaFile()
+                renderMediaFile(replyTo)
               ) : (
                 <textarea
                   value={text}
