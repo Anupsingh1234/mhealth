@@ -319,15 +319,29 @@ const App = () => {
     }
   );
 
-  const [YottaMatch, setYottamatch] = useState(
-    window.location.href == "https://yottacare.mhealth.ai/#/login"
-      ? true
-      : false
-  );
+  // const [YottaMatch, setYottamatch] = useState(
+  //   window.location.href == "https://yottacare.mhealth.ai/#/login"
+  //     ? true
+  //     : false
+  // );
+
+  // useMount(() => {
+  //   console.log("test yotta on mount");
+  //   if (window.location.href == "https://yottacare.mhealth.ai/#/login") {
+  //     setYottamatch(true);
+  //   } else {
+  //     setYottamatch(false);
+  //   }
+  // });
+
+  const isYotta =
+    window.location.href == "https://yottacare.mhealth.ai/#/login" ||
+    window.location.href === "https://yottacare.mhealth.ai/#/";
+  const [YottaMatch, setYottamatch] = useState(isYotta);
 
   useMount(() => {
-    console.log("test yotta on mount");
-    if (window.location.href == "https://yottacare.mhealth.ai/#/login") {
+    console.log("test yotta on mount", window.location);
+    if (isYotta) {
       setYottamatch(true);
     } else {
       setYottamatch(false);
