@@ -1,6 +1,7 @@
 import "./App.css";
 
 import React, { lazy, Suspense, useState } from "react";
+import { useMount } from "react-use";
 import {
   Route,
   Redirect,
@@ -323,6 +324,15 @@ const App = () => {
       ? true
       : false
   );
+
+  useMount(() => {
+    console.log("test yotta on mount");
+    if (window.location.href == "https://yottacare.mhealth.ai/#/login") {
+      setYottamatch(true);
+    } else {
+      setYottamatch(false);
+    }
+  });
 
   return (
     <div className={YottaMatch ? "Yotta-App" : "App"}>
