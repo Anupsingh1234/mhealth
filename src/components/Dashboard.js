@@ -1175,7 +1175,7 @@ const Dashboard = () => {
                           });
                         }}
                       >
-                        Forum{" "}
+                        Community{" "}
                       </button>
                     )}
                     {dashboardState.challengeSwitch !== "upcoming" &&

@@ -990,21 +990,17 @@ const UpcomingEvents = (props) => {
                       flexWrap: "wrap",
                     }}
                   >
-                    <div style={{}} className="poweredChild">
-                      Powered By{" "}
-                      <span>
-                        {" "}
-                        <img
-                          src={LogoPng}
-                          width={30}
-                          height={30}
-                          style={{ marginTop: 5 }}
-                        />
-                      </span>{" "}
+                    <div style={{}} className="flex gap-2 items-center">
+                      Powered By
+                      <img
+                        src={LogoPng}
+                        width={30}
+                        height={30}
+                        style={{ marginTop: 5 }}
+                      />
                       <b> mHealth</b>
                     </div>
                     <div style={{}} className="powered2">
-                      {" "}
                       &#169;2021 Created by steering lives India Pvt . Ltd.
                     </div>
                   </div>

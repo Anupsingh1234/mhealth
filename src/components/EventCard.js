@@ -194,11 +194,13 @@ const EventCard = ({
               <div className="register-button">
                 {challenge?.regOpen && challenge?.verificationRequired === 1 ? (
                   <button onClick={() => getValidEmail(challenge.id)}>
-                    Register
+                    {/* Register */}
+                    Subscribe
                   </button>
                 ) : (
                   <button onClick={() => setRegisterModalView(true)}>
-                    Register
+                    {/* Register */}
+                    Subscribe
                   </button>
                 )}
               </div>
@@ -241,7 +243,8 @@ const EventCard = ({
             <div className="register-button">
               {!challenge.isParticipated && (
                 <button onClick={() => setRegisterModalView(true)}>
-                  Register
+                  {/* Register */}
+                  Subscribe
                 </button>
               )}
               {challenge.isParticipated && challenge.isSubscribed && (

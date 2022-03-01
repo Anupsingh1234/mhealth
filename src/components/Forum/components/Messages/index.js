@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import {
   faTimes,
@@ -33,6 +33,14 @@ const Messages = ({
   loading,
   setLeave,
 }) => {
+  const focusTextArea = useRef();
+  useEffect(() => {
+    console.log({ focusTextArea });
+    if (focusTextArea.current) {
+      focusTextArea.current.focus();
+    }
+  }, [focusTextArea]);
+
   const [hasMore, setHasMore] = useState(true);
   const [text, setText] = useState("");
   const [openFileSelector, p] = useFilePicker({
@@ -102,7 +110,7 @@ const Messages = ({
           handleFetchMessages(
             selectedForum.forumId,
             selectedForum.forumRegistrationId,
-            messages.length + 10
+            selectedForum.messages + 1
           );
         }
       })
@@ -208,9 +216,12 @@ const Messages = ({
         case "image/png":
         case "image/jpeg":
           return (
-            <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-black rounded mb-2 opacity-75">
-              <p className="text-sm font-semibold text-black mb-y ml-2">
-                {taggedMessage.name}
+            <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-orange-800 rounded mb-2 py-2 opacity-75">
+              <p className="flex text-[10px] italic text-black mx-2">
+                Replied to:
+                <span className="text-[11px] font-semibold text-black mx-1">
+                  {taggedMessage.name}
+                </span>
               </p>
               <img
                 className="m-2"
@@ -221,27 +232,37 @@ const Messages = ({
           );
         case "video/mp4":
           return (
-            <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-black rounded mb-2 opacity-75">
-              <p className="text-sm font-semibold text-black my-1 ml-2">
-                {taggedMessage.name}
-              </p>
-              <video controls width="125" className="m-2">
-                <source
-                  src={taggedMessage.tagMessageContent}
-                  type="video/mp4"
-                />
-              </video>
+            <div>
+              <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-orange-800 rounded mb-2 py-2 opacity-75">
+                <p className="flex text-[10px] italic text-black mx-2">
+                  Replied to:
+                  <span className="text-[11px] font-semibold text-black mx-1">
+                    {taggedMessage.name}
+                  </span>
+                </p>
+                <video controls width="125" className="m-2">
+                  <source
+                    src={taggedMessage.tagMessageContent}
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
             </div>
           );
         case "text":
           return (
-            <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-black rounded mb-2 opacity-75">
-              <p className="text-sm font-semibold text-black mb-y ml-2">
-                {taggedMessage.name}
-              </p>
-              <h3 className="text-sm font-semibold px-2 py-1">
-                {taggedMessage.tagMessageContent}
-              </h3>
+            <div>
+              <div className="flex flex-col bg-gray-50 text-black border border-l-4 border-l-orange-800 rounded mb-2 py-2 opacity-75">
+                <p className="text-[10px] italic text-black mx-2">
+                  Replied to:
+                  <span className="text-[11px] font-semibold text-black mx-1">
+                    {taggedMessage.name}
+                  </span>
+                </p>
+                <p className="text-[11px] font-semibold px-2">
+                  {taggedMessage.tagMessageContent}
+                </p>
+              </div>
             </div>
           );
       }
@@ -273,7 +294,9 @@ const Messages = ({
         return (
           <div className="flex flex-col">
             {getTaggedMessageByType(message.taggedMessageDetails)}
-            <h3 className="text-black">{message.content}</h3>
+            <p className="text-black font-semibold text-sm">
+              {message.content}
+            </p>
           </div>
         );
     }
@@ -293,12 +316,28 @@ const Messages = ({
             }
           )}
         >
-          {programForumNature &&
-            ["IDENTITY", "ALIAS"].includes(
-              programForumNature.toUpperCase()
-            ) && <Avatar alt={message.userName} src={message.userAvatar} />}
-          {programForumNature &&
-            programForumNature.toUpperCase() === "ANONYMOUS" && <Avatar />}
+          <div className="flex flex-col justify-center items-center">
+            {programForumNature &&
+              ["IDENTITY", "ALIAS"].includes(
+                programForumNature.toUpperCase()
+              ) && <Avatar alt={message.userName} src={message.userAvatar} />}
+            {programForumNature &&
+              programForumNature.toUpperCase() === "ANONYMOUS" && <Avatar />}
+            <div className="mt-1 text-black">
+              {programForumNature &&
+                ["IDENTITY"].includes(programForumNature.toUpperCase()) && (
+                  <p className="text-xs font-semibold text-black">
+                    {message.userName}
+                  </p>
+                )}
+              {programForumNature &&
+                ["ALIAS"].includes(programForumNature.toUpperCase()) && (
+                  <p className="text-xs font-semibold text-black">
+                    {message.userAliasName}
+                  </p>
+                )}
+            </div>
+          </div>
 
           {/* sender action */}
           <div className="flex flex-col gap-1 rtl:mr-2">
@@ -333,8 +372,8 @@ const Messages = ({
                         <span className="flex items-center space-x-1">
                           <FA
                             icon={faHandsClapping}
-                            size="xs"
-                            className="transition-all duration-200 text-gray-400 hover:text-gray-600 hover:scale-110 cursor-pointer"
+                            size="sm"
+                            className="transition-all duration-200 text-amber-500 hover:text-orange-500 hover:scale-110 cursor-pointer"
                           />
                           <p className="text-black text-xs">
                             {message?.reactions &&
@@ -350,34 +389,24 @@ const Messages = ({
               )}
 
               {/* message content */}
-              <div
-                className={classNames(
-                  "font-medium text-lg leading-6 space-y-1 px-4 py-3 rounded-lg",
-                  "max-w-md break-all",
-                  { "bg-[#F4F7FC]": receivedMessage },
-                  { "bg-[#F3F1FF]": userMessage }
-                )}
-              >
-                {/* avatar */}
-                {programForumNature &&
-                  ["IDENTITY"].includes(programForumNature.toUpperCase()) && (
-                    <p className="text-xs font-semibold text-black">
-                      {message.userName}
-                    </p>
-                  )}
-                {programForumNature &&
-                  ["ALIAS"].includes(programForumNature.toUpperCase()) && (
-                    <p className="text-xs font-semibold text-black">
-                      {message.userAliasName}
-                    </p>
-                  )}
 
-                {/* media */}
-                {getMessageByType(message)}
+              <div className="flex flex-col">
+                {/* name */}
 
+                <div
+                  className={classNames(
+                    "font-medium text-lg leading-6 space-y-1 px-4 py-3 rounded-lg",
+                    "max-w-md break-all",
+                    { "bg-[#F4F7FC]": receivedMessage },
+                    { "bg-[#F3F1FF]": userMessage }
+                  )}
+                >
+                  {/* media */}
+                  {getMessageByType(message)}
+                </div>
                 {/* date time */}
-                <div className="ml-4 flex justify-end items-center">
-                  <p className="font-semibold text-xs ">
+                <div className="ml-4 mt-[4px] flex justify-end items-center">
+                  <p className="font-semibold text-[9px] italic">
                     {getReadableDate(message.entryDatetime)}
                   </p>
                 </div>
@@ -586,6 +615,7 @@ const Messages = ({
                 renderMediaFile(replyTo)
               ) : (
                 <textarea
+                  ref={focusTextArea}
                   value={text}
                   rows={2}
                   name="forum-message"

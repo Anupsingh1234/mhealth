@@ -65,7 +65,6 @@ export const ForumCard = ({
         setAskAlias(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
         setError("Something went wrong!");
       });
@@ -73,10 +72,10 @@ export const ForumCard = ({
 
   return (
     <>
-      <div className="bg-white h-auto w-[20rem] rounded-lg border border-gray-200">
+      <div className="bg-white h-auto w-[15rem] rounded-lg border border-gray-200">
         <div className="aspect-w-3 aspect-h-2">
           <img
-            className="object-cover shadow-sm h-32 w-80 rounded-t-lg"
+            className="object-cover shadow-sm h-24 w-[15rem] rounded-t-lg"
             src={forumBaner}
             alt=""
           />
@@ -85,27 +84,31 @@ export const ForumCard = ({
         <div className="px-2 w-full mt-1">
           <div className="flex gap-4">
             <div className="my-2 text-center w-full">
-              <h3 className="font-semibold">{forum.subEventName}</h3>
+              <h3 className="font-semibold text-xs">{forum.subEventName}</h3>
             </div>
           </div>
           <div className="mb-4">
             <ul role="list" className="flex justify-center space-x-5">
-              <li className="border-r pr-5">
+              <li>
                 <div className="flex flex-col items-center">
-                  <p className="font-semibold">{forum.messages}</p>
-                  <p className="text-sm text-gray-500">Messages</p>
-                </div>
-              </li>
-              <li className="border-r pr-5">
-                <div className="flex flex-col items-center">
-                  <p className="font-semibold">{forum.totalUserCount}</p>
-                  <p className="text-sm text-gray-500">Members</p>
+                  <p className="font-semibold text-xs">{forum.messages}</p>
+                  <p className="text-xs text-gray-500">Messages</p>
                 </div>
               </li>
               <li>
                 <div className="flex flex-col items-center">
-                  <p className="font-semibold">{forumActiveSinceDate}</p>
-                  <p className="text-sm text-gray-500">Since</p>
+                  <p className="font-semibold text-xs">
+                    {forum.totalUserCount}
+                  </p>
+                  <p className="text-xs text-gray-500">Members</p>
+                </div>
+              </li>
+              <li>
+                <div className="flex flex-col items-center">
+                  <p className="font-semibold text-xs">
+                    {forumActiveSinceDate}
+                  </p>
+                  <p className="text-xs text-gray-500">Since</p>
                 </div>
               </li>
             </ul>
@@ -145,7 +148,7 @@ export const ForumCard = ({
               <div className="flex flex-col md:flex-row w-full md:space-x-2 mb-4">
                 <Button
                   type="primary"
-                  text="Enter Forum"
+                  text="Enter Community"
                   id="show-forum-button"
                   loading={loading}
                   onClick={() => {

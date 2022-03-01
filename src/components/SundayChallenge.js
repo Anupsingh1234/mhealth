@@ -281,7 +281,7 @@ const SundayChallenge = (props) => {
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <div style={{ width: "30%", marginLeft: -20 }}>
+                  <div style={{ width: "85%", marginLeft: -20 }}>
                     {" "}
                     <img
                       style={{ height: 100, width: 100 }}
@@ -386,7 +386,7 @@ const SundayChallenge = (props) => {
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <div style={{ width: "30%", marginLeft: -20 }}>
+                  <div style={{ width: "85%", marginLeft: -20 }}>
                     {" "}
                     <img
                       style={{ height: 100, width: 100 }}
@@ -490,7 +490,7 @@ const SundayChallenge = (props) => {
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <div style={{ width: "30%", marginLeft: -20 }}>
+                  <div style={{ width: "85%", marginLeft: -20 }}>
                     {" "}
                     <img
                       style={{ height: 100, width: 100 }}
@@ -644,7 +644,7 @@ const SundayChallenge = (props) => {
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
                 >
-                  <div style={{ width: "30%", marginLeft: -20 }}>
+                  <div style={{ width: "85%", marginLeft: -20 }}>
                     {" "}
                     {(streakTrack &&
                       streakTrack.challengeAction === "IGNORE") ||
@@ -1013,7 +1013,7 @@ const SundayChallenge = (props) => {
           distanceTrack.challengeAction === "ACCEPT" ? (
             <CardContent>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div style={{ width: "30%", marginLeft: -20 }}>
+                <div style={{ width: "85%", marginLeft: -20 }}>
                   {" "}
                   {(distanceTrack &&
                     distanceTrack.challengeAction === "IGNORE") ||
@@ -1390,7 +1390,7 @@ Once achieved, you will earn a badge which can be seen in Achievement<br/> secti
           averageTrack.challengeAction === "ACCEPT" ? (
             <CardContent>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div style={{ width: "30%", marginLeft: -20 }}>
+                <div style={{ width: "85%", marginLeft: -20 }}>
                   {" "}
                   {(averageTrack &&
                     averageTrack.challengeAction === "IGNORE") ||

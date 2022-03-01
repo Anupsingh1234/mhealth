@@ -42,7 +42,7 @@ const Forum = (props) => {
       });
   };
 
-  const handleFetchMessages = (forumID, forumRegistrationId, limit = 10) => {
+  const handleFetchMessages = (forumID, forumRegistrationId, limit = 100) => {
     // setLoading(true)
     // setError("")
     fetchMessageByForumID(forumID, forumRegistrationId, limit)
@@ -103,7 +103,7 @@ const Forum = (props) => {
           )}
           {forums.length > 0 && (
             <div className="py-6 max-w-7xl sm:px-6">
-              <ul role="list" className="flex space-x-4">
+              <ul role="list" className="flex space-x-4 items-center">
                 {forums.map((forum, index) => (
                   <li key={index}>
                     <ForumCard
@@ -142,7 +142,7 @@ const Forum = (props) => {
           className="flex flex-col m-4"
         >
           <div className="px-16 py-8 text-center mt-4">
-            <h2>Do you want to leave the forum?</h2>
+            <h2>Do you want to leave the community?</h2>
             <div className="flex space-x-2 mt-4">
               <Button
                 loading={loading}

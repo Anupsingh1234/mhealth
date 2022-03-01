@@ -164,7 +164,7 @@ const UpdateDataSource = ({ dashboardState }) => {
                   ? "none"
                   : "",
               userSelect: "none",
-              height: 32,
+              height: 65,
             }}
             onClick={() => {
               if (type != "current") {
@@ -200,6 +200,7 @@ const UpdateDataSource = ({ dashboardState }) => {
                         background: "green",
                         color: "#fff",
                       }}
+                      className="rounded-full"
                       onClick={() => {
                         getAuthLink(item[0]).then((res) => {
                           window.open(

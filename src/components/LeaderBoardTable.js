@@ -1138,7 +1138,10 @@ export default function EnhancedTable({
                             </div>
                           </TableCell>
                           <TableCell align="center" style={{ padding: 0 }}>
-                            <div style={{ fontSize: 12 }}>
+                            <div
+                              style={{ fontSize: 12 }}
+                              className="flex justify-center"
+                            >
                               {row.achievementIcon ? (
                                 <img
                                   style={{
@@ -1156,7 +1159,10 @@ export default function EnhancedTable({
                             </div>
                           </TableCell>{" "}
                           <TableCell align="center" style={{}}>
-                            <div style={{ fontSize: 12, padding: 5 }}>
+                            <div
+                              style={{ fontSize: 12, padding: 5 }}
+                              className="flex justify-center"
+                            >
                               {(row.gender && row.gender === "Male") ||
                               row.gender === "male" ||
                               row.gender === "MALE" ? (
@@ -1199,6 +1205,7 @@ export default function EnhancedTable({
                                     ? "pointer"
                                     : "default",
                               }}
+                              className="flex justify-center"
                               aria-describedby={id}
                               onClick={(e) => {
                                 if (
