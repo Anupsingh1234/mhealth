@@ -17,7 +17,9 @@ import { getOldEvents } from "../services/challengeApi";
 
 import SpeakerNotesIcon from "@material-ui/icons/SpeakerNotes";
 
-function Navbar() {
+import classNames from "classnames";
+
+function Navbar({ className }) {
   const condition = JSON.parse(localStorage.getItem("condition"));
   let history = useHistory();
 
@@ -186,7 +188,10 @@ function Navbar() {
   }, [windowSize.width]);
 
   return (
-    <animated.div className="Navbar" style={spring}>
+    <animated.div
+      className={className ? classNames("Navbar", className) : "Navbar"}
+      style={spring}
+    >
       <div className="navbar-middle">
         <img src={LogoPng} />
         {/* <Link to="/" onClick={setExpand.bind(this, false)}> */}
@@ -200,11 +205,9 @@ function Navbar() {
               style={{
                 color: "white",
                 backgroundColor: "green",
-                // marginRight: '25px',
-                // marginTop: '-5px',
-                height: "30px",
-                width: "100px",
+                padding: "6px 8px",
               }}
+              className="rounded-full"
               onClick={() => {
                 setAppointmentView(true);
               }}
@@ -386,7 +389,7 @@ function Navbar() {
 
       {transitions.map(({ item, key, props }) =>
         item ? (
-          <animated.div key={key} style={props}>
+          <animated.div key={key} style={props} className="h-full bg-[#f5f5f5]">
             <Expand {...{ pages, setExpand, windowSize, history }} />
           </animated.div>
         ) : (
@@ -427,8 +430,10 @@ function Expand({ pages, setExpand, windowSize, history }) {
               {...(windowSize.width < 769 && {
                 onClick: setExpand.bind(this, false),
               })}
+              style={{ border: "0px solid", marginTop: "4px", marginLeft: 0 }}
             >
               <span
+                style={{ border: "0px solid" }}
                 {...navLinkProps(page.pageLink, page.animationDelayForNavbar)}
               >
                 {page.displayName}

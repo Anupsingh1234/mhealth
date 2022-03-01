@@ -312,7 +312,6 @@ function TablePaginationActions(props) {
 
   const handleBackButtonClick = (event) => {
     onChangePage(event, page - 1);
-    console.log(rowsPerPage);
   };
 
   const handleNextButtonClick = (event) => {
@@ -400,13 +399,7 @@ export default function EnhancedTable({
 }) {
   const classes = useStyles();
   const [leaderboardList, setLeaderboardList] = useState(leaderBoardData);
-  // useEffect(() => {setLeaderboardList(leaderBoardData)}, [leaderBoardData.loading===false]);
-  console.log(
-    leaderboardList,
-    leaderBoardData,
-    currentEvent,
-    "lareafcdascvsdvc"
-  );
+
   const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const {
@@ -737,7 +730,6 @@ export default function EnhancedTable({
     currdate.getMonth() - 1 + 1,
     0
   );
-  console.log(today, prevStartDate, preEndDate, "today");
   const [dateRange, setDateRange] = useState(false);
   const [startDate, setStartDate] = useState(
     currentEvent.challengeStartDate.substring(0, 10)
@@ -809,7 +801,6 @@ export default function EnhancedTable({
         }
       });
   };
-  console.log(tableRowData, "data");
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -1147,7 +1138,10 @@ export default function EnhancedTable({
                             </div>
                           </TableCell>
                           <TableCell align="center" style={{ padding: 0 }}>
-                            <div style={{ fontSize: 12 }}>
+                            <div
+                              style={{ fontSize: 12 }}
+                              className="flex justify-center"
+                            >
                               {row.achievementIcon ? (
                                 <img
                                   style={{
@@ -1165,7 +1159,10 @@ export default function EnhancedTable({
                             </div>
                           </TableCell>{" "}
                           <TableCell align="center" style={{}}>
-                            <div style={{ fontSize: 12, padding: 5 }}>
+                            <div
+                              style={{ fontSize: 12, padding: 5 }}
+                              className="flex justify-center"
+                            >
                               {(row.gender && row.gender === "Male") ||
                               row.gender === "male" ||
                               row.gender === "MALE" ? (
@@ -1208,6 +1205,7 @@ export default function EnhancedTable({
                                     ? "pointer"
                                     : "default",
                               }}
+                              className="flex justify-center"
                               aria-describedby={id}
                               onClick={(e) => {
                                 if (
@@ -1378,7 +1376,7 @@ export default function EnhancedTable({
               );
             }}
           />
-          <div className="leaderBoard-modal-date">
+          <div className="leaderBoard-modal-date mb-6">
             <div style={{ width: "38%", marginLeft: "20px" }}>
               <button
                 style={{
@@ -1528,11 +1526,10 @@ export default function EnhancedTable({
                 style={{
                   backgroundColor: "green",
                   color: "white",
-                  borderRadius: "10px",
                   marginLeft: "40%",
-                  width: "80px",
                   marginTop: "2%",
                 }}
+                className="px-2 rounded-full"
                 onClick={() => handleChange(startDate, endDate)}
               >
                 Submit

@@ -125,7 +125,7 @@ const CreateEventModal = ({
     totalTeam: undefined,
     whitelabelKeyword: undefined,
     verificationRequired: undefined,
-    forum: 'NONE',
+    forum: "NONE",
     // subDomains: undefined,
   });
   // console.log(gmailList);
@@ -185,7 +185,7 @@ const CreateEventModal = ({
     if (editEventObject) {
       let newObj = {
         verificationRequired: editEventObject.verificationRequired,
-forum: editEventObject.forum,
+        forum: editEventObject.forum,
         whitelabelKeyword: editEventObject.whitelabelKeyword,
         challengeName: editEventObject.challengeName,
         challengeType: editEventObject.challengeType,
@@ -609,9 +609,6 @@ forum: editEventObject.forum,
                 onClick={moderateSet}
                 style={{
                   background: "#F43F5E",
-
-                  width: 100,
-                  height: 32,
                 }}
               >
                 Set Moderator
@@ -1114,8 +1111,6 @@ forum: editEventObject.forum,
                         onClick={() => setUnsubModal(true)}
                         style={{
                           marginTop: 0,
-                          width: 100,
-                          height: 22,
                           marginLeft: 0,
                         }}
                       >
@@ -1795,6 +1790,7 @@ forum: editEventObject.forum,
                           cursor: "pointer",
                           height: "20px",
                           width: "20px",
+                          marginRight: "5px",
                           // marginLeft: '20%',
                         }}
                         name="verificationRequired"
@@ -1815,6 +1811,7 @@ forum: editEventObject.forum,
                           height: "20px",
                           width: "20px",
                           marginLeft: "20%",
+                          marginRight: "5px",
                         }}
                         name="verificationRequired"
                         value={0}
@@ -2172,22 +2169,22 @@ forum: editEventObject.forum,
                 ) : (
                   ""
                 )}
-                 <div
+                <div
                   className="mhealth-input-box padding-025em"
                   style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  <div style={{width: '25%'}}>
+                  <div style={{ width: "25%" }}>
                     <label>Forum</label>
                     <br />
                     <select
                       value={eventObject.forum}
                       onChange={(e) =>
-                        handleInputChange('forum', e.target.value)
+                        handleInputChange("forum", e.target.value)
                       }
                     >
                       <option value="NONE">None</option>
@@ -2450,9 +2447,8 @@ forum: editEventObject.forum,
               onClick={() => handleSubmit()}
               style={{
                 marginTop: 0,
-                width: 100,
-                height: 32,
                 marginLeft: 20,
+                marginBottom: 20,
               }}
             >
               Submit

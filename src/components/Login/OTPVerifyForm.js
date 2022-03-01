@@ -23,6 +23,13 @@ const OTPVerifyForm = ({
         numInputs={6}
         separator={<span>-</span>}
         isInputNum={true}
+        inputStyle={{
+          border: "1px solid",
+          padding: "2px 4px",
+          width: "25px",
+          marginTop: "10px",
+          borderRadius: "4px",
+        }}
       />
     </div>
     <div className="submit-button fadeInUp" style={{ margin: "4em 0 0 0" }}>

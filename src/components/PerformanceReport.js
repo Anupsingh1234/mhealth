@@ -310,10 +310,10 @@ const Performance = (props) => {
             style={{
               color: "white",
               background: "green",
-              height: 30,
-              width: 80,
               marginTop: 25,
+              padding: "6px 8px",
             }}
+            className="rounded-full"
             onClick={getData}
           >
             {" "}

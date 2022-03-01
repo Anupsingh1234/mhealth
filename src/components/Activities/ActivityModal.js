@@ -154,7 +154,7 @@ const CreateActivityModal = ({
     gapBetweenSession: undefined,
     eventNature: undefined,
     associateName: undefined,
-    forum: 'NONE',
+    forum: "NONE",
   });
 
   const [mediaObj, setMediaObj] = useState({
@@ -165,7 +165,7 @@ const CreateActivityModal = ({
   useEffect(() => {
     if (editActivityObject) {
       setEventObject({
-           forum: editActivityObject.forum,
+        forum: editActivityObject.forum,
         associateName: editActivityObject.associateName,
         eventNature: editActivityObject.eventNature,
         sessionDuration: editActivityObject.sessionDuration,
@@ -1689,18 +1689,18 @@ const CreateActivityModal = ({
               <div
                 className="mhealth-input-box padding-025em"
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
                 }}
               >
-                <div style={{width: '25%'}}>
+                <div style={{ width: "25%" }}>
                   <label>Forum</label>
                   <br />
                   <select
                     value={eventObject.forum}
-                    onChange={(e) => handleInputChange('forum', e.target.value)}
+                    onChange={(e) => handleInputChange("forum", e.target.value)}
                   >
                     <option value="NONE">None</option>
                     <option value="IDENTITY">Identity</option>
@@ -1891,8 +1891,6 @@ const CreateActivityModal = ({
             onClick={() => handleSubmit()}
             style={{
               marginTop: 0,
-              width: 100,
-              height: 32,
               marginLeft: 20,
             }}
           >

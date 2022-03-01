@@ -35,6 +35,7 @@ import FullScreen from "./Utility/FullScreen";
 import ChallengeStatus from "./Dashboard/ChallengeStatus";
 import Badge from "@material-ui/core/Badge";
 import Quiz from "./QuizForEvents/quiz";
+import Forum from "./Forum";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -154,6 +155,7 @@ const Dashboard = () => {
     allChallenge: [],
     instruction_details: undefined,
   });
+  console.log({ dashboardState });
   localStorage.setItem("selectTab", dashboardState.selectedAction);
   useEffect(() => {
     if (
@@ -992,16 +994,19 @@ const Dashboard = () => {
     }
 
     if (
-      dashboardState.selectedAction === "Leaderboard" ||
-      dashboardState.selectedAction === "Gallery" ||
-      dashboardState.selectedAction === "Source" ||
-      dashboardState.selectedAction === "Target" ||
-      dashboardState.selectedAction === "Activities" ||
-      dashboardState.selectedAction === "Challenge" ||
-      dashboardState.selectedAction === "team" ||
-      dashboardState.selectedAction === "achievement" ||
-      dashboardState.selectedAction === "challenge" ||
-      dashboardState.selectedAction === "quiz"
+      [
+        "Leaderboard",
+        "Gallery",
+        "Source",
+        "Target",
+        "Activities",
+        "Challenge",
+        "team",
+        "achievement",
+        "challenge",
+        "quiz",
+        "forum",
+      ].includes(dashboardState.selectedAction)
     ) {
       setDashboardState({
         ...updatedObj,
@@ -1051,7 +1056,6 @@ const Dashboard = () => {
             };
           });
         });
-      console.log(dashboardState.selectedChallenge, "event");
       await getEventGalleryData(eventObj.id).then((galleryResponse) => {
         if (galleryResponse.data.response.responseMessage === "SUCCESS") {
           setDashboardState((prevState) => {
@@ -1112,11 +1116,11 @@ const Dashboard = () => {
         <ChallengeList>
           <TopUserDetails />
           <div className="display-row">
-            <div className="challenges-heading" style={{marginRight: 20}}>
+            <div className="challenges-heading" style={{ marginRight: 20 }}>
               Challenges
             </div>
             <TriStateToggle
-              values={['old', 'current', 'upcoming']}
+              values={["old", "current", "upcoming"]}
               selected={dashboardState.challengeSwitch}
               handleChange={handleToggleStateChange}
             />
@@ -1140,11 +1144,11 @@ const Dashboard = () => {
               <div className="leaderboard-header">
                 <div
                   className="challenges-heading"
-                  style={{textTransform: 'capitalize'}}
+                  style={{ textTransform: "capitalize" }}
                 >
-                  {dashboardState.selectedAction !== 'Compare' &&
-                    dashboardState.selectedAction !== 'Gallery' &&
-                    dashboardState.selectedAction !== 'Source' &&
+                  {dashboardState.selectedAction !== "Compare" &&
+                    dashboardState.selectedAction !== "Gallery" &&
+                    dashboardState.selectedAction !== "Source" &&
                     getLeaderBoardHeading(
                       dashboardState.selectedChallengeObject,
                       dashboardState.selectedAction
@@ -1153,46 +1157,64 @@ const Dashboard = () => {
 
                 <div
                   className="d-flex j-c-sp-btn a-i-center cursor-pointer"
-                  style={{justifyContent: 'flex-end'}}
+                  style={{ justifyContent: "flex-end" }}
                 >
                   <div className="leaderboard-actions">
-                    {dashboardState.challengeSwitch !== 'upcoming' &&
+                    {dashboardState.listOfChallenges.length > 0 && (
+                      <button
+                        className={classnames({
+                          selected: dashboardState.selectedAction === "forum",
+                        })}
+                        onClick={() => {
+                          setDashboardState((prevState) => {
+                            return {
+                              ...prevState,
+                              selectedAction: "forum",
+                              listOfChallenges: getCurrentAllEvents(),
+                            };
+                          });
+                        }}
+                      >
+                        Community{" "}
+                      </button>
+                    )}
+                    {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
                           className={classnames({
-                            selected: dashboardState.selectedAction === 'quiz',
+                            selected: dashboardState.selectedAction === "quiz",
                           })}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
                                 ...prevState,
-                                selectedAction: 'quiz',
+                                selectedAction: "quiz",
                                 listOfChallenges: getCurrentAllEvents(),
                               };
                             });
                           }}
                         >
-                          Quiz{' '}
+                          Quiz{" "}
                         </button>
                       )}
 
-                    {dashboardState.challengeSwitch !== 'upcoming' &&
+                    {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
                           className={classnames({
-                            selected: dashboardState.selectedAction === 'team',
+                            selected: dashboardState.selectedAction === "team",
                           })}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
                                 ...prevState,
-                                selectedAction: 'team',
+                                selectedAction: "team",
                                 listOfChallenges: getCurrentAllEvents(),
                               };
                             });
                           }}
                         >
-                          Team{' '}
+                          Team{" "}
                         </button>
                       )}
 
@@ -1200,13 +1222,13 @@ const Dashboard = () => {
                       <button
                         className={classnames({
                           selected:
-                            dashboardState.selectedAction === 'Challenge',
+                            dashboardState.selectedAction === "Challenge",
                         })}
                         onClick={() => {
                           setDashboardState((prevState) => {
                             return {
                               ...prevState,
-                              selectedAction: 'Challenge',
+                              selectedAction: "Challenge",
                               listOfChallenges: getCurrentAllEvents(),
                             };
                           });
@@ -1222,23 +1244,23 @@ const Dashboard = () => {
                             </Badge>
                           </div>
                         ) : (
-                          'Invite Friends'
+                          "Invite Friends"
                         )}
                       </button>
                     )}
 
-                    {dashboardState.challengeSwitch !== 'upcoming' &&
+                    {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
                           className={classnames({
                             selected:
-                              dashboardState.selectedAction === 'Activities',
+                              dashboardState.selectedAction === "Activities",
                           })}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
                                 ...prevState,
-                                selectedAction: 'Activities',
+                                selectedAction: "Activities",
                                 listOfChallenges: getCurrentAllEvents(),
                               };
                             });
@@ -1248,19 +1270,19 @@ const Dashboard = () => {
                         </button>
                       )}
 
-                    {(dashboardState.challengeSwitch === 'current' ||
-                      dashboardState.challengeSwitch === 'upcoming') &&
+                    {(dashboardState.challengeSwitch === "current" ||
+                      dashboardState.challengeSwitch === "upcoming") &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
                           className={classnames({
                             selected:
-                              dashboardState.selectedAction === 'Source',
+                              dashboardState.selectedAction === "Source",
                           })}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
                                 ...prevState,
-                                selectedAction: 'Source',
+                                selectedAction: "Source",
                                 listOfChallenges: getCurrentAllEvents(),
                               };
                             });
@@ -1270,19 +1292,19 @@ const Dashboard = () => {
                         </button>
                       )}
 
-                    {dashboardState.challengeSwitch !== 'upcoming' && (
+                    {dashboardState.challengeSwitch !== "upcoming" && (
                       <>
                         {dashboardState.listOfChallenges.length > 0 && (
                           <button
                             className={classnames({
                               selected:
-                                dashboardState.selectedAction === 'Gallery',
+                                dashboardState.selectedAction === "Gallery",
                             })}
                             onClick={() => {
                               setDashboardState((prevState) => {
                                 return {
                                   ...prevState,
-                                  selectedAction: 'Gallery',
+                                  selectedAction: "Gallery",
                                   listOfChallenges: getCurrentAllEvents(),
                                 };
                               });
@@ -1294,7 +1316,7 @@ const Dashboard = () => {
                         <button
                           className={classnames({
                             selected:
-                              dashboardState.selectedAction === 'Compare',
+                              dashboardState.selectedAction === "Compare",
                           })}
                           onClick={() =>
                             setDashboardState((prevState) => {
@@ -1305,7 +1327,7 @@ const Dashboard = () => {
                                 : [];
                               return {
                                 ...prevState,
-                                selectedAction: 'Compare',
+                                selectedAction: "Compare",
                                 listOfChallenges: comparableEvents,
                               };
                             })
@@ -1313,59 +1335,59 @@ const Dashboard = () => {
                         >
                           Compare
                         </button>
-                        {dashboardState.challengeSwitch !== 'upcoming' &&
+                        {dashboardState.challengeSwitch !== "upcoming" &&
                           dashboardState.listOfChallenges.length > 0 && (
                             <button
                               className={classnames({
                                 selected:
                                   dashboardState.selectedAction ===
-                                  'achievement',
+                                  "achievement",
                               })}
                               onClick={() => {
                                 setDashboardState((prevState) => {
                                   return {
                                     ...prevState,
-                                    selectedAction: 'achievement',
+                                    selectedAction: "achievement",
                                     listOfChallenges: getCurrentAllEvents(),
                                   };
                                 });
                               }}
                             >
-                              Achievement{' '}
+                              Achievement{" "}
                             </button>
                           )}
-                        {dashboardState.challengeSwitch !== 'upcoming' &&
+                        {dashboardState.challengeSwitch !== "upcoming" &&
                           dashboardState.listOfChallenges.length > 0 && (
                             <button
                               className={classnames({
                                 selected:
-                                  dashboardState.selectedAction === 'challenge',
+                                  dashboardState.selectedAction === "challenge",
                               })}
                               onClick={() => {
                                 setDashboardState((prevState) => {
                                   return {
                                     ...prevState,
-                                    selectedAction: 'challenge',
+                                    selectedAction: "challenge",
                                     listOfChallenges: getCurrentAllEvents(),
                                   };
                                 });
                               }}
                             >
-                              Sunday Challenge{' '}
+                              Sunday Challenge{" "}
                             </button>
                           )}
-                        {dashboardState.challengeSwitch !== 'upcoming' &&
+                        {dashboardState.challengeSwitch !== "upcoming" &&
                           dashboardState.listOfChallenges.length > 0 && (
                             <button
                               className={classnames({
                                 selected:
-                                  dashboardState.selectedAction === 'Target',
+                                  dashboardState.selectedAction === "Target",
                               })}
                               onClick={() => {
                                 setDashboardState((prevState) => {
                                   return {
                                     ...prevState,
-                                    selectedAction: 'Target',
+                                    selectedAction: "Target",
                                     listOfChallenges: getCurrentAllEvents(),
                                   };
                                 });
@@ -1377,7 +1399,7 @@ const Dashboard = () => {
                         <button
                           className={classnames({
                             selected:
-                              dashboardState.selectedAction === 'Performance',
+                              dashboardState.selectedAction === "Performance",
                           })}
                           onClick={() => handlePerformanceClick()}
                         >
@@ -1388,15 +1410,15 @@ const Dashboard = () => {
                     <button
                       className={classnames({
                         selected:
-                          dashboardState.selectedAction === 'Leaderboard',
+                          dashboardState.selectedAction === "Leaderboard",
                       })}
                       onClick={() =>
                         setDashboardState((prevState) => {
                           return {
                             ...prevState,
-                            selectedAction: 'Leaderboard',
+                            selectedAction: "Leaderboard",
                             selectedChallengeArray: [],
-                            compareData: {data: [], categories: []},
+                            compareData: { data: [], categories: [] },
                             listOfChallenges: getCurrentAllEvents(),
                           };
                         })
@@ -1404,20 +1426,20 @@ const Dashboard = () => {
                     >
                       Leaderboard
                     </button>
-                    <div style={{marginLeft: '1em'}}>
+                    <div style={{ marginLeft: "1em" }}>
                       <FullScreen id="Challenges" />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {dashboardState.selectedAction === 'Challenge' && (
+              {dashboardState.selectedAction === "Challenge" && (
                 <ChallengeByInvite
                   eventId={dashboardState.selectedChallenge}
-                  {...{reloadChallengeAccepted, setReloadChallengeAccepted}}
+                  {...{ reloadChallengeAccepted, setReloadChallengeAccepted }}
                 />
               )}
-              {dashboardState.selectedAction === 'Leaderboard' &&
+              {dashboardState.selectedAction === "Leaderboard" &&
               dashboardState.leaderBoardData.loading === false ? (
                 <LeaderboardTable
                   leaderBoardData={dashboardState.leaderBoardData}
@@ -1425,26 +1447,26 @@ const Dashboard = () => {
                   challengeSwitch={dashboardState.challengeSwitch}
                 />
               ) : (
-                dashboardState.selectedAction === 'Leaderboard' && (
+                dashboardState.selectedAction === "Leaderboard" && (
                   <FacebookCircularProgress />
                 )
               )}
 
-              {dashboardState.selectedAction === 'team' && (
+              {dashboardState.selectedAction === "team" && (
                 <CreateTeam eventId={dashboardState.selectedChallenge} />
               )}
-              {dashboardState.selectedAction === 'achievement' && (
+              {dashboardState.selectedAction === "achievement" && (
                 <Achievments
                   eventId={dashboardState.selectedChallenge}
                   logos={distancelogo}
                 />
               )}
 
-              {dashboardState.selectedAction === 'challenge' && (
+              {dashboardState.selectedAction === "challenge" && (
                 <SundayChallenge eventId={dashboardState.selectedChallenge} />
               )}
 
-              {dashboardState.selectedAction === 'Performance' && (
+              {dashboardState.selectedAction === "Performance" && (
                 <PerformanceTab
                   data={dashboardState.performanceTableData}
                   eventId={dashboardState.selectedChallenge}
@@ -1453,51 +1475,54 @@ const Dashboard = () => {
                 />
               )}
 
-              {dashboardState.selectedAction === 'quiz' && (
+              {dashboardState.selectedAction === "quiz" && (
                 <Quiz
                   eventId={dashboardState.selectedChallenge}
                   challengeSwitch={dashboardState.listOfChallenges}
                 />
               )}
 
-              {dashboardState.selectedAction === 'Performance'}
-              {dashboardState.selectedAction === 'Compare' && displayChart()}
-            </div>{' '}
-            {dashboardState.selectedAction === 'Gallery' && (
+              {dashboardState.selectedAction === "Performance"}
+              {dashboardState.selectedAction === "Compare" && displayChart()}
+            </div>{" "}
+            {dashboardState.selectedAction === "Gallery" && (
               <EventGallery
                 eventGalleryData={dashboardState.eventGalleryData}
                 fetchEventGallery={fetchEventGallery}
               />
             )}
-            {dashboardState.selectedAction === 'Target' && (
+            {dashboardState.selectedAction === "Target" && (
               <TargetSetting dashboardState={dashboardState} />
             )}
-            {dashboardState.selectedAction === 'Activities' && (
+            {dashboardState.selectedAction === "Activities" && (
               <Activity
                 eventId={dashboardState.selectedChallenge}
                 currentEventObj={dashboardState.selectedChallengeObject}
               />
             )}
+            {dashboardState.selectedAction.toUpperCase() === "FORUM" && (
+              <Forum eventID={dashboardState.selectedChallenge} />
+            )}
           </>
         )   : (
           <>
-            <h1 style={{textAlign: 'center'}}>
+           <h1 style={{textAlign: 'center'}}>
               {remainingDays ? (
                 <>{remainingDays} Days to GO....</>
               ) : (
                 <FacebookCircularProgress />
               )}
+
+            
             </h1>
           </>
         )}
-        {dashboardState.selectedAction === 'Source' &&
-          (dashboardState.challengeSwitch === 'current' ||
-            dashboardState.challengeSwitch === 'upcoming') && (
+        {dashboardState.selectedAction === "Source" &&
+          (dashboardState.challengeSwitch === "current" ||
+            dashboardState.challengeSwitch === "upcoming") && (
             <UpdateDataSource dashboardState={dashboardState} />
           )}
       </div>
-
-
       {localStorage.challengeIDRegister &&
         localStorage.mobileNumber &&
         dashboardState.allChallenge.length > 0 && (

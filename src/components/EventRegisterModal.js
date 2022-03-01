@@ -40,7 +40,7 @@ function getModalStyle() {
   };
 }
 
-export default function EventInfoModal({
+export default function EventRegisterModal({
   modalView,
   setModalView,
   challenge,
@@ -415,7 +415,7 @@ export default function EventInfoModal({
                 flexWrap: 'wrap',
               }}
             >
-              {Object.entries(dataSourceMapping).map((item) => {
+              {Object.entries(dataSourceMapping).map((item, index) => {
                 let currentSource = dataSourceList.filter(
                   (source) => source.dataSource === item[0]
                 )[0];
@@ -425,6 +425,7 @@ export default function EventInfoModal({
                     : 'connect';
                 return (
                   <div
+                    key={index}
                     style={{
                       display: 'flex',
                       flexDirection: 'column',
@@ -873,10 +874,10 @@ export default function EventInfoModal({
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         disableAutoFocus
-        disableBackdropClick={true}
+        // disableBackdropClick={true}
       >
         {!successLinkStatus ? (
-          <div className="invisible"> {modalBody}</div>
+          <div>{modalBody}</div>
         ) : (
           <div style={{outline: 'none'}}> {registrationLinkModalBody}</div>
         )}

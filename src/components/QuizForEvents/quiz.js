@@ -581,6 +581,7 @@ const Quiz = (props) => {
                   display: "flex",
                   justifyContent: "center",
                   width: "100%",
+                  marginTop: "1rem",
                   // borderRight: '1px solid black',
                 }}
               >
@@ -794,12 +795,12 @@ const Quiz = (props) => {
                         <button
                           style={{
                             width: 100,
-                            height: 25,
                             // marginRight: 10
                             marginLeft: 10,
                             background: "green",
                             color: "#ffff",
                           }}
+                          className="rounded-full text-sm h-8"
                           onClick={() => {
                             showOption();
                             settimesec(true);
@@ -977,6 +978,7 @@ const Quiz = (props) => {
                   display: "flex",
                   justifyContent: "center",
                   width: "100%",
+                  marginTop: "1rem",
                   // borderRight: '1px solid black',
                 }}
               >

@@ -1,6 +1,7 @@
 import "./App.css";
 
 import React, { lazy, Suspense, useState } from "react";
+import { useMount } from "react-use";
 import {
   Route,
   Redirect,
@@ -24,7 +25,12 @@ const CreateQuiz = lazy(() => import("./components/CreateQuizQuestion"));
 const MarketPlace = lazy(() => import("./components/MarketDashboard"));
 // const MarketPlace = lazy(() => import('./components/Activities/MarketActivity'));
 const Pdf = lazy(() => import("./components/Pdf"));
+const Forum = lazy(() => import("./components/Forum"));
+const Messages = lazy(() => import("./components/Forum/components/Messages"));
+import Modal from "react-modal";
+
 import axios from "axios";
+Modal.setAppElement("#root");
 
 const App = () => {
   const location = useLocation();
@@ -117,6 +123,18 @@ const App = () => {
             displayName: "Logout",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/forum/:forumID",
+            view: Messages,
+            displayName: "Messages",
+            showInNavbar: false,
+          },
         ]
       : condition && condition.isModerator === true
       ? [
@@ -204,6 +222,18 @@ const App = () => {
             displayName: "Logout",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/forum/:forumID",
+            view: Messages,
+            displayName: "Messages",
+            showInNavbar: false,
+          },
         ]
       : [
           {
@@ -254,6 +284,18 @@ const App = () => {
             displayName: "Logout",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/forum/:forumID",
+            view: Messages,
+            displayName: "Messages",
+            showInNavbar: false,
+          },
         ];
   function isLoggedIn() {
     if (localStorage.getItem("token")) {
@@ -277,11 +319,34 @@ const App = () => {
     }
   );
 
-  const [YottaMatch, setYottamatch] = useState(
-    window.location.href == "https://yottacare.mhealth.ai/#/login"
-      ? true
-      : false
-  );
+  // const [YottaMatch, setYottamatch] = useState(
+  //   window.location.href == "https://yottacare.mhealth.ai/#/login"
+  //     ? true
+  //     : false
+  // );
+
+  // useMount(() => {
+  //   console.log("test yotta on mount");
+  //   if (window.location.href == "https://yottacare.mhealth.ai/#/login") {
+  //     setYottamatch(true);
+  //   } else {
+  //     setYottamatch(false);
+  //   }
+  // });
+
+  const isYotta =
+    window.location.href == "https://yottacare.mhealth.ai/#/login" ||
+    window.location.href === "https://yottacare.mhealth.ai/#/";
+  const [YottaMatch, setYottamatch] = useState(isYotta);
+
+  useMount(() => {
+    console.log("test yotta on mount", window.location);
+    if (isYotta) {
+      setYottamatch(true);
+    } else {
+      setYottamatch(false);
+    }
+  });
 
   return (
     <div className={YottaMatch ? "Yotta-App" : "App"}>

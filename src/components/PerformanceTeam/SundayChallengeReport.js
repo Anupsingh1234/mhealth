@@ -445,10 +445,9 @@ const SundayChallengeReport = (props) => {
           }}
         >
           <button
-            className="is-success"
+            className="is-success rounded-full"
             style={{
-              height: 30,
-              width: 80,
+              padding: "6px 8px",
               marginTop: 25,
             }}
             onClick={handleChange}

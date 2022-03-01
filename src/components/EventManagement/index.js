@@ -162,7 +162,7 @@ const EventManagement = () => {
                   localStorage.getItem("role") !== "Customer" && (
                     <div style={{ marginRight: "auto" }}>
                       <button
-                        className="create-event-button target-btn"
+                        className="create-event-button target-btn rounded-full px-4 py-2"
                         onClick={() => {
                           setCreateEventModal(true);
                           setEditEventObject();

@@ -26,6 +26,10 @@
   --yotta-button: #f29f43;
 }
 
+input, label, select, textarea{
+  color: black
+}
+
 .sticky {
   position: fixed;
   top: 10px;
@@ -94,7 +98,8 @@ h6 {
   font-weight: 600;
 }
 
-button {
+/* TODO: fix where breaking */
+/* button {
   background: var(--white);
   color: var(--black);
   border-radius: 36px;
@@ -102,16 +107,15 @@ button {
   width: -webkit-fill-available;
   height: 40px;
   cursor: pointer;
-}
+} */
 
-button:focus {
+/* button:focus {
   outline: none;
-}
+} */
 
-input {
-  /* border: 0px; */
+/* input {
   font-size: 24px;
-}
+} */
 
 a {
   text-decoration: none;
@@ -136,11 +140,15 @@ a:hover {
 .is-success {
   background: var(--success);
   color: var(--white);
+  border-radius: 24px;
+  padding: 9px;
 }
 .is-default {
   background: var(--gray);
   color: var(--black);
   cursor: default;
+  border-radius: 24px;
+  padding: 9px;
 }
 
 .is-success:hover {
@@ -150,12 +158,17 @@ a:hover {
 .is-disabled {
   background: var(--disabled);
   color: var(--black);
+  border-radius: 24px;
+  padding: 9px;
 }
 
 .is-secondary {
   color: var(--success);
   background: var(--white);
   border: 1px solid var(--success);
+  border-radius: 24px;
+  padding: 9px;
+  width: 100%;
 }
 
 .is-secondary:hover {
@@ -194,12 +207,17 @@ a:hover {
 .is-yotta-success {
   background: var(--yotta-button);
   color: var(--white);
+  border-radius: 24px;
+  padding: 9px;
 }
 
 .is-yotta-secondary {
   color: var(--yotta-button);
   background: var(--white);
   border: 1px solid var(--yotta-button);
+  border-radius: 24px;
+  padding: 9px;
+  width: 100%;
 }
 
 .yotta-get-otp-button {
@@ -1224,6 +1242,7 @@ select:focus {
 .datasource-image {
   cursor: pointer;
   border: '1px solid #eee';
+  transition: 0.1s all ease-in;
 }
 
 .datasource-image:hover,
@@ -1243,7 +1262,7 @@ select:focus {
   width: auto;
   height: auto;
   cursor: pointer;
-  padding: 3px 12px;
+  padding: 0px 8px;
 }
 
 .register-button > button:hover {
@@ -1648,8 +1667,8 @@ select:focus {
   border-radius: 36px;
   border: 0px;
   width: fit-content;
-  height: 28px;
   cursor: pointer;
+  padding: 0 10px;
 }
 
 .supporting-doc-container > .mhealth-input-box {
@@ -2121,12 +2140,12 @@ input::-webkit-inner-spin-button {
   align-items: center;
   background: #fff;
   box-shadow: 0 8px 20px -12px rgba(0, 0, 0, 0.25);
-  width: 300px;
+  width: 310px;
   text-align: center;
   margin-bottom: 1em;
   margin-right: 0.5em;
   border: 1px solid #e4e4e7;
-  min-height: 153px;
+  height: 200px;
 }
 
 .headingScoreboard {
@@ -3669,4 +3688,8 @@ input::-webkit-inner-spin-button {
   .boxSize {
     width: '120%';
   }
+}
+
+.image-upload>input {
+  display: none;
 }

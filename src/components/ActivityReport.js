@@ -394,12 +394,12 @@ const ActivityReport = () => {
           </fieldset>
         </div>
         <button
+          className="rounded-full"
           style={{
-            width: "130px",
-            height: "30px",
             color: "#fff",
             background: "green",
             marginTop: 25,
+            padding: "6px 8px",
           }}
           onClick={handleRequest}
         >
