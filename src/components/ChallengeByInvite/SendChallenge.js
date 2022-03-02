@@ -113,8 +113,8 @@ const SendChallenge = ({
                 name="searchUser"
                 className={
                   !mobileNo
-                    ? "searchUserByMobileDisabled"
-                    : "searchUserByMobile"
+                    ? "searchUserByMobileDisabled rounded-full"
+                    : "searchUserByMobile rounded-full"
                 }
                 onClick={handleUserSearch}
                 disabled={!mobileNo}

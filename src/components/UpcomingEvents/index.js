@@ -325,7 +325,7 @@ const UpcomingEvents = (props) => {
               color: "#fff",
               background: "green",
               borderRadius: "5px",
-              padding: "3px 9px",
+              padding: "5px 9px",
               fontSize: "12px",
             }}
             onClick={() => {

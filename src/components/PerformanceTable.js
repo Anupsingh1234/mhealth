@@ -601,12 +601,11 @@ export default function PerformanceTable({
               {/* <button onClick={onOpenModal}> Download certificate </button> */}
               {challengeSwitch !== "old" && dataButtonType === "WHATSAPP_WEB" && (
                 <button
-                  className="add-data-button"
+                  className="add-data-button rounded-full h-8 px-2"
                   style={{
                     marginLeft: 10,
                     marginTop: 10,
                     fontSize: 12,
-                    width: 120,
                   }}
                   onClick={() => {
                     var today = new Date();
@@ -625,7 +624,7 @@ export default function PerformanceTable({
               {challengeSwitch !== "old" &&
                 dataButtonType === "STRAVA_GOOGLE_FIT" && (
                   <button
-                    className="add-data-button"
+                    className="add-data-button rounded-full h-8 px-2"
                     style={{ marginLeft: 10 }}
                     onClick={() => {
                       window.message = Message;
@@ -894,7 +893,7 @@ export default function PerformanceTable({
                                     row.dataSource == "WHATSAPP" &&
                                     dataButtonType === "WHATSAPP_WEB" && (
                                       <button
-                                        className="add-data-button"
+                                        className="add-data-button rounded-full h-8 px-2"
                                         onClick={() => {
                                           setSelectedDate(row.valueTillDate);
                                           setDisplayModal(true);
@@ -989,47 +988,6 @@ export default function PerformanceTable({
                                   />
                                 </div>
                               </TableCell>
-                              <TableCell align="center">
-                                {/* <div style={{fontSize: 12}}>
-                              {challengeSwitch !== 'old' &&
-                                row.value == 0 &&
-                                row.dataSource == 'WHATSAPP' &&
-                                dataButtonType === 'WHATSAPP_WEB' && (
-                                  <button
-                                    className="add-data-button"
-                                    onClick={() => {
-                                      setSelectedDate(row.valueTillDate);
-                                      setDisplayModal(true);
-                                    }}
-                                  >
-                                    Add Data
-                                  </button>
-                                )}
-                              {challengeSwitch !== 'old' &&
-                                dataButtonType === 'STRAVA_GOOGLE_FIT' &&
-                                eventIDForSync.includes(row.valueTillDate) && (
-                                  <Tooltip title="Click on Sync button to sync the data">
-                                    <div
-                                      style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                      }}
-                                    >
-                                      <AlertTriangle
-                                        size={14}
-                                        style={{
-                                          marginLeft: '2px',
-                                          marginRight: '2px',
-                                          color: 'red',
-                                        }}
-                                      />
-                                      Sync Data
-                                    </div>
-                                  </Tooltip>
-                                )}
-                            </div> */}
-                              </TableCell>
                             </TableRow>
                           );
                         })}
@@ -1087,47 +1045,6 @@ export default function PerformanceTable({
                                     }}
                                   />
                                 </div>
-                              </TableCell>
-                              <TableCell align="center">
-                                {/* <div style={{fontSize: 12}}>
-                              {
-                                row.weekSum === 0 &&
-                                row.dataSource == 'WHATSAPP' &&
-                                dataButtonType === 'WHATSAPP_WEB' && (
-                                  <button
-                                    className="add-data-button"
-                                    onClick={() => {
-                                      setSelectedDate(row.weekStartDate);
-                                      setDisplayModal(true);
-                                    }}
-                                  >
-                                    Add Data
-                                  </button>
-                                )}
-                              {challengeSwitch !== 'old' &&
-                                dataButtonType === 'STRAVA_GOOGLE_FIT' &&
-                                eventIDForSync.includes(row.weekStartDate) && (
-                                  <Tooltip title="Click on Sync button to sync the data">
-                                    <div
-                                      style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                      }}
-                                    >
-                                      <AlertTriangle
-                                        size={14}
-                                        style={{
-                                          marginLeft: '2px',
-                                          marginRight: '2px',
-                                          color: 'red',
-                                        }}
-                                      />
-                                      Sync Data
-                                    </div>
-                                  </Tooltip>
-                                )}
-                            </div> */}
                               </TableCell>
                             </TableRow>
                           );
