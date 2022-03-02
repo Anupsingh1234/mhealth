@@ -107,8 +107,8 @@ const UserInfoForm = ({
               isInputSecure={true}
               inputStyle={{
                 border: "1px solid",
-                padding: "2px 4px",
-                width: "25px",
+                padding: "8px 4px",
+                width: "40px",
                 marginTop: "10px",
                 borderRadius: "4px",
               }}
@@ -129,8 +129,8 @@ const UserInfoForm = ({
               isInputSecure={true}
               inputStyle={{
                 border: "1px solid",
-                padding: "2px 4px",
-                width: "25px",
+                padding: "8px 4px",
+                width: "40px",
                 marginTop: "10px",
                 borderRadius: "4px",
               }}
