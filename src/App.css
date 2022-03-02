@@ -1664,11 +1664,7 @@ select:focus {
 .add-data-button {
   background-color: var(--green);
   color: var(--white);
-  border-radius: 36px;
-  border: 0px;
-  width: fit-content;
   cursor: pointer;
-  padding: 0 10px;
 }
 
 .supporting-doc-container > .mhealth-input-box {
