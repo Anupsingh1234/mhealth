@@ -33,7 +33,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
-
+import moment from "moment";
 const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(3),
@@ -945,7 +945,7 @@ const Profile = () => {
                       <label>Date of birth (YYYY-MM-DD)</label>
                       <DatePicker
                         placeholder="Enter your Date of birth"
-                        value={dob}
+                        value={moment(dob).format("YYYY-MM-DD")}
                         onChange={(e) => handleInputChange("dob", e)}
                       />
                     </div>
@@ -1240,7 +1240,7 @@ const Profile = () => {
                   <>
                     <div
                       className="box"
-                      style={{ width: "100%", marginLeft: "23%" }}
+                      style={{ width: "58%", marginLeft: "23%" }}
                     >
                       {depenName && depenName.length > 0 ? (
                         <TablePagination
@@ -1410,8 +1410,9 @@ const Profile = () => {
                                               style={{
                                                 backgroundColor: "green",
                                                 color: "white",
-                                                height: "20px",
+                                                height: "25px",
                                                 width: "50px",
+                                                borderRadius:'10px'
                                               }}
                                               onClick={() =>
                                                 editDependent(item.id)

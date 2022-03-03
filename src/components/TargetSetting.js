@@ -283,6 +283,7 @@ const TargetSetting = ({ dashboardState }) => {
         {eventData?.message == "You Are Qualified " ? (
           <button
             className="create-event-button target-btn"
+            style={{ borderRadius: "10px" }}
             onClick={onOpenModal}
           >
             {" "}
@@ -293,6 +294,7 @@ const TargetSetting = ({ dashboardState }) => {
         )}
         <button
           className="create-event-button target-btn"
+          style={{ borderRadius: "10px" }}
           onClick={() => {
             setTargetModal(true);
             setPayload({
