@@ -33,6 +33,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
+import classNames from "classnames";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -712,730 +713,703 @@ const Profile = () => {
       <div className="Profile">
         <TopUserDetails updateAgain={updateAgain} />
         <Navbar />
-        <div className="profile-background" style={{ flexDirection: "column" }}>
-          <div
-            className="form"
-            style={{
-              background: "transparent",
-              boxShadow: "none",
-              marginTop: "3%",
-            }}
-          >
-            {/* <div className="heading" style={{textAlign: 'center'}}>
-            View and add your details
-          </div> */}
-
-            <div className="basic-info-container">
-              <div className="basic-info flex-row">
-                <div className="box ">
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-4%" }}
-                  >
-                    <label>Avatar</label>
-                    <div className="avatar-container">
-                      <div className="avatar">
-                        <Avatar
-                          src={userDetails.avtarImg}
-                          className="avatar-size"
-                          style={{ border: "2px solid #fff" }}
-                        />
-                      </div>
-                      {window.location.href !==
-                      "https://weblite.mhealth.ai/#/profile" ? (
-                        <>
-                          <input
-                            id="avatar-select-input"
-                            className="select-avatar-input"
-                            type="file"
-                            onChange={(e) => {
-                              onFileChange(e);
-                            }}
-                          />{" "}
-                          {userDetails.avtarImg ? (
-                            ""
-                          ) : (
-                            <span
-                              className="space"
-                              style={{ color: "red", fontSize: 11 }}
-                            >
-                              {" "}
-                              Image size should not exceed 2 MB.{" "}
-                            </span>
-                          )}
-                          <button
-                            className="select-avatar-button w-full border-green-400 border p-2 mx-2 rounded-full"
-                            onClick={() => {
-                              document
-                                .getElementById("avatar-select-input")
-                                .click();
-                            }}
-                          >
-                            Select
-                          </button>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </div>
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-4%" }}
-                  >
-                    <label>Alias Name</label>
-                    <input
-                      placeholder="Enter your alias name"
-                      value={userDetails.aliasName}
-                      onChange={(e) =>
-                        handleInputChange("aliasName", e.target.value)
-                      }
-                      style={{
-                        background: aliasErrMessage ? "#FDA4AF" : null,
-                      }}
+        <div className="flex flex-col min-h-[100vh] bg-[#518ad6] justify-center items-center md:ml-20">
+          <div className="basic-info flex-row gap-2 justify-center items-center">
+            <div className="bg-white mr-2 rounded-md p-4">
+              <div className="mhealth-input-box padding-05em">
+                <label>Avatar</label>
+                <div className="avatar-container">
+                  <div className="avatar">
+                    <Avatar
+                      src={userDetails.avtarImg}
+                      className="avatar-size"
+                      style={{ border: "2px solid #fff" }}
                     />
-                    <label className="input-error">{aliasErrMessage}</label>
                   </div>
-                  <div className="avatarSave">
-                    <button
-                      className="is-success"
-                      onClick={() => updateAvatrAndAlias()}
-                    >
-                      {isCheckingAlias
-                        ? "Checking Alias"
-                        : isLoadingAvatar
-                        ? "Saving..."
-                        : "Save"}
-                    </button>
-                  </div>
+                  {window.location.href !==
+                  "https://weblite.mhealth.ai/#/profile" ? (
+                    <>
+                      <input
+                        id="avatar-select-input"
+                        className="select-avatar-input"
+                        type="file"
+                        onChange={(e) => {
+                          onFileChange(e);
+                        }}
+                      />{" "}
+                      {userDetails.avtarImg ? (
+                        ""
+                      ) : (
+                        <span
+                          className="space"
+                          style={{ color: "red", fontSize: 11 }}
+                        >
+                          {" "}
+                          Image size should not exceed 2 MB.{" "}
+                        </span>
+                      )}
+                      <button
+                        className="select-avatar-button w-full border-green-400 border p-2 mx-2 rounded-full"
+                        onClick={() => {
+                          document
+                            .getElementById("avatar-select-input")
+                            .click();
+                        }}
+                      >
+                        Select
+                      </button>
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </div>
+              </div>
+              <div
+                className="mhealth-input-box padding-05em"
+                style={{ marginTop: "-4%" }}
+              >
+                <label>Alias Name</label>
+                <input
+                  placeholder="Enter your alias name"
+                  value={userDetails.aliasName}
+                  onChange={(e) =>
+                    handleInputChange("aliasName", e.target.value)
+                  }
+                  style={{
+                    background: aliasErrMessage ? "#FDA4AF" : null,
+                  }}
+                />
+                <label className="input-error">{aliasErrMessage}</label>
+              </div>
+              <div className="avatarSave">
+                <button
+                  className="is-success"
+                  onClick={() => updateAvatrAndAlias()}
+                >
+                  {isCheckingAlias
+                    ? "Checking Alias"
+                    : isLoadingAvatar
+                    ? "Saving..."
+                    : "Save"}
+                </button>
+              </div>
+            </div>
 
-                <div className="box bx">
-                  <div className="parallel" style={{ marginTop: "-2%" }}>
-                    <div className="mhealth-input-box padding-05em">
-                      <label className="text-black">First name</label>
-                      <input
-                        placeholder="Enter your first name"
-                        value={firstName}
-                        onChange={(e) =>
-                          handleInputChange("firstName", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div className="mhealth-input-box padding-05em">
-                      <label>Last name</label>
-                      <input
-                        placeholder="Enter your last name"
-                        value={lastName}
-                        style={{ width: "90%" }}
-                        onChange={(e) =>
-                          handleInputChange("lastName", e.target.value)
-                        }
-                      />
-                    </div>
+            <div className="bg-white mr-2 rounded-md p-4 flex flex-col gap-2">
+              <div className="flex">
+                <div className="mhealth-input-box padding-05em">
+                  <label className="text-black">First name</label>
+                  <input
+                    placeholder="Enter your first name"
+                    value={firstName}
+                    onChange={(e) =>
+                      handleInputChange("firstName", e.target.value)
+                    }
+                  />
+                </div>
+                <div className="mhealth-input-box padding-05em">
+                  <label>Last name</label>
+                  <input
+                    placeholder="Enter your last name"
+                    value={lastName}
+                    style={{ width: "90%" }}
+                    onChange={(e) =>
+                      handleInputChange("lastName", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+              <div className="flex">
+                <div style={{ width: "70%" }}>
+                  <div className="mhealth-input-box padding-05em">
+                    <label>Email ID</label>
+                    <input
+                      placeholder="Enter your email id"
+                      value={emailId}
+                      onChange={(e) =>
+                        handleInputChange("emailId", e.target.value)
+                      }
+                    />
                   </div>
-                  <div style={{ display: "flex", marginTop: "-2%" }}>
-                    <div style={{ width: "70%" }}>
-                      <div className="mhealth-input-box padding-05em">
-                        <label>Email ID</label>
-                        <input
-                          placeholder="Enter your email id"
-                          value={emailId}
-                          onChange={(e) =>
-                            handleInputChange("emailId", e.target.value)
-                          }
-                        />
-                      </div>
-                      {(emailId.length > 1 &&
-                        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
-                          emailId.toString()
-                        ) === false) ||
-                      (emailId.match(/[.]/gi) || []).length === 3 ? (
-                        // /[-]/gi.test(emailId.toString()) === false ? (
-                        <p
+                  {(emailId.length > 1 &&
+                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
+                      emailId.toString()
+                    ) === false) ||
+                  (emailId.match(/[.]/gi) || []).length === 3 ? (
+                    // /[-]/gi.test(emailId.toString()) === false ? (
+                    <p
+                      style={{
+                        color: "red",
+
+                        marginTop: "0%",
+                      }}
+                    >
+                      Invalid input
+                    </p>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div style={{ width: "30%" }}>
+                  <label>Validation</label>
+                  <br />
+
+                  {userDetails.emailVerified === null ? (
+                    <>
+                      <div style={{ display: "flex" }}>
+                        {" "}
+                        <Icon.XCircle
                           style={{
                             color: "red",
-
-                            marginTop: "0%",
+                            marginTop: "10%",
+                            marginLeft: "10%",
                           }}
-                        >
-                          Invalid input
-                        </p>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <div style={{ width: "30%" }}>
-                      <label>Validation</label>
-                      <br />
-
-                      {userDetails.emailVerified === null ? (
-                        <>
-                          <div style={{ display: "flex" }}>
-                            {" "}
-                            <Icon.XCircle
-                              style={{
-                                color: "red",
-                                marginTop: "10%",
-                                marginLeft: "10%",
-                              }}
-                            />{" "}
-                            {emailId !== "" &&
-                            /[.]/gi.test(emailId.toString()) === true &&
-                            // /[@]/gi.test(emailId.toString()) === true &&
-                            /[!]/gi.test(emailId.toString()) === false &&
-                            ('"' + emailId + '"').search(
-                              /[.][.]/i || /[.][A-Z][.]/i || /[A-Z][!][A-Z]/i
-                            ) === -1 &&
-                            (emailId.match(/[.]/gi) || []).length < 3 &&
-                            /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
-                              emailId.toString()
-                            ) ? (
-                              <button
-                                className="is-success"
-                                onClick={updateEmail}
-                                style={{
-                                  right: "10px",
-                                  height: "40%",
-                                  width: "50%",
-                                  marginLeft: "5%",
-                                  marginTop: "10%",
-                                  padding: 2,
-                                  fontSize: 13,
-                                }}
-                              >
-                                {" "}
-                                Validate
-                              </button>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <Icon.CheckCircle
+                        />{" "}
+                        {emailId !== "" &&
+                        /[.]/gi.test(emailId.toString()) === true &&
+                        // /[@]/gi.test(emailId.toString()) === true &&
+                        /[!]/gi.test(emailId.toString()) === false &&
+                        ('"' + emailId + '"').search(
+                          /[.][.]/i || /[.][A-Z][.]/i || /[A-Z][!][A-Z]/i
+                        ) === -1 &&
+                        (emailId.match(/[.]/gi) || []).length < 3 &&
+                        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
+                          emailId.toString()
+                        ) ? (
+                          <button
+                            className="is-success"
+                            onClick={updateEmail}
                             style={{
-                              color: "green",
+                              right: "10px",
+                              height: "40%",
+                              width: "50%",
+                              marginLeft: "5%",
                               marginTop: "10%",
-                              marginLeft: "10%",
+                              padding: 2,
+                              fontSize: 13,
                             }}
-                          />
-                        </>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="parallel" style={{ marginTop: "-2%" }}>
-                    <div className="mhealth-input-box padding-05em">
-                      <label>Gender</label>
-                      <select
-                        name="gender"
-                        value={gender}
-                        width={"100%"}
-                        onChange={(e) => {
-                          handleInputChange("gender", e.target.value);
-                        }}
-                      >
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                      </select>
-                    </div>
-                    <div className="mhealth-input-box padding-05em">
-                      <label>Date of birth (YYYY-MM-DD)</label>
-                      <DatePicker
-                        placeholder="Enter your Date of birth"
-                        value={dob}
-                        onChange={(e) => handleInputChange("dob", e)}
-                      />
-                    </div>
-                  </div>
-                  <div className="parallel" style={{ marginTop: "-4%" }}>
-                    <div className="mhealth-input-box padding-05em">
-                      <label>City</label>
-                      <input
-                        placeholder="Enter your city"
-                        style={{ width: "100%" }}
-                        value={city}
-                        onChange={(e) =>
-                          handleInputChange("city", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div className="mhealth-input-box padding-05em">
-                      <label>State</label>
-                      <input
-                        placeholder="Enter your state"
-                        value={state}
-                        style={{ width: "100%" }}
-                        onChange={(e) =>
-                          handleInputChange("state", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div className="mhealth-input-box padding-05em">
-                      <label>Country</label>
-                      <input
-                        placeholder="Enter your country"
-                        value={country}
-                        style={{ width: "100%" }}
-                        onChange={(e) =>
-                          handleInputChange("country", e.target.value)
-                        }
-                      />
-                    </div>
-                  </div>
-                  <div className="parallel" style={{ marginTop: "-4%" }}>
-                    <div className="mhealth-input-box padding-05em">
-                      <label>Pin Code</label>
-                      <input
-                        placeholder="Enter your pin code"
-                        value={pinCode}
-                        style={{ width: "80%" }}
-                        onChange={(e) =>
-                          handleInputChange("pinCode", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div
-                      className="mhealth-input-box padding-05em"
-                      style={{ width: "95%" }}
-                    >
-                      <label>Default Tab</label>
-                      <select
-                        name="dashboard_default_tab"
-                        value={dashboard_default_tab}
-                        // style={{width: '100%'}}
-                        onChange={(e) => {
-                          handleInputChange(
-                            "dashboard_default_tab",
-                            e.target.value
-                          );
-                        }}
-                      >
-                        <option value="">Select Tab</option>
-                        {listOfTabs.map((tab) => (
-                          <option value={tab.dashboardTabName} key={tab.id}>
-                            {tab.dashboardTabName
-                              .split("_")
-                              .join(" ")
-                              .toUpperCase()}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div
-                      className="mhealth-input-box padding-05em"
-                      style={{ width: "95%" }}
-                    >
-                      <label>Default View</label>
-                      <select
-                        name="dashboard_view_status"
-                        value={dashboard_view_status}
-                        style={{ width: "90%" }}
-                        onChange={(e) => {
-                          handleInputChange(
-                            "dashboard_view_status",
-                            e.target.value
-                          );
-                        }}
-                      >
-                        <option value="">Select View</option>
-                        <option value={"0"}>Minimize</option>
-                        <option value={"1"}>Maximize</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", marginTop: "-2%" }}>
-                    <div
-                      style={{ width: "70%" }}
-                      className="mhealth-input-box padding-05em"
-                    >
-                      <label>Address</label>
-                      <br />
-                      <textarea
-                        style={{
-                          height: "50px",
-                          width: "100%",
-                          border: 0.1,
-                          background: " var(--input-box)",
-                          padding: "6px 10px",
-                          borderRadius: "6px",
-                          fontSize: "12px",
-                          width: "90%",
-                          marginTop: "-10px",
-                          fontWeight: 600,
-                        }}
-                        placeholder="Enter Address"
-                        name="address"
-                        value={address}
-                        onChange={(e) => {
-                          handleInputChange("address", e.target.value);
-                        }}
-                      />
-                    </div>
-                    <div style={{ width: "30%" }}>
-                      <div className="avatarSave">
-                        <button
-                          className="is-success"
-                          style={{ marginTop: "30%" }}
-                          onClick={() => handleUserDetailSubmit()}
-                        >
-                          {isLoadingUserDetails ? "Saving" : "Save"}
-                        </button>
+                          >
+                            {" "}
+                            Validate
+                          </button>
+                        ) : (
+                          ""
+                        )}
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  ) : (
+                    <>
+                      <Icon.CheckCircle
+                        style={{
+                          color: "green",
+                          marginTop: "10%",
+                          marginLeft: "10%",
+                        }}
+                      />
+                    </>
+                  )}
                 </div>
-                <div className="box bx1">
-                  <p className="text-black mb-4" style={{ marginTop: "-5%" }}>
-                    Add Dependent
-                  </p>
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-8%" }}
-                  >
-                    <span className="text-black">
-                      Relation
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                        {error1 === true ? (
-                          <>{addDept.dependantRelation === "" ? <>*</> : ""}</>
-                        ) : (
-                          ""
-                        )}
-                      </span>
-                    </span>
+              </div>
 
-                    <select
-                      value={addDept.dependantRelation}
-                      onChange={inputDept}
-                      name="dependantRelation"
-                    >
-                      <option>SELECT...</option>
-                      <option value="MOTHER">MOTHER</option>
-                      <option value="FATHER">FATHER</option>
-                      <option value="SON">SON</option>
-                      <option value="DAUGHTER">DAUGHTER</option>
-                      <option value="SPOUSE">SPOUSE</option>
-                      <option value="GRANDFATHER">GRANDFATHER</option>
-                      <option value="GRANDMOTHER">GRANDMOTHER</option>
-                      <option value="BROTHER">BROTHER</option>
-                      <option value="SISTER">SISTER</option>
-                      <option value="OTHER">OTHER</option>
-                    </select>
-                  </div>
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-8%" }}
+              <div className="flex">
+                <div className="mhealth-input-box padding-05em">
+                  <label>Gender</label>
+                  <select
+                    name="gender"
+                    value={gender}
+                    width={"100%"}
+                    onChange={(e) => {
+                      handleInputChange("gender", e.target.value);
+                    }}
                   >
-                    <span className="text-black">
-                      First Name{" "}
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                        {error1 === true ? (
-                          <>{addDept.firstName === "" ? <>*</> : ""}</>
-                        ) : (
-                          ""
-                        )}
-                      </span>
-                    </span>
-
-                    <input
-                      placeholder="Enter First Name"
-                      value={addDept.firstName}
-                      onChange={inputDept}
-                      name="firstName"
-                    />
-                  </div>
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-8%" }}
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div className="mhealth-input-box padding-05em">
+                  <label>Date of birth (YYYY-MM-DD)</label>
+                  <DatePicker
+                    placeholder="Enter your Date of birth"
+                    value={dob}
+                    onChange={(e) => handleInputChange("dob", e)}
+                  />
+                </div>
+              </div>
+              <div className="flex">
+                <div className="mhealth-input-box padding-05em">
+                  <label>City</label>
+                  <input
+                    placeholder="Enter your city"
+                    style={{ width: "100%" }}
+                    value={city}
+                    onChange={(e) => handleInputChange("city", e.target.value)}
+                  />
+                </div>
+                <div className="mhealth-input-box padding-05em">
+                  <label>State</label>
+                  <input
+                    placeholder="Enter your state"
+                    value={state}
+                    style={{ width: "100%" }}
+                    onChange={(e) => handleInputChange("state", e.target.value)}
+                  />
+                </div>
+                <div className="mhealth-input-box padding-05em">
+                  <label>Country</label>
+                  <input
+                    placeholder="Enter your country"
+                    value={country}
+                    style={{ width: "100%" }}
+                    onChange={(e) =>
+                      handleInputChange("country", e.target.value)
+                    }
+                  />
+                </div>
+              </div>
+              <div className="flex">
+                <div className="mhealth-input-box padding-05em">
+                  <label>Pin Code</label>
+                  <input
+                    placeholder="Enter your pin code"
+                    value={pinCode}
+                    style={{ width: "80%" }}
+                    onChange={(e) =>
+                      handleInputChange("pinCode", e.target.value)
+                    }
+                  />
+                </div>
+                <div
+                  className="mhealth-input-box padding-05em"
+                  style={{ width: "95%" }}
+                >
+                  <label>Default Tab</label>
+                  <select
+                    name="dashboard_default_tab"
+                    value={dashboard_default_tab}
+                    // style={{width: '100%'}}
+                    onChange={(e) => {
+                      handleInputChange(
+                        "dashboard_default_tab",
+                        e.target.value
+                      );
+                    }}
                   >
-                    <label>Last Name </label>
-                    <input
-                      placeholder="Enter Last Name"
-                      value={addDept.lastName}
-                      onChange={inputDept}
-                      name="lastName"
-                    />
-                  </div>
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-8%" }}
+                    <option value="">Select Tab</option>
+                    {listOfTabs.map((tab) => (
+                      <option value={tab.dashboardTabName} key={tab.id}>
+                        {tab.dashboardTabName
+                          .split("_")
+                          .join(" ")
+                          .toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div
+                  className="mhealth-input-box padding-05em"
+                  style={{ width: "95%" }}
+                >
+                  <label>Default View</label>
+                  <select
+                    name="dashboard_view_status"
+                    value={dashboard_view_status}
+                    style={{ width: "90%" }}
+                    onChange={(e) => {
+                      handleInputChange(
+                        "dashboard_view_status",
+                        e.target.value
+                      );
+                    }}
                   >
-                    <label>D.O.B</label>
-                    <input
-                      placeholder="Enter your country"
-                      type="date"
-                      value={addDept.dob}
-                      onChange={inputDept}
-                      name="dob"
-                    />
-                  </div>
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-8%" }}
-                  >
-                    <span className="text-black">
-                      Gender
-                      <span style={{ color: "red", fontSize: "20px" }}>
-                        {error1 === true ? (
-                          <>{addDept.gender === "" ? <>*</> : ""}</>
-                        ) : (
-                          ""
-                        )}
-                      </span>
-                    </span>
-                    <select
-                      value={addDept.gender}
-                      onChange={inputDept}
-                      name="gender"
-                    >
-                      <option>SELECT...</option>
-                      <option value="MALE">MALE</option>
-                      <option value="FEMALE">FEMALE</option>
-                      <option value="OTHERS">OTHERS</option>
-                    </select>
-                  </div>
-                  <div
-                    className="mhealth-input-box padding-05em"
-                    style={{ marginTop: "-8%" }}
-                  >
-                    <label>Contact Details</label>
-                    <textarea
-                      placeholder="Enter Contact Details"
-                      style={{
-                        height: "40px",
-                        border: 0.1,
-                        background: " var(--input-box)",
-                        padding: "6px 10px",
-                        borderRadius: "6px",
-                        fontSize: "12px",
-                        width: "90%",
-                        // marginTop: '-10px',
-                        fontWeight: 600,
-                      }}
-                      value={addDept.contactDetail}
-                      onChange={inputDept}
-                      name="contactDetail"
-                    />
-                  </div>
-
-                  {/* <p style={{color: 'green', marginLeft: '50%'}}>{message1}</p> */}
+                    <option value="">Select View</option>
+                    <option value={"0"}>Minimize</option>
+                    <option value={"1"}>Maximize</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex">
+                <div
+                  style={{ width: "70%" }}
+                  className="mhealth-input-box padding-05em"
+                >
+                  <label>Address</label>
+                  <textarea
+                    style={{
+                      height: "50px",
+                      width: "100%",
+                      border: 0.1,
+                      background: " var(--input-box)",
+                      padding: "6px 10px",
+                      borderRadius: "6px",
+                      fontSize: "12px",
+                      width: "90%",
+                      fontWeight: 600,
+                    }}
+                    placeholder="Enter Address"
+                    name="address"
+                    value={address}
+                    onChange={(e) => {
+                      handleInputChange("address", e.target.value);
+                    }}
+                  />
+                </div>
+                <div style={{ width: "30%" }}>
                   <div className="avatarSave">
                     <button
                       className="is-success"
-                      style={{ marginTop: "-20%" }}
-                      onClick={submitdept}
+                      style={{ marginTop: "30%" }}
+                      onClick={() => handleUserDetailSubmit()}
                     >
-                      {/* {isLoadingUserDetails ? 'Saving' : 'Save'} */}
-                      Save
+                      {isLoadingUserDetails ? "Saving" : "Save"}
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="basic-info-container">
-              <div className="basic-info flex-row flex">
-                {depenName && depenName.length > 0 ? (
-                  <>
-                    <div
-                      className="box"
-                      style={{ width: "100%", marginLeft: "23%" }}
-                    >
-                      {depenName && depenName.length > 0 ? (
-                        <TablePagination
-                          rowsPerPageOptions={[4, 5, 10]}
-                          component="div"
-                          count={depenName && depenName.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      ) : (
-                        <TablePagination
-                          rowsPerPageOptions={[4, 5, 10]}
-                          component="div"
-                          count={0}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      )}{" "}
-                      {depenName && depenName.length > 0 ? (
-                        <>
-                          <Table
-                            className={classes.table}
-                            aria-labelledby="tableTitle"
-                            size={"small"}
-                            aria-label="enhanced table"
-                          >
-                            {" "}
-                            <EnhancedTableHead
-                              style={{ fontSize: "5px" }}
-                              classes={classes}
-                              order={order}
-                              orderBy={orderBy}
-                              onRequestSort={handleRequestSort}
-                            />
-                            <TableBody>
-                              {depenName &&
-                                stableSort(
-                                  depenName,
-                                  getComparator(order, orderBy)
+
+            <div className="bg-white rounded-md p-4 flex flex-col gap-2">
+              <p className="text-black mb-4" style={{ marginTop: "-5%" }}>
+                Add Dependent
+              </p>
+              <div
+                className="mhealth-input-box padding-05em"
+                style={{ marginTop: "-8%" }}
+              >
+                <span className="text-black">
+                  Relation
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {error1 === true ? (
+                      <>{addDept.dependantRelation === "" ? <>*</> : ""}</>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                </span>
+
+                <select
+                  value={addDept.dependantRelation}
+                  onChange={inputDept}
+                  name="dependantRelation"
+                >
+                  <option>SELECT...</option>
+                  <option value="MOTHER">MOTHER</option>
+                  <option value="FATHER">FATHER</option>
+                  <option value="SON">SON</option>
+                  <option value="DAUGHTER">DAUGHTER</option>
+                  <option value="SPOUSE">SPOUSE</option>
+                  <option value="GRANDFATHER">GRANDFATHER</option>
+                  <option value="GRANDMOTHER">GRANDMOTHER</option>
+                  <option value="BROTHER">BROTHER</option>
+                  <option value="SISTER">SISTER</option>
+                  <option value="OTHER">OTHER</option>
+                </select>
+              </div>
+              <div
+                className="mhealth-input-box padding-05em"
+                style={{ marginTop: "-8%" }}
+              >
+                <span className="text-black">
+                  First Name{" "}
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {error1 === true ? (
+                      <>{addDept.firstName === "" ? <>*</> : ""}</>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                </span>
+
+                <input
+                  placeholder="Enter First Name"
+                  value={addDept.firstName}
+                  onChange={inputDept}
+                  name="firstName"
+                />
+              </div>
+              <div
+                className="mhealth-input-box padding-05em"
+                style={{ marginTop: "-8%" }}
+              >
+                <label>Last Name </label>
+                <input
+                  placeholder="Enter Last Name"
+                  value={addDept.lastName}
+                  onChange={inputDept}
+                  name="lastName"
+                />
+              </div>
+              <div
+                className="mhealth-input-box padding-05em"
+                style={{ marginTop: "-8%" }}
+              >
+                <label>D.O.B</label>
+                <input
+                  placeholder="Enter your country"
+                  type="date"
+                  value={addDept.dob}
+                  onChange={inputDept}
+                  name="dob"
+                />
+              </div>
+              <div
+                className="mhealth-input-box padding-05em"
+                style={{ marginTop: "-8%" }}
+              >
+                <span className="text-black">
+                  Gender
+                  <span style={{ color: "red", fontSize: "20px" }}>
+                    {error1 === true ? (
+                      <>{addDept.gender === "" ? <>*</> : ""}</>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                </span>
+                <select
+                  value={addDept.gender}
+                  onChange={inputDept}
+                  name="gender"
+                >
+                  <option>SELECT...</option>
+                  <option value="MALE">MALE</option>
+                  <option value="FEMALE">FEMALE</option>
+                  <option value="OTHERS">OTHERS</option>
+                </select>
+              </div>
+              <div
+                className="mhealth-input-box padding-05em"
+                style={{ marginTop: "-8%" }}
+              >
+                <label>Contact Details</label>
+                <textarea
+                  placeholder="Enter Contact Details"
+                  style={{
+                    height: "40px",
+                    border: 0.1,
+                    background: " var(--input-box)",
+                    padding: "6px 10px",
+                    borderRadius: "6px",
+                    fontSize: "12px",
+                    width: "90%",
+                    // marginTop: '-10px',
+                    fontWeight: 600,
+                  }}
+                  value={addDept.contactDetail}
+                  onChange={inputDept}
+                  name="contactDetail"
+                />
+              </div>
+
+              {/* <p style={{color: 'green', marginLeft: '50%'}}>{message1}</p> */}
+              <div className="avatarSave">
+                <button
+                  className="is-success"
+                  style={{ marginTop: "-20%" }}
+                  onClick={submitdept}
+                >
+                  {/* {isLoadingUserDetails ? 'Saving' : 'Save'} */}
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className="basic-info-container">
+            <div className="basic-info flex-row flex mx-auto">
+              {depenName && depenName.length > 0 ? (
+                <>
+                  <div className="bg-white rounded-md p-4 mt-4">
+                    {depenName && depenName.length > 0 ? (
+                      <TablePagination
+                        rowsPerPageOptions={[4, 5, 10]}
+                        component="div"
+                        count={depenName && depenName.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                      />
+                    ) : (
+                      <TablePagination
+                        rowsPerPageOptions={[4, 5, 10]}
+                        component="div"
+                        count={0}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onChangePage={handleChangePage}
+                        onChangeRowsPerPage={handleChangeRowsPerPage}
+                        ActionsComponent={TablePaginationActions}
+                      />
+                    )}{" "}
+                    {depenName && depenName.length > 0 ? (
+                      <>
+                        <Table
+                          className={classNames(classes.table)}
+                          aria-labelledby="tableTitle"
+                          size={"small"}
+                          aria-label="enhanced table"
+                        >
+                          <EnhancedTableHead
+                            style={{ fontSize: "5px" }}
+                            classes={classes}
+                            order={order}
+                            orderBy={orderBy}
+                            onRequestSort={handleRequestSort}
+                          />
+                          <TableBody>
+                            {depenName &&
+                              stableSort(
+                                depenName,
+                                getComparator(order, orderBy)
+                              )
+                                .slice(
+                                  page * rowsPerPage,
+                                  page * rowsPerPage + rowsPerPage
                                 )
-                                  .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                  )
-                                  .map((item, ind) => {
-                                    return (
-                                      <>
-                                        <TableRow className="performace-table-row">
+                                .map((item, ind) => {
+                                  return (
+                                    <>
+                                      <TableRow className="performace-table-row">
+                                        {" "}
+                                        <TableCell align="left">
                                           {" "}
-                                          <TableCell align="left">
+                                          <span style={{ fontSize: 12 }}>
+                                            {ind + 1}
+                                          </span>{" "}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                          {" "}
+                                          <p
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "150px",
+                                              display: "block",
+                                              overflow: "hidden",
+                                              fontSize: 12,
+                                            }}
+                                          >
                                             {" "}
                                             <span style={{ fontSize: 12 }}>
-                                              {ind + 1}
+                                              {item.firstName
+                                                ? item.firstName +
+                                                  " " +
+                                                  item.lastName
+                                                : "  -     "}
                                             </span>{" "}
-                                          </TableCell>
-                                          <TableCell align="left">
-                                            {" "}
-                                            <p
-                                              style={{
-                                                whiteSpace: "nowrap",
-                                                textOverflow: "ellipsis",
-                                                width: "150px",
-                                                display: "block",
-                                                overflow: "hidden",
-                                                fontSize: 12,
-                                              }}
-                                            >
-                                              {" "}
-                                              <span style={{ fontSize: 12 }}>
-                                                {item.firstName
-                                                  ? item.firstName +
-                                                    " " +
-                                                    item.lastName
-                                                  : "  -     "}
-                                              </span>{" "}
-                                            </p>{" "}
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            style={{ fontSize: 12 }}
+                                          </p>{" "}
+                                        </TableCell>
+                                        <TableCell
+                                          align="left"
+                                          style={{ fontSize: 12 }}
+                                        >
+                                          {" "}
+                                          <p
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "100px",
+                                              display: "block",
+                                              overflow: "hidden",
+                                              fontSize: 12,
+                                            }}
                                           >
                                             {" "}
-                                            <p
-                                              style={{
-                                                whiteSpace: "nowrap",
-                                                textOverflow: "ellipsis",
-                                                width: "100px",
-                                                display: "block",
-                                                overflow: "hidden",
-                                                fontSize: 12,
-                                              }}
-                                            >
-                                              {" "}
-                                              {item.dependantRelation
-                                                ? item.dependantRelation
-                                                : "  -     "}
-                                            </p>
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            style={{ fontSize: 12 }}
+                                            {item.dependantRelation
+                                              ? item.dependantRelation
+                                              : "  -     "}
+                                          </p>
+                                        </TableCell>
+                                        <TableCell
+                                          align="left"
+                                          style={{ fontSize: 12 }}
+                                        >
+                                          {" "}
+                                          <p
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "100px",
+                                              display: "block",
+                                              overflow: "hidden",
+                                              fontSize: 12,
+                                            }}
                                           >
                                             {" "}
-                                            <p
-                                              style={{
-                                                whiteSpace: "nowrap",
-                                                textOverflow: "ellipsis",
-                                                width: "100px",
-                                                display: "block",
-                                                overflow: "hidden",
-                                                fontSize: 12,
-                                              }}
-                                            >
-                                              {" "}
-                                              {item.dob ? item.dob : "  -     "}
-                                            </p>
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            style={{ fontSize: 12 }}
+                                            {item.dob ? item.dob : "  -     "}
+                                          </p>
+                                        </TableCell>
+                                        <TableCell
+                                          align="left"
+                                          style={{ fontSize: 12 }}
+                                        >
+                                          {" "}
+                                          <p
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "70px",
+                                              display: "block",
+                                              overflow: "hidden",
+                                              fontSize: 12,
+                                            }}
+                                          >
+                                            {item.gender
+                                              ? item.gender
+                                              : "  -     "}
+                                          </p>
+                                        </TableCell>
+                                        <TableCell
+                                          align="left"
+                                          style={{ fontSize: 12 }}
+                                        >
+                                          {" "}
+                                          <p
+                                            style={{
+                                              whiteSpace: "nowrap",
+                                              textOverflow: "ellipsis",
+                                              width: "100px",
+                                              display: "block",
+                                              overflow: "hidden",
+                                              fontSize: 12,
+                                            }}
                                           >
                                             {" "}
-                                            <p
-                                              style={{
-                                                whiteSpace: "nowrap",
-                                                textOverflow: "ellipsis",
-                                                width: "70px",
-                                                display: "block",
-                                                overflow: "hidden",
-                                                fontSize: 12,
-                                              }}
-                                            >
-                                              {item.gender
-                                                ? item.gender
-                                                : "  -     "}
-                                            </p>
-                                          </TableCell>
-                                          <TableCell
-                                            align="left"
-                                            style={{ fontSize: 12 }}
+                                            {item.contactDetails
+                                              ? item.contactDetails
+                                              : "  -     "}
+                                          </p>
+                                        </TableCell>
+                                        <TableCell>
+                                          <button
+                                            style={{
+                                              backgroundColor: "green",
+                                              color: "white",
+                                              height: "20px",
+                                              width: "50px",
+                                            }}
+                                            onClick={() =>
+                                              editDependent(item.id)
+                                            }
                                           >
-                                            {" "}
-                                            <p
-                                              style={{
-                                                whiteSpace: "nowrap",
-                                                textOverflow: "ellipsis",
-                                                width: "100px",
-                                                display: "block",
-                                                overflow: "hidden",
-                                                fontSize: 12,
-                                              }}
-                                            >
-                                              {" "}
-                                              {item.contactDetails
-                                                ? item.contactDetails
-                                                : "  -     "}
-                                            </p>
-                                          </TableCell>
-                                          <TableCell>
-                                            <button
-                                              style={{
-                                                backgroundColor: "green",
-                                                color: "white",
-                                                height: "20px",
-                                                width: "50px",
-                                              }}
-                                              onClick={() =>
-                                                editDependent(item.id)
-                                              }
-                                            >
-                                              Edit
-                                            </button>
-                                          </TableCell>
-                                        </TableRow>
-                                      </>
-                                    );
-                                  })}
-                            </TableBody>
-                          </Table>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </>
-                ) : (
-                  ""
-                )}
-              </div>
+                                            Edit
+                                          </button>
+                                        </TableCell>
+                                      </TableRow>
+                                    </>
+                                  );
+                                })}
+                          </TableBody>
+                        </Table>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                </>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
