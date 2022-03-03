@@ -401,7 +401,7 @@ export const getEventTargetData = (id) => {
 };
 
 export const setPersonalTargetData = (payload) => {
-  const URL = `${urlPrefix}${setPersonalTarget}?eventId=${payload.eventId}&date=${payload.date}&distance=${payload.distance}`;
+  const URL = `${urlPrefix}${setPersonalTarget}?eventId=${payload.eventId}&date=${payload.date}&distance=${payload.distance}&healthGoal=${payload.healthGoal}`;
   return axios.post(
     URL,
     {},
