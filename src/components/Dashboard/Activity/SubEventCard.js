@@ -1533,7 +1533,7 @@ const SubEventCard = ({
                       position: "absolute",
                       top: 15,
                       right: 5,
-                      color: "#ef5350",
+                      color: "red",
                       cursor: "pointer",
                     }}
                   />
@@ -1597,7 +1597,7 @@ const SubEventCard = ({
                       style={{ lineHeight: "5px", marginTop: "20px" }}
                     >
                       <h4 style={{ fontSize: "10px" }}> Specialization </h4>
-                      <h5 style={{ fontWeight: "lighter" }}>
+                      <h5 style={{ fontWeight: "lighter", marginTop: "20px" }}>
                         {" "}
                         {coach.specialization}{" "}
                       </h5>
@@ -1616,7 +1616,7 @@ const SubEventCard = ({
                         style={{ lineHeight: "5px", marginTop: "20px" }}
                       >
                         <h4> Language Known </h4>
-                        <h4 style={{ fontWeight: "200" }}>
+                        <h4 style={{ fontWeight: "200", marginTop: "20px" }}>
                           {" "}
                           {coach.languagesKnow}{" "}
                         </h4>
@@ -1634,6 +1634,7 @@ const SubEventCard = ({
                           style={{
                             fontWeight: "lighter",
                             lineHeight: "22px",
+                            marginTop: "20px",
                           }}
                         >
                           {" "}

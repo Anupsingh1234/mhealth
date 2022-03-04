@@ -48,7 +48,10 @@ const TargetSetting = ({ dashboardState }) => {
   const [personalData, setPersonalData] = useState({});
   const [payload, setPayload] = useState({
     eventId: dashboardState.selectedChallenge,
-    date: "",
+    date: dashboardState.selectedChallengeObject.challengeStartDate.substring(
+      0,
+      10
+    ),
     distance: undefined,
     healthGoal: "",
   });
