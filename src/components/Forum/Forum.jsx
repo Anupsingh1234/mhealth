@@ -3,13 +3,13 @@ import { ForumCard } from "./components/ForumCard";
 import Messages from "./components/Messages";
 import CircularSpinner from "../../components/CircularSpinner";
 import CenteredModal from "../CenteredModal";
-import Button from "../Common/Form/Button";
 
 import {
   getForumByEventID,
   fetchMessageByForumID,
   leaveForum,
 } from "./forumApi";
+import { PrimaryButton, SecondaryButton } from "../Form";
 
 const Forum = (props) => {
   const { eventID } = props;
@@ -144,17 +144,12 @@ const Forum = (props) => {
           <div className="px-16 py-8 text-center mt-4">
             <h2>Do you want to leave the community?</h2>
             <div className="flex space-x-2 mt-4">
-              <Button
-                loading={loading}
-                type="danger"
-                text="Yes"
-                onClick={() => handleLeaveForum()}
-              />
-              <Button
-                type="default"
-                text="Cancel"
-                onClick={() => setLeave(false)}
-              />
+              <PrimaryButton mini onClick={() => handleLeaveForum()}>
+                Yes
+              </PrimaryButton>
+              <SecondaryButton mini onClick={() => setLeave(false)}>
+                Cancel
+              </SecondaryButton>
             </div>
             {error && <p className="text-xs text-red-600 p-2">{error}</p>}
           </div>

@@ -135,18 +135,22 @@ const AdInstructor = () => {
 
   return (
     <div style={{ width: "" }}>
-      <button onClick={onOpenModal} className="create-event-button target-btn">
+      <button
+        style={{ borderRadius: 24 }}
+        onClick={onOpenModal}
+        className="create-event-button target-btn"
+      >
         {" "}
         Add Instructor
       </button>
       <Modal
         open={open}
-        closeIcon={closeIcon}
+        // closeIcon={closeIcon}
         onClose={onCloseModal}
         center
         styles={{ modal: { borderRadius: "10px" } }}
       >
-        <CancelIcon
+        {/* <CancelIcon
           style={{
             position: "absolute",
             top: 20,
@@ -154,7 +158,7 @@ const AdInstructor = () => {
             color: "#ef5350",
             cursor: "pointer",
           }}
-        />
+        /> */}
 
         <h4> Coach Details </h4>
 
@@ -511,10 +515,10 @@ const AdInstructor = () => {
                 onClick={saveData}
                 style={{
                   float: "right",
-                  marginTop: 0,
-                  width: 100,
-                  height: 32,
+                  marginTop: 5,
                   marginLeft: 100,
+                  borderRadius: 24,
+                  padding: "3px 8px",
                 }}
               >
                 Submit

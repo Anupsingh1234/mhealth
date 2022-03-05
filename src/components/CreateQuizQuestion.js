@@ -536,8 +536,7 @@ const Admin123 = () => {
                       style={{
                         background: "#e0f2fe",
                         color: "#518ad6",
-                        padding: 0,
-                        height: 30,
+                        padding: "4px 10px",
                       }}
                     >
                       Quiz{" "}
@@ -550,7 +549,11 @@ const Admin123 = () => {
               <div style={{}}>
                 <button
                   className="is-success"
-                  style={{ width: "10%", marginLeft: "30px" }}
+                  style={{
+                    marginLeft: 25,
+                    padding: "4px 10px",
+                    marginBottom: 10,
+                  }}
                   onClick={() => setDuplicateModal(true)}
                 >
                   Duplicate
@@ -815,7 +818,8 @@ const Admin123 = () => {
                   <div style={{ width: "80%" }}></div>
                   <div style={{ width: "20%" }}>
                     <button
-                      className="is-success mt-5"
+                      className="is-success"
+                      style={{ padding: "4px 10px", marginTop: 20 }}
                       onClick={
                         handleSubmit
                         // Quizdata2(localStorage.getItem('selectEvent'));

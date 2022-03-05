@@ -831,6 +831,7 @@ const Quiz = (props) => {
                             width: 120,
                             // float: 'right',
                             // marginTop: 25,
+                            borderRadius: 24,
                           }}
                           onClick={() => {
                             lockAnswer(), onOpenModal();
@@ -924,6 +925,7 @@ const Quiz = (props) => {
                         background: "green",
                         color: "#fff",
                         float: "right",
+                        borderRadius: 24,
                       }}
                       onClick={() => {
                         onCloseModal();

@@ -110,12 +110,15 @@ const SundayChallenge = (props) => {
   };
 
   const closeIcon = (
-    <svg fill="white" viewBox="0 0 20 20" width={28} height={28}>
-      <path
-        fillRule="evenodd"
-        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-        clipRule="evenodd"
-      ></path>
+    <svg
+      fill="#000000"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 30 30"
+      width="30px"
+      height="30px"
+    >
+      {" "}
+      <path d="M 7 4 C 6.744125 4 6.4879687 4.0974687 6.2929688 4.2929688 L 4.2929688 6.2929688 C 3.9019687 6.6839688 3.9019687 7.3170313 4.2929688 7.7070312 L 11.585938 15 L 4.2929688 22.292969 C 3.9019687 22.683969 3.9019687 23.317031 4.2929688 23.707031 L 6.2929688 25.707031 C 6.6839688 26.098031 7.3170313 26.098031 7.7070312 25.707031 L 15 18.414062 L 22.292969 25.707031 C 22.682969 26.098031 23.317031 26.098031 23.707031 25.707031 L 25.707031 23.707031 C 26.098031 23.316031 26.098031 22.682969 25.707031 22.292969 L 18.414062 15 L 25.707031 7.7070312 C 26.098031 7.3170312 26.098031 6.6829688 25.707031 6.2929688 L 23.707031 4.2929688 C 23.316031 3.9019687 22.682969 3.9019687 22.292969 4.2929688 L 15 11.585938 L 7.7070312 4.2929688 C 7.5115312 4.0974687 7.255875 4 7 4 z" />
     </svg>
   );
 
@@ -251,7 +254,7 @@ const SundayChallenge = (props) => {
         center
         closeIcon={closeIcon}
       >
-        <CancelIcon
+        {/* <CancelIcon
           style={{
             position: "absolute",
             top: 15,
@@ -259,7 +262,7 @@ const SundayChallenge = (props) => {
             color: "#ef5350",
             cursor: "pointer",
           }}
-        />
+        /> */}
 
         <div
           style={{
@@ -341,7 +344,11 @@ const SundayChallenge = (props) => {
               >
                 {" "}
                 <button
-                  style={{ width: 130, height: 25 }}
+                  style={{
+                    borderRadius: 24,
+                    padding: "2px 8px",
+                    marginRight: "0.5rem",
+                  }}
                   className="is-success"
                   onClick={() => {
                     acceptOrReject(
@@ -358,8 +365,8 @@ const SundayChallenge = (props) => {
                   style={{
                     background: "#F43F5E",
                     color: "white",
-                    width: 130,
-                    height: 25,
+                    borderRadius: 24,
+                    padding: "2px 8px",
                   }}
                   onClick={() => {
                     acceptOrReject(
@@ -445,7 +452,11 @@ const SundayChallenge = (props) => {
               >
                 {" "}
                 <button
-                  style={{ width: 130, height: 25 }}
+                  style={{
+                    borderRadius: 24,
+                    padding: "2px 8px",
+                    marginRight: "0.5rem",
+                  }}
                   className="is-success"
                   onClick={() => {
                     acceptOrReject(
@@ -462,8 +473,8 @@ const SundayChallenge = (props) => {
                   style={{
                     background: "#F43F5E",
                     color: "white",
-                    width: 130,
-                    height: 25,
+                    borderRadius: 24,
+                    padding: "2px 8px",
                   }}
                   onClick={() => {
                     acceptOrReject(
@@ -543,7 +554,11 @@ const SundayChallenge = (props) => {
               >
                 <div>
                   <button
-                    style={{ width: 130, height: 25 }}
+                    style={{
+                      borderRadius: 24,
+                      padding: "2px 8px",
+                      marginRight: "0.5rem",
+                    }}
                     className="is-success"
                     onClick={() => {
                       acceptOrReject(
@@ -560,8 +575,8 @@ const SundayChallenge = (props) => {
                     style={{
                       background: "#F43F5E",
                       color: "white",
-                      width: 130,
-                      height: 25,
+                      borderRadius: 24,
+                      padding: "2px 8px",
                     }}
                     // onClick={() =>
                     //   onjoinModal(
@@ -857,7 +872,11 @@ const SundayChallenge = (props) => {
                   streakTrack.challengeAction === "NO_CHALLENGE" ? (
                     <div>
                       <button
-                        style={{ width: 130, height: 25 }}
+                        style={{
+                          borderRadius: 24,
+                          padding: "2px 8px",
+                          marginRight: "0.5rem",
+                        }}
                         className="is-success"
                         onClick={() => {
                           acceptOrReject(
@@ -874,8 +893,8 @@ const SundayChallenge = (props) => {
                         style={{
                           background: "#F43F5E",
                           color: "white",
-                          width: 130,
-                          height: 25,
+                          borderRadius: 24,
+                          padding: "2px 6px",
                         }}
                         onClick={() =>
                           onjoinModal(
@@ -956,8 +975,8 @@ const SundayChallenge = (props) => {
               >
                 <button
                   style={{
-                    width: 130,
-                    height: 25,
+                    borderRadius: 24,
+                    padding: "2px 8px",
                     background: "green",
                     float: "right",
                     color: "white",
@@ -1249,7 +1268,11 @@ const SundayChallenge = (props) => {
                 distanceTrack.challengeAction === "NO_CHALLENGE" ? (
                   <div>
                     <button
-                      style={{ width: 130, height: 25 }}
+                      style={{
+                        borderRadius: 24,
+                        padding: "2px 8px",
+                        marginRight: "0.5rem",
+                      }}
                       className="is-success"
                       onClick={() => {
                         acceptOrReject(
@@ -1266,8 +1289,8 @@ const SundayChallenge = (props) => {
                       style={{
                         background: "#F43F5E",
                         color: "white",
-                        width: 130,
-                        height: 25,
+                        borderRadius: 24,
+                        padding: "2px 6px",
                       }}
                       onClick={() =>
                         onjoinModal(
@@ -1329,8 +1352,8 @@ const SundayChallenge = (props) => {
                 >
                   <button
                     style={{
-                      width: 130,
-                      height: 25,
+                      borderRadius: 24,
+                      padding: "2px 8px",
                       background: "green",
                       float: "right",
                       color: "white",
@@ -1591,7 +1614,11 @@ Once achieved, you will earn a badge which can be seen in Achievement<br/> secti
                 averageTrack.challengeAction === "NO_CHALLENGE" ? (
                   <div>
                     <button
-                      style={{ width: 130, height: 25 }}
+                      style={{
+                        borderRadius: 24,
+                        padding: "2px 8px",
+                        marginRight: "0.5rem",
+                      }}
                       className="is-success"
                       onClick={() => {
                         acceptOrReject(
@@ -1608,8 +1635,8 @@ Once achieved, you will earn a badge which can be seen in Achievement<br/> secti
                       style={{
                         background: "#F43F5E",
                         color: "white",
-                        width: 130,
-                        height: 25,
+                        borderRadius: 24,
+                        padding: "2px 6px",
                       }}
                       onClick={() =>
                         onjoinModal(
@@ -1702,8 +1729,8 @@ Once achieved, you will earn a badge which can be seen in Achievement<br/> secti
             >
               <button
                 style={{
-                  width: 130,
-                  height: 25,
+                  borderRadius: 24,
+                  padding: "2px 8px",
                   background: "green",
                   color: "white",
                   float: "right",

@@ -6,7 +6,7 @@ const Button = ({ type, id, className, text, onClick, loading = false }) => {
     <button
       id={id}
       className={classNames(
-        "mt-1 relative rounded-md shadow-sm",
+        "mt-1 relative shadow-sm",
         "block w-full p-2 text-xs border-gray-300 rounded-md",
         "focus:ring-indigo-500 focus:border-indigo-500",
         "border border-slate-300",

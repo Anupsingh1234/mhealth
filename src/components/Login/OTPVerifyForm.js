@@ -1,6 +1,7 @@
 import React from "react";
 import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 import OtpInput from "react-otp-input";
+import { PrimaryButton } from "../Form";
 
 const OTPVerifyForm = ({
   userData,
@@ -43,7 +44,7 @@ const OTPVerifyForm = ({
           />
         </div>
       ) : (
-        <button
+        <PrimaryButton
           className={
             userData.otp?.length === 6
               ? YottaMatch
@@ -53,14 +54,16 @@ const OTPVerifyForm = ({
           }
           disabled={userData.otp?.length !== 6}
           onClick={() => {
-            handleOtpInputSubmit(),
-              window.location.href == "https://weblite.mhealth.ai/#/login"
-                ? localStorage.setItem("webLite", "true")
-                : localStorage.setItem("webLite", "false");
+            if (userData.otp?.length === 6) {
+              handleOtpInputSubmit(),
+                window.location.href == "https://weblite.mhealth.ai/#/login"
+                  ? localStorage.setItem("webLite", "true")
+                  : localStorage.setItem("webLite", "false");
+            }
           }}
         >
           Continue
-        </button>
+        </PrimaryButton>
       )}
     </div>
   </>

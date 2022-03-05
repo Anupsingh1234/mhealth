@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import classnames from "classnames";
 import Chart from "react-apexcharts";
 import Message from "antd-message";
@@ -36,6 +36,7 @@ import ChallengeStatus from "./Dashboard/ChallengeStatus";
 import Badge from "@material-ui/core/Badge";
 import Quiz from "./QuizForEvents/quiz";
 import Forum from "./Forum";
+import ThemeContext from "../context/ThemeContext";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -1107,7 +1108,8 @@ const Dashboard = () => {
       }
     }
   };
-  // console.log(distancelogo, ' logo');
+
+  const { theme } = useContext(ThemeContext);
   const remainingDays = dashboardState.selectedChallengeObject.remainingDay;
   return (
     <div className="Dasboard">
@@ -1162,9 +1164,21 @@ const Dashboard = () => {
                   <div className="leaderboard-actions">
                     {dashboardState.listOfChallenges.length > 0 && (
                       <button
-                        className={classnames({
-                          selected: dashboardState.selectedAction === "forum",
-                        })}
+                        style={{
+                          background:
+                            dashboardState.selectedAction === "forum"
+                              ? theme.buttonTextColor
+                              : theme.buttonBGColor,
+                          color:
+                            dashboardState.selectedAction === "forum"
+                              ? theme.buttonBGColor
+                              : theme.buttonTextColor,
+                          border: "1px solid",
+                          borderColor:
+                            dashboardState.selectedAction === "forum"
+                              ? theme.buttonBGColor
+                              : theme.buttonTextColor,
+                        }}
                         onClick={() => {
                           setDashboardState((prevState) => {
                             return {
@@ -1181,9 +1195,21 @@ const Dashboard = () => {
                     {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
-                          className={classnames({
-                            selected: dashboardState.selectedAction === "quiz",
-                          })}
+                          style={{
+                            background:
+                              dashboardState.selectedAction === "quiz"
+                                ? theme.buttonTextColor
+                                : theme.buttonBGColor,
+                            color:
+                              dashboardState.selectedAction === "quiz"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                            border: "1px solid",
+                            borderColor:
+                              dashboardState.selectedAction === "quiz"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                          }}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
@@ -1201,9 +1227,21 @@ const Dashboard = () => {
                     {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
-                          className={classnames({
-                            selected: dashboardState.selectedAction === "team",
-                          })}
+                          style={{
+                            background:
+                              dashboardState.selectedAction === "team"
+                                ? theme.buttonTextColor
+                                : theme.buttonBGColor,
+                            color:
+                              dashboardState.selectedAction === "team"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                            border: "1px solid",
+                            borderColor:
+                              dashboardState.selectedAction === "team"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                          }}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
@@ -1220,10 +1258,21 @@ const Dashboard = () => {
 
                     {dashboardState.listOfChallenges.length > 0 && (
                       <button
-                        className={classnames({
-                          selected:
-                            dashboardState.selectedAction === "Challenge",
-                        })}
+                        style={{
+                          background:
+                            dashboardState.selectedAction === "Challenge"
+                              ? theme.buttonTextColor
+                              : theme.buttonBGColor,
+                          color:
+                            dashboardState.selectedAction === "Challenge"
+                              ? theme.buttonBGColor
+                              : theme.buttonTextColor,
+                          border: "1px solid",
+                          borderColor:
+                            dashboardState.selectedAction === "Challenge"
+                              ? theme.buttonBGColor
+                              : theme.buttonTextColor,
+                        }}
                         onClick={() => {
                           setDashboardState((prevState) => {
                             return {
@@ -1252,10 +1301,21 @@ const Dashboard = () => {
                     {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
-                          className={classnames({
-                            selected:
-                              dashboardState.selectedAction === "Activities",
-                          })}
+                          style={{
+                            background:
+                              dashboardState.selectedAction === "Activities"
+                                ? theme.buttonTextColor
+                                : theme.buttonBGColor,
+                            color:
+                              dashboardState.selectedAction === "Activities"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                            border: "1px solid",
+                            borderColor:
+                              dashboardState.selectedAction === "Activities"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                          }}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
@@ -1274,10 +1334,21 @@ const Dashboard = () => {
                       dashboardState.challengeSwitch === "upcoming") &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
-                          className={classnames({
-                            selected:
-                              dashboardState.selectedAction === "Source",
-                          })}
+                          style={{
+                            background:
+                              dashboardState.selectedAction === "Source"
+                                ? theme.buttonTextColor
+                                : theme.buttonBGColor,
+                            color:
+                              dashboardState.selectedAction === "Source"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                            border: "1px solid",
+                            borderColor:
+                              dashboardState.selectedAction === "Source"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                          }}
                           onClick={() => {
                             setDashboardState((prevState) => {
                               return {
@@ -1296,10 +1367,21 @@ const Dashboard = () => {
                       <>
                         {dashboardState.listOfChallenges.length > 0 && (
                           <button
-                            className={classnames({
-                              selected:
-                                dashboardState.selectedAction === "Gallery",
-                            })}
+                            style={{
+                              background:
+                                dashboardState.selectedAction === "Gallery"
+                                  ? theme.buttonTextColor
+                                  : theme.buttonBGColor,
+                              color:
+                                dashboardState.selectedAction === "Gallery"
+                                  ? theme.buttonBGColor
+                                  : theme.buttonTextColor,
+                              border: "1px solid",
+                              borderColor:
+                                dashboardState.selectedAction === "Gallery"
+                                  ? theme.buttonBGColor
+                                  : theme.buttonTextColor,
+                            }}
                             onClick={() => {
                               setDashboardState((prevState) => {
                                 return {
@@ -1314,10 +1396,21 @@ const Dashboard = () => {
                           </button>
                         )}
                         <button
-                          className={classnames({
-                            selected:
-                              dashboardState.selectedAction === "Compare",
-                          })}
+                          style={{
+                            background:
+                              dashboardState.selectedAction === "Compare"
+                                ? theme.buttonTextColor
+                                : theme.buttonBGColor,
+                            color:
+                              dashboardState.selectedAction === "Compare"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                            border: "1px solid",
+                            borderColor:
+                              dashboardState.selectedAction === "Compare"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                          }}
                           onClick={() =>
                             setDashboardState((prevState) => {
                               let comparableEvents = dashboardState.allChallenge
@@ -1338,11 +1431,24 @@ const Dashboard = () => {
                         {dashboardState.challengeSwitch !== "upcoming" &&
                           dashboardState.listOfChallenges.length > 0 && (
                             <button
-                              className={classnames({
-                                selected:
+                              style={{
+                                background:
                                   dashboardState.selectedAction ===
-                                  "achievement",
-                              })}
+                                  "achievement"
+                                    ? theme.buttonTextColor
+                                    : theme.buttonBGColor,
+                                color:
+                                  dashboardState.selectedAction ===
+                                  "achievement"
+                                    ? theme.buttonBGColor
+                                    : theme.buttonTextColor,
+                                border: "1px solid",
+                                borderColor:
+                                  dashboardState.selectedAction ===
+                                  "achievement"
+                                    ? theme.buttonBGColor
+                                    : theme.buttonTextColor,
+                              }}
                               onClick={() => {
                                 setDashboardState((prevState) => {
                                   return {
@@ -1359,10 +1465,21 @@ const Dashboard = () => {
                         {dashboardState.challengeSwitch !== "upcoming" &&
                           dashboardState.listOfChallenges.length > 0 && (
                             <button
-                              className={classnames({
-                                selected:
-                                  dashboardState.selectedAction === "challenge",
-                              })}
+                              style={{
+                                background:
+                                  dashboardState.selectedAction === "challenge"
+                                    ? theme.buttonTextColor
+                                    : theme.buttonBGColor,
+                                color:
+                                  dashboardState.selectedAction === "challenge"
+                                    ? theme.buttonBGColor
+                                    : theme.buttonTextColor,
+                                border: "1px solid",
+                                borderColor:
+                                  dashboardState.selectedAction === "challenge"
+                                    ? theme.buttonBGColor
+                                    : theme.buttonTextColor,
+                              }}
                               onClick={() => {
                                 setDashboardState((prevState) => {
                                   return {
@@ -1379,10 +1496,21 @@ const Dashboard = () => {
                         {dashboardState.challengeSwitch !== "upcoming" &&
                           dashboardState.listOfChallenges.length > 0 && (
                             <button
-                              className={classnames({
-                                selected:
-                                  dashboardState.selectedAction === "Target",
-                              })}
+                              style={{
+                                background:
+                                  dashboardState.selectedAction === "Target"
+                                    ? theme.buttonTextColor
+                                    : theme.buttonBGColor,
+                                color:
+                                  dashboardState.selectedAction === "Target"
+                                    ? theme.buttonBGColor
+                                    : theme.buttonTextColor,
+                                border: "1px solid",
+                                borderColor:
+                                  dashboardState.selectedAction === "Target"
+                                    ? theme.buttonBGColor
+                                    : theme.buttonTextColor,
+                              }}
                               onClick={() => {
                                 setDashboardState((prevState) => {
                                   return {
@@ -1397,10 +1525,21 @@ const Dashboard = () => {
                             </button>
                           )}
                         <button
-                          className={classnames({
-                            selected:
-                              dashboardState.selectedAction === "Performance",
-                          })}
+                          style={{
+                            background:
+                              dashboardState.selectedAction === "Performance"
+                                ? theme.buttonTextColor
+                                : theme.buttonBGColor,
+                            color:
+                              dashboardState.selectedAction === "Performance"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                            border: "1px solid",
+                            borderColor:
+                              dashboardState.selectedAction === "Performance"
+                                ? theme.buttonBGColor
+                                : theme.buttonTextColor,
+                          }}
                           onClick={() => handlePerformanceClick()}
                         >
                           Daily Score
@@ -1408,10 +1547,21 @@ const Dashboard = () => {
                       </>
                     )}
                     <button
-                      className={classnames({
-                        selected:
-                          dashboardState.selectedAction === "Leaderboard",
-                      })}
+                      style={{
+                        background:
+                          dashboardState.selectedAction === "Leaderboard"
+                            ? theme.buttonTextColor
+                            : theme.buttonBGColor,
+                        color:
+                          dashboardState.selectedAction === "Leaderboard"
+                            ? theme.buttonBGColor
+                            : theme.buttonTextColor,
+                        border: "1px solid",
+                        borderColor:
+                          dashboardState.selectedAction === "Leaderboard"
+                            ? theme.buttonBGColor
+                            : theme.buttonTextColor,
+                      }}
                       onClick={() =>
                         setDashboardState((prevState) => {
                           return {
@@ -1427,7 +1577,7 @@ const Dashboard = () => {
                       Leaderboard
                     </button>
                     <div style={{ marginLeft: "1em" }}>
-                      <FullScreen id="Challenges" />
+                      <FullScreen id="Challenges" theme={theme} />
                     </div>
                   </div>
                 </div>

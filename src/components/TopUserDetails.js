@@ -10,6 +10,7 @@ import SocialPost from "./SocialPost";
 import SocialLink from "./SocialLink";
 import { getOldEvents } from "../services/challengeApi";
 import { SignalCellularNullRounded } from "@material-ui/icons";
+import { PrimaryButton } from "./Form";
 const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   let history = useHistory();
   const StyledMenu = withStyles({
@@ -87,26 +88,16 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
       <div className="Avatar-Container">
         {coach === true ? (
           <>
-            <div>
-              <button
-                style={{
-                  color: "white",
-                  backgroundColor: "green",
-                  marginRight: "25px",
-                  // marginTop: '-5px',
-                }}
-                className="rounded-full px-4 py-1 mt-1"
+            <div className="mr-2">
+              <PrimaryButton
+                mini
                 onClick={() => {
                   setAppointmentView(true);
                 }}
+                className="mt-2"
               >
-                {" "}
-                {/* <Icon.Calendar /> */}
-                <span style={{ marginRight: 0 }}>
-                  Appointment
-                  {/* <ListItemText primary="Appointment" /> */}
-                </span>
-              </button>
+                Appointment
+              </PrimaryButton>
 
               {appointmentView && (
                 <Expert

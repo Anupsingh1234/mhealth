@@ -1385,8 +1385,9 @@ const Profile = () => {
                                             style={{
                                               backgroundColor: "green",
                                               color: "white",
-                                              height: "20px",
-                                              width: "50px",
+                                              borderRadius: 24,
+                                              padding: "2px 12px",
+                                              fontSize: 12,
                                             }}
                                             onClick={() =>
                                               editDependent(item.id)

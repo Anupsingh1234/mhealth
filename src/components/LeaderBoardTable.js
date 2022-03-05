@@ -825,13 +825,12 @@ export default function EnhancedTable({
                     <Tooltip title="Pin users">
                       <button
                         style={{
-                          height: 20,
                           background: "#E0E7FF",
                           color: "#4338CA",
-                          borderRadius: 2,
-                          width: 90,
+                          borderRadius: 24,
                           marginLeft: 10,
                           cursor: "pointer",
+                          padding: "2px 10px",
                         }}
                         onClick={() => setPinActive(!pinActive)}
                       >
@@ -927,7 +926,7 @@ export default function EnhancedTable({
               {leaderboardList?.data?.rankWiseBoard?.length > 0 &&
                 currentEvent["id"] && (
                   <>
-                    <p title="Export data">
+                    <p className="mx-1" title="Export data">
                       <CSVExport
                         data={
                           leaderboardList?.data?.rankWiseBoard?.length > 0
@@ -942,6 +941,7 @@ export default function EnhancedTable({
                 )}
               {/* <Calendar size={20}  /> */}
               <img
+                className="mx-1"
                 src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/DateRange.png"
                 height="25px"
                 width="25px"

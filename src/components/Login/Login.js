@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import login from "../../assets/login.svg";
 import "react-phone-input-2/lib/style.css";
 import { useHistory } from "react-router-dom";
@@ -11,6 +11,7 @@ import Message from "antd-message";
 import logoPng from "../../assets/logo.png";
 import CompnyForm from "./Complog";
 import DCompany from "./DCompanyForm";
+import CenteredLoader from "../shared/CenteredLoader";
 import {
   validateUserHandler,
   sendOTPHandler,
@@ -21,9 +22,11 @@ import {
 } from "../../services/loginapi";
 import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
+import ThemeContext from "../../context/ThemeContext";
 
 const Login = ({ YottaMatch }) => {
   window.message = Message;
+  const { theme, loading: loadingTheme } = useContext(ThemeContext);
   const history = useHistory();
   const [userData, setUserData] = useState({
     mobileNo: "",
@@ -479,18 +482,13 @@ const Login = ({ YottaMatch }) => {
     isExistingUser,
   } = userData;
 
-  return (
+  return loadingTheme ? (
+    <CenteredLoader />
+  ) : (
     <div className="Login">
       <div className="illustration">
-        {YottaMatch ? (
-          <img
-            src={
-              "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/yottacare.svg"
-            }
-          />
-        ) : (
-          <img src={login} />
-        )}
+        {/* <img src={YottaMatch ? "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/yottacare.svg" : login} /> */}
+        <img src={theme?.eventLogo || login} />
       </div>
       <div className="Logo">
         <img src={logoPng} />

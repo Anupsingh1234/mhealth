@@ -18,6 +18,7 @@ import { getOldEvents } from "../services/challengeApi";
 import SpeakerNotesIcon from "@material-ui/icons/SpeakerNotes";
 
 import classNames from "classnames";
+import { PrimaryButton } from "./Form";
 
 function Navbar({ className }) {
   const condition = JSON.parse(localStorage.getItem("condition"));
@@ -201,24 +202,15 @@ function Navbar({ className }) {
       {windowSize.width < 769 && condition && condition.isCoach === true ? (
         <>
           <div>
-            <button
-              style={{
-                color: "white",
-                backgroundColor: "green",
-                padding: "6px 8px",
-              }}
-              className="rounded-full"
+            <PrimaryButton
+              mini
               onClick={() => {
                 setAppointmentView(true);
               }}
+              className="mt-2"
             >
-              {" "}
-              {/* <Icon.Calendar /> */}
-              <span style={{ marginRight: 0 }}>
-                Appointment
-                {/* <ListItemText primary="Appointment" /> */}
-              </span>
-            </button>
+              Appointment
+            </PrimaryButton>
 
             {appointmentView && (
               <Expert

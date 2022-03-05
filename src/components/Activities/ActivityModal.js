@@ -1133,6 +1133,8 @@ const CreateActivityModal = ({
                               background: "green",
                               width: 100,
                               height: 22,
+                              borderRadius: 24,
+                              padding: "2px 8px",
                             }}
                           >
                             Set Coach
@@ -1892,6 +1894,8 @@ const CreateActivityModal = ({
             style={{
               marginTop: 0,
               marginLeft: 20,
+              borderRadius: 24,
+              padding: "2px 8px",
             }}
           >
             Submit

@@ -526,7 +526,9 @@ const SubEventCard = ({
     ) {
       return (
         <div className="register-button">
-          <button style={{ background: "#9e9e9e" }}>Expired</button>
+          <button style={{ background: "#9e9e9e", borderRadius: 24 }}>
+            Expired
+          </button>
         </div>
       );
     } else {
@@ -539,7 +541,7 @@ const SubEventCard = ({
         return (
           <div className="register-button">
             <button
-              style={{ marginBottom: "10px" }}
+              style={{ borderRadius: 24 }}
               onClick={() => {
                 subEventDetail.addressRequired == 1 ||
                 subEventDetail.dependentRequired == 1
@@ -630,7 +632,9 @@ const SubEventCard = ({
     if (subEventDetail.timePeriod == "PAST") {
       return (
         <div className="register-button">
-          <button style={{ background: "#9e9e9e" }}>Expired</button>
+          <button style={{ background: "#9e9e9e", borderRadius: 24 }}>
+            Expired
+          </button>
         </div>
       );
     } else {
@@ -642,7 +646,7 @@ const SubEventCard = ({
         return (
           <div className="register-button">
             <button
-              style={{ marginBottom: "10px" }}
+              style={{ borderRadius: 24 }}
               // onClick={() =>
               //   subscribeSubEventCall({
               //     dataSource:
@@ -673,7 +677,7 @@ const SubEventCard = ({
               return (
                 <div className="register-button">
                   <button
-                    style={{ marginBottom: "10px", background: "#ff9800" }}
+                    style={{ borderRadius: 24, background: "#ff9800" }}
                     onClick={() => consultApi()}
                   >
                     Consult Now
@@ -1668,7 +1672,10 @@ const SubEventCard = ({
             (condition && condition.isModerator === true)) &&
           type !== "view" ? (
             <div className="register-button">
-              <button onClick={() => handleSubEventEdit(subEventDetail)}>
+              <button
+                style={{ borderRadius: 24, fontSize: 13, padding: "2px 10px" }}
+                onClick={() => handleSubEventEdit(subEventDetail)}
+              >
                 Edit
               </button>
             </div>
@@ -2679,7 +2686,7 @@ const SubEventCard = ({
                                               width: "80px",
                                               height: "30px",
                                               backgroundColor: "green",
-                                              borderRadius: "15px",
+                                              borderRadius: "24px",
                                               color: "white",
                                             }}
                                             onClick={() =>
@@ -3053,7 +3060,7 @@ const SubEventCard = ({
                               style={{
                                 color: "#fff",
                                 background: "#F43F5E",
-                                borderRadius: 10,
+                                borderRadius: 24,
                                 padding: "0px 10px ",
                                 marginLeft: "5px",
                               }}
@@ -3071,7 +3078,7 @@ const SubEventCard = ({
                               style={{
                                 color: "#fff",
                                 background: "#ff9800",
-                                borderRadius: 10,
+                                borderRadius: 24,
                                 padding: "0px 10px ",
                                 marginLeft: "10px",
                               }}

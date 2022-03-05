@@ -14,6 +14,7 @@ import { useFilePicker } from "use-file-picker";
 import IconCircleButton from "../../../IconCircleButton";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Avatar from "@material-ui/core/Avatar";
+import PrimaryButton from "../../../Form";
 
 import {
   sendMessage,
@@ -21,7 +22,6 @@ import {
   reactToMessage,
   replyToMessage,
 } from "../../forumApi";
-import { SentimentSatisfiedAlt } from "@material-ui/icons";
 
 const Messages = ({
   messages,
@@ -523,16 +523,20 @@ const Messages = ({
             <p className="font-semibold text-xs md:text-base">{`Messages (${subEventName})`}</p>
           </div>
           <div>
-            <Button
-              type="danger"
-              text="Leave"
-              id="leave-forum-button"
-              loading={loading}
+            <button
+              className={classNames(
+                "border-0 rounded-full outline-none focus:outline-none",
+                "flex justify-center items-center w-full",
+                "cursor-pointer",
+                "px-4 py-1",
+                "bg-red-600 text-white text-sm"
+              )}
               onClick={() => {
-                // setSelectedForum(forum);
                 setLeave(true);
               }}
-            />
+            >
+              Leave
+            </button>
           </div>
         </div>
         <div>

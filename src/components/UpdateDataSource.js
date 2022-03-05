@@ -283,7 +283,11 @@ const UpdateDataSource = ({ dashboardState }) => {
                 <Button
                   variant="contained"
                   color="primary"
-                  style={{ backgroundColor: "#518ad6" }}
+                  style={{
+                    backgroundColor: "#518ad6",
+                    color: "white",
+                    borderRadius: 24,
+                  }}
                   onClick={() => {
                     let payload = {
                       eventId: currentEvent?.id,

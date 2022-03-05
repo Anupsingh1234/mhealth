@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import EventInfoModal from "./EventInfoModal";
 import EventRegisterModal from "./EventRegisterModal";
@@ -7,6 +7,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import { unsubscribeEvent, rejoinEvent } from "../services/challengeApi";
 import Message from "antd-message";
 import CancelIcon from "@material-ui/icons/Cancel";
+import ThemeContext from "../context/ThemeContext";
 import {
   urlPrefix,
   secretToken,
@@ -14,6 +15,7 @@ import {
   zoomreport,
 } from "../services/apicollection";
 import axios from "axios";
+import classNames from "classnames";
 let monthsObject = {
   "01": "Jan",
   "02": "Feb",
@@ -193,12 +195,40 @@ const EventCard = ({
             return (
               <div className="register-button">
                 {challenge?.regOpen && challenge?.verificationRequired === 1 ? (
-                  <button onClick={() => getValidEmail(challenge.id)}>
+                  <button
+                    className={classNames(
+                      "leading-none",
+                      "outline-none focus:outline-none",
+                      "flex justify-center items-center uppercase"
+                    )}
+                    style={{
+                      background: "#069B3F",
+                      color: "#FFF",
+                      padding: "6px 10px",
+                      borderRadius: "24px",
+                      fontSize: "12px",
+                    }}
+                    onClick={() => getValidEmail(challenge.id)}
+                  >
                     {/* Register */}
                     Subscribe
                   </button>
                 ) : (
-                  <button onClick={() => setRegisterModalView(true)}>
+                  <button
+                    className={classNames(
+                      "leading-none",
+                      "outline-none focus:outline-none",
+                      "flex justify-center items-center uppercase"
+                    )}
+                    style={{
+                      background: "#069B3F",
+                      color: "#FFF",
+                      padding: "6px 10px",
+                      borderRadius: "24px",
+                      fontSize: "12px",
+                    }}
+                    onClick={() => setRegisterModalView(true)}
+                  >
                     {/* Register */}
                     Subscribe
                   </button>
@@ -210,8 +240,18 @@ const EventCard = ({
             return (
               <div className="register-button">
                 <button
+                  className={classNames(
+                    "leading-none",
+                    "outline-none focus:outline-none",
+                    "flex justify-center items-center uppercase"
+                  )}
+                  style={{
+                    background: "#F43F5E",
+                    padding: "6px 10px",
+                    borderRadius: "24px",
+                    fontSize: "12px",
+                  }}
                   onClick={() => setUnsubModal(true)}
-                  style={{ background: "#F43F5E" }}
                 >
                   Unsubscribe
                 </button>
@@ -231,7 +271,17 @@ const EventCard = ({
                       fetchChallenges();
                     });
                   }}
-                  style={{ background: "#ffa726" }}
+                  className={classNames(
+                    "leading-none",
+                    "outline-none focus:outline-none",
+                    "flex justify-center items-center uppercase"
+                  )}
+                  style={{
+                    background: "#ffa726",
+                    padding: "6px 10px",
+                    borderRadius: "24px",
+                    fontSize: "12px",
+                  }}
                 >
                   Rejoin
                 </button>
@@ -242,29 +292,63 @@ const EventCard = ({
           return (
             <div className="register-button">
               {!challenge.isParticipated && (
-                <button onClick={() => setRegisterModalView(true)}>
+                <button
+                  className={classNames(
+                    "leading-none",
+                    "outline-none focus:outline-none",
+                    "flex justify-center items-center uppercase"
+                  )}
+                  style={{
+                    background: "#069B3F",
+                    color: "#FFF",
+                    padding: "6px 10px",
+                    borderRadius: "24px",
+                    fontSize: "12px",
+                  }}
+                  onClick={() => setRegisterModalView(true)}
+                >
                   {/* Register */}
                   Subscribe
                 </button>
               )}
               {challenge.isParticipated && challenge.isSubscribed && (
                 <button
+                  className={classNames(
+                    "leading-none",
+                    "outline-none focus:outline-none",
+                    "flex justify-center items-center uppercase"
+                  )}
                   onClick={() => setUnsubModal(true)}
-                  style={{ background: "#F43F5E" }}
+                  style={{
+                    background: "#F43F5E",
+                    padding: "6px 10px",
+                    borderRadius: "24px",
+                    fontSize: "12px",
+                  }}
                 >
-                  Usubscribe
+                  Unsubscribe
                 </button>
               )}
               {challenge.isParticipated &&
                 !challenge.isSubscribed &&
                 challenge.canRejoin && (
                   <button
+                    className={classNames(
+                      "leading-none",
+                      "outline-none focus:outline-none",
+                      "flex justify-center items-center uppercase"
+                    )}
                     onClick={() => {
                       rejoinEvent(challenge.id).then((res) => {
                         fetchChallenges();
                       });
                     }}
-                    style={{ background: "#ffa726" }}
+                    style={{
+                      background: "#ffa726",
+                      padding: "6px 10px",
+                      borderRadius: "24px",
+                      fontSize: "12px",
+                    }}
                   >
                     Rejoin
                   </button>
@@ -275,17 +359,15 @@ const EventCard = ({
       }
     }
   };
+  const { theme } = useContext(ThemeContext);
+  const cardSelected =
+    selectedAction === "Compare"
+      ? selectedChallengeArray.includes(challenge.id)
+      : selectedChallenge == challenge.id;
   return (
     <div
-      className={
-        selectedAction === "Compare"
-          ? selectedChallengeArray.includes(challenge.id)
-            ? "challenge-card challenge-card-first"
-            : "challenge-card"
-          : selectedChallenge == challenge.id
-          ? "challenge-card challenge-card-first"
-          : "challenge-card"
-      }
+      className={"challenge-card"}
+      style={cardSelected ? { background: theme.buttonBGColor } : undefined}
       key={challenge.id}
     >
       <div onClick={() => handleChallengeCardClick(challenge)}>
@@ -353,7 +435,7 @@ const EventCard = ({
           <div
             style={{
               fontSize: 9,
-              color: "#000",
+              color: cardSelected ? "#fff" : "#000",
               marginRight: 3,
               marginTop: 27,
             }}
@@ -407,6 +489,19 @@ const EventCard = ({
         >
           <div className="event-unsubscribe-modal">
             <button
+              className={classNames(
+                "leading-none",
+                "outline-none focus:outline-none",
+                "flex justify-center items-center uppercase"
+              )}
+              style={{
+                background: "#FFF",
+                color: "#000",
+                borderColor: "#000",
+                padding: "8px",
+                borderRadius: "24px",
+                fontSize: "12px",
+              }}
               onClick={() => {
                 window.message = Message;
                 unsubscribeEvent(challenge.id)
@@ -428,7 +523,24 @@ const EventCard = ({
             >
               Yes
             </button>
-            <button onClick={() => setUnsubModal(false)}>No</button>
+            <button
+              className={classNames(
+                "leading-none",
+                "outline-none focus:outline-none",
+                "flex justify-center items-center uppercase"
+              )}
+              style={{
+                background: "#F43F5E",
+                color: "#FFF",
+                borderColor: "#F43F5E",
+                padding: "8px",
+                borderRadius: "24px",
+                fontSize: "12px",
+              }}
+              onClick={() => setUnsubModal(false)}
+            >
+              No
+            </button>
           </div>
         </InfoDialog>
       )}

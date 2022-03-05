@@ -518,7 +518,7 @@ export default function EventInfoModal({
                         handleClose();
                         setActivityModalView({ status: true, type: "add" });
                       }}
-                      style={{ background: "#66bb6a", fontSize: 10 }}
+                      style={{ background: "#66bb6a", borderRadius: 24 }}
                     >
                       Add Activity
                     </button>
@@ -533,7 +533,7 @@ export default function EventInfoModal({
                         handleClose();
                         setActivityModalView({ status: true, type: "view" });
                       }}
-                      style={{ background: "#29b6f6", fontSize: 10 }}
+                      style={{ background: "#29b6f6", borderRadius: 24 }}
                     >
                       View Activity
                     </button>

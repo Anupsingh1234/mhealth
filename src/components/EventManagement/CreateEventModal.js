@@ -593,7 +593,7 @@ const CreateEventModal = ({
                   fontSize: "15px",
                 }}
                 className="forn-control p-4"
-                placeholder="Enetr mobile number"
+                placeholder="Enter mobile number"
               />
             </div>
             <div>
@@ -609,6 +609,8 @@ const CreateEventModal = ({
                 onClick={moderateSet}
                 style={{
                   background: "#F43F5E",
+                  padding: "2px 10px",
+                  width: "max-content",
                 }}
               >
                 Set Moderator
@@ -1112,6 +1114,7 @@ const CreateEventModal = ({
                         style={{
                           marginTop: 0,
                           marginLeft: 0,
+                          padding: "2px 10px",
                         }}
                       >
                         set moderator
@@ -2449,6 +2452,7 @@ const CreateEventModal = ({
                 marginTop: 0,
                 marginLeft: 20,
                 marginBottom: 20,
+                padding: "2px 10px",
               }}
             >
               Submit

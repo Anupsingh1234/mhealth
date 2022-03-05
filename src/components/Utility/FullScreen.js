@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Maximize2, Minimize2 } from "react-feather";
 
-const FullScreen = ({ id }) => {
+const FullScreen = ({ id, theme }) => {
   const [isMax, setMax] = useState(
     localStorage.getItem("dashboard_view_status") == 0 ? true : false
   );
@@ -16,6 +16,7 @@ const FullScreen = ({ id }) => {
   return (
     <div
       className="full-screen-button"
+      style={{ background: theme.buttonBGColor, color: theme.buttonTextColor }}
       onClick={() => {
         let Element = document.getElementById(id);
 

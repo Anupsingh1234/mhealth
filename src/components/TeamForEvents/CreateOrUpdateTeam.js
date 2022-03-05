@@ -1805,21 +1805,21 @@ const CreateTeam = (props) => {
               />{" "}
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <h2> {team} </h2>
-                <h3 style={{ marginTop: -15, fontWeight: "lighter" }}>
-                  {" "}
-                  {tag}{" "}
-                </h3>
+                <h3 style={{ fontWeight: "lighter" }}> {tag} </h3>
               </div>{" "}
             </div>
             <div>
               {leaveId && (
                 <button
                   style={{
-                    marginTop: 25,
+                    marginTop: 30,
+                    marginBottom: 15,
                     color: "white",
                     background: "#ef5350",
-                    height: 25,
-                    width: 90,
+                    // height: 25,
+                    // width: 90,
+                    borderRadius: 24,
+                    padding: "4px 8px",
                   }}
                   onClick={() => {
                     openLeaveModal();

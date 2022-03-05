@@ -1,5 +1,6 @@
 import React from "react";
 import OtpInput from "react-otp-input";
+import { PrimaryButton } from "../Form";
 import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 
 const UserInfoForm = ({
@@ -156,16 +157,7 @@ const UserInfoForm = ({
           />
         </div>
       ) : (
-        <button
-          className={
-            userData.firstname.length !== 0 &&
-            userData.lastname.length !== 0 &&
-            userData.pin.length === 4 &&
-            userData.confirmPin.length === 4 &&
-            userData.pin === userData.confirmPin
-              ? "is-success"
-              : "is-disabled"
-          }
+        <PrimaryButton
           disabled={
             userData.firstname.length !== 0 &&
             userData.lastname.length !== 0 &&
@@ -176,11 +168,19 @@ const UserInfoForm = ({
               : true
           }
           onClick={() => {
-            handleInfoSubmit();
+            const isDisabled =
+              userData.firstname.length !== 0 &&
+              userData.lastname.length !== 0 &&
+              userData.pin.length === 4 &&
+              userData.confirmPin.length === 4 &&
+              userData.pin === userData.confirmPin
+                ? false
+                : true;
+            !isDisabled && handleInfoSubmit();
           }}
         >
           Continue
-        </button>
+        </PrimaryButton>
       )}
     </div>
   </>

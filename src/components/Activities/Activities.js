@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Message from "antd-message";
 import { PlusCircle } from "react-feather";
 import TopUserDetails from "../TopUserDetails";
@@ -23,6 +23,7 @@ import {
 } from "../../services/challengeApi";
 import axios from "axios";
 import { urlPrefix } from "../../services/apicollection";
+import ThemeContext from "../../context/ThemeContext";
 const Activities = () => {
   const [activityState, setActivityState] = useState({
     listOfEventsData: [],
@@ -558,6 +559,7 @@ const Activities = () => {
     }
   };
   const condition = JSON.parse(localStorage.getItem("condition"));
+  const { theme } = useContext(ThemeContext);
   return (
     <div className="Dasboard">
       <TopUserDetails />
@@ -588,8 +590,8 @@ const Activities = () => {
                   }}
                   style={{
                     width: "max-content",
-                    padding: "2px 4px",
-                    borderRadius: "2px",
+                    padding: "2px 8px",
+                    borderRadius: 24,
                   }}
                 >
                   <PlusCircle size="18" style={{ marginRight: 2 }} />
@@ -638,8 +640,8 @@ const Activities = () => {
                       size="18"
                       style={{
                         marginRight: 2,
-                        padding: "2px 4px",
-                        borderRadius: "2px",
+                        padding: "2px 8px",
+                        borderRadius: 24,
                       }}
                     />
                     Create Program
@@ -685,7 +687,7 @@ const Activities = () => {
             height: 32,
           }}
         >
-          <FullScreen id="activities-management" />
+          <FullScreen id="activities-management" theme={theme} />
         </div>
         {activityState.selectedSubEvent &&
           activityState.listOfSubEventsData.length > 0 && (

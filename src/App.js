@@ -1,6 +1,6 @@
 import "./App.css";
 
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense, useState, useContext } from "react";
 import { useMount } from "react-use";
 import {
   Route,
@@ -28,11 +28,14 @@ const Pdf = lazy(() => import("./components/Pdf"));
 const Forum = lazy(() => import("./components/Forum"));
 const Messages = lazy(() => import("./components/Forum/components/Messages"));
 import Modal from "react-modal";
+import ThemeContext from "./context/ThemeContext";
 
 import axios from "axios";
+import classNames from "classnames";
 Modal.setAppElement("#root");
 
 const App = () => {
+  const { theme } = useContext(ThemeContext);
   const location = useLocation();
   const history = useHistory();
   const condition = JSON?.parse(localStorage.getItem("condition"));
@@ -40,7 +43,7 @@ const App = () => {
     condition && condition.isAdmin === true
       ? [
           {
-            pageLink: "/login",
+            pageLink: "/",
             view: Login,
             displayName: "Login",
             showInNavbar: true,
@@ -87,12 +90,12 @@ const App = () => {
             displayName: "Activities",
             showInNavbar: true,
           },
-          {
-            pageLink: "/",
-            view: UpcomingEvents,
-            displayName: "UpcomingEvents",
-            showInNavbar: true,
-          },
+          // { DEPRECATED: 4-MARCH-2022
+          //   pageLink: "/",
+          //   view: UpcomingEvents,
+          //   displayName: "UpcomingEvents",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -139,7 +142,7 @@ const App = () => {
       : condition && condition.isModerator === true
       ? [
           {
-            pageLink: "/login",
+            pageLink: "/",
             view: Login,
             displayName: "Login",
             showInNavbar: true,
@@ -186,12 +189,12 @@ const App = () => {
             displayName: "Activities",
             showInNavbar: true,
           },
-          {
-            pageLink: "/",
-            view: UpcomingEvents,
-            displayName: "UpcomingEvents",
-            showInNavbar: true,
-          },
+          // { DEPRECATED: 4-MARCH-2022
+          //   pageLink: "/",
+          //   view: UpcomingEvents,
+          //   displayName: "UpcomingEvents",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -237,7 +240,7 @@ const App = () => {
         ]
       : [
           {
-            pageLink: "/login",
+            pageLink: "/",
             view: Login,
             displayName: "Login",
             showInNavbar: true,
@@ -254,12 +257,12 @@ const App = () => {
             displayName: "Dashboard",
             showInNavbar: true,
           },
-          {
-            pageLink: "/",
-            view: UpcomingEvents,
-            displayName: "UpcomingEvents",
-            showInNavbar: true,
-          },
+          // { DEPRECATED: 4-MARCH-2022
+          //   pageLink: "/",
+          //   view: UpcomingEvents,
+          //   displayName: "UpcomingEvents",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -349,7 +352,10 @@ const App = () => {
   });
 
   return (
-    <div className={YottaMatch ? "Yotta-App" : "App"}>
+    <div
+      className={"flex flex-col min-h-[100vh]"}
+      style={{ background: theme.primaryColor }}
+    >
       <Suspense fallback={<div />}>
         <Switch location={location}>
           {pages.map((page, index) => {
@@ -363,25 +369,14 @@ const App = () => {
                 />
               );
             } else {
-              if (history.location.pathname === "/login") {
-                return (
-                  <Route
-                    exact
-                    path={"/login"}
-                    render={() => <Login YottaMatch={YottaMatch} />}
-                    key={0}
-                  />
-                );
-              } else {
-                return (
-                  <Route
-                    exact
-                    path={"/"}
-                    render={() => <UpcomingEvents />}
-                    key={0}
-                  />
-                );
-              }
+              return (
+                <Route
+                  exact
+                  path={"/"}
+                  render={() => <Login YottaMatch={YottaMatch} />}
+                  key={0}
+                />
+              );
             }
           })}
           <Redirect to="/" />

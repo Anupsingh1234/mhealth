@@ -214,7 +214,12 @@ const TargetSetting = ({ dashboardState }) => {
           payload.date == null ||
           payload.date == ""
         }
-        style={{ background: "#29b6f6", color: "#fff" }}
+        style={{
+          background: "#29b6f6",
+          color: "#fff",
+          padding: "2px 10px",
+          borderRadius: 24,
+        }}
         onClick={() => {
           window.message = Message;
           setPersonalTargetData(payload)
@@ -900,7 +905,7 @@ const TargetSetting = ({ dashboardState }) => {
               cursor: "pointer",
             }}
           >
-            <div style={{ padding: 10 }}>
+            <div style={{ padding: 20 }} className="flex gap-4">
               <img
                 src="images/img1.jpeg"
                 style={{
@@ -918,7 +923,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 2 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -931,7 +935,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 3 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -940,13 +943,12 @@ const TargetSetting = ({ dashboardState }) => {
                 }}
               />
             </div>
-            <div style={{ padding: 10 }}>
+            <div style={{ padding: 20 }} className="flex gap-4">
               <img
                 src="images/img4.jpeg"
                 style={{
                   width: 150,
                   height: 200,
-                  // marginLeft: 20,
                   border: imgborder == 4 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -960,7 +962,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 5 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -974,7 +975,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 6 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -986,14 +986,12 @@ const TargetSetting = ({ dashboardState }) => {
           </div>
           <button
             style={{
-              marginTop: 15,
               background: "green",
-              width: 150,
-              height: 30,
               float: "right",
               color: "#fff",
-              marginBottom: 15,
-              marginLeft: 15,
+              borderRadius: 24,
+              padding: "2px 12px",
+              margin: "1rem",
             }}
             onClick={() => {
               history.push("./pdf");

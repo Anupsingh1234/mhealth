@@ -689,16 +689,19 @@ h3 > span {
 }
 
 .leaderboard-actions {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .leaderboard-actions > button {
   border-radius: 0;
-  background-color: #6666ff;
-  border: 2px #6666ff solid;
+  /* background-color: #6666ff; */
+  border: 0.5px #fff solid;
   border-bottom: 0;
   border-top: 0;
   color: #ffffff;
@@ -1845,14 +1848,14 @@ select:focus {
 }
 
 .full-screen-button {
-  background: #6666ff;
+  /* background: #6666ff; */
   border-radius: 4px;
   padding: 8px;
   color: #ffffff;
 }
 
 .full-screen-button:hover {
-  background: #ccccff;
+  /* background: #ccccff; */
   color: black;
 }
 

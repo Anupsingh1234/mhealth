@@ -164,7 +164,7 @@ export default function AddPastDetailForm({
                   <img src={state.supporting_doc} width={150} height={150} />
                 </div>
                 <button
-                  style={{ margin: 10 }}
+                  style={{ margin: 10, borderRadius: 24 }}
                   className="select-supporting-doc-button"
                   onClick={() => {
                     setState({
