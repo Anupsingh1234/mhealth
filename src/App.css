@@ -262,7 +262,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex: 1;
+  flex: 1.25 0.75;
   min-height: 100vh;
   background: var(--white);
 }

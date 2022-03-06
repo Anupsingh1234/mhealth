@@ -9,6 +9,7 @@ import SuccessForm from "./SuccessForm";
 import PasswordVerifyForm from "./PasswordVerifyForm";
 import Message from "antd-message";
 import logoPng from "../../assets/logo.png";
+import copyright from "../../assets/copyright.svg";
 import CompnyForm from "./Complog";
 import DCompany from "./DCompanyForm";
 import CenteredLoader from "../shared/CenteredLoader";
@@ -23,6 +24,8 @@ import {
 import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
 import ThemeContext from "../../context/ThemeContext";
+import classNames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Login = ({ YottaMatch }) => {
   window.message = Message;
@@ -486,13 +489,42 @@ const Login = ({ YottaMatch }) => {
     <CenteredLoader />
   ) : (
     <div className="Login">
-      <div className="illustration">
-        {/* <img src={YottaMatch ? "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/yottacare.svg" : login} /> */}
-        <img src={theme?.eventLogo || login} />
+      <div className="illustration relative">
+        <div>
+          <img src={theme?.eventLogo || login} />
+          <div
+            className={classNames(
+              "absolute bottom-4 left-0 px-4",
+              "text-xs font-semibold tracking-wide text-gray-800",
+              "flex justify-between w-full items-center"
+            )}
+          >
+            <p className="flex gap-1 items-center">
+              Powered by
+              <img
+                src={logoPng}
+                className="inline"
+                width="32px"
+                height="32px"
+              />
+              mHealth
+            </p>
+            <p className="flex items-center gap-1">
+              <img
+                src={copyright}
+                className="inline"
+                width="18px"
+                height="18px"
+              />
+              <span>{new Date().getFullYear()}</span>
+              created by Steering Lives India Pvt. Ltd.
+            </p>
+          </div>
+        </div>
       </div>
       <div className="Logo">
-        <img src={logoPng} />
-        <div className="logo-text">mHealth.ai</div>
+        <img src={theme.sponsorLogo} width="48px" height="48px" />
+        {/* <div className="logo-text">mHealth.ai</div> */}
       </div>
       <div className="form-container">
         <div className={"form"}>

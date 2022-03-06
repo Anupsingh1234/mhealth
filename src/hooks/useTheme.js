@@ -9,6 +9,8 @@ const defaultTheme = {
   primaryColor: defaultPrimaryColor,
   eventLogo:
     "https://walkathon21.s3.ap-south-1.amazonaws.com/event/status/3363e6a18c93968ea0d67e6d4bf14731107dbd9c",
+  sponsorLogo:
+    "https://walkathon21.s3.ap-south-1.amazonaws.com/event/master/529d1ca2b0343bb262e4bd95406d32357dcf4fee",
 };
 const useTheme = () => {
   const [loading, setLoading] = useState(false);
@@ -22,7 +24,7 @@ const useTheme = () => {
     ) {
       return window.location.hostname.split(".")[0];
     } else {
-      return "";
+      return "global";
     }
   };
 
@@ -41,6 +43,7 @@ const useTheme = () => {
               data.buttonTextColor || defaultTheme.buttonTextColor,
             primaryColor: data.primaryColor || defaultTheme.primaryColor,
             eventLogo: data.eventLogo || defaultTheme.eventLogo,
+            sponsorLogo: data.sponsorLogo || defaultTheme.sponsorLogo,
           };
           setTheme(theme);
         }
