@@ -1777,6 +1777,15 @@ select:focus {
   justify-content: center;
   align-items: center;
 }
+.target-data-inner-column1 {
+  width: 100%;
+  padding: 4px 10px;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .target-data-bold {
   font-weight: 800;
   display: flex;

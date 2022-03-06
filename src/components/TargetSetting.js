@@ -49,10 +49,14 @@ const TargetSetting = ({ dashboardState }) => {
   const [personalData, setPersonalData] = useState({});
   const [payload, setPayload] = useState({
     eventId: dashboardState.selectedChallenge,
-    date: "",
+    date: dashboardState.selectedChallengeObject.challengeStartDate.substring(
+      0,
+      10
+    ),
     distance: undefined,
+    healthGoal: "",
   });
-
+  console.log(payload, "payload");
   const [imgborder, setimgborder] = useState(1);
 
   const [open, setOpen] = useState(false);
@@ -146,6 +150,7 @@ const TargetSetting = ({ dashboardState }) => {
       eventId: dashboardState.selectedChallenge,
       date: "",
       distance: undefined,
+      healthGoal: "",
     });
     fetchTargetData();
   }, [dashboardState.selectedChallenge]);
@@ -204,7 +209,30 @@ const TargetSetting = ({ dashboardState }) => {
           />
         </MuiPickersUtilsProvider>
       </div>
-
+      <div
+        className="mhealth-input-box padding-025em"
+        style={{ marginBottom: "10px" }}
+      >
+        <div>
+          <label>Health Goal</label>
+        </div>
+        <textarea
+          autofocus="autofocus"
+          style={{
+            // background: "#f3f4f6",
+            padding: "10px 10px",
+            borderRadius: 6,
+            fontSize: 12,
+            width: "90%",
+            outline: "none",
+            height: "50px",
+          }}
+          type="text"
+          placeholder="Enter your Health Goal"
+          value={payload.healthGoal}
+          onChange={(e) => handlePayloadChange("healthGoal", e.target.value)}
+        />
+      </div>
       <button
         className="create-event-button"
         type="primary"
@@ -245,6 +273,7 @@ const TargetSetting = ({ dashboardState }) => {
             eventId: dashboardState.selectedChallenge,
             date: "",
             distance: undefined,
+            healthGoal: "",
           });
         }}
       >
@@ -314,6 +343,18 @@ const TargetSetting = ({ dashboardState }) => {
               }}
             >
               {personalData?.message}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="target-table-row">
+        <div className="target-metric-column">
+          <div> My Health Goal</div>
+        </div>
+        <div className="target-data-column">
+          <div className="target-data-inner-column1">
+            <div className="target-data-bold">
+              {personalData?.healthGoal ? personalData?.healthGoal : "-"}
             </div>
           </div>
         </div>
@@ -1010,6 +1051,7 @@ const TargetSetting = ({ dashboardState }) => {
             eventId: dashboardState.selectedChallenge,
             date: "",
             distance: undefined,
+            healthGoal: "",
           });
         }}
         aria-labelledby="simple-modal-title"

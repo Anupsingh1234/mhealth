@@ -33,7 +33,7 @@ export default function DatePicker({
       {outlineVariantDisable ? (
         <KeyboardDatePicker
           autoOk
-          format="yyyy/MM/dd"
+          format="yyyy-MM-dd"
           value={value ?? ""}
           InputAdornmentProps={{ position: "start" }}
           onChange={(date) => onChange(formatDate(date))}
@@ -43,7 +43,7 @@ export default function DatePicker({
       ) : (
         <KeyboardDatePicker
           autoOk
-          format="yyyy/MM/dd"
+          format="yyyy-MM-dd"
           value={value ?? ""}
           InputAdornmentProps={{ position: "start" }}
           onChange={(date) => onChange(formatDate(date))}

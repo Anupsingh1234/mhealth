@@ -1657,7 +1657,11 @@ const Dashboard = () => {
         ) : (
           <>
             <h1 style={{ textAlign: "center" }}>
-              {remainingDays} Days to GO....
+              {remainingDays ? (
+                <>{remainingDays} Days to GO....</>
+              ) : (
+                <FacebookCircularProgress />
+              )}
             </h1>
           </>
         )}

@@ -82,6 +82,7 @@ const EventCard = ({
         // setValidateModalView(true)\
       });
   };
+  localStorage.setItem("ViewModal", registerModalView);
   const sentMail = () => {
     setEmailVerifiedMessage(false);
     if (challenge.isParticipated && challenge.isUserVerifiedInEvent === true) {

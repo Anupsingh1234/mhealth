@@ -75,6 +75,14 @@ export default function EventRegisterModal({
   });
 
   const [dataSourceList, setDataSourceList] = useState([]);
+  const authoapi = () => {
+    setInterval(() => {
+      if (localStorage.getItem("ViewModal") === "true") {
+        checkAuthorizedSources();
+      }
+    }, 10000);
+  };
+  console.log(modalView, "modalview");
 
   const checkAuthorizedSources = () =>
     getUserDetailsHandler().then((res) => {
@@ -477,11 +485,61 @@ export default function EventRegisterModal({
                             : "datasource-image"
                         }
                       >
+                        {/* <div style={{display: 'flex', flexDirection: 'column'}}>
+                          <div style={{fontSize: 12}}>
+                            {item[0] === 'GOOGLE_FIT' ? 'GOOGLE FIT' : item[0]}
+                          </div>
+                        </div>
+                        <img
+                          src={item[1]}
+                          key={item[0]}
+                          style={{
+                            marginLeft: 5,
+                            height: 25,
+                          }}
+                        /> */}
+
                         <div
                           style={{ display: "flex", flexDirection: "column" }}
                         >
                           <div style={{ fontSize: 12 }}>
                             {item[0] === "GOOGLE_FIT" ? "GOOGLE FIT" : item[0]}
+                          </div>
+                          <div style={{ fontSize: 10 }}>
+                            {currentSourceStatus == "connect" &&
+                            item[0] !== "WHATSAPP" ? (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                <p style={{ fontSize: 9 }}> Not authrized</p>
+                                <button
+                                  style={{
+                                    fontSize: 9,
+                                    height: 20,
+                                    width: 100,
+                                    marginTop: 0,
+                                    background: "green",
+                                    color: "#fff",
+                                  }}
+                                  onClick={() => {
+                                    getAuthLink(item[0]).then((res) => {
+                                      window.open(
+                                        res?.data?.response?.responseData
+                                          ?.authorizationLink
+                                      );
+                                      // setmfinemodal(true);
+                                    }),
+                                      authoapi();
+                                  }}
+                                >
+                                  {" "}
+                                  Authorize{" "}
+                                </button>
+                              </div>
+                            ) : null}
                           </div>
                         </div>
                         <img
@@ -494,15 +552,86 @@ export default function EventRegisterModal({
                         />
                       </div>
                     </Tooltip>
-                    <div style={{ fontSize: 10, cursor: "pointer" }}>
-                      {currentSourceStatus == "connect" &&
-                      item[0] !== "WHATSAPP" ? (
-                        <a href={currentSource?.authLink} target={"_blank"}>
-                          {" "}
+                    {/* <button
+                      style={{
+                        fontSize: 9,
+                        height: 20,
+                        width: 100,
+                        marginTop: 0,
+                        // background: 'green',
+                        color: 'white',
+                      }}
+                      className="is-success"
+                    >
+                      {currentSourceStatus == 'connect' &&
+                      item[0] !== 'WHATSAPP' ? (
+                        <a href={currentSource?.authLink} target={'_blank'}>
+                          {' '}
                           Authorize
                         </a>
                       ) : null}
-                    </div>
+                    </button>{' '} */}
+                    {/* <button
+                      style={{
+                        fontSize: 9,
+                        height: 20,
+                        width: 100,
+                        marginTop: 0,
+                        // background: 'green',
+                        color: '#fff',
+                      }}
+                      className="is-success"
+                      // onClick={() => {
+                      //   getAuthLink(item[0]).then((res) => {
+                      //     window.open(
+                      //       res?.data?.response?.responseData?.authorizationLink
+                      //     );
+                      //     // setmfinemodal(true);
+                      //   }),
+                      //     authoapi();
+                      // }}
+                    >
+                      {' '}
+                      Authorize{' '}
+                    </button>
+                    {/* <div style={{display: 'flex', flexDirection: 'column'}}>
+                      <div style={{fontSize: 12}}>
+                        {item[0] === 'GOOGLE_FIT' ? 'GOOGLE FIT' : item[0]}
+                      </div>
+                      <div style={{fontSize: 10}}>
+                        {currentSourceStatus == 'connect' &&
+                        item[0] !== 'WHATSAPP' ? (
+                          <div
+                            style={{display: 'flex', flexDirection: 'column'}}
+                          >
+                            <p style={{fontSize: 9}}> Not authrized</p>
+                            <button
+                              style={{
+                                fontSize: 9,
+                                height: 20,
+                                width: 100,
+                                marginTop: 0,
+                                background: 'green',
+                                color: '#fff',
+                              }}
+                              // onClick={() => {
+                              //   getAuthLink(item[0]).then((res) => {
+                              //     window.open(
+                              //       res?.data?.response?.responseData
+                              //         ?.authorizationLink
+                              //     );
+                              //     // setmfinemodal(true);
+                              //   }),
+                              //     authoapi();
+                              // }}
+                            >
+                              {' '}
+                              Authorize{' '}
+                            </button>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div> */}
                   </div>
                 );
               })}

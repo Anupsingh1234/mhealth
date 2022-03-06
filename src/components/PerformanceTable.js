@@ -641,6 +641,15 @@ export default function PerformanceTable({
                             });
                         }
                         if (eventIDForSync.length > 0) {
+                          syncGFitAndStrava("fix", eventId).then((res) => {
+                            if (res.data.response.responseCode === 0) {
+                              message.success("Synced");
+                              setEventIDForSync([]);
+                              setCheckingData(false);
+                            }
+                          });
+                        }
+                        if (eventIDForSync.length > 0) {
                           syncGFitAndStrava("fix", eventId)
                             .then((res) => {
                               if (res.data.response.responseCode === 0) {

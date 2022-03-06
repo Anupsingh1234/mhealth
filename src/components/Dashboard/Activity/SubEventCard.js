@@ -1545,7 +1545,7 @@ const SubEventCard = ({
                       position: "absolute",
                       top: 15,
                       right: 5,
-                      color: "#ef5350",
+                      color: "red",
                       cursor: "pointer",
                     }}
                   /> */}
