@@ -41,6 +41,7 @@ import { Edit } from "react-feather";
 import { CSVLink } from "react-csv";
 import axios from "axios";
 import { urlPrefix } from "../../services/apicollection";
+import { PrimaryButton } from "../Form";
 
 const CorporateReport = (props) => {
   const [order, setOrder] = useState("asc");
@@ -504,17 +505,14 @@ const CorporateReport = (props) => {
             marginLeft: 50,
           }}
         >
-          <button
-            className="is-success rounded-full"
-            style={{
-              marginTop: 25,
-              padding: "6px 8px",
-            }}
+          <PrimaryButton
+            mini
+            className="w-[max-content] text-sm"
             onClick={handleChange}
           >
             {" "}
             submit{" "}
-          </button>
+          </PrimaryButton>
           <span
             style={{
               marginTop: 20,

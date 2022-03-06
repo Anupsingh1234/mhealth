@@ -43,6 +43,7 @@ import axios from "axios";
 import { urlPrefix, secretToken } from "../../services/apicollection";
 import InfoDialog from "../Utility/InfoDialog";
 import SundayChallenge from "../SundayChallenge";
+import { PrimaryButton } from "../Form";
 const SundayChallengeReport = (props) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
@@ -444,17 +445,13 @@ const SundayChallengeReport = (props) => {
             marginLeft: 50,
           }}
         >
-          <button
-            className="is-success rounded-full"
-            style={{
-              padding: "6px 8px",
-              marginTop: 25,
-            }}
+          <PrimaryButton
+            mini
+            className="w-[max-content] text-sm"
             onClick={handleChange}
           >
-            {" "}
-            submit{" "}
-          </button>
+            submit
+          </PrimaryButton>
           <span
             style={{
               marginTop: 20,

@@ -1161,7 +1161,6 @@ select:focus {
 /* **** .Leaderboard ***** */
 .leaderboard-table-title {
   flex: 1 1 100% !important;
-  height: 10px;
 }
 
 .Old-Challenges {
@@ -1431,6 +1430,7 @@ select:focus {
 .display-row {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .registration-modal {

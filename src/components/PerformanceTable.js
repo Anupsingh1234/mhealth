@@ -34,6 +34,7 @@ import {
 import { AlertTriangle } from "react-feather";
 import Tooltip from "@material-ui/core/Tooltip";
 import Message from "antd-message";
+import { PrimaryButton } from "./Form/Button";
 
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
@@ -590,84 +591,78 @@ export default function PerformanceTable({
               </div>
             </span>
 
-            <div
-              style={{
-                width: "30%",
-                marginLeft: "-150px",
-                marginTop: "10px",
-                display: "flex",
-              }}
-            >
+            <div className="flex justify-start">
               {/* <button onClick={onOpenModal}> Download certificate </button> */}
               {challengeSwitch !== "old" && dataButtonType === "WHATSAPP_WEB" && (
-                <button
-                  className="add-data-button rounded-full h-8 px-2"
-                  style={{
-                    marginLeft: 10,
-                    marginTop: 10,
-                    fontSize: 12,
-                  }}
-                  onClick={() => {
-                    var today = new Date();
-                    var dd = String(today.getDate()).padStart(2, "0");
-                    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-                    var yyyy = today.getFullYear();
+                <div className="w-[max-content] text-sm flex items-center">
+                  <PrimaryButton
+                    mini
+                    onClick={() => {
+                      var today = new Date();
+                      var dd = String(today.getDate()).padStart(2, "0");
+                      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+                      var yyyy = today.getFullYear();
 
-                    setSelectedDate(yyyy + "-" + mm + "-" + dd);
-                    setDisplayModal(true);
-                  }}
-                >
-                  Add Today's Data
-                </button>
+                      setSelectedDate(yyyy + "-" + mm + "-" + dd);
+                      setDisplayModal(true);
+                    }}
+                  >
+                    Add Today's Data
+                  </PrimaryButton>
+                </div>
               )}
 
               {challengeSwitch !== "old" &&
                 dataButtonType === "STRAVA_GOOGLE_FIT" && (
-                  <button
-                    className="add-data-button rounded-full h-8 px-2"
-                    style={{ marginLeft: 10 }}
-                    onClick={() => {
-                      window.message = Message;
-                      /** api to sync**/
-                      setCheckingData(true);
-                      if (eventIDForSync.length === 0) {
-                        syncGFitAndStrava("check", eventId)
-                          .then((res) => {
-                            if (res.data.response.responseCode === 0) {
-                              setEventIDForSync(res.data.response.responseData);
-                            } else {
-                              message.success("No Data to sync");
+                  <div className="w-[max-content] text-sm flex items-center">
+                    <PrimaryButton
+                      mini
+                      style={{ marginLeft: 10 }}
+                      onClick={() => {
+                        window.message = Message;
+                        /** api to sync**/
+                        setCheckingData(true);
+                        if (eventIDForSync.length === 0) {
+                          syncGFitAndStrava("check", eventId)
+                            .then((res) => {
+                              if (res.data.response.responseCode === 0) {
+                                setEventIDForSync(
+                                  res.data.response.responseData
+                                );
+                              } else {
+                                message.success("No Data to sync");
+                                setEventIDForSync([]);
+                              }
+                              setCheckingData(false);
+                            })
+                            .catch((err) => {
                               setEventIDForSync([]);
-                            }
-                            setCheckingData(false);
-                          })
-                          .catch((err) => {
-                            setEventIDForSync([]);
-                            setCheckingData(false);
-                          });
-                      }
-                      if (eventIDForSync.length > 0) {
-                        syncGFitAndStrava("fix", eventId)
-                          .then((res) => {
-                            if (res.data.response.responseCode === 0) {
-                              message.success("Synced");
-                              setEventIDForSync([]);
-                              handlePerformanceClick();
-                            }
-                            setCheckingData(false);
-                          })
-                          .catch((err) => {
-                            setCheckingData(false);
-                          });
-                      }
-                    }}
-                  >
-                    {isCheckingData
-                      ? "In Progress.."
-                      : eventIDForSync.length > 0
-                      ? "Sync Data"
-                      : "Validate"}
-                  </button>
+                              setCheckingData(false);
+                            });
+                        }
+                        if (eventIDForSync.length > 0) {
+                          syncGFitAndStrava("fix", eventId)
+                            .then((res) => {
+                              if (res.data.response.responseCode === 0) {
+                                message.success("Synced");
+                                setEventIDForSync([]);
+                                handlePerformanceClick();
+                              }
+                              setCheckingData(false);
+                            })
+                            .catch((err) => {
+                              setCheckingData(false);
+                            });
+                        }
+                      }}
+                    >
+                      {isCheckingData
+                        ? "In Progress.."
+                        : eventIDForSync.length > 0
+                        ? "Sync Data"
+                        : "Validate"}
+                    </PrimaryButton>
+                  </div>
                 )}
             </div>
             <div style={{ width: "85%", display: "flex" }}>

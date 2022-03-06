@@ -35,6 +35,7 @@ import {
 } from "../services/apicollection";
 import axios from "axios";
 import InfoDialog from "./Utility/InfoDialog";
+import { PrimaryButton } from "./Form";
 // import FormItem from 'antd/lib/form/FormItem';
 
 const Admin123 = () => {
@@ -546,18 +547,14 @@ const Admin123 = () => {
               </div>
             </div>
             <TabPanel>
-              <div style={{}}>
-                <button
-                  className="is-success"
-                  style={{
-                    marginLeft: 25,
-                    padding: "4px 10px",
-                    marginBottom: 10,
-                  }}
+              <div>
+                <PrimaryButton
+                  mini
+                  className="w-[7%] text-sm ml-6 mb-2"
                   onClick={() => setDuplicateModal(true)}
                 >
                   Duplicate
-                </button>
+                </PrimaryButton>
                 <div style={{ display: "flex", marginLeft: "30px" }}>
                   <div style={{ width: "30%" }}>
                     <label style={{ fontSize: 12 }}>
@@ -817,16 +814,13 @@ const Admin123 = () => {
                 <div style={{ display: "flex", marginLeft: "10px" }}>
                   <div style={{ width: "80%" }}></div>
                   <div style={{ width: "20%" }}>
-                    <button
-                      className="is-success"
-                      style={{ padding: "4px 10px", marginTop: 20 }}
-                      onClick={
-                        handleSubmit
-                        // Quizdata2(localStorage.getItem('selectEvent'));
-                      }
+                    <PrimaryButton
+                      mini
+                      className="w-[max-content] text-sm mt-4"
+                      onClick={handleSubmit}
                     >
                       Save Quiz
-                    </button>
+                    </PrimaryButton>
                   </div>
                 </div>
 
@@ -981,9 +975,9 @@ const Admin123 = () => {
                                         align="center"
                                         style={{ fontSize: 12 }}
                                       >
-                                        <button
-                                          className="is-success"
-                                          // onClick={setModal(true)}
+                                        <PrimaryButton
+                                          mini
+                                          className="w-[max-content] text-sm mx-auto"
                                           onClick={() => {
                                             setaddId(item.idMstQuiz),
                                               localStorage.setItem(
@@ -993,15 +987,9 @@ const Admin123 = () => {
                                               setModalView(true),
                                               setImage("editquestion");
                                           }}
-                                          style={{
-                                            marginTop: 10,
-                                            width: 80,
-                                            height: 20,
-                                            // marginLeft: 20,
-                                          }}
                                         >
                                           Add Question
-                                        </button>
+                                        </PrimaryButton>
                                       </TableCell>
                                     </TableRow>
                                   </>

@@ -25,6 +25,7 @@ import InfoDialog from "./Utility/InfoDialog";
 import message from "antd-message";
 import { TextField } from "@material-ui/core";
 import { EditAttributesSharp } from "@material-ui/icons";
+import { PrimaryButton } from "./Form";
 
 function getModalStyle() {
   return {
@@ -500,31 +501,18 @@ export default function EventInfoModal({
 
             <div style={{}}>
               {addupdatePost === "addpost" || addupdatePost === "edit" ? (
-                <button
-                  className="is-success"
-                  // onClick={handleSubmit}
-                  style={{
-                    marginTop: 0,
-                    width: 100,
-                    height: 32,
-                    // marginLeft: 20,
-                  }}
+                <PrimaryButton
+                  mini
+                  className="w-[max-content]"
                   onClick={() => {
                     setAddUpdatePost("updatepost"), handle();
                   }}
                 >
                   Update Post
-                </button>
+                </PrimaryButton>
               ) : (
-                <button
-                  className="is-success"
-                  // onClick={handleSubmit}
-                  style={{
-                    marginTop: 0,
-                    width: 100,
-                    height: 32,
-                    // marginLeft: 20,
-                  }}
+                <PrimaryButton
+                  className="w-[max-content]"
                   onClick={() => {
                     setAddUpdatePost("addpost"),
                       handle(),
@@ -533,7 +521,7 @@ export default function EventInfoModal({
                   }}
                 >
                   Add Post
-                </button>
+                </PrimaryButton>
               )}
             </div>
           </div>
@@ -639,18 +627,13 @@ export default function EventInfoModal({
                     </p>
                   </div>
                   <div style={{ marginLeft: "" }}>
-                    <button
-                      className="is-success"
+                    <PrimaryButton
+                      mini
                       onClick={handleSubmit}
-                      style={{
-                        marginTop: 10,
-                        width: 100,
-                        height: 32,
-                        // marginLeft: 20,
-                      }}
+                      className="w-[max-content]"
                     >
                       Save Post
-                    </button>
+                    </PrimaryButton>
                   </div>
                 </div>
               </form>
@@ -754,18 +737,13 @@ export default function EventInfoModal({
                     </p>
                   </div>
                   <div style={{ marginLeft: "" }}>
-                    <button
-                      className="is-success"
+                    <PrimaryButton
+                      mini
+                      className="w-[max-content] text-sm"
                       onClick={handleUpdate}
-                      style={{
-                        marginTop: 10,
-                        width: 100,
-                        height: 32,
-                        // marginLeft: 20,
-                      }}
                     >
                       Save Post
-                    </button>
+                    </PrimaryButton>
                   </div>
                 </div>
               </form>
@@ -872,14 +850,9 @@ export default function EventInfoModal({
                                     </TableCell>
 
                                     <TableCell align="left">
-                                      <button
-                                        className="is-success"
-                                        style={{
-                                          marginTop: 0,
-                                          width: 70,
-                                          height: 20,
-                                          // marginLeft: 20,
-                                        }}
+                                      <PrimaryButton
+                                        mini
+                                        className="w-[max-content] text-sm"
                                         onClick={() => {
                                           editVal(row.id),
                                             setAddUpdatePost("edit"),
@@ -888,7 +861,7 @@ export default function EventInfoModal({
                                         }}
                                       >
                                         Edit
-                                      </button>
+                                      </PrimaryButton>
                                     </TableCell>
                                   </TableRow>
                                 );
@@ -974,15 +947,9 @@ export default function EventInfoModal({
 
               <div style={{}}>
                 {addupdatePost === "addpost" || addupdatePost === "edit" ? (
-                  <button
-                    className="is-success"
-                    // onClick={handleSubmit}
-                    style={{
-                      marginTop: 0,
-                      width: 100,
-                      height: 32,
-                      // marginLeft: 20,
-                    }}
+                  <PrimaryButton
+                    mini
+                    className="w-[max-content]"
                     onClick={() => {
                       setAddUpdatePost("updatepost"),
                         handle(),
@@ -991,17 +958,11 @@ export default function EventInfoModal({
                     }}
                   >
                     Update Post
-                  </button>
+                  </PrimaryButton>
                 ) : (
-                  <button
-                    className="is-success"
-                    // onClick={handleSubmit}
-                    style={{
-                      marginTop: 0,
-                      width: 100,
-                      height: 32,
-                      // marginLeft: 20,
-                    }}
+                  <PrimaryButton
+                    mini
+                    className="w-[max-content]"
                     onClick={() => {
                       setAddUpdatePost("addpost"),
                         handle(),
@@ -1010,7 +971,7 @@ export default function EventInfoModal({
                     }}
                   >
                     Add Post
-                  </button>
+                  </PrimaryButton>
                 )}
               </div>
             </div>
@@ -1121,19 +1082,10 @@ export default function EventInfoModal({
                         ""
                       )}
                     </div>
-                    <div style={{ marginLeft: "" }}>
-                      <button
-                        className="is-success"
-                        onClick={handleSubmit}
-                        style={{
-                          marginTop: 10,
-                          width: 100,
-                          height: 32,
-                          // marginLeft: 20,
-                        }}
-                      >
+                    <div style={{ marginLeft: "" }} className="mb-2">
+                      <PrimaryButton mini onClick={handleSubmit}>
                         Save Post
-                      </button>
+                      </PrimaryButton>
                     </div>
                   </div>
                 </form>
@@ -1244,18 +1196,13 @@ export default function EventInfoModal({
                       )}
                     </div>
                     <div style={{ marginTop: "-10px" }}>
-                      <button
-                        className="is-success"
+                      <PrimaryButton
+                        mini
+                        className="w-[max-content] text-sm"
                         onClick={handleUpdate}
-                        style={{
-                          marginTop: 10,
-                          width: 100,
-                          height: 32,
-                          // marginLeft: 20,
-                        }}
                       >
                         Save Post
-                      </button>
+                      </PrimaryButton>
                     </div>
                   </div>
                 </form>
@@ -1362,14 +1309,9 @@ export default function EventInfoModal({
                                       </TableCell>
 
                                       <TableCell align="left">
-                                        <button
-                                          className="is-success"
-                                          style={{
-                                            marginTop: 0,
-                                            width: 70,
-                                            height: 20,
-                                            // marginLeft: 20,
-                                          }}
+                                        <PrimaryButton
+                                          mini
+                                          className="w-[max-content] text-sm"
                                           onClick={() => {
                                             editVal(row.id),
                                               setAddUpdatePost("edit"),
@@ -1378,7 +1320,7 @@ export default function EventInfoModal({
                                           }}
                                         >
                                           Edit
-                                        </button>
+                                        </PrimaryButton>
                                       </TableCell>
                                     </TableRow>
                                   );

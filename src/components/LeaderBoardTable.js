@@ -490,8 +490,9 @@ export default function EnhancedTable({
                 style={{
                   background: "#DCFCE7",
                   color: "#166534",
-                  borderRadius: 2,
-                  height: 20,
+                  borderRadius: 24,
+                  fontSize: 12,
+                  padding: "2px 10px",
                 }}
               >
                 SAVE
@@ -806,7 +807,7 @@ export default function EnhancedTable({
       <Paper className={classes.paper}>
         <TableContainer style={{ marginTop: "-2px" }}>
           <div className="table-search-container" style={{ marginTop: "-2px" }}>
-            <div style={{ marginTop: "-10px" }}>
+            <div>
               {pinActive && currentEvent["id"] ? (
                 <EnhancedTableToolbar
                   numSelected={selected.length}
@@ -831,6 +832,7 @@ export default function EnhancedTable({
                           marginLeft: 10,
                           cursor: "pointer",
                           padding: "2px 10px",
+                          fontSize: 12,
                         }}
                         onClick={() => setPinActive(!pinActive)}
                       >

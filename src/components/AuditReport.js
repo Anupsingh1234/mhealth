@@ -53,6 +53,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { Edit } from "react-feather";
 import { CSVLink } from "react-csv";
 import { urlPrefix, secretToken } from "../services/apicollection";
+import { PrimaryButton } from "./Form";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -637,18 +638,9 @@ const AuditReport = (props) => {
               {/* <div class='col-md-1'></div> */}
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <button
-                style={{
-                  color: "white",
-                  background: "green",
-                  marginTop: 25,
-                  padding: "6px 8px",
-                }}
-                class="btn btn-success rounded-full"
-              >
-                {" "}
+              <PrimaryButton mini className="w-[max-content] mx-auto">
                 Submit
-              </button>
+              </PrimaryButton>
             </div>
           </form>
         </div>

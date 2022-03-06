@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, SwitchLabel, SwitchRadio, SwitchSelection } from "./styles.js";
+import ThemeContext from "../../../context/ThemeContext.js";
 
 const titleCase = (str) =>
   str
@@ -7,11 +8,11 @@ const titleCase = (str) =>
     .map((w) => w[0].toUpperCase() + w.slice(1))
     .join(" ");
 
-const ClickableLabel = ({ title, onChange, id, selected }) => (
+const ClickableLabel = ({ title, onChange, id, selected, theme }) => (
   <SwitchLabel
     onClick={() => onChange(title)}
     className={id}
-    style={selected == title ? { color: "#fff" } : {}}
+    style={selected == title ? { color: theme.buttonTextColor } : {}}
   >
     {titleCase(title)}
   </SwitchLabel>
@@ -22,9 +23,11 @@ const ConcealedRadio = ({ value, selected }) => (
 );
 
 const ToggleSwitch = ({ selected, handleChange, values }) => {
+  const { theme } = useContext(ThemeContext);
   const selectionStyle = () => {
     return {
       left: `${(values.indexOf(selected) / 4) * 100}%`,
+      background: theme.buttonBGColor,
     };
   };
   return (
@@ -37,6 +40,7 @@ const ToggleSwitch = ({ selected, handleChange, values }) => {
               title={val}
               onChange={handleChange}
               selected={selected}
+              theme={theme}
             />
           </span>
         );

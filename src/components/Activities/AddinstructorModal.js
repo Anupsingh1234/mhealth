@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import Message from "antd-message";
 import CancelIcon from "@material-ui/icons/Cancel";
+import { PrimaryButton } from "../Form";
 
 const AdInstructor = () => {
   const [image, setimage] = useState("d-none");
@@ -134,15 +135,15 @@ const AdInstructor = () => {
   };
 
   return (
-    <div style={{ width: "" }}>
-      <button
-        style={{ borderRadius: 24 }}
+    <div>
+      <PrimaryButton
+        mini
+        className="text-sm ml-3 w-[max-content] py-[6px]"
         onClick={onOpenModal}
-        className="create-event-button target-btn"
       >
         {" "}
         Add Instructor
-      </button>
+      </PrimaryButton>
       <Modal
         open={open}
         // closeIcon={closeIcon}

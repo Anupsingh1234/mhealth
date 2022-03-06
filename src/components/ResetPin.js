@@ -5,6 +5,7 @@ import ReactLoadingWrapper from "./loaders/ReactLoadingWrapper";
 import Message from "antd-message";
 import TopUserDetails from "./TopUserDetails";
 import ResetPin1 from "../assets/resetPin.svg";
+import { PrimaryButton } from "./Form";
 
 const ResetPin = () => {
   const [userDetails, setUserDetails] = useState({
@@ -120,12 +121,9 @@ const ResetPin = () => {
                     />
                   </div>
                 ) : (
-                  <button
-                    className="is-success"
-                    onClick={() => handleResetPin()}
-                  >
+                  <PrimaryButton onClick={() => handleResetPin()}>
                     Update
-                  </button>
+                  </PrimaryButton>
                 )}
               </div>
             </div>

@@ -8,6 +8,7 @@ import Invite from "./Invite";
 import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
+import { PrimaryButton } from "../Form";
 const SendChallenge = ({
   eventId,
 
@@ -65,17 +66,16 @@ const SendChallenge = ({
         setUserFound([]);
       }
     });
-    console.log(mobileDataList, "mobilelist");
   };
 
-  console.log(eventId, "eventId");
+  console.log(mobileNo, "mobileNo");
   return (
     <>
       <div className="send-challenge-box">
         <div className="input-area input-mobile fadeInUp"></div>
         <div style={{ display: "flex" }}></div>
         <div className="input-container">
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <div style={{ width: "80%" }}>
               {countrylist.length > 0 ? (
                 <>
@@ -108,19 +108,14 @@ const SendChallenge = ({
                 ""
               )}
             </div>
-            <div style={{ width: "20%" }}>
-              <button
-                name="searchUser"
-                className={
-                  !mobileNo
-                    ? "searchUserByMobileDisabled rounded-full"
-                    : "searchUserByMobile rounded-full"
-                }
-                onClick={handleUserSearch}
+            <div>
+              <PrimaryButton
+                mini
+                onClick={mobileNo && handleUserSearch}
                 disabled={!mobileNo}
               >
                 Search
-              </button>
+              </PrimaryButton>
             </div>
           </div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import InfoDialog from "../Utility/InfoDialog";
 import Pagination from "@material-ui/lab/Pagination";
+import { PrimaryButton } from "../Form";
 
 const ViewAllModal = ({ viewAll, handleClose, challenge, data }) => {
   const [page, setPage] = useState(1);
@@ -101,25 +102,18 @@ const ViewAllModal = ({ viewAll, handleClose, challenge, data }) => {
         <div
           style={{
             marginBottom: "1.5em",
-            width: "100%",
-            textAlign: "center",
+            width: "15%",
           }}
+          className="mx-auto"
         >
-          <button
-            style={{
-              width: "fit-content",
-              height: "auto",
-              background: "green",
-              borderRadius: 24,
-              color: "white",
-              padding: "6px 12px",
-            }}
+          <PrimaryButton
+            mini
             onClick={() => {
               handleClose();
             }}
           >
             Close
-          </button>
+          </PrimaryButton>
         </div>
       </div>
     </InfoDialog>

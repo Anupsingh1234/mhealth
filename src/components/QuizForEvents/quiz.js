@@ -29,6 +29,7 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import NoData from "../NoData";
+import { PrimaryButton } from "../Form";
 // import CancelIcon from '@mui/icons-material/Cancel';
 const Quiz = (props) => {
   const [question, setquestion] = useState("");
@@ -676,7 +677,11 @@ const Quiz = (props) => {
               >
                 <Paper
                   Elevation={2}
-                  style={{ width: "85%", paddingBottom: 15 }}
+                  style={{
+                    width: "85%",
+                    paddingBottom: 15,
+                    padding: "2px 10px",
+                  }}
                 >
                   <div>
                     <div
@@ -771,7 +776,6 @@ const Quiz = (props) => {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      width: "15%",
                       textAlign: "right",
                     }}
                   >
@@ -780,7 +784,6 @@ const Quiz = (props) => {
                       style={{
                         display: "flex",
                         flexDirection: "row",
-                        width: "15%",
                         textAlign: "right",
                       }}
                     >
@@ -793,54 +796,30 @@ const Quiz = (props) => {
                       </p>
                     </div>
                     {Object.entries(options).length == 0 && question !== "" ? (
-                      <div style={{ width: "15%", marginTop: 15 }}>
-                        <button
-                          style={{
-                            width: 100,
-                            // marginRight: 10
-                            marginLeft: 10,
-                            background: "green",
-                            color: "#ffff",
-                          }}
-                          className="rounded-full text-sm h-8"
-                          onClick={() => {
-                            showOption();
-                            settimesec(true);
-                            // myFunction();
-                            // setInterval(function () {
-                            //   setval((val += 1));
-                            // }, 1000);
-                          }}
-                        >
-                          {" "}
-                          Get options
-                        </button>
-                      </div>
+                      <PrimaryButton
+                        mini
+                        onClick={() => {
+                          showOption();
+                          settimesec(true);
+                        }}
+                      >
+                        {" "}
+                        Get options
+                      </PrimaryButton>
                     ) : (
                       ""
                     )}
                     {Hook && (
-                      <div style={{ width: "15%", marginTop: 15 }}>
-                        <button
-                          // onClick={onOpenModal}
-                          style={{
-                            background: "#518ad6",
-                            color: "#fff",
-                            height: 25,
-                            marginLeft: 10,
-                            width: 120,
-                            // float: 'right',
-                            // marginTop: 25,
-                            borderRadius: 24,
-                          }}
-                          onClick={() => {
-                            lockAnswer(), onOpenModal();
-                          }}
-                        >
-                          {" "}
-                          Lock Answer{" "}
-                        </button>
-                      </div>
+                      <PrimaryButton
+                        mini
+                        onClick={() => {
+                          lockAnswer(), onOpenModal();
+                        }}
+                        className="mt-2 text-sm"
+                      >
+                        {" "}
+                        Lock Answer{" "}
+                      </PrimaryButton>
                     )}
                   </div>
                 </div>
@@ -918,25 +897,20 @@ const Quiz = (props) => {
 
                   {/* {expire == true ? onOpenModal() : ''} */}
                   {isnext == true ? (
-                    <button
-                      style={{
-                        width: 120,
-                        height: 25,
-                        background: "green",
-                        color: "#fff",
-                        float: "right",
-                        borderRadius: 24,
-                      }}
-                      onClick={() => {
-                        onCloseModal();
-                        setSerial();
-                        getQuestion();
-                        setoptions({});
-                        setHook();
-                      }}
-                    >
-                      Next Question
-                    </button>
+                    <div className="w-[max-content] ml-auto">
+                      <PrimaryButton
+                        mini
+                        onClick={() => {
+                          onCloseModal();
+                          setSerial();
+                          getQuestion();
+                          setoptions({});
+                          setHook();
+                        }}
+                      >
+                        Next Question
+                      </PrimaryButton>
+                    </div>
                   ) : (
                     <>
                       {" "}
@@ -945,21 +919,16 @@ const Quiz = (props) => {
                         Quiz. If you wish to get e-Certificate, please update
                         your e-mail-ID in profile section.
                       </h3>
-                      <button
-                        style={{
-                          background: "gray",
-                          color: "#fff",
-                          float: "right",
-                          height: 25,
-                          width: 75,
-                          borderRadius: 15,
-                        }}
-                        onClick={() => {
-                          onCloseModal();
-                        }}
-                      >
-                        Close
-                      </button>
+                      <div className="w-[max-content]">
+                        <PrimaryButton
+                          mini
+                          onClick={() => {
+                            onCloseModal();
+                          }}
+                        >
+                          Close
+                        </PrimaryButton>
+                      </div>
                     </>
                   )}
                 </div>

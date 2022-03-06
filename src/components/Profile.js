@@ -34,6 +34,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import classNames from "classnames";
+import { PrimaryButton, SecondaryButton } from "./Form";
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -748,16 +749,19 @@ const Profile = () => {
                           Image size should not exceed 2 MB.{" "}
                         </span>
                       )}
-                      <button
-                        className="select-avatar-button w-full border-green-400 border p-2 mx-2 rounded-full"
-                        onClick={() => {
-                          document
-                            .getElementById("avatar-select-input")
-                            .click();
-                        }}
-                      >
-                        Select
-                      </button>
+                      <div className="w-full">
+                        <SecondaryButton
+                          mini
+                          className="mt-2"
+                          onClick={() => {
+                            document
+                              .getElementById("avatar-select-input")
+                              .click();
+                          }}
+                        >
+                          Select
+                        </SecondaryButton>
+                      </div>
                     </>
                   ) : (
                     ""
@@ -782,8 +786,9 @@ const Profile = () => {
                 <label className="input-error">{aliasErrMessage}</label>
               </div>
               <div className="avatarSave">
-                <button
-                  className="is-success"
+                <PrimaryButton
+                  mini
+                  className="flex ml-auto text-sm"
                   onClick={() => updateAvatrAndAlias()}
                 >
                   {isCheckingAlias
@@ -791,7 +796,7 @@ const Profile = () => {
                     : isLoadingAvatar
                     ? "Saving..."
                     : "Save"}
-                </button>
+                </PrimaryButton>
               </div>
             </div>
 
@@ -856,13 +861,11 @@ const Profile = () => {
 
                   {userDetails.emailVerified === null ? (
                     <>
-                      <div style={{ display: "flex" }}>
+                      <div className="flex items-center mt-3">
                         {" "}
                         <Icon.XCircle
                           style={{
                             color: "red",
-                            marginTop: "10%",
-                            marginLeft: "10%",
                           }}
                         />{" "}
                         {emailId !== "" &&
@@ -876,22 +879,16 @@ const Profile = () => {
                         /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/gi.test(
                           emailId.toString()
                         ) ? (
-                          <button
-                            className="is-success"
-                            onClick={updateEmail}
-                            style={{
-                              right: "10px",
-                              height: "40%",
-                              width: "50%",
-                              marginLeft: "5%",
-                              marginTop: "10%",
-                              padding: 2,
-                              fontSize: 13,
-                            }}
-                          >
-                            {" "}
-                            Validate
-                          </button>
+                          <div className="flex ml-1 items-center justify-center">
+                            <PrimaryButton
+                              mini
+                              className="w-[max-content] text-xs px-2 py-2"
+                              onClick={updateEmail}
+                            >
+                              {" "}
+                              Validate
+                            </PrimaryButton>
+                          </div>
                         ) : (
                           ""
                         )}
@@ -1053,15 +1050,18 @@ const Profile = () => {
                     }}
                   />
                 </div>
-                <div style={{ width: "30%" }}>
+                <div
+                  style={{ width: "30%" }}
+                  className="flex justify-end items-center"
+                >
                   <div className="avatarSave">
-                    <button
-                      className="is-success"
-                      style={{ marginTop: "30%" }}
+                    <PrimaryButton
+                      mini
+                      className="w-[max-content] text-sm border"
                       onClick={() => handleUserDetailSubmit()}
                     >
                       {isLoadingUserDetails ? "Saving" : "Save"}
-                    </button>
+                    </PrimaryButton>
                   </div>
                 </div>
               </div>
@@ -1201,15 +1201,15 @@ const Profile = () => {
               </div>
 
               {/* <p style={{color: 'green', marginLeft: '50%'}}>{message1}</p> */}
-              <div className="avatarSave">
-                <button
-                  className="is-success"
-                  style={{ marginTop: "-20%" }}
+              <div className="avatarSave" className="flex justify-end">
+                <PrimaryButton
+                  mini
+                  className="w-[max-content] text-sm"
                   onClick={submitdept}
                 >
                   {/* {isLoadingUserDetails ? 'Saving' : 'Save'} */}
                   Save
-                </button>
+                </PrimaryButton>
               </div>
             </div>
           </div>
@@ -1381,20 +1381,17 @@ const Profile = () => {
                                           </p>
                                         </TableCell>
                                         <TableCell>
-                                          <button
-                                            style={{
-                                              backgroundColor: "green",
-                                              color: "white",
-                                              borderRadius: 24,
-                                              padding: "2px 12px",
-                                              fontSize: 12,
-                                            }}
-                                            onClick={() =>
-                                              editDependent(item.id)
-                                            }
-                                          >
-                                            Edit
-                                          </button>
+                                          <div className="flex justify-center items-center">
+                                            <PrimaryButton
+                                              mini
+                                              className="w-[max-content] text-[10px]"
+                                              onClick={() =>
+                                                editDependent(item.id)
+                                              }
+                                            >
+                                              Edit
+                                            </PrimaryButton>
+                                          </div>
                                         </TableCell>
                                       </TableRow>
                                     </>
@@ -1420,7 +1417,7 @@ const Profile = () => {
             handleClose={() => setEmailValidVerifiedMessage(false)}
             open={emailValidVerifiedMessage}
           >
-            <div style={{ height: "150px", marginLeft: "8%" }}>
+            <div style={{ height: "auto" }} className="px-4 py-6">
               <div className="">
                 <CancelIcon
                   style={{
@@ -1434,25 +1431,19 @@ const Profile = () => {
                 />
                 <label>
                   {" "}
-                  <b>
+                  <p className="text-base font-semibold">
                     You will receive a validation link on your email-id, please
                     click on link to validate your email address.
-                  </b>
-                  .
+                  </p>
                 </label>
               </div>
-              <button
-                className="is-success"
+              <PrimaryButton
+                mini
+                className="w-[max-content] text-sm ml-auto mr-4"
                 onClick={modalClose}
-                style={{
-                  marginTop: 20,
-                  width: 100,
-                  height: 32,
-                  marginLeft: "70%",
-                }}
               >
                 Sure
-              </button>
+              </PrimaryButton>
             </div>
           </InfoDialog>
         )}

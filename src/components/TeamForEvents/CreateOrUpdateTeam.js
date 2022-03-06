@@ -59,6 +59,7 @@ import VisibilityOutlinedIcon from "@material-ui/icons/VisibilityOutlined";
 
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faCross } from "@fortawesome/free-solid-svg-icons";
+import { PrimaryButton } from "../Form";
 
 // import "./Team.css";
 
@@ -1251,9 +1252,8 @@ const CreateTeam = (props) => {
         </div>
         <div style={{ display: "flex", justifyContent: "space-around" }}>
           {" "}
-          <button
-            className="is-success"
-            style={{ width: 80, height: 25 }}
+          <PrimaryButton
+            className="w-[max-content] text-sm"
             onClick={() => {
               leaveTeamByUser(
                 props.eventId,
@@ -1264,21 +1264,17 @@ const CreateTeam = (props) => {
           >
             {" "}
             Confirm{" "}
-          </button>{" "}
-          <button
-            style={{
-              width: 80,
-              height: 25,
-              background: "#ef5350",
-              color: "white",
-            }}
+          </PrimaryButton>{" "}
+          <PrimaryButton
+            mini
+            className="w-[max-content] text-sm"
             onClick={() => {
               closeLeaveModal();
             }}
           >
             {" "}
             Cancel
-          </button>
+          </PrimaryButton>
         </div>
       </Modal>
 
@@ -1366,19 +1362,13 @@ const CreateTeam = (props) => {
                 />
               </div>
 
-              <button
+              <PrimaryButton
+                mini
+                className="w-[max-content] text-sm"
                 onClick={updateTeamData}
-                style={{
-                  background: "green",
-                  color: "white",
-                  height: 25,
-                  width: 100,
-                  marginTop: 30,
-                  marginLeft: 50,
-                }}
               >
                 Update
-              </button>
+              </PrimaryButton>
             </form>
           </div>
         </Modal>
@@ -1424,8 +1414,8 @@ const CreateTeam = (props) => {
                 float: "left",
                 fontSize: 15,
                 color: "red",
-                position: "fixed",
-                bottom: 100,
+                position: "absolute",
+                bottom: 8,
               }}
             >
               {" "}
@@ -1436,8 +1426,8 @@ const CreateTeam = (props) => {
                 float: "left",
                 fontSize: 15,
                 color: "red",
-                position: "fixed",
-                bottom: 80,
+                position: "absolute",
+                bottom: 2,
               }}
             >
               {" "}
@@ -1691,42 +1681,28 @@ const CreateTeam = (props) => {
               </div>
             </div>
 
-            <div style={{ background: "white", display: "flex" }}>
+            <div className="bg-white flex absolute bottom-2 left-[39%] gap-5">
               <div style={{ width: "50%" }}>
                 {regUser && regUser.length > 0 ? (
-                  <button
+                  <PrimaryButton
+                    mini
+                    className="w-[max-content] text-sm border"
                     onClick={removemember}
-                    style={{
-                      background: "#F43F5E",
-                      marginTop: 240,
-                      marginLeft: 400,
-                      color: "white",
-                      width: 130,
-                      height: 25,
-                      position: "fixed",
-                    }}
                   >
                     Remove member
-                  </button>
+                  </PrimaryButton>
                 ) : (
                   <> </>
                 )}
               </div>
               <div style={{ width: "50%" }}>
-                <button
+                <PrimaryButton
+                  mini
+                  className="w-[max-content] text-sm"
                   onClick={submitTeam}
-                  style={{
-                    background: "#F43F5E",
-                    marginTop: 240,
-                    marginLeft: 370,
-                    color: "white",
-                    width: 120,
-                    height: 25,
-                    position: "fixed",
-                  }}
                 >
                   Map member
-                </button>
+                </PrimaryButton>
               </div>
             </div>
           </div>
@@ -1810,24 +1786,16 @@ const CreateTeam = (props) => {
             </div>
             <div>
               {leaveId && (
-                <button
-                  style={{
-                    marginTop: 30,
-                    marginBottom: 15,
-                    color: "white",
-                    background: "#ef5350",
-                    // height: 25,
-                    // width: 90,
-                    borderRadius: 24,
-                    padding: "4px 8px",
-                  }}
+                <PrimaryButton
+                  mini
+                  className="w-[max-content] text-sm"
                   onClick={() => {
                     openLeaveModal();
                   }}
                 >
                   {" "}
                   Leave Team{" "}
-                </button>
+                </PrimaryButton>
               )}
             </div>
           </div>
@@ -1989,44 +1957,41 @@ const CreateTeam = (props) => {
             />{" "}
             <div style={{ display: "flex", flexDirection: "column" }}>
               <h3> Team Name: {team} </h3>
-              <h5 style={{ marginTop: -10, fontWeight: "lighter" }}>
+              <h5 style={{ fontWeight: "lighter" }}>
                 {" "}
                 <span style={{ fontWeight: "bolder" }}> Team Motto: </span>{" "}
                 <span>{tag} </span>{" "}
               </h5>
             </div>{" "}
           </div>{" "}
-          <h3>
+          <h3 className="mt-4">
             <strong> Are you sure you want to join {team} ? </strong>
           </h3>
           {/* <h4 style={{fontWeight: 'lighter', marginTop: -10}}> {tag} </h4> */}
-          <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <div
+            style={{
+              marginTop: "1rem",
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
             {" "}
-            <button
-              style={{
-                height: 30,
-                width: 90,
-                color: "white",
-                background: "#d65151",
-              }}
+            <PrimaryButton
+              mini
+              className="w-[max-content] text-sm"
               onClick={() => onclosejoinModal()}
             >
               {" "}
               Cancel
-            </button>
-            <button
-              className="is-success"
-              style={{
-                height: 30,
-                width: 90,
-                color: "white",
-                background: "green",
-              }}
+            </PrimaryButton>
+            <PrimaryButton
+              mini
+              className="w-[max-content] text-sm"
               onClick={() => joinTeam(JoinId)}
             >
               {" "}
               Confirm
-            </button>{" "}
+            </PrimaryButton>{" "}
           </div>
         </div>
       </Modal>
@@ -2125,20 +2090,13 @@ const CreateTeam = (props) => {
                 </div>
                 <div style={{ width: "30%" }}>
                   <div>
-                    <button
-                      className="rounded-full text-sm px-2 h-7 mb-4"
+                    <PrimaryButton
+                      mini
+                      className="w-[max-content] text-sm"
                       onClick={savedata}
-                      style={{
-                        width: 100,
-                        marginTop: 20,
-                        position: "relative",
-                        background: "green",
-                        float: "right",
-                        color: "white",
-                      }}
                     >
                       submit
-                    </button>
+                    </PrimaryButton>
                   </div>
                 </div>
               </div>
@@ -2156,30 +2114,35 @@ const CreateTeam = (props) => {
       mod.moderatorId == localStorage.getItem("userId") ||
       mod.teamBuild !== "NA" ? (
         <div className="main_div" style={{ display: "flex", width: "100%" }}>
-          <div className="adminuse" style={{ width: "100%", display: "flex" }}>
+          <div
+            className="adminuse"
+            style={{ width: "15%", display: "flex", gap: 10 }}
+          >
             {mod.teamBuild !== "NA" ? (
-              <button
-                className="create-event-button target-btn rounded-full text-sm"
+              <PrimaryButton
+                mini
+                // className="create-event-button target-btn rounded-full text-sm"
                 onClick={() => {
                   onOpenModal();
                 }}
-                style={{ width: "100px" }}
+                // style={{ width: "100px" }}
               >
                 Team
-              </button>
+              </PrimaryButton>
             ) : (
               ""
             )}
             {mod.teamBuild !== "NA" ? (
-              <button
-                className="create-event-button target-btn rounded-full text-sm"
+              <PrimaryButton
+                mini
+                // className="create-event-button target-btn rounded-full text-sm"
                 onClick={() => {
                   onOpenMemberModal();
                 }}
-                style={{ width: "100px" }}
+                // style={{ width: "100px" }}
               >
                 Members
-              </button>
+              </PrimaryButton>
             ) : (
               ""
             )}
@@ -2410,16 +2373,10 @@ const CreateTeam = (props) => {
                               item.totalMember == 0 ? (
                                 <>
                                   {!ids.includes(item.teamId) ? (
-                                    <button
-                                      style={{
-                                        height: 25,
-                                        width: 50,
-                                        color: "white",
-                                        backgroundColor: "green",
-                                        borderRadius: "10px",
-                                      }}
+                                    <PrimaryButton
+                                      className="w-[max-content] text-sm"
+                                      mini
                                       onClick={() => {
-                                        // joinTeam(item.teamId),
                                         teamJoinData(
                                           item.teamName,
                                           item.teamMascot,
@@ -2427,15 +2384,11 @@ const CreateTeam = (props) => {
                                           item.teamTagLine
                                         );
                                         onjoinModal();
-                                        // console.log(
-                                        //   item.usersList.length,
-                                        //   item
-                                        // );
                                       }}
                                     >
                                       {" "}
                                       Join{" "}
-                                    </button>
+                                    </PrimaryButton>
                                   ) : (
                                     ""
                                   )}

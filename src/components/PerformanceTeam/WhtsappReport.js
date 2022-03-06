@@ -41,6 +41,7 @@ import { CSVLink } from "react-csv";
 import axios from "axios";
 import { urlPrefix, secretToken } from "../../services/apicollection";
 import InfoDialog from "../Utility/InfoDialog";
+import { PrimaryButton } from "../Form";
 const WhatsappReport = (props) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
@@ -444,17 +445,13 @@ const WhatsappReport = (props) => {
             marginLeft: 50,
           }}
         >
-          <button
-            className="is-success rounded-full"
-            style={{
-              marginTop: 25,
-              padding: "6px 8px",
-            }}
+          <PrimaryButton
+            mini
+            className="w-[max-content] text-sm"
             onClick={handleChange}
           >
-            {" "}
-            submit{" "}
-          </button>
+            submit
+          </PrimaryButton>
           <span
             style={{
               marginTop: 20,

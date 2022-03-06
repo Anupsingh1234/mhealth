@@ -20,6 +20,7 @@ import Message from "antd-message";
 import CancelIcon from "@material-ui/icons/Cancel";
 // import { Modal } from "react-responsive-modal";
 import InfoDialog from "./Utility/InfoDialog";
+import { PrimaryButton } from "./Form/Button";
 
 function getModalStyle() {
   const top = 50;
@@ -253,31 +254,31 @@ const TargetSetting = ({ dashboardState }) => {
   );
   return (
     <div className="target-container">
-      <div className="target-btn-container">
+      <div className="target-btn-container gap-2">
         {eventData?.message == "You Are Qualified " ? (
-          <button
-            className="create-event-button target-btn rounded-full"
-            onClick={onOpenModal}
-          >
-            {" "}
-            Download certificate{" "}
-          </button>
+          <div className="w-42">
+            <PrimaryButton mini onClick={onOpenModal}>
+              Download certificate
+            </PrimaryButton>
+          </div>
         ) : (
           ""
         )}
-        <button
-          className="create-event-button target-btn rounded-full"
-          onClick={() => {
-            setTargetModal(true);
-            setPayload({
-              eventId: dashboardState.selectedChallenge,
-              date: personalData?.startDate,
-              distance: personalData?.totalKMRequired,
-            });
-          }}
-        >
-          Set Personal Target
-        </button>
+        <div className="w-42">
+          <PrimaryButton
+            mini
+            onClick={() => {
+              setTargetModal(true);
+              setPayload({
+                eventId: dashboardState.selectedChallenge,
+                date: personalData?.startDate,
+                distance: personalData?.totalKMRequired,
+              });
+            }}
+          >
+            Set Personal Target
+          </PrimaryButton>
+        </div>
       </div>
       <div
         className="target-table-row"

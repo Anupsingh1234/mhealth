@@ -24,6 +24,7 @@ import {
 import axios from "axios";
 import { urlPrefix } from "../../services/apicollection";
 import ThemeContext from "../../context/ThemeContext";
+import { PrimaryButton } from "../Form";
 const Activities = () => {
   const [activityState, setActivityState] = useState({
     listOfEventsData: [],
@@ -582,21 +583,17 @@ const Activities = () => {
 
             {condition && condition.isAdmin === true ? (
               <div style={{ marginRight: "auto", display: "flex" }}>
-                <button
-                  className="create-event-button target-btn"
+                <PrimaryButton
+                  mini
+                  className="ml-3 text-sm"
                   onClick={() => {
                     setCreateActivityModal(true);
                     setEditActivityObject();
                   }}
-                  style={{
-                    width: "max-content",
-                    padding: "2px 8px",
-                    borderRadius: 24,
-                  }}
                 >
-                  <PlusCircle size="18" style={{ marginRight: 2 }} />
+                  <PlusCircle size="16" style={{ marginRight: 2 }} />
                   Create Program
-                </button>
+                </PrimaryButton>
 
                 <AdInstructor />
                 <div>
@@ -628,13 +625,13 @@ const Activities = () => {
               condition &&
               condition.isModerator === true && (
                 <div style={{ marginRight: "auto", display: "flex" }}>
-                  <button
-                    className="create-event-button target-btn"
+                  <PrimaryButton
+                    mini
+                    className="ml-3 text-sm"
                     onClick={() => {
                       setCreateActivityModal(true);
                       setEditActivityObject();
                     }}
-                    style={{ width: "max-content" }}
                   >
                     <PlusCircle
                       size="18"
@@ -645,7 +642,7 @@ const Activities = () => {
                       }}
                     />
                     Create Program
-                  </button>
+                  </PrimaryButton>
 
                   <AdInstructor />
                   <div>

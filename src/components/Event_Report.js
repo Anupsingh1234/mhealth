@@ -50,6 +50,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import { Plus } from "react-feather";
 import { CSVLink } from "react-csv";
 import { urlPrefix, secretToken } from "../services/apicollection";
+import { PrimaryButton } from "./Form";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -521,19 +522,11 @@ const AuditReport = (props) => {
                   </Select>
                 </fieldset>
               </div>
-              <button
-                style={{
-                  color: "white",
-                  background: "green",
-                  marginTop: 25,
-                  marginLeft: "10%",
-                  padding: "6px 8px",
-                }}
-                class="btn btn-success rounded-full"
-              >
-                {" "}
-                Submit
-              </button>
+              <div className="flex items-center justify-center ml-4">
+                <PrimaryButton mini className="w-[max-content] text-sm">
+                  Submit
+                </PrimaryButton>
+              </div>
             </div>
             <div style={{ justifyContent: "center" }}></div>
           </form>

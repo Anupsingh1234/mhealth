@@ -57,6 +57,7 @@ import AddActivityModal from "./AddActivityModal";
 import getcoach from "../../../services/apicollection";
 import { ContactSupportOutlined } from "@material-ui/icons";
 import ReactCardFlip from "react-card-flip";
+import { PrimaryButton } from "../../Form";
 let monthsObject = {
   "01": "Jan",
   "02": "Feb",
@@ -2902,8 +2903,11 @@ const SubEventCard = ({
                   <div style={{ marginTop: "-100px", display: "flex" }}>
                     <div style={{ width: "70%" }}>
                       {/* <p className="error-text">Please select</p> */}
-                      <p style={{ marginLeft: "20px", fontSize: "15px" }}>
-                        <b> Your Booking:</b>
+                      <p
+                        style={{ marginLeft: "20px", fontSize: "15px" }}
+                        className="mb-2"
+                      >
+                        <b> Your Booking: </b>
                       </p>
                       <p
                         style={{
@@ -2911,16 +2915,17 @@ const SubEventCard = ({
                             "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
                           borderRadius: 12,
                           borderRadius: "5px",
-                          height: "50px",
+                          height: "auto",
                           width: "160px",
                           marginLeft: "20px",
                           fontSize: "15px",
                           marginTop: "-10px",
                         }}
+                        className="p-1"
                       >
-                        <b> Date:</b> {moment(dateState).format("DD-MM-YYYY")}
+                        <b> Date: </b> {moment(dateState).format("DD-MM-YYYY")}
                         <br />
-                        <b> Time:</b>
+                        <b> Time: </b>
                         {calender.map((item) => {
                           if (item.date === dtt) {
                             return item.slotTime.map((e1) => {
@@ -2936,28 +2941,15 @@ const SubEventCard = ({
                         })}
                       </p>
                     </div>
-                    <div style={{ width: "30%" }}>
-                      <button
-                        // onClick={(e) => {
-                        //   subEventDetail.addressRequired == 1 ||
-                        //   subEventDetail.dependentRequired == 1
-                        //     ? finalSubmitBook(e)
-                        //     : handlesubmit(e);
-                        // }}
+                    <div className="absolute bottom-6 right-2">
+                      <PrimaryButton
+                        mini
+                        className="w-[max-content] text-sm"
                         onClick={finalSubmitBook}
                         type="submit"
-                        style={{
-                          borderRadius: "30px",
-                          backgroundColor: "green",
-                          color: "white",
-                          width: "80px",
-                          height: "30px",
-                          marginTop: "50px",
-                          // marginLeft: '-35px',
-                        }}
                       >
                         Save
-                      </button>
+                      </PrimaryButton>
 
                       <div></div>
                     </div>

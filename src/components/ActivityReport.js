@@ -31,6 +31,7 @@ import axios from "axios";
 import "react-tabs/style/react-tabs.css";
 
 import { urlPrefix } from "../services/apicollection";
+import { PrimaryButton } from "./Form";
 
 const ActivityReport = () => {
   const [endDate, setendDate] = useState("");
@@ -393,19 +394,15 @@ const ActivityReport = () => {
             </form>
           </fieldset>
         </div>
-        <button
-          className="rounded-full"
-          style={{
-            color: "#fff",
-            background: "green",
-            marginTop: 25,
-            padding: "6px 8px",
-          }}
-          onClick={handleRequest}
-        >
-          {" "}
-          Submit{" "}
-        </button>
+        <div className="flex items-center justify-center">
+          <PrimaryButton
+            mini
+            className="w-[max-content] text-sm"
+            onClick={handleRequest}
+          >
+            Submit
+          </PrimaryButton>
+        </div>
       </div>
 
       <hr></hr>
