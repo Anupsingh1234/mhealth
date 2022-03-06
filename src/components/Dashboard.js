@@ -1173,11 +1173,11 @@ const Dashboard = () => {
                             dashboardState.selectedAction === "forum"
                               ? theme.buttonBGColor
                               : theme.buttonTextColor,
-                          border: "1px solid",
-                          borderColor:
+                          border:
                             dashboardState.selectedAction === "forum"
-                              ? theme.buttonBGColor
-                              : theme.buttonTextColor,
+                              ? "1px solid"
+                              : "1px transparent",
+                          borderColor: theme.buttonBGColor,
                         }}
                         onClick={() => {
                           setDashboardState((prevState) => {
@@ -1204,11 +1204,11 @@ const Dashboard = () => {
                               dashboardState.selectedAction === "quiz"
                                 ? theme.buttonBGColor
                                 : theme.buttonTextColor,
-                            border: "1px solid",
-                            borderColor:
+                            border:
                               dashboardState.selectedAction === "quiz"
-                                ? theme.buttonBGColor
-                                : theme.buttonTextColor,
+                                ? "1px solid"
+                                : "1px transparent",
+                            borderColor: theme.buttonBGColor,
                           }}
                           onClick={() => {
                             setDashboardState((prevState) => {
@@ -1236,11 +1236,11 @@ const Dashboard = () => {
                               dashboardState.selectedAction === "team"
                                 ? theme.buttonBGColor
                                 : theme.buttonTextColor,
-                            border: "1px solid",
-                            borderColor:
+                            border:
                               dashboardState.selectedAction === "team"
-                                ? theme.buttonBGColor
-                                : theme.buttonTextColor,
+                                ? "1px solid"
+                                : "1px transparent",
+                            borderColor: theme.buttonBGColor,
                           }}
                           onClick={() => {
                             setDashboardState((prevState) => {
@@ -1267,11 +1267,11 @@ const Dashboard = () => {
                             dashboardState.selectedAction === "Challenge"
                               ? theme.buttonBGColor
                               : theme.buttonTextColor,
-                          border: "1px solid",
-                          borderColor:
+                          border:
                             dashboardState.selectedAction === "Challenge"
-                              ? theme.buttonBGColor
-                              : theme.buttonTextColor,
+                              ? "1px solid"
+                              : "1px transparent",
+                          borderColor: theme.buttonBGColor,
                         }}
                         onClick={() => {
                           setDashboardState((prevState) => {
@@ -1310,11 +1310,11 @@ const Dashboard = () => {
                               dashboardState.selectedAction === "Activities"
                                 ? theme.buttonBGColor
                                 : theme.buttonTextColor,
-                            border: "1px solid",
-                            borderColor:
+                            border:
                               dashboardState.selectedAction === "Activities"
-                                ? theme.buttonBGColor
-                                : theme.buttonTextColor,
+                                ? "1px solid"
+                                : "1px transparent",
+                            borderColor: theme.buttonBGColor,
                           }}
                           onClick={() => {
                             setDashboardState((prevState) => {
@@ -1343,11 +1343,11 @@ const Dashboard = () => {
                               dashboardState.selectedAction === "Source"
                                 ? theme.buttonBGColor
                                 : theme.buttonTextColor,
-                            border: "1px solid",
-                            borderColor:
+                            border:
                               dashboardState.selectedAction === "Source"
-                                ? theme.buttonBGColor
-                                : theme.buttonTextColor,
+                                ? "1px solid"
+                                : "1px transparent",
+                            borderColor: theme.buttonBGColor,
                           }}
                           onClick={() => {
                             setDashboardState((prevState) => {
@@ -1376,11 +1376,11 @@ const Dashboard = () => {
                                 dashboardState.selectedAction === "Gallery"
                                   ? theme.buttonBGColor
                                   : theme.buttonTextColor,
-                              border: "1px solid",
-                              borderColor:
+                              border:
                                 dashboardState.selectedAction === "Gallery"
-                                  ? theme.buttonBGColor
-                                  : theme.buttonTextColor,
+                                  ? "1px solid"
+                                  : "1px transparent",
+                              borderColor: theme.buttonBGColor,
                             }}
                             onClick={() => {
                               setDashboardState((prevState) => {
@@ -1405,11 +1405,11 @@ const Dashboard = () => {
                               dashboardState.selectedAction === "Compare"
                                 ? theme.buttonBGColor
                                 : theme.buttonTextColor,
-                            border: "1px solid",
-                            borderColor:
+                            border:
                               dashboardState.selectedAction === "Compare"
-                                ? theme.buttonBGColor
-                                : theme.buttonTextColor,
+                                ? "1px solid"
+                                : "1px transparent",
+                            borderColor: theme.buttonBGColor,
                           }}
                           onClick={() =>
                             setDashboardState((prevState) => {
@@ -1442,12 +1442,12 @@ const Dashboard = () => {
                                   "achievement"
                                     ? theme.buttonBGColor
                                     : theme.buttonTextColor,
-                                border: "1px solid",
-                                borderColor:
+                                border:
                                   dashboardState.selectedAction ===
                                   "achievement"
-                                    ? theme.buttonBGColor
-                                    : theme.buttonTextColor,
+                                    ? "1px solid"
+                                    : "1px transparent",
+                                borderColor: theme.buttonBGColor,
                               }}
                               onClick={() => {
                                 setDashboardState((prevState) => {
@@ -1474,11 +1474,11 @@ const Dashboard = () => {
                                   dashboardState.selectedAction === "challenge"
                                     ? theme.buttonBGColor
                                     : theme.buttonTextColor,
-                                border: "1px solid",
-                                borderColor:
+                                border:
                                   dashboardState.selectedAction === "challenge"
-                                    ? theme.buttonBGColor
-                                    : theme.buttonTextColor,
+                                    ? "1px solid"
+                                    : "1px transparent",
+                                borderColor: theme.buttonBGColor,
                               }}
                               onClick={() => {
                                 setDashboardState((prevState) => {
@@ -1505,11 +1505,11 @@ const Dashboard = () => {
                                   dashboardState.selectedAction === "Target"
                                     ? theme.buttonBGColor
                                     : theme.buttonTextColor,
-                                border: "1px solid",
-                                borderColor:
+                                border:
                                   dashboardState.selectedAction === "Target"
-                                    ? theme.buttonBGColor
-                                    : theme.buttonTextColor,
+                                    ? "1px solid"
+                                    : "1px transparent",
+                                borderColor: theme.buttonBGColor,
                               }}
                               onClick={() => {
                                 setDashboardState((prevState) => {
@@ -1534,11 +1534,11 @@ const Dashboard = () => {
                               dashboardState.selectedAction === "Performance"
                                 ? theme.buttonBGColor
                                 : theme.buttonTextColor,
-                            border: "1px solid",
-                            borderColor:
+                            border:
                               dashboardState.selectedAction === "Performance"
-                                ? theme.buttonBGColor
-                                : theme.buttonTextColor,
+                                ? "1px solid"
+                                : "1px transparent",
+                            borderColor: theme.buttonBGColor,
                           }}
                           onClick={() => handlePerformanceClick()}
                         >
@@ -1556,11 +1556,11 @@ const Dashboard = () => {
                           dashboardState.selectedAction === "Leaderboard"
                             ? theme.buttonBGColor
                             : theme.buttonTextColor,
-                        border: "1px solid",
-                        borderColor:
+                        border:
                           dashboardState.selectedAction === "Leaderboard"
-                            ? theme.buttonBGColor
-                            : theme.buttonTextColor,
+                            ? "1px solid"
+                            : "1px transparent",
+                        borderColor: theme.buttonBGColor,
                       }}
                       onClick={() =>
                         setDashboardState((prevState) => {

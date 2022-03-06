@@ -138,7 +138,7 @@ const AdInstructor = () => {
     <div>
       <PrimaryButton
         mini
-        className="text-sm ml-3 w-[max-content] py-[6px]"
+        className="text-sm ml-3 w-36 p-0 h-8"
         onClick={onOpenModal}
       >
         {" "}

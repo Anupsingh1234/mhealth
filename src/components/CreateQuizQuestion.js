@@ -550,7 +550,7 @@ const Admin123 = () => {
               <div>
                 <PrimaryButton
                   mini
-                  className="w-[7%] text-sm ml-6 mb-2"
+                  className="w-24 text-sm ml-6 mb-2"
                   onClick={() => setDuplicateModal(true)}
                 >
                   Duplicate
@@ -816,7 +816,7 @@ const Admin123 = () => {
                   <div style={{ width: "20%" }}>
                     <PrimaryButton
                       mini
-                      className="w-[max-content] text-sm mt-4"
+                      className="w-24 text-sm mt-4"
                       onClick={handleSubmit}
                     >
                       Save Quiz
@@ -977,7 +977,7 @@ const Admin123 = () => {
                                       >
                                         <PrimaryButton
                                           mini
-                                          className="w-[max-content] text-sm mx-auto"
+                                          className="w-24 text-sm mx-auto"
                                           onClick={() => {
                                             setaddId(item.idMstQuiz),
                                               localStorage.setItem(

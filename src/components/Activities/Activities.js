@@ -582,10 +582,16 @@ const Activities = () => {
             />
 
             {condition && condition.isAdmin === true ? (
-              <div style={{ marginRight: "auto", display: "flex" }}>
+              <div
+                style={{
+                  marginRight: "auto",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
                 <PrimaryButton
                   mini
-                  className="ml-3 text-sm"
+                  className="ml-3 text-sm p-0 m-0 h-8"
                   onClick={() => {
                     setCreateActivityModal(true);
                     setEditActivityObject();
@@ -601,11 +607,6 @@ const Activities = () => {
                     style={{ width: "250px", marginLeft: 20 }}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
-                    // open={open}
-                    // onClose={handleClose}
-                    // onOpen={handleOpen}
-                    // value={age}
-                    // onChange={handleChange}
                     onChange={handleEvent}
                   >
                     <MenuItem style={{ fontSize: 12 }} value="select">
@@ -627,7 +628,7 @@ const Activities = () => {
                 <div style={{ marginRight: "auto", display: "flex" }}>
                   <PrimaryButton
                     mini
-                    className="ml-3 text-sm"
+                    className="ml-3 text-sm p-0 m-0 h-8"
                     onClick={() => {
                       setCreateActivityModal(true);
                       setEditActivityObject();

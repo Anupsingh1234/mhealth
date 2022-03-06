@@ -700,8 +700,6 @@ h3 > span {
 
 .leaderboard-actions > button {
   border-radius: 0;
-  /* background-color: #6666ff; */
-  border: 0.5px #fff solid;
   border-bottom: 0;
   border-top: 0;
   color: #ffffff;
