@@ -22,7 +22,7 @@ const useTheme = () => {
     ) {
       return window.location.hostname.split(".")[0];
     } else {
-      return "walkathon21";
+      return "";
     }
   };
 
