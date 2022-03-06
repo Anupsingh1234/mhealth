@@ -125,3 +125,20 @@ export const resetPasswordHandler = (payload) => {
     },
   });
 };
+
+export const getSocialLinks = (client) => {
+  const URL = `${urlPrefix}clients/getSocialMediaLink?keyword=${client}`;
+
+  return axios.get(URL, {
+    headers: {
+      Authorization: `Bearer ${secretToken}`,
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
+      withCredentials: true,
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
+    },
+  });
+};

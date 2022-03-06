@@ -28,6 +28,7 @@ import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
 import ThemeContext from "../../context/ThemeContext";
 import classNames from "classnames";
+import { icons } from "../../assets/icons/constants";
 
 const Login = ({ YottaMatch }) => {
   window.message = Message;
@@ -494,31 +495,16 @@ const Login = ({ YottaMatch }) => {
       <div className="illustration relative">
         <div>
           <img src={theme?.eventLogo || login} width={400} height={597} />
-          <div className="absolute left-0 top-[35%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
-            <div>
+          <div className="absolute left-0 top-[28%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
+            {Object.entries(icons).map((data) => (
               <img
-                src={facebookIcon}
+                key={data[0]}
+                src={data[1]}
                 className="inline cursor-pointer"
                 width="22px"
                 height="22px"
               />
-            </div>
-            <div>
-              <img
-                src={linkedInIcon}
-                className="inline cursor-pointer"
-                width="22px"
-                height="22px"
-              />
-            </div>
-            <div>
-              <img
-                src={twitterIcon}
-                className="inline cursor-pointer"
-                width="22px"
-                height="22px"
-              />
-            </div>
+            ))}
           </div>
           <div
             className={classNames(

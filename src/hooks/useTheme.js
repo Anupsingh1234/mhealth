@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getClientTheme } from "../services/challengeApi";
+import { getSocialLinks } from "../services/loginapi";
 const defaultPrimaryColor =
   "linear-gradient(to left, #0052d4, #65c7f7, #9cecfb)";
 
@@ -52,6 +53,9 @@ const useTheme = () => {
         setTheme(defaultTheme);
         setLoading(false);
       });
+    getSocialLinks(getClientHostName()).then((res) => {
+      console.log({ res });
+    });
   }, []);
 
   return { theme, loading };
