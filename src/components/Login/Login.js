@@ -10,6 +10,9 @@ import PasswordVerifyForm from "./PasswordVerifyForm";
 import Message from "antd-message";
 import logoPng from "../../assets/logo.png";
 import copyright from "../../assets/copyright.svg";
+import facebookIcon from "../../assets/facebookIcon.svg";
+import linkedInIcon from "../../assets/linkedInIcon.svg";
+import twitterIcon from "../../assets/twitterIcon.svg";
 import CompnyForm from "./Complog";
 import DCompany from "./DCompanyForm";
 import CenteredLoader from "../shared/CenteredLoader";
@@ -25,7 +28,6 @@ import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
 import ThemeContext from "../../context/ThemeContext";
 import classNames from "classnames";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Login = ({ YottaMatch }) => {
   window.message = Message;
@@ -491,7 +493,33 @@ const Login = ({ YottaMatch }) => {
     <div className="Login">
       <div className="illustration relative">
         <div>
-          <img src={theme?.eventLogo || login} />
+          <img src={theme?.eventLogo || login} width={400} height={597} />
+          <div className="absolute left-0 top-[35%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
+            <div>
+              <img
+                src={facebookIcon}
+                className="inline cursor-pointer"
+                width="22px"
+                height="22px"
+              />
+            </div>
+            <div>
+              <img
+                src={linkedInIcon}
+                className="inline cursor-pointer"
+                width="22px"
+                height="22px"
+              />
+            </div>
+            <div>
+              <img
+                src={twitterIcon}
+                className="inline cursor-pointer"
+                width="22px"
+                height="22px"
+              />
+            </div>
+          </div>
           <div
             className={classNames(
               "absolute bottom-4 left-0 px-4",
@@ -501,12 +529,7 @@ const Login = ({ YottaMatch }) => {
           >
             <p className="flex gap-1 items-center">
               Powered by
-              <img
-                src={logoPng}
-                className="inline"
-                width="32px"
-                height="32px"
-              />
+              <img src={logoPng} width={20} height={20} />
               mHealth
             </p>
             <p className="flex items-center gap-1">
@@ -523,7 +546,7 @@ const Login = ({ YottaMatch }) => {
         </div>
       </div>
       <div className="Logo">
-        <img src={theme.sponsorLogo} width="48px" height="48px" />
+        <img src={theme.sponsorLogo} width="36px" height="36px" />
         {/* <div className="logo-text">mHealth.ai</div> */}
       </div>
       <div className="form-container">

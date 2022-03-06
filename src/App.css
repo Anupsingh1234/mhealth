@@ -1652,10 +1652,7 @@ select:focus {
   text-align: center;
   font-size: 800;
 }
-.Logo img {
-  height: 41px !important;
-  width: 47px !important;
-}
+
 .Logo > div {
   font-weight: 700;
   font-size: 8px;
