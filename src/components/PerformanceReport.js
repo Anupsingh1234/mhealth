@@ -52,6 +52,7 @@ import PromiseTeam from "./PerformanceTeam/PromisingTeam";
 import EfficientPlayer from "./PerformanceTeam/EfficientTeam";
 import InspiringPlayer from "./PerformanceTeam/InspiringTeam";
 import ConsistantPlayer from "./PerformanceTeam/ConsistantPlayer";
+import { PrimaryButton } from "./Form/Button";
 const Performance = (props) => {
   const [events, setevents] = useState([]);
   const [programs, setprograms] = useState([]);
@@ -306,19 +307,9 @@ const Performance = (props) => {
             alignItems: "center",
           }}
         >
-          <button
-            style={{
-              color: "white",
-              background: "green",
-              height: 30,
-              width: 80,
-              marginTop: 25,
-            }}
-            onClick={getData}
-          >
-            {" "}
-            submit{" "}
-          </button>
+          <PrimaryButton mini className="w-24 mx-auto" onClick={getData}>
+            submit
+          </PrimaryButton>
           <span style={{ marginTop: 20, color: "red", marginLeft: 50 }}>
             {" "}
             {resMessage}{" "}

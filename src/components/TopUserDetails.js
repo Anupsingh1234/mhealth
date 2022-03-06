@@ -10,6 +10,7 @@ import SocialPost from "./SocialPost";
 import SocialLink from "./SocialLink";
 import { getOldEvents } from "../services/challengeApi";
 import { SignalCellularNullRounded } from "@material-ui/icons";
+import { PrimaryButton } from "./Form";
 const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   let history = useHistory();
   const StyledMenu = withStyles({
@@ -61,11 +62,11 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   const [coach, setCoach] = useState();
   useEffect(() => {
     getOldEvents().then((res) => {
+      // console.log({ res })
       localStorage.setItem(
         "condition",
         JSON.stringify(res?.data?.response?.responseData)
       );
-      // console.log(res.data.response.responseData);
       setAdminCondition(res?.data?.response?.responseData?.isAdmin);
       setmodiator(res?.data?.response?.responseData?.isModerator);
       setCoach(res?.data?.response?.responseData?.isCoach);
@@ -87,27 +88,16 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
       <div className="Avatar-Container">
         {coach === true ? (
           <>
-            <div>
-              <button
-                style={{
-                  color: "white",
-                  backgroundColor: "green",
-                  marginRight: "25px",
-                  // marginTop: '-5px',
-                  height: "30px",
-                  width: "100px",
-                }}
+            <div className="mr-2">
+              <PrimaryButton
+                mini
                 onClick={() => {
                   setAppointmentView(true);
                 }}
+                className="mt-2"
               >
-                {" "}
-                {/* <Icon.Calendar /> */}
-                <span style={{ marginRight: 0 }}>
-                  Appointment
-                  {/* <ListItemText primary="Appointment" /> */}
-                </span>
-              </button>
+                Appointment
+              </PrimaryButton>
 
               {appointmentView && (
                 <Expert
@@ -153,51 +143,28 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
         {modiator === true ? (
           <>
             <div>
-              <p
-                // style={{
-                //   color: 'white',
-                //   backgroundColor: 'green',
-                //   // marginRight: '25px',
-                //   marginTop: '5px',
-                //   height: '20px',
-                //   width: '100px',
-                // }}
-                onClick={() => setSocialPost(true)}
-              >
-                <span style={{ marginRight: 0 }}>
+              <p onClick={() => setSocialPost(true)}>
+                <span style={{ marginRight: 0, display: "flex" }}>
                   <Icon.Navigation />
                   Social Post
-                  {/* <ListItemText primary="Appointment" /> */}
                 </span>
               </p>
 
               {socialPost && (
                 <SocialPost
                   challenge={subEventDetail}
-                  // type="program"
                   modalView={socialPost}
                   setModalView={setSocialPost}
-                  // setActivityModalView={setActivityModalView}
-                  // actualData={actualData}
                 />
               )}
             </div>
             <div>
-              <p
-                // style={{
-                //   color: 'white',
-                //   backgroundColor: 'green',
-                //   // marginRight: '25px',
-                //   marginTop: '5px',
-                //   height: '20px',
-                //   width: '100px',
-                // }}
-                onClick={() => setSocialLink(true)}
-              >
-                <span style={{ marginRight: 0 }}>
+              <p onClick={() => setSocialLink(true)}>
+                <span
+                  style={{ marginRight: 0, display: "flex", marginTop: "1rem" }}
+                >
                   <Icon.Link />
                   Social Link
-                  {/* <ListItemText primary="Appointment" /> */}
                 </span>
               </p>
 

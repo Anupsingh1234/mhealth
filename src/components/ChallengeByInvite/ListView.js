@@ -10,6 +10,7 @@ import Paper from "@material-ui/core/Paper";
 import Avatar from "@material-ui/core/Avatar";
 import NoData from "../NoData";
 import ViewAllModal from "./ViewAllModal";
+import { PrimaryButton } from "../Form";
 
 const useStyles = makeStyles({
   table: {
@@ -115,23 +116,23 @@ const ListView = ({ data = [] }) => {
                     </div>
                   </TableCell>
                   <TableCell align="center">
-                    <div
-                      className="d-flex"
-                      style={{ justifyContent: "center" }}
-                    >
-                      <div className="scoreNo">{row.receiverPoints}</div>
-                      <div className="scoreNo">{"-"}</div>
-                      <div className="scoreNo"> {row.senderPoints}</div>
-                    </div>
-                    <div>
-                      <div className="scorename">
-                        {row.receiverLastActiveDay}
+                    <div className="flex flex-col items-center justify-center">
+                      <div className="flex">
+                        <div className="scoreNo">{row.receiverPoints}</div>
+                        <div className="scoreNo">{"-"}</div>
+                        <div className="scoreNo"> {row.senderPoints}</div>
+                      </div>
+                      <div>
+                        <div className="scorename">
+                          {row.receiverLastActiveDay}
+                        </div>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell align="center">
                     <div className="view-all-score">
-                      <button
+                      <PrimaryButton
+                        mini
                         onClick={() => {
                           if (formattedData.length > 0) {
                             setModalData({
@@ -141,15 +142,10 @@ const ListView = ({ data = [] }) => {
                             setViewAll((viewAll) => !viewAll);
                           }
                         }}
-                        style={
-                          formattedData.length == 0
-                            ? { background: "#cdcdcd" }
-                            : {}
-                        }
                         disabled={formattedData.length == 0}
                       >
                         View Detail
-                      </button>
+                      </PrimaryButton>
                     </div>
                   </TableCell>
                 </TableRow>

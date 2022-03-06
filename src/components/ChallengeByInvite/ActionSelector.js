@@ -5,6 +5,9 @@ import {
   challengeActionCall,
 } from "../../services/challengeApi";
 import Message from "antd-message";
+import { PrimaryButton } from "../Form";
+import classNames from "classnames";
+import ThemeContext from "../../context/ThemeContext";
 
 const actionList = {
   request: "Request",
@@ -227,16 +230,28 @@ const ActionSelector = ({
     ));
   };
 
+  const { theme } = useContext(ThemeContext);
+
   return (
     <div className="challenge-action-container">
-      <div className="action-container">
+      <div className="flex mb-4 gap-4 w-[70%] mx-auto text-xs">
         {Object.entries(actionList).map((actionType) => (
-          <div
-            className={
-              selectedAction === actionType[0]
-                ? "selected-action-block"
-                : "action-block"
-            }
+          <button
+            className={classNames(
+              "border-0 rounded-full outline-none focus:outline-none",
+              "flex justify-center items-center w-full",
+              "px-4 py-1"
+            )}
+            style={{
+              background:
+                selectedAction === actionType[0]
+                  ? theme.buttonBGColor
+                  : "#e5e7eb",
+              color:
+                selectedAction === actionType[0]
+                  ? theme.buttonTextColor
+                  : "#000",
+            }}
             onClick={() => {
               changeState({
                 selectedAction: actionType[0],
@@ -244,7 +259,7 @@ const ActionSelector = ({
             }}
           >
             {actionType[1]}
-          </div>
+          </button>
         ))}
       </div>
       <div className="action-data-container">

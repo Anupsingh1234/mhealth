@@ -1218,7 +1218,7 @@ const MarketPlace = ({
           <div className="register-button">
             <button
               onClick={() => setUnsubModal(true)}
-              style={{ background: "#F43F5E", marginBottom: "10px" }}
+              style={{ background: "#F43F5E", borderRadius: 24 }}
             >
               Remove
             </button>

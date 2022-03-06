@@ -45,6 +45,7 @@ import TriStateToggle from "./toggle/TriStateToggle";
 // import socketIo from 'socket.io-client';
 import InfoDialog from "./Utility/InfoDialog";
 import { ListItemAvatar } from "@material-ui/core";
+import { FormatListBulletedRounded } from "@material-ui/icons";
 let socket;
 
 // const ENDPOINT = 'https://demo-cchat.herokuapp.com/';
@@ -160,6 +161,12 @@ const headCells = [
   },
   {
     label: "Chat",
+    // id: 'addData',
+    numeric: false,
+    disablePadding: true,
+  },
+  {
+    label: "Message",
     // id: 'addData',
     numeric: false,
     disablePadding: true,
@@ -358,9 +365,74 @@ export default function AppointmentExpert({
   const [radioValue, setRadioValue] = useState("current");
   const [options, setOptions] = useState([]);
   const [series, setSeries] = useState([]);
+  const [messageModal, setMessageModal] = useState(false);
+  const [messageData, setMessageData] = useState({
+    coachName:
+      localStorage.getItem("firstName") +
+      " " +
+      localStorage.getItem("lastName"),
+    customerName: "",
+    message: "",
+    programName: "",
+    type: "text",
+    mobileNumber: "",
+  });
+  const ViewMessageData = (customerName, mobile, programName) => {
+    setMessageData({
+      ...messageData,
+      customerName: customerName,
+      mobileNumber: mobile,
+      programName: programName,
+    });
+    setMessageModal(true);
+  };
+  const [displaymessage, setDisplay] = useState("");
+  const CustomerMessage = () => {
+    let payload = {
+      coachName: messageData.coachName,
+      customerName: messageData.customerName,
+      message: messageData.message,
+      programName: messageData.programName,
+      type: messageData.type,
+    };
+    if (messageData.message !== "") {
+      const adminurl = `${urlPrefix}clients/sendMessageOnWhatsapp?mobileNumber=${messageData.mobileNumber}`;
+      return axios
+        .post(adminurl, payload, {
+          headers: {
+            Authorization: `Bearer ${secretToken}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
+            withCredentials: true,
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
+          },
+        })
+        .then((res) => {
+          setMessageData({
+            coachName:
+              localStorage.getItem("firstName") +
+              " " +
+              localStorage.getItem("lastName"),
+            customerName: "",
+            message: "",
+            programName: "",
+            type: "text",
+            mobileNumber: "",
+          });
+          setMessageModal(false);
+          Message.success(res.data.response.responseMessage);
+          setDisplay("");
+        });
+    } else {
+      setDisplay("Input Message");
+    }
+  };
   const startdate = [];
   const weeksum = [];
-  console.log(localStorage.getItem("selectEvent"));
+  console.log(messageData, "mesage");
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -1058,6 +1130,39 @@ export default function AppointmentExpert({
                                       )}
                                     </div>
                                   </TableCell>
+                                  <TableCell align="left" width="5%">
+                                    <div
+                                      style={{
+                                        fontSize: 12,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      {row.programType === "INDIVIDUAL" ? (
+                                        <button
+                                          style={{
+                                            color: "white",
+                                            backgroundColor: "green",
+                                            borderRadius: "25px",
+                                            height: "20px",
+                                            width: "70px",
+                                          }}
+                                          onClick={() => {
+                                            ViewMessageData(
+                                              row.userName,
+                                              row.mobilePhone,
+                                              row.programName
+                                            );
+                                          }}
+                                        >
+                                          Message
+                                        </button>
+                                      ) : (
+                                        "-"
+                                      )}
+                                    </div>
+                                  </TableCell>
                                   <TableCell align="center" width="5%">
                                     <div
                                       style={{
@@ -1250,6 +1355,39 @@ export default function AppointmentExpert({
                                           }}
                                         >
                                           Chat
+                                        </button>
+                                      ) : (
+                                        "-"
+                                      )}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell align="left" width="5%">
+                                    <div
+                                      style={{
+                                        fontSize: 12,
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                      }}
+                                    >
+                                      {row.programType === "INDIVIDUAL" ? (
+                                        <button
+                                          style={{
+                                            color: "white",
+                                            backgroundColor: "green",
+                                            borderRadius: "25px",
+                                            height: "20px",
+                                            width: "70px",
+                                          }}
+                                          onClick={() => {
+                                            ViewMessageData(
+                                              row.userName,
+                                              row.mobilePhone,
+                                              row.programName
+                                            );
+                                          }}
+                                        >
+                                          Message
                                         </button>
                                       ) : (
                                         "-"
@@ -1973,6 +2111,95 @@ export default function AppointmentExpert({
                   onClick={BreakMeeting}
                 >
                   Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </InfoDialog>
+      )}
+      {messageModal && (
+        <InfoDialog
+          open={messageModal}
+          onClose={() => {
+            setMessageModal(false),
+              setMessageData({
+                coachName:
+                  localStorage.getItem("firstName") +
+                  " " +
+                  localStorage.getItem("lastName"),
+                customerName: "",
+                message: "",
+                programName: "",
+                type: "text",
+                mobileNumber: "",
+              }),
+              setDisplay("");
+          }}
+        >
+          <CancelIcon
+            style={{
+              position: "absolute",
+              top: 5,
+              right: 5,
+              color: "#ef5350",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setMessageModal(false),
+                setMessageData({
+                  coachName:
+                    localStorage.getItem("firstName") +
+                    " " +
+                    localStorage.getItem("lastName"),
+                  customerName: "",
+                  message: "",
+                  programName: "",
+                  type: "text",
+                  mobileNumber: "",
+                }),
+                setDisplay("");
+            }}
+          />
+          <div style={{ height: "300px", width: "400px" }}>
+            <div style={{ padding: "10px 10px 10px 30px" }}>
+              <label>Message </label>
+              <textarea
+                style={{ height: "180px", width: "90%" }}
+                placeholder="Type Messages ..."
+                value={messageData.message}
+                onChange={(e) =>
+                  setMessageData({
+                    ...messageData,
+                    message: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div style={{ display: "flex" }}>
+              <div style={{ width: "40%" }}>
+                {messageData.message === "" && displaymessage !== "" && (
+                  <span
+                    style={{
+                      marginLeft: "30%",
+                      color: "red",
+                    }}
+                  >
+                    {displaymessage}
+                  </span>
+                )}
+              </div>
+              <div style={{ width: "40%" }}>
+                <button
+                  style={{
+                    height: "40px",
+                    width: "90px",
+                    backgroundColor: "green",
+                    color: "white",
+                    marginLeft: "69%",
+                  }}
+                  onClick={CustomerMessage}
+                >
+                  Send
                 </button>
               </div>
             </div>

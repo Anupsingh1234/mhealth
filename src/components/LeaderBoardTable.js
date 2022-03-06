@@ -312,7 +312,6 @@ function TablePaginationActions(props) {
 
   const handleBackButtonClick = (event) => {
     onChangePage(event, page - 1);
-    console.log(rowsPerPage);
   };
 
   const handleNextButtonClick = (event) => {
@@ -400,7 +399,6 @@ export default function EnhancedTable({
 }) {
   const classes = useStyles();
   const [leaderboardList, setLeaderboardList] = useState(leaderBoardData);
-  // useEffect(() => {setLeaderboardList(leaderBoardData)}, [leaderBoardData.loading===false]);
   const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const {
@@ -491,8 +489,9 @@ export default function EnhancedTable({
                 style={{
                   background: "#DCFCE7",
                   color: "#166534",
-                  borderRadius: 2,
-                  height: 20,
+                  borderRadius: 24,
+                  fontSize: 12,
+                  padding: "2px 10px",
                 }}
               >
                 SAVE
@@ -807,7 +806,7 @@ export default function EnhancedTable({
       <Paper className={classes.paper}>
         <TableContainer style={{ marginTop: "-2px" }}>
           <div className="table-search-container" style={{ marginTop: "-2px" }}>
-            <div style={{ marginTop: "-10px" }}>
+            <div>
               {pinActive && currentEvent["id"] ? (
                 <EnhancedTableToolbar
                   numSelected={selected.length}
@@ -826,13 +825,13 @@ export default function EnhancedTable({
                     <Tooltip title="Pin users">
                       <button
                         style={{
-                          height: 20,
                           background: "#E0E7FF",
                           color: "#4338CA",
-                          borderRadius: 2,
-                          width: 90,
+                          borderRadius: 24,
                           marginLeft: 10,
                           cursor: "pointer",
+                          padding: "2px 10px",
+                          fontSize: 12,
                         }}
                         onClick={() => setPinActive(!pinActive)}
                       >
@@ -928,7 +927,7 @@ export default function EnhancedTable({
               {leaderboardList?.data?.rankWiseBoard?.length > 0 &&
                 currentEvent["id"] && (
                   <>
-                    <p title="Export data">
+                    <p className="mx-1" title="Export data">
                       <CSVExport
                         data={
                           leaderboardList?.data?.rankWiseBoard?.length > 0
@@ -943,39 +942,48 @@ export default function EnhancedTable({
                 )}
               {/* <Calendar size={20}  /> */}
               <img
+                className="mx-1"
                 src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/DateRange.png"
                 height="25px"
                 width="25px"
                 onClick={() => setDateRange(true)}
                 style={{ cursor: "pointer", marginTop: "-5px" }}
               />
-              <div
-                style={{ display: "flex", alignItems: "center", width: 200 }}
+              <span style={{ fontWeight: "800", marginLeft: "5px" }}>[</span>{" "}
+              <span
+                // type="date"
+
+                style={{
+                  // background: '#f3f4f6',
+                  // padding: '6px 10px',
+                  // borderRadius: 6,
+                  fontSize: 12,
+
+                  marginLeft: "2px",
+                  fontWeight: "800",
+                }}
               >
-                <span style={{ fontWeight: "800", marginLeft: "5px" }}>[</span>{" "}
-                <span
-                  style={{
-                    fontSize: 12,
-                    marginLeft: "2px",
-                    fontWeight: "800",
-                  }}
-                >
-                  {showStartDate.substring(0, 6)}
-                  {showStartDate.substring(8)}
-                </span>
-                <span style={{ fontWeight: "800", marginLeft: "8px" }}>-</span>{" "}
-                <span
-                  style={{
-                    fontSize: 12,
-                    marginLeft: "5px",
-                    fontWeight: "800",
-                  }}
-                >
-                  {showEndDate.substring(0, 6)}
-                  {showEndDate.substring(8)}
-                </span>
-                <span style={{ fontWeight: "800" }}>]</span>
-              </div>
+                {showStartDate.substring(0, 6)}
+                {showStartDate.substring(8)}
+              </span>
+              <span style={{ fontWeight: "800", marginLeft: "8px" }}>-</span>{" "}
+              <span
+                // type="date"
+
+                style={{
+                  // background: '#f3f4f6',
+                  // padding: '6px 10px',
+                  // borderRadius: 6,
+                  fontSize: 12,
+
+                  marginLeft: "5px",
+                  fontWeight: "800",
+                }}
+              >
+                {showEndDate.substring(0, 6)}
+                {showEndDate.substring(8)}
+              </span>
+              <span style={{ fontWeight: "800" }}>]</span>
             </div>
             <div></div>
           </div>
@@ -1131,7 +1139,10 @@ export default function EnhancedTable({
                             </div>
                           </TableCell>
                           <TableCell align="center" style={{ padding: 0 }}>
-                            <div style={{ fontSize: 12 }}>
+                            <div
+                              style={{ fontSize: 12 }}
+                              className="flex justify-center"
+                            >
                               {row.achievementIcon ? (
                                 <img
                                   style={{
@@ -1149,7 +1160,10 @@ export default function EnhancedTable({
                             </div>
                           </TableCell>{" "}
                           <TableCell align="center" style={{}}>
-                            <div style={{ fontSize: 12, padding: 5 }}>
+                            <div
+                              style={{ fontSize: 12, padding: 5 }}
+                              className="flex justify-center"
+                            >
                               {(row.gender && row.gender === "Male") ||
                               row.gender === "male" ||
                               row.gender === "MALE" ? (
@@ -1192,6 +1206,7 @@ export default function EnhancedTable({
                                     ? "pointer"
                                     : "default",
                               }}
+                              className="flex justify-center"
                               aria-describedby={id}
                               onClick={(e) => {
                                 if (
@@ -1362,7 +1377,7 @@ export default function EnhancedTable({
               );
             }}
           />
-          <div className="leaderBoard-modal-date">
+          <div className="leaderBoard-modal-date mb-6">
             <div style={{ width: "38%", marginLeft: "20px" }}>
               <button
                 style={{
@@ -1512,11 +1527,10 @@ export default function EnhancedTable({
                 style={{
                   backgroundColor: "green",
                   color: "white",
-                  borderRadius: "10px",
                   marginLeft: "40%",
-                  width: "80px",
                   marginTop: "2%",
                 }}
+                className="px-2 rounded-full"
                 onClick={() => handleChange(startDate, endDate)}
               >
                 Submit

@@ -43,6 +43,7 @@ import axios from "axios";
 import { urlPrefix, secretToken } from "../../services/apicollection";
 import InfoDialog from "../Utility/InfoDialog";
 import SundayChallenge from "../SundayChallenge";
+import { PrimaryButton } from "../Form";
 const SundayChallengeReport = (props) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
@@ -444,18 +445,13 @@ const SundayChallengeReport = (props) => {
             marginLeft: 50,
           }}
         >
-          <button
-            className="is-success"
-            style={{
-              height: 30,
-              width: 80,
-              marginTop: 25,
-            }}
+          <PrimaryButton
+            mini
+            className="w-[max-content] text-sm"
             onClick={handleChange}
           >
-            {" "}
-            submit{" "}
-          </button>
+            submit
+          </PrimaryButton>
           <span
             style={{
               marginTop: 20,
@@ -554,25 +550,6 @@ const SundayChallengeReport = (props) => {
                           {" "}
                           {item.status ? item.status : "-"}{" "}
                         </TableCell>
-                        {/* <TableCell>
-                          {item.message === true ? (
-                            <button
-                              style={{
-                                backgroundColor: 'green',
-                                color: 'white',
-                                width: '150px',
-                              }}
-                              onClick={() => {
-                                setResponsemessageModal(true),
-                                  setPhone(item.senderPhone);
-                              }}
-                            >
-                              Response
-                            </button>
-                          ) : (
-                            '-'
-                          )}
-                        </TableCell> */}
                       </TableRow>
                     </>
                   );
@@ -633,7 +610,6 @@ const SundayChallengeReport = (props) => {
               />
               <button
                 style={{
-                  // backgroundColor: 'green',
                   color: "white",
                   marginLeft: "75%",
                   width: "80px",

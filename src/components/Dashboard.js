@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import classnames from "classnames";
 import Chart from "react-apexcharts";
 import Message from "antd-message";
@@ -47,6 +47,9 @@ import {
   ACTION_ICONS_COLOR,
   ACTION_ICONS_BGCOLOR,
 } from "../constants/dashboardAction";
+import Forum from "./Forum";
+import ThemeContext from "../context/ThemeContext";
+import DietPlan from "./Dietplan/DietPlan";
 
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
@@ -124,6 +127,8 @@ const Dashboard = () => {
           return "Compare";
         case "team":
           return "team";
+        case "dietplan":
+          return "dietplan";
         case "achievement":
           return "achievement";
         case "challenge":
@@ -170,6 +175,21 @@ const Dashboard = () => {
     isProgramAvailable: false,
     searchedEvent: [],
   });
+  localStorage.setItem("selectTab", dashboardState.selectedAction);
+  useEffect(() => {
+    if (
+      localStorage.getItem("dashboard_default_tab") !== undefined &&
+      localStorage.getItem("dashboard_default_tab") !== null
+    ) {
+      setDashboardState((prevState) => {
+        return {
+          ...prevState,
+          selectedAction: getDefaultTab(),
+        };
+      });
+    }
+  }, [localStorage.getItem("dashboard_default_tab")]);
+
   const [challengeStatusMsg, setChallengeStatusMsg] = useState("");
   const [displayChallengeStatus, setDisplayChallengeStatus] = useState(false);
   const [pendingInviteCount, setPendingCount] = useState(null);
@@ -1029,16 +1049,20 @@ const Dashboard = () => {
     }
 
     if (
-      dashboardState.selectedAction === "Leaderboard" ||
-      dashboardState.selectedAction === "Gallery" ||
-      dashboardState.selectedAction === "Source" ||
-      dashboardState.selectedAction === "Target" ||
-      dashboardState.selectedAction === "Activities" ||
-      dashboardState.selectedAction === "Challenge" ||
-      dashboardState.selectedAction === "team" ||
-      dashboardState.selectedAction === "achievement" ||
-      dashboardState.selectedAction === "challenge" ||
-      dashboardState.selectedAction === "quiz"
+      [
+        "Leaderboard",
+        "Gallery",
+        "Source",
+        "Target",
+        "Activities",
+        "Challenge",
+        "team",
+        "achievement",
+        "challenge",
+        "quiz",
+        "forum",
+        "dietplan",
+      ].includes(dashboardState.selectedAction)
     ) {
       setDashboardState({
         ...updatedObj,
@@ -1167,6 +1191,8 @@ const Dashboard = () => {
     value: event.id,
   }));
 
+  const { theme } = useContext(ThemeContext);
+  const remainingDays = dashboardState.selectedChallengeObject.remainingDay;
   return (
     <div className="Dasboard">
       <Navbar />
@@ -1538,33 +1564,37 @@ const Dashboard = () => {
             )
           )}
 
+          {dashboardState.selectedAction === "Challenge" && (
+            <ChallengeByInvite
+              eventId={dashboardState.selectedChallenge}
+              {...{ reloadChallengeAccepted, setReloadChallengeAccepted }}
+            />
+          )}
+          {dashboardState.selectedAction === "Leaderboard" &&
+          dashboardState.leaderBoardData.loading === false ? (
+            <LeaderboardTable
+              leaderBoardData={dashboardState.leaderBoardData}
+              currentEvent={dashboardState.selectedChallengeObject}
+              challengeSwitch={dashboardState.challengeSwitch}
+            />
+          ) : (
+            dashboardState.selectedAction === "Leaderboard" && (
+              <FacebookCircularProgress />
+            )
+          )}
+
           {dashboardState.selectedAction === "team" && (
             <CreateTeam eventId={dashboardState.selectedChallenge} />
           )}
+
+          {dashboardState.selectedAction === "dietplan" && (
+            <DietPlan eventId={dashboardState.selectedChallenge} />
+          )}
+
           {dashboardState.selectedAction === "achievement" && (
             <Achievments
               eventId={dashboardState.selectedChallenge}
               logos={distancelogo}
-            />
-          )}
-
-          {dashboardState.selectedAction === "challenge" && (
-            <SundayChallenge eventId={dashboardState.selectedChallenge} />
-          )}
-
-          {dashboardState.selectedAction === "Performance" && (
-            <PerformanceTab
-              data={dashboardState.performanceTableData}
-              eventId={dashboardState.selectedChallenge}
-              handlePerformanceClick={handlePerformanceClick}
-              challengeSwitch={dashboardState.challengeSwitch}
-            />
-          )}
-
-          {dashboardState.selectedAction === "quiz" && (
-            <Quiz
-              eventId={dashboardState.selectedChallenge}
-              challengeSwitch={dashboardState.listOfChallenges}
             />
           )}
 

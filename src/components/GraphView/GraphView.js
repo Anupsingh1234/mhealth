@@ -12,6 +12,7 @@ import { useTheme } from "@material-ui/core/styles";
 import Message from "antd-message";
 import { LocalSeeOutlined } from "@material-ui/icons";
 import { urlPrefix, secretToken } from "../../services/apicollection";
+import { PrimaryButton } from "../Form";
 const GraphReport = (props) => {
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -112,20 +113,12 @@ const GraphReport = (props) => {
               </div>
 
               {/* <div class='col-md-1'></div> */}
-
-              <button
-                style={{
-                  color: "white",
-                  background: "green",
-                  height: 30,
-                  width: 80,
-                  marginTop: 20,
-                }}
-                class="btn btn-success"
-              >
-                {" "}
-                Submit
-              </button>
+              <div className="flex items-center justify-center">
+                <PrimaryButton mini className="w-[max-content] text-sm">
+                  {" "}
+                  Submit
+                </PrimaryButton>
+              </div>
             </div>
           </form>
         </div>{" "}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { PlusCircle } from "react-feather";
 
 import { getOldEvents } from "../../services/challengeApi";
@@ -12,8 +12,11 @@ import TriStateToggle from "../toggle/TriStateToggle";
 import EventManagementCard from "./EventManagementCard";
 import CreateEventModal from "./CreateEventModal";
 import FullScreen from "../Utility/FullScreen";
+import ThemeContext from "../../context/ThemeContext";
+import { PrimaryButton } from "../Form";
 
 const EventManagement = () => {
+  const { theme } = useContext(ThemeContext);
   const [eventList, setEventList] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState({});
   const [registeredUserList, setRegisteredUserList] = useState({
@@ -161,8 +164,9 @@ const EventManagement = () => {
                 {localStorage.getItem("role") &&
                   localStorage.getItem("role") !== "Customer" && (
                     <div style={{ marginRight: "auto" }}>
-                      <button
-                        className="create-event-button target-btn"
+                      <PrimaryButton
+                        mini
+                        className="ml-3 text-sm"
                         onClick={() => {
                           setCreateEventModal(true);
                           setEditEventObject();
@@ -171,7 +175,7 @@ const EventManagement = () => {
                       >
                         <PlusCircle size="18" style={{ marginRight: 2 }} />
                         Create Event
-                      </button>
+                      </PrimaryButton>
                     </div>
                   )}
               </div>
@@ -182,7 +186,7 @@ const EventManagement = () => {
               style={{ margin: "2em 0" }}
             >
               <div className="challenges-heading">List of Participants</div>
-              <FullScreen id="event-list" />
+              <FullScreen id="event-list" theme={theme} />
             </div>
 
             <RegisteredUserTable

@@ -358,8 +358,6 @@ const EditPaymentDetails = ({ visible, closeModal, editPaymentObject }) => {
             onClick={() => handleSubmit()}
             style={{
               marginTop: 0,
-              width: 100,
-              height: 32,
               marginLeft: 20,
             }}
             disabled={getDisableStatus()}

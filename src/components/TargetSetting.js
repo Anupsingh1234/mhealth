@@ -20,6 +20,7 @@ import Message from "antd-message";
 import CancelIcon from "@material-ui/icons/Cancel";
 // import { Modal } from "react-responsive-modal";
 import InfoDialog from "./Utility/InfoDialog";
+import { PrimaryButton } from "./Form/Button";
 
 function getModalStyle() {
   const top = 50;
@@ -48,10 +49,14 @@ const TargetSetting = ({ dashboardState }) => {
   const [personalData, setPersonalData] = useState({});
   const [payload, setPayload] = useState({
     eventId: dashboardState.selectedChallenge,
-    date: "",
+    date: dashboardState.selectedChallengeObject.challengeStartDate.substring(
+      0,
+      10
+    ),
     distance: undefined,
+    healthGoal: "",
   });
-
+  console.log(payload, "payload");
   const [imgborder, setimgborder] = useState(1);
 
   const [open, setOpen] = useState(false);
@@ -145,6 +150,7 @@ const TargetSetting = ({ dashboardState }) => {
       eventId: dashboardState.selectedChallenge,
       date: "",
       distance: undefined,
+      healthGoal: "",
     });
     fetchTargetData();
   }, [dashboardState.selectedChallenge]);
@@ -203,7 +209,30 @@ const TargetSetting = ({ dashboardState }) => {
           />
         </MuiPickersUtilsProvider>
       </div>
-
+      <div
+        className="mhealth-input-box padding-025em"
+        style={{ marginBottom: "10px" }}
+      >
+        <div>
+          <label>Health Goal</label>
+        </div>
+        <textarea
+          autofocus="autofocus"
+          style={{
+            // background: "#f3f4f6",
+            padding: "10px 10px",
+            borderRadius: 6,
+            fontSize: 12,
+            width: "90%",
+            outline: "none",
+            height: "50px",
+          }}
+          type="text"
+          placeholder="Enter your Health Goal"
+          value={payload.healthGoal}
+          onChange={(e) => handlePayloadChange("healthGoal", e.target.value)}
+        />
+      </div>
       <button
         className="create-event-button"
         type="primary"
@@ -214,7 +243,12 @@ const TargetSetting = ({ dashboardState }) => {
           payload.date == null ||
           payload.date == ""
         }
-        style={{ background: "#29b6f6", color: "#fff" }}
+        style={{
+          background: "#29b6f6",
+          color: "#fff",
+          padding: "2px 10px",
+          borderRadius: 24,
+        }}
         onClick={() => {
           window.message = Message;
           setPersonalTargetData(payload)
@@ -239,6 +273,7 @@ const TargetSetting = ({ dashboardState }) => {
             eventId: dashboardState.selectedChallenge,
             date: "",
             distance: undefined,
+            healthGoal: "",
           });
         }}
       >
@@ -248,31 +283,31 @@ const TargetSetting = ({ dashboardState }) => {
   );
   return (
     <div className="target-container">
-      <div className="target-btn-container">
+      <div className="target-btn-container gap-2">
         {eventData?.message == "You Are Qualified " ? (
-          <button
-            className="create-event-button target-btn"
-            onClick={onOpenModal}
-          >
-            {" "}
-            Download certificate{" "}
-          </button>
+          <div className="w-42">
+            <PrimaryButton mini onClick={onOpenModal}>
+              Download certificate
+            </PrimaryButton>
+          </div>
         ) : (
           ""
         )}
-        <button
-          className="create-event-button target-btn"
-          onClick={() => {
-            setTargetModal(true);
-            setPayload({
-              eventId: dashboardState.selectedChallenge,
-              date: personalData?.startDate,
-              distance: personalData?.totalKMRequired,
-            });
-          }}
-        >
-          Set Personal Target
-        </button>
+        <div className="w-42">
+          <PrimaryButton
+            mini
+            onClick={() => {
+              setTargetModal(true);
+              setPayload({
+                eventId: dashboardState.selectedChallenge,
+                date: personalData?.startDate,
+                distance: personalData?.totalKMRequired,
+              });
+            }}
+          >
+            Set Personal Target
+          </PrimaryButton>
+        </div>
       </div>
       <div
         className="target-table-row"
@@ -308,6 +343,18 @@ const TargetSetting = ({ dashboardState }) => {
               }}
             >
               {personalData?.message}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="target-table-row">
+        <div className="target-metric-column">
+          <div> My Health Goal</div>
+        </div>
+        <div className="target-data-column">
+          <div className="target-data-inner-column1">
+            <div className="target-data-bold">
+              {personalData?.healthGoal ? personalData?.healthGoal : "-"}
             </div>
           </div>
         </div>
@@ -900,7 +947,7 @@ const TargetSetting = ({ dashboardState }) => {
               cursor: "pointer",
             }}
           >
-            <div style={{ padding: 10 }}>
+            <div style={{ padding: 20 }} className="flex gap-4">
               <img
                 src="images/img1.jpeg"
                 style={{
@@ -918,7 +965,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 2 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -931,7 +977,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 3 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -940,13 +985,12 @@ const TargetSetting = ({ dashboardState }) => {
                 }}
               />
             </div>
-            <div style={{ padding: 10 }}>
+            <div style={{ padding: 20 }} className="flex gap-4">
               <img
                 src="images/img4.jpeg"
                 style={{
                   width: 150,
                   height: 200,
-                  // marginLeft: 20,
                   border: imgborder == 4 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -960,7 +1004,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 5 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -974,7 +1017,6 @@ const TargetSetting = ({ dashboardState }) => {
                 style={{
                   width: 150,
                   height: 200,
-                  marginLeft: 20,
                   border: imgborder == 6 ? "5px solid blue" : "",
                 }}
                 onClick={() => {
@@ -986,14 +1028,12 @@ const TargetSetting = ({ dashboardState }) => {
           </div>
           <button
             style={{
-              marginTop: 15,
               background: "green",
-              width: 150,
-              height: 30,
               float: "right",
               color: "#fff",
-              marginBottom: 15,
-              marginLeft: 15,
+              borderRadius: 24,
+              padding: "2px 12px",
+              margin: "1rem",
             }}
             onClick={() => {
               history.push("./pdf");
@@ -1011,6 +1051,7 @@ const TargetSetting = ({ dashboardState }) => {
             eventId: dashboardState.selectedChallenge,
             date: "",
             distance: undefined,
+            healthGoal: "",
           });
         }}
         aria-labelledby="simple-modal-title"

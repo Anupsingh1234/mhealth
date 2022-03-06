@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import EventInfoModal from "../EventInfoModal";
 import InfoIcon from "@material-ui/icons/Info";
+import ThemeContect from "../../context/ThemeContext";
 
 let monthsObject = {
   "01": "Jan",
@@ -24,6 +25,7 @@ const EventManagementCard = ({
   selectedEvent,
   handleEventEdit,
 }) => {
+  const { theme } = useContext(ThemeContect);
   const [modalView, setModalView] = useState(false);
   let startDate = challenge.challengeStartDate
     ? challenge.challengeStartDate.split(" ")
@@ -36,15 +38,15 @@ const EventManagementCard = ({
   let startMonth = monthsObject[startDate[0].split("-")[1]];
   let endMonth = monthsObject[endDate[0].split("-")[1]];
   let startTime = startDate[1];
+  const isCardSelected = selectedEvent?.id == challenge.id;
   return (
     <div
-      className={
-        selectedEvent?.id == challenge.id
-          ? "challenge-card challenge-card-first"
-          : "challenge-card"
-      }
+      className="challenge-card"
       key={challenge.id}
-      style={{ marginBottom: 40 }}
+      style={{
+        marginBottom: 40,
+        background: isCardSelected ? theme.buttonBGColor : undefined,
+      }}
     >
       <div onClick={() => getUserDetailsWrapper(challenge)}>
         <div
@@ -148,7 +150,12 @@ const EventManagementCard = ({
       challenge.isActive &&
       challenge.timePeriod !== "PAST" ? (
         <div className="register-button">
-          <button onClick={() => handleEventEdit(challenge)}>Edit</button>
+          <button
+            style={{ borderRadius: 24, padding: "2px 12px", fontSize: 13 }}
+            onClick={() => handleEventEdit(challenge)}
+          >
+            Edit
+          </button>
         </div>
       ) : null}
       {modalView && (

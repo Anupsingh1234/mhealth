@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Message from "antd-message";
 import { PlusCircle } from "react-feather";
 import TopUserDetails from "../TopUserDetails";
@@ -23,6 +23,8 @@ import {
 } from "../../services/challengeApi";
 import axios from "axios";
 import { urlPrefix } from "../../services/apicollection";
+import ThemeContext from "../../context/ThemeContext";
+import { PrimaryButton } from "../Form";
 const Activities = () => {
   const [activityState, setActivityState] = useState({
     listOfEventsData: [],
@@ -551,6 +553,7 @@ const Activities = () => {
     }
   };
   const condition = JSON.parse(localStorage.getItem("condition"));
+  const { theme } = useContext(ThemeContext);
   return (
     <div className="Dasboard">
       <TopUserDetails />
@@ -572,18 +575,24 @@ const Activities = () => {
             />
 
             {condition && condition.isAdmin === true ? (
-              <div style={{ marginRight: "auto", display: "flex" }}>
-                <button
-                  className="create-event-button target-btn"
+              <div
+                style={{
+                  marginRight: "auto",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <PrimaryButton
+                  mini
+                  className="ml-3 text-sm p-0 m-0 h-8"
                   onClick={() => {
                     setCreateActivityModal(true);
                     setEditActivityObject();
                   }}
-                  style={{ width: "max-content" }}
                 >
-                  <PlusCircle size="18" style={{ marginRight: 2 }} />
+                  <PlusCircle size="16" style={{ marginRight: 2 }} />
                   Create Program
-                </button>
+                </PrimaryButton>
 
                 <AdInstructor />
                 <div>
@@ -591,11 +600,6 @@ const Activities = () => {
                     style={{ width: "250px", marginLeft: 20 }}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
-                    // open={open}
-                    // onClose={handleClose}
-                    // onOpen={handleOpen}
-                    // value={age}
-                    // onChange={handleChange}
                     onChange={handleEvent}
                   >
                     <MenuItem style={{ fontSize: 12 }} value="select">
@@ -615,17 +619,24 @@ const Activities = () => {
               condition &&
               condition.isModerator === true && (
                 <div style={{ marginRight: "auto", display: "flex" }}>
-                  <button
-                    className="create-event-button target-btn"
+                  <PrimaryButton
+                    mini
+                    className="ml-3 text-sm p-0 m-0 h-8"
                     onClick={() => {
                       setCreateActivityModal(true);
                       setEditActivityObject();
                     }}
-                    style={{ width: "max-content" }}
                   >
-                    <PlusCircle size="18" style={{ marginRight: 2 }} />
+                    <PlusCircle
+                      size="18"
+                      style={{
+                        marginRight: 2,
+                        padding: "2px 8px",
+                        borderRadius: 24,
+                      }}
+                    />
                     Create Program
-                  </button>
+                  </PrimaryButton>
 
                   <AdInstructor />
                   <div>
@@ -667,7 +678,7 @@ const Activities = () => {
             height: 32,
           }}
         >
-          <FullScreen id="activities-management" />
+          <FullScreen id="activities-management" theme={theme} />
         </div>
         {activityState.selectedSubEvent &&
           activityState.listOfSubEventsData.length > 0 && (

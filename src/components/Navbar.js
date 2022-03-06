@@ -17,7 +17,10 @@ import { getOldEvents } from "../services/challengeApi";
 
 import SpeakerNotesIcon from "@material-ui/icons/SpeakerNotes";
 
-function Navbar() {
+import classNames from "classnames";
+import { PrimaryButton } from "./Form";
+
+function Navbar({ className }) {
   const condition = JSON.parse(localStorage.getItem("condition"));
   let history = useHistory();
 
@@ -186,7 +189,10 @@ function Navbar() {
   }, [windowSize.width]);
 
   return (
-    <animated.div className="Navbar" style={spring}>
+    <animated.div
+      className={className ? classNames("Navbar", className) : "Navbar"}
+      style={spring}
+    >
       <div className="navbar-middle">
         <img src={LogoPng} />
         {/* <Link to="/" onClick={setExpand.bind(this, false)}> */}
@@ -196,26 +202,15 @@ function Navbar() {
       {windowSize.width < 769 && condition && condition.isCoach === true ? (
         <>
           <div>
-            <button
-              style={{
-                color: "white",
-                backgroundColor: "green",
-                // marginRight: '25px',
-                // marginTop: '-5px',
-                height: "30px",
-                width: "100px",
-              }}
+            <PrimaryButton
+              mini
               onClick={() => {
                 setAppointmentView(true);
               }}
+              className="mt-2"
             >
-              {" "}
-              {/* <Icon.Calendar /> */}
-              <span style={{ marginRight: 0 }}>
-                Appointment
-                {/* <ListItemText primary="Appointment" /> */}
-              </span>
-            </button>
+              Appointment
+            </PrimaryButton>
 
             {appointmentView && (
               <Expert
@@ -386,7 +381,7 @@ function Navbar() {
 
       {transitions.map(({ item, key, props }) =>
         item ? (
-          <animated.div key={key} style={props}>
+          <animated.div key={key} style={props} className="h-full bg-[#f5f5f5]">
             <Expand {...{ pages, setExpand, windowSize, history }} />
           </animated.div>
         ) : (
@@ -427,8 +422,10 @@ function Expand({ pages, setExpand, windowSize, history }) {
               {...(windowSize.width < 769 && {
                 onClick: setExpand.bind(this, false),
               })}
+              style={{ border: "0px solid", marginTop: "4px", marginLeft: 0 }}
             >
               <span
+                style={{ border: "0px solid" }}
                 {...navLinkProps(page.pageLink, page.animationDelayForNavbar)}
               >
                 {page.displayName}

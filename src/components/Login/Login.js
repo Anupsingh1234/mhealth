@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import login from "../../assets/login.svg";
 import "react-phone-input-2/lib/style.css";
 import { useHistory } from "react-router-dom";
@@ -9,7 +9,13 @@ import SuccessForm from "./SuccessForm";
 import PasswordVerifyForm from "./PasswordVerifyForm";
 import Message from "antd-message";
 import logoPng from "../../assets/logo.png";
+import copyright from "../../assets/copyright.svg";
+import facebookIcon from "../../assets/facebookIcon.svg";
+import linkedInIcon from "../../assets/linkedInIcon.svg";
+import twitterIcon from "../../assets/twitterIcon.svg";
 import CompnyForm from "./Complog";
+import DCompany from "./DCompanyForm";
+import CenteredLoader from "../shared/CenteredLoader";
 import {
   validateUserHandler,
   sendOTPHandler,
@@ -20,9 +26,13 @@ import {
 } from "../../services/loginapi";
 import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
+import ThemeContext from "../../context/ThemeContext";
+import classNames from "classnames";
+import { icons } from "../../assets/icons/constants";
 
-const Login = () => {
+const Login = ({ YottaMatch }) => {
   window.message = Message;
+  const { theme, loading: loadingTheme } = useContext(ThemeContext);
   const history = useHistory();
   const [userData, setUserData] = useState({
     mobileNo: "",
@@ -60,7 +70,6 @@ const Login = () => {
   );
 
   const parenthandel = (name) => {
-    console.log("clicked", name);
     setmatch("false");
   };
 
@@ -410,6 +419,20 @@ const Login = () => {
           }}
         />
       );
+    } else if (
+      window.location.href == "https://druvacares.mhealth.ai/#/login" ||
+      window.location.href == "https://druvacarespartners.mhealth.ai/#/login"
+    ) {
+      return (
+        <DCompany
+          {...{
+            userData,
+            loaderInfo,
+            handleInput,
+            handleInfoSubmit,
+          }}
+        />
+      );
     } else if (match == "true") {
       return <CodeMatch parenthandel={parenthandel} />;
     } else {
@@ -465,14 +488,52 @@ const Login = () => {
     isExistingUser,
   } = userData;
 
-  return (
+  return loadingTheme ? (
+    <CenteredLoader />
+  ) : (
     <div className="Login">
-      <div className="illustration">
-        <img src={login} />
+      <div className="illustration relative">
+        <div>
+          <img src={theme?.eventLogo || login} width={400} height={597} />
+          <div className="absolute left-0 top-[28%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
+            {Object.entries(icons).map((data) => (
+              <img
+                key={data[0]}
+                src={data[1]}
+                className="inline cursor-pointer"
+                width="22px"
+                height="22px"
+              />
+            ))}
+          </div>
+          <div
+            className={classNames(
+              "absolute bottom-4 left-0 px-4",
+              "text-xs font-semibold tracking-wide text-gray-800",
+              "flex justify-between w-full items-center"
+            )}
+          >
+            <p className="flex gap-1 items-center">
+              Powered by
+              <img src={logoPng} width={20} height={20} />
+              mHealth
+            </p>
+            <p className="flex items-center gap-1">
+              <img
+                src={copyright}
+                className="inline"
+                width="18px"
+                height="18px"
+              />
+              <span>{new Date().getFullYear()}</span>
+              created by Steering Lives India Pvt. Ltd.
+            </p>
+          </div>
+        </div>
       </div>
       <div className="Logo">
-        <img src={logoPng} />
-        <div className="logo-text">mHealth.ai</div>
+        <img src={theme.sponsorLogo} width="36px" height="36px" />
+        {/* <div className="logo-text">mHealth.ai</div> */}
       </div>
       <div className="form-container">
         <div className={"form"}>
@@ -483,6 +544,7 @@ const Login = () => {
                 handleInput,
                 loaderInfo,
                 handleMobileInputSubmit,
+                YottaMatch,
               }}
             />
           )}
@@ -497,12 +559,19 @@ const Login = () => {
                 handleOtpInputSubmit,
                 OTPRequestHandler,
                 handleSettingNewPassword,
+                YottaMatch,
               }}
             />
           )}
           {ismobileNoVerified && !isExistingUser && !isOtpVerified && (
             <OTPVerifyForm
-              {...{ userData, loaderInfo, handleInput, handleOtpInputSubmit }}
+              {...{
+                userData,
+                loaderInfo,
+                handleInput,
+                handleOtpInputSubmit,
+                YottaMatch,
+              }}
             />
           )}
 

@@ -41,6 +41,7 @@ import { CSVLink } from "react-csv";
 import axios from "axios";
 import { urlPrefix, secretToken } from "../../services/apicollection";
 import InfoDialog from "../Utility/InfoDialog";
+import { PrimaryButton } from "../Form";
 const WhatsappReport = (props) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
@@ -444,18 +445,13 @@ const WhatsappReport = (props) => {
             marginLeft: 50,
           }}
         >
-          <button
-            className="is-success"
-            style={{
-              height: 30,
-              width: 80,
-              marginTop: 25,
-            }}
+          <PrimaryButton
+            mini
+            className="w-[max-content] text-sm"
             onClick={handleChange}
           >
-            {" "}
-            submit{" "}
-          </button>
+            submit
+          </PrimaryButton>
           <span
             style={{
               marginTop: 20,

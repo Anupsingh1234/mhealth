@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 import { getCountryListData } from "../../services/challengeApi";
+import { PrimaryButton } from "../Form/Button";
 
 const MobileInputForm = ({
   userData,
   handleInput,
   loaderInfo,
   handleMobileInputSubmit,
+  YottaMatch,
 }) => {
   const [countryList, setCountryList] = useState([]);
 
@@ -94,14 +96,13 @@ const MobileInputForm = ({
             />
           </div>
         ) : (
-          <button
-            className={"is-success"}
+          <PrimaryButton
             onClick={() => {
               handleMobileInputSubmit();
             }}
           >
             Verify
-          </button>
+          </PrimaryButton>
         )}
       </div>
     </>

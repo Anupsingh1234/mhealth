@@ -1,5 +1,6 @@
 import React from "react";
 import OtpInput from "react-otp-input";
+import { PrimaryButton } from "../Form";
 import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 
 const UserInfoForm = ({
@@ -105,6 +106,13 @@ const UserInfoForm = ({
               separator={<span>-</span>}
               isInputNum={true}
               isInputSecure={true}
+              inputStyle={{
+                border: "1px solid",
+                padding: "8px 4px",
+                width: "40px",
+                marginTop: "10px",
+                borderRadius: "4px",
+              }}
             />
           </div>
 
@@ -120,6 +128,13 @@ const UserInfoForm = ({
               separator={<span>-</span>}
               isInputNum={true}
               isInputSecure={true}
+              inputStyle={{
+                border: "1px solid",
+                padding: "8px 4px",
+                width: "40px",
+                marginTop: "10px",
+                borderRadius: "4px",
+              }}
             />
           </div>
         </div>
@@ -142,16 +157,7 @@ const UserInfoForm = ({
           />
         </div>
       ) : (
-        <button
-          className={
-            userData.firstname.length !== 0 &&
-            userData.lastname.length !== 0 &&
-            userData.pin.length === 4 &&
-            userData.confirmPin.length === 4 &&
-            userData.pin === userData.confirmPin
-              ? "is-success"
-              : "is-disabled"
-          }
+        <PrimaryButton
           disabled={
             userData.firstname.length !== 0 &&
             userData.lastname.length !== 0 &&
@@ -162,11 +168,19 @@ const UserInfoForm = ({
               : true
           }
           onClick={() => {
-            handleInfoSubmit();
+            const isDisabled =
+              userData.firstname.length !== 0 &&
+              userData.lastname.length !== 0 &&
+              userData.pin.length === 4 &&
+              userData.confirmPin.length === 4 &&
+              userData.pin === userData.confirmPin
+                ? false
+                : true;
+            !isDisabled && handleInfoSubmit();
           }}
         >
           Continue
-        </button>
+        </PrimaryButton>
       )}
     </div>
   </>

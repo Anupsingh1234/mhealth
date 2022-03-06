@@ -491,7 +491,9 @@ const MarketPlace = ({
     ) {
       return (
         <div className="register-button">
-          <button style={{ background: "#9e9e9e" }}>Expired</button>
+          <button style={{ background: "#9e9e9e", borderRadius: 24 }}>
+            Expired
+          </button>
         </div>
       );
     } else {
@@ -501,7 +503,7 @@ const MarketPlace = ({
             return (
               <div className="register-button">
                 <button
-                  style={{ marginBottom: "10px" }}
+                  style={{ borderRadius: 24 }}
                   onClick={() => {
                     subEventDetail.addressRequired == 1 ||
                     subEventDetail.dependentRequired == 1
@@ -527,7 +529,7 @@ const MarketPlace = ({
           return (
             <div className="register-button">
               <button
-                style={{ background: "#F43F5E", marginBottom: "10px" }}
+                style={{ background: "#F43F5E", borderRadius: 24 }}
                 onClick={() => {
                   subEventDetail.addressRequired == 1 ||
                   subEventDetail.dependentRequired == 1
@@ -558,7 +560,7 @@ const MarketPlace = ({
             return (
               <div className="register-button">
                 <button
-                  style={{ background: "#ffa726", marginBottom: "10px" }}
+                  style={{ background: "#ffa726", borderRadius: 24 }}
                   onClick={() => {
                     subEventDetail.addressRequired == 1 ||
                     subEventDetail.dependentRequired == 1
@@ -582,7 +584,9 @@ const MarketPlace = ({
     if (subEventDetail.timePeriod == "PAST") {
       return (
         <div className="register-button">
-          <button style={{ background: "#9e9e9e" }}>Expired</button>
+          <button style={{ background: "#9e9e9e", borderRadius: 24 }}>
+            Expired
+          </button>
         </div>
       );
     } else {
@@ -662,7 +666,7 @@ const MarketPlace = ({
             <div className="register-button">
               <button
                 onClick={() => setUnsubModal(true)}
-                style={{ background: "#F43F5E", marginBottom: "10px" }}
+                style={{ background: "#F43F5E", borderRadius: 24 }}
               >
                 Unsubscribe
               </button>
@@ -672,7 +676,7 @@ const MarketPlace = ({
         if (subEventDetail.userStatusInProgram === "PENDING") {
           return (
             <div className="register-button">
-              <button style={{ background: "#ff9800", marginBottom: "10px" }}>
+              <button style={{ background: "#ff9800", borderRadius: 24 }}>
                 Pending
               </button>
             </div>
@@ -699,7 +703,7 @@ const MarketPlace = ({
                     handleSubscription();
                   })
                 }
-                style={{ background: "#ffa726", marginBottom: "10px" }}
+                style={{ background: "#ffa726", borderRadius: 24 }}
               >
                 Rejoin
               </button>
@@ -1158,13 +1162,13 @@ const MarketPlace = ({
           <div style={{ display: "flex", width: "80%" }}>
             <div className="register-button" style={{ width: "60%" }}>
               <button
-                style={{ marginBottom: "10px" }}
+                style={{ borderRadius: 24, marginRight: 2 }}
                 onClick={() => setatach(true)}
               >
                 Add
               </button>{" "}
               <button
-                style={{ marginBottom: "10px", marginLeft: "-2%" }}
+                style={{ marginLeft: "-2%", borderRadius: 24 }}
                 onClick={() => setQueryModal(true)}
               >
                 Enquiry
@@ -1174,7 +1178,7 @@ const MarketPlace = ({
         ) : (
           <div className="register-button">
             <button
-              style={{ background: "#ff9800", marginBottom: "10px" }}
+              style={{ background: "#ff9800", borderRadius: 24 }}
               onClick={() => setQuerySetModal(true)}
             >
               Enquiry Submitted
@@ -1186,7 +1190,10 @@ const MarketPlace = ({
           (condition && condition.isModerator === true)) &&
         type !== "view" ? (
           <div className="register-button">
-            <button onClick={() => handleSubEventEdit(subEventDetail)}>
+            <button
+              style={{ borderRadius: 24 }}
+              onClick={() => handleSubEventEdit(subEventDetail)}
+            >
               Edit
             </button>
           </div>
@@ -1261,13 +1268,19 @@ const MarketPlace = ({
           >
             <div className="event-unsubscribe-modal">
               <button
+                style={{ borderRadius: 24 }}
                 onClick={() => {
                   geAttached(subEventDetail.id, subEventDetail.eventId);
                 }}
               >
                 Yes
               </button>
-              <button onClick={() => setatach(false)}>No</button>
+              <button
+                style={{ borderRadius: 24 }}
+                onClick={() => setatach(false)}
+              >
+                No
+              </button>
             </div>
           </InfoDialog>
         )}

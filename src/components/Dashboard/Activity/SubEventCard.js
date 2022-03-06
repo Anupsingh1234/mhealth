@@ -57,6 +57,7 @@ import AddActivityModal from "./AddActivityModal";
 import getcoach from "../../../services/apicollection";
 import { ContactSupportOutlined } from "@material-ui/icons";
 import ReactCardFlip from "react-card-flip";
+import { PrimaryButton } from "../../Form";
 let monthsObject = {
   "01": "Jan",
   "02": "Feb",
@@ -526,7 +527,9 @@ const SubEventCard = ({
     ) {
       return (
         <div className="register-button">
-          <button style={{ background: "#9e9e9e" }}>Expired</button>
+          <button style={{ background: "#9e9e9e", borderRadius: 24 }}>
+            Expired
+          </button>
         </div>
       );
     } else {
@@ -539,7 +542,7 @@ const SubEventCard = ({
         return (
           <div className="register-button">
             <button
-              style={{ marginBottom: "10px" }}
+              style={{ borderRadius: 24 }}
               onClick={() => {
                 subEventDetail.addressRequired == 1 ||
                 subEventDetail.dependentRequired == 1
@@ -630,7 +633,9 @@ const SubEventCard = ({
     if (subEventDetail.timePeriod == "PAST") {
       return (
         <div className="register-button">
-          <button style={{ background: "#9e9e9e" }}>Expired</button>
+          <button style={{ background: "#9e9e9e", borderRadius: 24 }}>
+            Expired
+          </button>
         </div>
       );
     } else {
@@ -642,7 +647,7 @@ const SubEventCard = ({
         return (
           <div className="register-button">
             <button
-              style={{ marginBottom: "10px" }}
+              style={{ borderRadius: 24 }}
               // onClick={() =>
               //   subscribeSubEventCall({
               //     dataSource:
@@ -673,7 +678,7 @@ const SubEventCard = ({
               return (
                 <div className="register-button">
                   <button
-                    style={{ marginBottom: "10px", background: "#ff9800" }}
+                    style={{ borderRadius: 24, background: "#ff9800" }}
                     onClick={() => consultApi()}
                   >
                     Consult Now
@@ -877,12 +882,20 @@ const SubEventCard = ({
   // NEW CODE ENDED
 
   const closeIcon = (
-    <svg fill="white" viewBox="0 0 20 20" width={28} height={28}>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 512 512"
+      width="18px"
+      height="18px"
+    >
       <path
-        fillRule="evenodd"
-        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-        clipRule="evenodd"
-      ></path>
+        fill="#E04F5F"
+        d="M504.1,256C504.1,119,393,7.9,256,7.9C119,7.9,7.9,119,7.9,256C7.9,393,119,504.1,256,504.1C393,504.1,504.1,393,504.1,256z"
+      />
+      <path
+        fill="#FFF"
+        d="M285,256l72.5-84.2c7.9-9.2,6.9-23-2.3-31c-9.2-7.9-23-6.9-30.9,2.3L256,222.4l-68.2-79.2c-7.9-9.2-21.8-10.2-31-2.3c-9.2,7.9-10.2,21.8-2.3,31L227,256l-72.5,84.2c-7.9,9.2-6.9,23,2.3,31c4.1,3.6,9.2,5.3,14.3,5.3c6.2,0,12.3-2.6,16.6-7.6l68.2-79.2l68.2,79.2c4.3,5,10.5,7.6,16.6,7.6c5.1,0,10.2-1.7,14.3-5.3c9.2-7.9,10.2-21.8,2.3-31L285,256z"
+      />
     </svg>
   );
   const [flip1, setFlip] = useState(false);
@@ -1422,7 +1435,6 @@ const SubEventCard = ({
     getcdata();
   };
   const onCloseModal = () => setOpen(false);
-
   return (
     <ReactCardFlip isFlipped={flip1} flipDirection="horizontal">
       <div
@@ -1528,28 +1540,20 @@ const SubEventCard = ({
                   center
                   closeIcon={closeIcon}
                 >
-                  <CancelIcon
+                  {/* <CancelIcon
                     style={{
                       position: "absolute",
                       top: 15,
                       right: 5,
-                      color: "#ef5350",
+                      color: "red",
                       cursor: "pointer",
                     }}
-                  />
-                  <div
-                    style={{
-                      padding: "20px",
-                      paddingLeft: "5px",
-                      paddingBottom: "0px",
-                      paddingTop: "10px",
-                    }}
-                  >
+                  /> */}
+                  <div className="p-[20px] pl-[5px] pb-0 pt-[10px]">
                     <div
                       className="header"
                       style={{
                         display: "flex",
-                        // justifyContent: "space-between",
                       }}
                     >
                       <div style={{ width: "60%" }}>
@@ -1592,53 +1596,24 @@ const SubEventCard = ({
                   </div>
                   <hr />
                   <div style={{ marginBottom: "20px" }}>
-                    <div
-                      className="specialization"
-                      style={{ lineHeight: "5px", marginTop: "20px" }}
-                    >
-                      <h4 style={{ fontSize: "10px" }}> Specialization </h4>
-                      <h5 style={{ fontWeight: "lighter" }}>
-                        {" "}
-                        {coach.specialization}{" "}
-                      </h5>
+                    <div className="mt-[20px]">
+                      <h4> Specialization </h4>
+                      <h4 className="font-light text-sm">
+                        {coach.specialization}
+                      </h4>
                     </div>
 
-                    <div
-                      className="specialization"
-                      style={{ lineHeight: "5px", marginTop: "20px" }}
-                    >
-                      {/* <h4> Total Experience </h4>
-                  <h4 style={{fontWeight:'lighter' }}> {coach.totalExperience} </h4>
-                  </div>  */}
-
-                      <div
-                        className="specialization"
-                        style={{ lineHeight: "5px", marginTop: "20px" }}
-                      >
+                    <div className="mt-[20px]">
+                      <div className="mt-[20px]">
                         <h4> Language Known </h4>
-                        <h4 style={{ fontWeight: "200" }}>
+                        <h4 className="font-light text-sm">
                           {" "}
                           {coach.languagesKnow}{" "}
                         </h4>
                       </div>
-                      <div
-                        className="bio"
-                        style={{
-                          lineHeight: "5px",
-                          marginTop: "20px",
-                          maxWidth: "500px",
-                        }}
-                      >
-                        <h4> Bio </h4>
-                        <div
-                          style={{
-                            fontWeight: "lighter",
-                            lineHeight: "22px",
-                          }}
-                        >
-                          {" "}
-                          {coach.shortBio}{" "}
-                        </div>
+                      <div className="mt-[20px]">
+                        <h4>Bio</h4>
+                        <h4 className="font-light text-sm">{coach.shortBio}</h4>
                       </div>
                     </div>
                     <hr />
@@ -1698,7 +1673,10 @@ const SubEventCard = ({
             (condition && condition.isModerator === true)) &&
           type !== "view" ? (
             <div className="register-button">
-              <button onClick={() => handleSubEventEdit(subEventDetail)}>
+              <button
+                style={{ borderRadius: 24, fontSize: 13, padding: "2px 10px" }}
+                onClick={() => handleSubEventEdit(subEventDetail)}
+              >
                 Edit
               </button>
             </div>
@@ -2709,7 +2687,7 @@ const SubEventCard = ({
                                               width: "80px",
                                               height: "30px",
                                               backgroundColor: "green",
-                                              borderRadius: "15px",
+                                              borderRadius: "24px",
                                               color: "white",
                                             }}
                                             onClick={() =>
@@ -2925,8 +2903,11 @@ const SubEventCard = ({
                   <div style={{ marginTop: "-100px", display: "flex" }}>
                     <div style={{ width: "70%" }}>
                       {/* <p className="error-text">Please select</p> */}
-                      <p style={{ marginLeft: "20px", fontSize: "15px" }}>
-                        <b> Your Booking:</b>
+                      <p
+                        style={{ marginLeft: "20px", fontSize: "15px" }}
+                        className="mb-2"
+                      >
+                        <b> Your Booking: </b>
                       </p>
                       <p
                         style={{
@@ -2934,16 +2915,17 @@ const SubEventCard = ({
                             "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
                           borderRadius: 12,
                           borderRadius: "5px",
-                          height: "50px",
+                          height: "auto",
                           width: "160px",
                           marginLeft: "20px",
                           fontSize: "15px",
                           marginTop: "-10px",
                         }}
+                        className="p-1"
                       >
-                        <b> Date:</b> {moment(dateState).format("DD-MM-YYYY")}
+                        <b> Date: </b> {moment(dateState).format("DD-MM-YYYY")}
                         <br />
-                        <b> Time:</b>
+                        <b> Time: </b>
                         {calender.map((item) => {
                           if (item.date === dtt) {
                             return item.slotTime.map((e1) => {
@@ -2959,28 +2941,15 @@ const SubEventCard = ({
                         })}
                       </p>
                     </div>
-                    <div style={{ width: "30%" }}>
-                      <button
-                        // onClick={(e) => {
-                        //   subEventDetail.addressRequired == 1 ||
-                        //   subEventDetail.dependentRequired == 1
-                        //     ? finalSubmitBook(e)
-                        //     : handlesubmit(e);
-                        // }}
+                    <div className="absolute bottom-6 right-2">
+                      <PrimaryButton
+                        mini
+                        className="w-[max-content] text-sm"
                         onClick={finalSubmitBook}
                         type="submit"
-                        style={{
-                          borderRadius: "30px",
-                          backgroundColor: "green",
-                          color: "white",
-                          width: "80px",
-                          height: "30px",
-                          marginTop: "50px",
-                          // marginLeft: '-35px',
-                        }}
                       >
                         Save
-                      </button>
+                      </PrimaryButton>
 
                       <div></div>
                     </div>
@@ -3083,7 +3052,7 @@ const SubEventCard = ({
                               style={{
                                 color: "#fff",
                                 background: "#F43F5E",
-                                borderRadius: 10,
+                                borderRadius: 24,
                                 padding: "0px 10px ",
                                 marginLeft: "5px",
                               }}
@@ -3101,7 +3070,7 @@ const SubEventCard = ({
                               style={{
                                 color: "#fff",
                                 background: "#ff9800",
-                                borderRadius: 10,
+                                borderRadius: 24,
                                 padding: "0px 10px ",
                                 marginLeft: "10px",
                               }}

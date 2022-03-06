@@ -125,6 +125,7 @@ const CreateEventModal = ({
     totalTeam: undefined,
     whitelabelKeyword: undefined,
     verificationRequired: undefined,
+    forum: "NONE",
     // subDomains: undefined,
   });
   // console.log(gmailList);
@@ -184,7 +185,7 @@ const CreateEventModal = ({
     if (editEventObject) {
       let newObj = {
         verificationRequired: editEventObject.verificationRequired,
-
+        forum: editEventObject.forum,
         whitelabelKeyword: editEventObject.whitelabelKeyword,
         challengeName: editEventObject.challengeName,
         challengeType: editEventObject.challengeType,
@@ -592,7 +593,7 @@ const CreateEventModal = ({
                   fontSize: "15px",
                 }}
                 className="forn-control p-4"
-                placeholder="Enetr mobile number"
+                placeholder="Enter mobile number"
               />
             </div>
             <div>
@@ -608,9 +609,8 @@ const CreateEventModal = ({
                 onClick={moderateSet}
                 style={{
                   background: "#F43F5E",
-
-                  width: 100,
-                  height: 32,
+                  padding: "2px 10px",
+                  width: "max-content",
                 }}
               >
                 Set Moderator
@@ -1113,9 +1113,8 @@ const CreateEventModal = ({
                         onClick={() => setUnsubModal(true)}
                         style={{
                           marginTop: 0,
-                          width: 100,
-                          height: 22,
                           marginLeft: 0,
+                          padding: "2px 10px",
                         }}
                       >
                         set moderator
@@ -1794,6 +1793,7 @@ const CreateEventModal = ({
                           cursor: "pointer",
                           height: "20px",
                           width: "20px",
+                          marginRight: "5px",
                           // marginLeft: '20%',
                         }}
                         name="verificationRequired"
@@ -1814,6 +1814,7 @@ const CreateEventModal = ({
                           height: "20px",
                           width: "20px",
                           marginLeft: "20%",
+                          marginRight: "5px",
                         }}
                         name="verificationRequired"
                         value={0}
@@ -2171,6 +2172,31 @@ const CreateEventModal = ({
                 ) : (
                   ""
                 )}
+                <div
+                  className="mhealth-input-box padding-025em"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ width: "25%" }}>
+                    <label>Forum</label>
+                    <br />
+                    <select
+                      value={eventObject.forum}
+                      onChange={(e) =>
+                        handleInputChange("forum", e.target.value)
+                      }
+                    >
+                      <option value="NONE">None</option>
+                      <option value="IDENTITY">Identity</option>
+                      <option value="ALIAS">Alias</option>
+                      <option value="ANONYMOUS">Anonymous</option>
+                    </select>
+                  </div>
+                </div>
               </>
             )}
 
@@ -2424,9 +2450,9 @@ const CreateEventModal = ({
               onClick={() => handleSubmit()}
               style={{
                 marginTop: 0,
-                width: 100,
-                height: 32,
                 marginLeft: 20,
+                marginBottom: 20,
+                padding: "2px 10px",
               }}
             >
               Submit

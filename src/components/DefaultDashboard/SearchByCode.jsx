@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Input from "../Form/Input";
-import Button from "../Form/Button";
+import { PrimaryButton } from "../Form/Button";
 
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faQrcode } from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +28,13 @@ const SearchByCode = ({ handleSearchEvent }) => {
             onChange={(e) => setKeyword(e.target.value)}
             onKeyPress={() => handleSearchEvent(keyword)}
           />
-          <Button text="Search" onClick={() => handleSearchEvent(keyword)} />
+          <PrimaryButton
+            mini
+            className="ml-2"
+            onClick={() => handleSearchEvent(keyword)}
+          >
+            Search
+          </PrimaryButton>
         </div>
       </div>
     </div>

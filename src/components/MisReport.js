@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import ThemeContext from "../context/ThemeContext";
 import { lighten, useTheme } from "@material-ui/core/styles";
 
 import Navbar from "./Navbar";
@@ -55,7 +56,9 @@ import WhatsappReport from "./PerformanceTeam/WhtsappReport";
 import SundayChallengeReport from "./PerformanceTeam/SundayChallengeReport";
 import CorporateReport from "./PerformanceTeam/CorporateReport";
 import ActivityReport from "./ActivityReport";
+import { PrimaryButton } from "./Form";
 const MisReport = () => {
+  const { theme } = useContext(ThemeContext);
   const [open, setOpen] = useState(true);
   const [date, setdate] = useState();
   const [events, setevents] = useState([]);
@@ -664,17 +667,13 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
-                    {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                       }}
                     >
                       Attendance report{" "}
@@ -684,18 +683,15 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       // className='is-success'
                       style={{
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                       // className={classes}
                       // onClick={auditReportFun}
@@ -707,8 +703,8 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
@@ -716,10 +712,7 @@ const MisReport = () => {
                       // className={classes}
                       style={{
                         fontSize: 12,
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Performance{" "}
@@ -729,17 +722,14 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       style={{
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Charts{" "}
@@ -749,17 +739,14 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       style={{
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Quiz{" "}
@@ -769,17 +756,14 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       style={{
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                         padding: 0,
-                        height: 30,
                       }}
                     >
                       Event Report{" "}
@@ -789,17 +773,14 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                       }}
                     >
                       Whatsapp report{" "}
@@ -810,17 +791,14 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                       }}
                     >
                       Corporate report{" "}
@@ -831,17 +809,14 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                       }}
                     >
                       Activity report{" "}
@@ -851,17 +826,14 @@ const MisReport = () => {
                     style={{
                       fontSize: 12,
                       border: "0px",
-                      background: "#e0f2fe",
-                      height: 30,
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
                     {" "}
                     <button
                       style={{
                         padding: 0,
-                        height: 30,
-                        background: "#e0f2fe",
-                        color: "#518ad6",
                       }}
                     >
                       Sunday report{" "}
@@ -999,18 +971,14 @@ const MisReport = () => {
                       alignItems: "center",
                     }}
                   >
-                    <button
-                      className="is-success"
-                      style={{
-                        height: 30,
-                        width: 80,
-                        marginTop: 25,
-                      }}
+                    <PrimaryButton
+                      mini
+                      className="w-24 mx-auto"
                       onClick={getData}
                     >
                       {" "}
                       submit{" "}
-                    </button>
+                    </PrimaryButton>
                     <span
                       style={{
                         marginTop: 20,

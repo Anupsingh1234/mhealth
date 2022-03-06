@@ -8,6 +8,7 @@ import Iframe from "react-iframe";
 import CancelIcon from "@material-ui/icons/Cancel";
 import InfoDialog from "./Utility/InfoDialog";
 import { getUserDetailsHandler } from "../services/userprofileApi";
+import { PrimaryButton } from "./Form/Button";
 const dataSourceMapping = {
   WHATSAPP: "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/whatsapp.svg",
   STRAVA: "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/strava.svg",
@@ -164,7 +165,7 @@ const UpdateDataSource = ({ dashboardState }) => {
                   ? "none"
                   : "",
               userSelect: "none",
-              height: 32,
+              height: 65,
             }}
             onClick={() => {
               if (type != "current") {
@@ -200,6 +201,7 @@ const UpdateDataSource = ({ dashboardState }) => {
                         background: "green",
                         color: "#fff",
                       }}
+                      className="rounded-full"
                       onClick={() => {
                         getAuthLink(item[0]).then((res) => {
                           window.open(
@@ -279,24 +281,24 @@ const UpdateDataSource = ({ dashboardState }) => {
               }}
             >
               <div style={{ width: 100 }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ backgroundColor: "#518ad6" }}
+                <PrimaryButton
+                  mini
                   onClick={() => {
-                    let payload = {
-                      eventId: currentEvent?.id,
-                      datasource: currentDataSource,
-                    };
-                    updateSource(payload).then((res) => {
-                      message.success(res.data.response.responseMessage);
-                      fetchCurrentDataSource();
-                    });
+                    if (!updateDisable) {
+                      let payload = {
+                        eventId: currentEvent?.id,
+                        datasource: currentDataSource,
+                      };
+                      updateSource(payload).then((res) => {
+                        message.success(res.data.response.responseMessage);
+                        fetchCurrentDataSource();
+                      });
+                    }
                   }}
                   disabled={updateDisable}
                 >
                   Update
-                </Button>
+                </PrimaryButton>
               </div>
             </div>
           </div>

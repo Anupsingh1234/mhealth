@@ -1,6 +1,7 @@
 import "./App.css";
 
-import React, { lazy, Suspense, useEffect, useState } from "react";
+import React, { lazy, Suspense, useEffect, useState, useContext } from "react";
+import { useMount } from "react-use";
 import {
   Route,
   Redirect,
@@ -49,9 +50,18 @@ const Actions = lazy(() => import("./components/Actions"));
 const Programs = lazy(() => import("./components/Programs"));
 const DefaultView = lazy(() => import("./components/DefaultView"));
 const Footer = lazy(() => import("./components/Footer"));
+const Forum = lazy(() => import("./components/Forum"));
+const Messages = lazy(() => import("./components/Forum/components/Messages"));
+import Modal from "react-modal";
+import ThemeContext from "./context/ThemeContext";
+
 import axios from "axios";
+import classNames from "classnames";
+Modal.setAppElement("#root");
 
 const App = () => {
+  const { theme } = useContext(ThemeContext);
+  const location = useLocation();
   const history = useHistory();
   const defaultTabs = [
     {
@@ -111,13 +121,13 @@ const App = () => {
     // { key: "manage", title: "Manage", onClick: () => { window.location.replace("/#/program/manage") }, icon: faChess, selected: window.location.hash === "#/program/manage" },
   ];
   const [footerTabs, setFooterTabs] = useState(defaultTabs);
-  const location = useLocation();
+  // const location = useLocation();
   const condition = JSON?.parse(localStorage.getItem("condition"));
   const pages =
     condition && condition.isAdmin === true
       ? [
           {
-            pageLink: "/login",
+            pageLink: "/",
             view: Login,
             displayName: "Login",
             showInNavbar: true,
@@ -164,12 +174,12 @@ const App = () => {
             displayName: "Activities",
             showInNavbar: true,
           },
-          {
-            pageLink: "/",
-            view: UpcomingEvents,
-            displayName: "UpcomingEvents",
-            showInNavbar: true,
-          },
+          // { DEPRECATED: 4-MARCH-2022
+          //   pageLink: "/",
+          //   view: UpcomingEvents,
+          //   displayName: "UpcomingEvents",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -218,11 +228,17 @@ const App = () => {
             displayName: "DashboardWithParam",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
         ]
       : condition && condition.isModerator === true
       ? [
           {
-            pageLink: "/login",
+            pageLink: "/",
             view: Login,
             displayName: "Login",
             showInNavbar: true,
@@ -269,12 +285,12 @@ const App = () => {
             displayName: "Activities",
             showInNavbar: true,
           },
-          {
-            pageLink: "/",
-            view: UpcomingEvents,
-            displayName: "UpcomingEvents",
-            showInNavbar: true,
-          },
+          // { DEPRECATED: 4-MARCH-2022
+          //   pageLink: "/",
+          //   view: UpcomingEvents,
+          //   displayName: "UpcomingEvents",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -323,10 +339,16 @@ const App = () => {
             displayName: "DefaultView",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
         ]
       : [
           {
-            pageLink: "/login",
+            pageLink: "/",
             view: Login,
             displayName: "Login",
             showInNavbar: true,
@@ -343,12 +365,12 @@ const App = () => {
             displayName: "Dashboard",
             showInNavbar: true,
           },
-          {
-            pageLink: "/",
-            view: UpcomingEvents,
-            displayName: "UpcomingEvents",
-            showInNavbar: true,
-          },
+          // { DEPRECATED: 4-MARCH-2022
+          //   pageLink: "/",
+          //   view: UpcomingEvents,
+          //   displayName: "UpcomingEvents",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -391,6 +413,12 @@ const App = () => {
             displayName: "DashboardWithParam",
             showInNavbar: false,
           },
+          {
+            pageLink: "/forum",
+            view: Forum,
+            displayName: "Forum",
+            showInNavbar: false,
+          },
         ];
 
   function isLoggedIn() {
@@ -415,8 +443,40 @@ const App = () => {
     }
   );
 
+  // const [YottaMatch, setYottamatch] = useState(
+  //   window.location.href == "https://yottacare.mhealth.ai/#/login"
+  //     ? true
+  //     : false
+  // );
+
+  // useMount(() => {
+  //   console.log("test yotta on mount");
+  //   if (window.location.href == "https://yottacare.mhealth.ai/#/login") {
+  //     setYottamatch(true);
+  //   } else {
+  //     setYottamatch(false);
+  //   }
+  // });
+
+  const isYotta =
+    window.location.href == "https://yottacare.mhealth.ai/#/login" ||
+    window.location.href === "https://yottacare.mhealth.ai/#/";
+  const [YottaMatch, setYottamatch] = useState(isYotta);
+
+  useMount(() => {
+    console.log("test yotta on mount", window.location);
+    if (isYotta) {
+      setYottamatch(true);
+    } else {
+      setYottamatch(false);
+    }
+  });
+
   return (
-    <div className="App">
+    <div
+      className={"flex flex-col min-h-[100vh]"}
+      style={{ background: theme.primaryColor }}
+    >
       <Suspense fallback={<div />}>
         <Switch location={location}>
           {pages.map((page, index) => {
@@ -430,25 +490,14 @@ const App = () => {
                 />
               );
             } else {
-              if (history.location.pathname === "/login") {
-                return (
-                  <Route
-                    exact
-                    path={"/login"}
-                    render={() => <Login />}
-                    key={0}
-                  />
-                );
-              } else {
-                return (
-                  <Route
-                    exact
-                    path={"/"}
-                    render={() => <UpcomingEvents />}
-                    key={0}
-                  />
-                );
-              }
+              return (
+                <Route
+                  exact
+                  path={"/"}
+                  render={() => <Login YottaMatch={YottaMatch} />}
+                  key={0}
+                />
+              );
             }
           })}
           <Redirect to="/" />

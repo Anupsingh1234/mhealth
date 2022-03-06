@@ -1,0 +1,1 @@
+export { ForumCard } from "./ForumCard";

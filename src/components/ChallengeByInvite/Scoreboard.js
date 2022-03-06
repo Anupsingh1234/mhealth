@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 
 import ViewAllModal from "./ViewAllModal";
+import { PrimaryButton } from "../Form";
 
 const Scoreboard = ({ challenge, index }) => {
   const [viewAll, setViewAll] = useState(false);
@@ -94,9 +95,9 @@ const Scoreboard = ({ challenge, index }) => {
       </div>
       {dump.length > 0 && (
         <div className="view-all-score" style={{ width: "100%" }}>
-          <button onClick={() => setViewAll((viewAll) => !viewAll)}>
+          <PrimaryButton mini onClick={() => setViewAll((viewAll) => !viewAll)}>
             View Detail
-          </button>
+          </PrimaryButton>
           {viewAll && (
             <ViewAllModal
               viewAll={viewAll}

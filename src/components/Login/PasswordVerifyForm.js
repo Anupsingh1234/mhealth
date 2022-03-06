@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import OtpInput from "react-otp-input";
+import { PrimaryButton, SecondaryButton } from "../Form";
 import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 
 const PasswordVerifyForm = ({
@@ -11,6 +12,7 @@ const PasswordVerifyForm = ({
   handleOtpInputSubmit,
   OTPRequestHandler,
   handleSettingNewPassword,
+  YottaMatch,
 }) => (
   <>
     <div className="heading user-password-heading center fadeInUp">
@@ -25,7 +27,8 @@ const PasswordVerifyForm = ({
             handleInput,
             handleUserLoginSubmit,
             handleOtpInputSubmit,
-            OTPRequestHandler
+            OTPRequestHandler,
+            YottaMatch
           )
         : inputPasswordWrapper(
             userData,
@@ -34,14 +37,16 @@ const PasswordVerifyForm = ({
             handleInput,
             handleUserLoginSubmit,
             handleOtpInputSubmit,
-            OTPRequestHandler
+            OTPRequestHandler,
+            YottaMatch
           )
       : passwordResetForm(
           userData,
           setUserData,
           loaderInfo,
           handleInput,
-          handleSettingNewPassword
+          handleSettingNewPassword,
+          YottaMatch
         )}
   </>
 );
@@ -55,7 +60,8 @@ const inputPasswordWrapper = (
   handleInput,
   handleUserLoginSubmit,
   handleOtpInputSubmit,
-  OTPRequestHandler
+  OTPRequestHandler,
+  YottaMatch
 ) => {
   return (
     <>
@@ -82,6 +88,13 @@ const inputPasswordWrapper = (
             separator={<span>-</span>}
             isInputNum={true}
             isInputSecure={true}
+            inputStyle={{
+              border: "1px solid",
+              padding: "8px 4px",
+              width: "40px",
+              marginTop: "10px",
+              borderRadius: "4px",
+            }}
           />
         </div>
       </div>
@@ -97,26 +110,27 @@ const inputPasswordWrapper = (
             />
           </div>
         ) : (
-          <button
+          <PrimaryButton
             id="login-btn"
-            className={
-              userData.pin?.length !== 4 ? "is-disabled" : "is-success"
-            }
             disabled={userData.pin?.length !== 4}
             onClick={() => {
-              handleUserLoginSubmit();
+              if (userData.pin?.length === 4) {
+                handleUserLoginSubmit();
+              }
             }}
             onSubmit={() => {
-              handleUserLoginSubmit();
+              if (userData.pin?.length === 4) {
+                handleUserLoginSubmit();
+              }
             }}
           >
             {"Login"}
-          </button>
+          </PrimaryButton>
         )}
       </div>
       <div className="forgot-password" style={{ marginTop: "1em" }}>
-        <button
-          className="is-secondary"
+        <SecondaryButton
+          // className={YottaMatch ? "is-yotta-secondary" : "is-secondary"}
           onClick={() => {
             setUserData({
               ...userData,
@@ -127,7 +141,7 @@ const inputPasswordWrapper = (
           }}
         >
           forgot pin?
-        </button>
+        </SecondaryButton>
       </div>
     </>
   );
@@ -140,7 +154,8 @@ const forgotPinWrapper = (
   handleInput,
   handleUserLoginSubmit,
   handleOtpInputSubmit,
-  OTPRequestHandler
+  OTPRequestHandler,
+  YottaMatch
 ) => {
   const [gettingOTP, setGettingOTP] = useState(false);
   useEffect(() => {
@@ -184,22 +199,30 @@ const forgotPinWrapper = (
             numInputs={6}
             separator={<span>-</span>}
             isInputNum={true}
-          />
-
-          <button
-            className={`get-otp-button ${
-              gettingOTP ? "get-otp-button-disabled" : ""
-            }`}
-            onClick={() => {
-              OTPRequestHandler("FORGET_PASSWORD", setGettingOTP);
+            inputStyle={{
+              border: "1px solid",
+              padding: "8px 4px",
+              width: "40px",
+              marginTop: "10px",
+              borderRadius: "4px",
             }}
-          >
-            {loaderInfo.gettingOTP
-              ? "Getting OTP"
-              : gettingOTP
-              ? "OTP Sent"
-              : "Get OTP"}
-          </button>
+          />
+          <div>
+            <PrimaryButton
+              className="mt-2"
+              mini
+              disabled={gettingOTP}
+              onClick={() => {
+                OTPRequestHandler("FORGET_PASSWORD", setGettingOTP);
+              }}
+            >
+              {loaderInfo.gettingOTP
+                ? "Getting OTP"
+                : gettingOTP
+                ? "OTP Sent"
+                : "Get OTP"}
+            </PrimaryButton>
+          </div>
           {gettingOTP && (
             <h6 className={"fadeInUp"} style={{ margin: "0.75em" }}>
               Resend after 30 seconds if not received.
@@ -216,8 +239,7 @@ const forgotPinWrapper = (
         }}
       >
         <div className="forgot-password">
-          <button
-            className="is-secondary"
+          <SecondaryButton
             onClick={() => {
               setUserData({
                 ...userData,
@@ -228,9 +250,9 @@ const forgotPinWrapper = (
             }}
           >
             Go back and enter pin
-          </button>
+          </SecondaryButton>
         </div>
-        <div className={"submit-button"} style={{ marginTop: "1em" }}>
+        <div className="w-auto px-[1em] flex flex-col justify-end">
           {loaderInfo.otpVerification ? (
             <div className="loader">
               <ReactLoadingWrapper
@@ -241,17 +263,15 @@ const forgotPinWrapper = (
               />
             </div>
           ) : (
-            <button
-              className={
-                userData.otp?.length !== 6 ? "is-disabled" : "is-success"
-              }
+            <PrimaryButton
               disabled={userData.otp?.length !== 6}
               onClick={() => {
-                handleOtpInputSubmit("FORGET_PASSWORD");
+                userData.otp?.length === 6 &&
+                  handleOtpInputSubmit("FORGET_PASSWORD");
               }}
             >
               Verify
-            </button>
+            </PrimaryButton>
           )}
         </div>
       </div>
@@ -264,7 +284,8 @@ const passwordResetForm = (
   setUserData,
   loaderInfo,
   handleInput,
-  handleSettingNewPassword
+  handleSettingNewPassword,
+  YottaMatch
 ) => (
   <>
     <div className="sub-heading center fadeInUp">
@@ -282,6 +303,13 @@ const passwordResetForm = (
             separator={<span>-</span>}
             isInputNum={true}
             isInputSecure={true}
+            inputStyle={{
+              border: "1px solid",
+              padding: "8px 4px",
+              width: "40px",
+              marginTop: "10px",
+              borderRadius: "4px",
+            }}
           />
         </div>
         <div className="mhealth-input-box padding-1em">
@@ -294,6 +322,13 @@ const passwordResetForm = (
             separator={<span>-</span>}
             isInputNum={true}
             isInputSecure={true}
+            inputStyle={{
+              border: "1px solid",
+              padding: "8px 4px",
+              width: "40px",
+              marginTop: "10px",
+              borderRadius: "4px",
+            }}
           />
         </div>
       </div>
@@ -309,14 +344,7 @@ const passwordResetForm = (
           />
         </div>
       ) : (
-        <button
-          className={
-            userData.pin.length === 4 &&
-            userData.confirmPin.length === 4 &&
-            userData.pin === userData.confirmPin
-              ? "is-success"
-              : "is-disabled"
-          }
+        <PrimaryButton
           disabled={
             userData.pin.length === 4 &&
             userData.confirmPin.length === 4 &&
@@ -325,11 +353,17 @@ const passwordResetForm = (
               : true
           }
           onClick={() => {
-            handleSettingNewPassword();
+            const isDisabled =
+              userData.pin.length === 4 &&
+              userData.confirmPin.length === 4 &&
+              userData.pin === userData.confirmPin
+                ? false
+                : true;
+            !isDisabled && handleSettingNewPassword();
           }}
         >
           Continue
-        </button>
+        </PrimaryButton>
       )}
     </div>
   </>

@@ -6,6 +6,7 @@ import Message from "antd-message";
 import TopUserDetails from "./TopUserDetails";
 import ResetPin1 from "../assets/resetPin.svg";
 import { faChess, faHome, faKey } from "@fortawesome/free-solid-svg-icons";
+import { PrimaryButton } from "./Form";
 
 const ResetPin = (props) => {
   const [userDetails, setUserDetails] = useState({
@@ -146,12 +147,9 @@ const ResetPin = (props) => {
                     />
                   </div>
                 ) : (
-                  <button
-                    className="is-success"
-                    onClick={() => handleResetPin()}
-                  >
+                  <PrimaryButton onClick={() => handleResetPin()}>
                     Update
-                  </button>
+                  </PrimaryButton>
                 )}
               </div>
             </div>

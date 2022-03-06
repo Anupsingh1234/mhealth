@@ -34,6 +34,8 @@ import {
   zoomreport,
 } from "../services/apicollection";
 import axios from "axios";
+import InfoDialog from "./Utility/InfoDialog";
+import { PrimaryButton } from "./Form";
 // import FormItem from 'antd/lib/form/FormItem';
 
 const Admin123 = () => {
@@ -42,10 +44,22 @@ const Admin123 = () => {
   const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
+  const [duplicateModal, setDuplicateModal] = useState(false);
   const [addId, setaddId] = useState();
+  const [errorobj, setErrorObj] = useState();
   console.log(addId);
-
+  const [duplicate, setDuplicate] = useState({
+    eventId: "",
+    fromEventId: "",
+    quizId: "",
+  });
+  console.log(duplicate, "duplicate");
+  const handleDuplicate = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setDuplicate((values) => ({ ...values, [name]: value }));
+    setErrorObj((values) => ({ ...values, [name]: value }));
+  };
   function EnhancedTableHead(props) {
     const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
@@ -310,7 +324,40 @@ const Admin123 = () => {
   const evntiid = (id) => {
     setEventid(id);
   };
-
+  const saveDuplicate = () => {
+    if (
+      duplicate.eventId !== "" &&
+      duplicate.fromEventId !== "" &&
+      duplicate.quizId
+    ) {
+      const adminurl = `${urlPrefix}clients/duplicateQuizByProc?eventId=${duplicate.eventId}&fromEventId=${duplicate.fromEventId}&quizId=${duplicate.quizId}`;
+      return axios
+        .get(adminurl, {
+          headers: {
+            Authorization: `Bearer ${secretToken}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
+            withCredentials: true,
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
+          },
+        })
+        .then((res) => {
+          // ques(quiz.eventId);
+          setDuplicate({
+            eventId: "",
+            quizId: "",
+            fromEventId: "",
+          });
+          setDuplicateModal(false);
+          setErrorObj();
+        });
+    } else {
+      setErrorObj(duplicate);
+    }
+  };
   const [eventid, setEventid] = useState("");
 
   const [getQuiz, setGEtQuiz] = useState([]);
@@ -357,7 +404,6 @@ const Admin123 = () => {
       });
   };
   useEffect(() => {
-    ques();
     getEvent();
     console.log("APi Called");
   }, []);
@@ -382,11 +428,14 @@ const Admin123 = () => {
     const value = e.target.value;
     setQuiz((values) => ({ ...values, [name]: value }));
     setErrorObj((values) => ({ ...values, [name]: value }));
+    if (name === "eventId") {
+      ques(value);
+    }
   };
   if (setModalView === false) {
     ques(addId);
   }
-  const [errorobj, setErrorObj] = useState();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -475,71 +524,6 @@ const Admin123 = () => {
               <div className="leaderboard-actions ">
                 {" "}
                 <TabList style={{ border: "0px" }}>
-                  {/* <Tab
-                    style={{
-                      fontSize: 12,
-                      border: '0px',
-                      background: '#e0f2fe',
-                      height: 30,
-                    }}
-                  >
-                    {' '}
-                    <button
-                      style={{
-                        padding: 0,
-                        height: 30,
-                        background: '#e0f2fe',
-                        color: '#518ad6',
-                      }}
-                    >
-                      Attendance report{' '}
-                    </button>
-                  </Tab>
-                  <Tab
-                    style={{
-                      fontSize: 12,
-                      border: '0px',
-                      background: '#e0f2fe',
-                      height: 30,
-                    }}
-                  >
-                    {' '}
-                    <button
-                      // className='is-success'
-                      style={{
-                        background: '#e0f2fe',
-                        color: '#518ad6',
-                        padding: 0,
-                        height: 30,
-                      }}
-                      // className={classes}
-                      // onClick={auditReportFun}
-                    >
-                      Audit report{' '}
-                    </button>
-                  </Tab>
-                  <Tab
-                    style={{
-                      fontSize: 12,
-                      border: '0px',
-                      background: '#e0f2fe',
-                      height: 30,
-                    }}
-                  >
-                    {' '}
-                    <button
-                      // className={classes}
-                      style={{
-                        fontSize: 12,
-                        background: '#e0f2fe',
-                        color: '#518ad6',
-                        padding: 0,
-                        height: 30,
-                      }}
-                    >
-                      Performance{' '}
-                    </button>{' '}
-                  </Tab> */}
                   <Tab
                     style={{
                       fontSize: 12,
@@ -553,8 +537,7 @@ const Admin123 = () => {
                       style={{
                         background: "#e0f2fe",
                         color: "#518ad6",
-                        padding: 0,
-                        height: 30,
+                        padding: "4px 10px",
                       }}
                     >
                       Quiz{" "}
@@ -564,7 +547,14 @@ const Admin123 = () => {
               </div>
             </div>
             <TabPanel>
-              <div style={{}}>
+              <div>
+                <PrimaryButton
+                  mini
+                  className="w-24 text-sm ml-6 mb-2"
+                  onClick={() => setDuplicateModal(true)}
+                >
+                  Duplicate
+                </PrimaryButton>
                 <div style={{ display: "flex", marginLeft: "30px" }}>
                   <div style={{ width: "30%" }}>
                     <label style={{ fontSize: 12 }}>
@@ -600,9 +590,6 @@ const Admin123 = () => {
                       }}
                       value={quiz.eventId}
                       onChange={inputsHandler}
-                      onClick={(e) => {
-                        ques(e.target.value);
-                      }}
                       name="eventId"
                     >
                       <option value="">Select</option>
@@ -827,21 +814,13 @@ const Admin123 = () => {
                 <div style={{ display: "flex", marginLeft: "10px" }}>
                   <div style={{ width: "80%" }}></div>
                   <div style={{ width: "20%" }}>
-                    <button
-                      className="is-success"
-                      onClick={
-                        handleSubmit
-                        // Quizdata2(localStorage.getItem('selectEvent'));
-                      }
-                      style={{
-                        marginTop: 50,
-                        width: 100,
-                        height: 32,
-                        // marginLeft: 20,
-                      }}
+                    <PrimaryButton
+                      mini
+                      className="w-24 text-sm mt-4"
+                      onClick={handleSubmit}
                     >
                       Save Quiz
-                    </button>
+                    </PrimaryButton>
                   </div>
                 </div>
 
@@ -996,9 +975,9 @@ const Admin123 = () => {
                                         align="center"
                                         style={{ fontSize: 12 }}
                                       >
-                                        <button
-                                          className="is-success"
-                                          // onClick={setModal(true)}
+                                        <PrimaryButton
+                                          mini
+                                          className="w-24 text-sm mx-auto"
                                           onClick={() => {
                                             setaddId(item.idMstQuiz),
                                               localStorage.setItem(
@@ -1008,15 +987,9 @@ const Admin123 = () => {
                                               setModalView(true),
                                               setImage("editquestion");
                                           }}
-                                          style={{
-                                            marginTop: 10,
-                                            width: 80,
-                                            height: 20,
-                                            // marginLeft: 20,
-                                          }}
                                         >
                                           Add Question
-                                        </button>
+                                        </PrimaryButton>
                                       </TableCell>
                                     </TableRow>
                                   </>
@@ -1061,6 +1034,198 @@ const Admin123 = () => {
         {modalview && (
           <QuestionModal modalView={modalview} setModalView={setModalView} />
         )}
+        {
+          <InfoDialog
+            open={duplicateModal}
+            onClose={() => setDuplicateModal(false)}
+          >
+            <CancelIcon
+              style={{
+                // top: 50,
+                right: 10,
+                color: "#ef5350",
+                cursor: "pointer",
+                marginLeft: "95%",
+                marginTop: "-5%",
+              }}
+              onClick={() => {
+                setDuplicateModal(false),
+                  setDuplicate({
+                    eventId: "",
+                    quizId: "",
+                    fromEventId: "",
+                  });
+              }}
+            />
+            <div style={{ height: "200px", width: "600px", marginLeft: "3%" }}>
+              <div style={{ display: "flex" }}>
+                <div style={{ width: "50%" }}>
+                  <label>
+                    Select Event
+                    {errorobj !== undefined && (
+                      <>
+                        {errorobj.eventId == "" ? (
+                          <p
+                            style={{
+                              color: "red",
+                              marginLeft: "32%",
+                              marginTop: "-6%",
+                            }}
+                          >
+                            *
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    )}
+                  </label>
+
+                  <select
+                    autofocus="autofocus"
+                    style={{
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
+                      borderRadius: 6,
+                      fontSize: 12,
+                      width: "90%",
+                      border: "1px solid black",
+                    }}
+                    value={duplicate.eventId}
+                    onChange={handleDuplicate}
+                    onClick={(e) => {
+                      ques(e.target.value);
+                    }}
+                    name="eventId"
+                  >
+                    <option value="">select</option>
+                    {geteventId &&
+                      geteventId.map((item) => {
+                        // console.log(item.challengeName);
+                        return (
+                          <>
+                            <option value={item.id}>
+                              {item.challengeName}
+                            </option>
+                          </>
+                        );
+                      })}
+                  </select>
+                </div>
+                <div style={{ width: "50%" }}>
+                  <label>
+                    Select Quiz{" "}
+                    {errorobj !== undefined && (
+                      <>
+                        {errorobj.quizId == "" ? (
+                          <p
+                            style={{
+                              color: "red",
+                              marginLeft: "30%",
+                              marginTop: "-8%",
+                            }}
+                          >
+                            *
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    )}
+                  </label>
+
+                  <select
+                    autofocus="autofocus"
+                    style={{
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
+                      borderRadius: 6,
+                      fontSize: 12,
+                      width: "90%",
+                      border: "1px solid black",
+                    }}
+                    value={duplicate.quizId}
+                    onChange={handleDuplicate}
+                    name="quizId"
+                  >
+                    <option value="">select</option>
+                    {getQuiz &&
+                      getQuiz.map((item) => {
+                        // console.log(item.challengeName);
+                        return (
+                          <>
+                            <option value={item.idMstQuiz}>
+                              {item.quizDescription}
+                            </option>
+                          </>
+                        );
+                      })}
+                  </select>
+                </div>
+              </div>
+              <div style={{ display: "flex", marginTop: "3%" }}>
+                <div style={{ width: "50%" }}>
+                  <label>
+                    Select Copied Event{" "}
+                    {errorobj !== undefined && (
+                      <>
+                        {errorobj.fromEventId == "" ? (
+                          <p
+                            style={{
+                              color: "red",
+                              marginLeft: "50%",
+                              marginTop: "-8%",
+                            }}
+                          >
+                            *
+                          </p>
+                        ) : (
+                          ""
+                        )}
+                      </>
+                    )}
+                  </label>
+
+                  <select
+                    autofocus="autofocus"
+                    style={{
+                      background: "#f3f4f6",
+                      padding: "10px 10px",
+                      borderRadius: 6,
+                      fontSize: 12,
+                      width: "90%",
+                      border: "1px solid black",
+                    }}
+                    value={duplicate.fromEventId}
+                    onChange={handleDuplicate}
+                    name="fromEventId"
+                  >
+                    <option value="">select</option>
+                    {geteventId &&
+                      geteventId.map((item) => {
+                        if (duplicate.eventId !== item.id) {
+                          // console.log(item.challengeName);
+                          return (
+                            <>
+                              <option value={item.id}>
+                                {item.challengeName}
+                              </option>
+                            </>
+                          );
+                        }
+                      })}
+                  </select>
+                </div>
+                <div style={{ width: "18%" }}></div>
+                <div style={{ width: "20%", marginTop: "5%" }}>
+                  <button className="is-success" onClick={saveDuplicate}>
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          </InfoDialog>
+        }
       </div>
     </div>
   );

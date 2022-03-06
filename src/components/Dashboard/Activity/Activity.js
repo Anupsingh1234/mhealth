@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SubEventCard from "./SubEventCard";
 import FallbackDiv from "../../Utility/FallbackDiv";
 import useActivity from "../hooks/useActivity";
 import NoData from "../../NoData";
 import DateRangePickerW from "./DateRangePickerW";
 import TriStateToggle from "./TriStateToggle";
+import ThemeContext from "../../../context/ThemeContext";
 import ScrollableList from "./../../ScrollableList";
 import "../../../styles/Activity.css";
 
 const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
   const [selval, setselval] = useState("");
+  const { theme } = useContext(ThemeContext);
 
   const [mystyle, setmystyle] = useState({
     display: "flex",
@@ -207,6 +209,16 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
         }
         onClick={() => {
           setSelectedFilter(type);
+        }}
+        style={{
+          background:
+            type.toUpperCase() === selectedFilter.toUpperCase()
+              ? theme.buttonBGColor
+              : undefined,
+          color:
+            type.toUpperCase() === selectedFilter.toUpperCase()
+              ? theme.buttonTextColor
+              : undefined,
         }}
       >
         {type.charAt(0).toUpperCase() + type.slice(1)}

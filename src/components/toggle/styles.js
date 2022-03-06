@@ -25,7 +25,7 @@ export const SwitchSelection = styled.span`
   left: 0px;
   width: 33%;
   height: 26px;
-  background: #216ba5;
+  background: black;
   border-radius: 3px;
   transition: left 0.25s ease-out;
 `;

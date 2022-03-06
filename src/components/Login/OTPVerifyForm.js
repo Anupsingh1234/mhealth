@@ -1,12 +1,14 @@
 import React from "react";
 import ReactLoadingWrapper from "../loaders/ReactLoadingWrapper";
 import OtpInput from "react-otp-input";
+import { PrimaryButton } from "../Form";
 
 const OTPVerifyForm = ({
   userData,
   loaderInfo,
   handleInput,
   handleOtpInputSubmit,
+  YottaMatch,
 }) => (
   <>
     <div className="heading center fadeInUp">OTP Verification</div>
@@ -22,6 +24,13 @@ const OTPVerifyForm = ({
         numInputs={6}
         separator={<span>-</span>}
         isInputNum={true}
+        inputStyle={{
+          border: "1px solid",
+          padding: "8px 4px",
+          width: "40px",
+          marginTop: "10px",
+          borderRadius: "4px",
+        }}
       />
     </div>
     <div className="submit-button fadeInUp" style={{ margin: "4em 0 0 0" }}>
@@ -35,18 +44,26 @@ const OTPVerifyForm = ({
           />
         </div>
       ) : (
-        <button
-          className={userData.otp?.length === 6 ? "is-success" : "is-disabled"}
+        <PrimaryButton
+          className={
+            userData.otp?.length === 6
+              ? YottaMatch
+                ? "is-yotta-success"
+                : "is-success"
+              : "is-disabled"
+          }
           disabled={userData.otp?.length !== 6}
           onClick={() => {
-            handleOtpInputSubmit(),
-              window.location.href == "https://weblite.mhealth.ai/#/login"
-                ? localStorage.setItem("webLite", "true")
-                : localStorage.setItem("webLite", "false");
+            if (userData.otp?.length === 6) {
+              handleOtpInputSubmit(),
+                window.location.href == "https://weblite.mhealth.ai/#/login"
+                  ? localStorage.setItem("webLite", "true")
+                  : localStorage.setItem("webLite", "false");
+            }
           }}
         >
           Continue
-        </button>
+        </PrimaryButton>
       )}
     </div>
   </>

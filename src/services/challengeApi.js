@@ -401,7 +401,7 @@ export const getEventTargetData = (id) => {
 };
 
 export const setPersonalTargetData = (payload) => {
-  const URL = `${urlPrefix}${setPersonalTarget}?eventId=${payload.eventId}&date=${payload.date}&distance=${payload.distance}`;
+  const URL = `${urlPrefix}${setPersonalTarget}?eventId=${payload.eventId}&date=${payload.date}&distance=${payload.distance}&healthGoal=${payload.healthGoal}`;
   return axios.post(
     URL,
     {},
@@ -767,6 +767,23 @@ export const getOldRecordingByProgram = (subEventId) => {
   return axios.get(URL, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
+      withCredentials: true,
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
+    },
+  });
+};
+
+export const getClientTheme = (client = "") => {
+  // const URL = `${urlPrefix}clients/getCustomLoginScreen?client=${client}`;
+  const URL = `${urlPrefix}clients/getCustomLoginScreen?client=${client}`;
+  return axios.get(URL, {
+    headers: {
+      Authorization: `Bearer ${secretToken}`,
       timeStamp: "timestamp",
       accept: "*/*",
       "Access-Control-Allow-Origin": "*",
