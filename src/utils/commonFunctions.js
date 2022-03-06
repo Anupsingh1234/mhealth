@@ -125,3 +125,16 @@ export const formatDate = (date) => {
 
   return [year, month, day].join("-");
 };
+
+export const getClientHostName = () => {
+  if (
+    window !== undefined &&
+    window?.location &&
+    window.location?.hostname &&
+    window.location.hostname !== "localhost"
+  ) {
+    return window.location.hostname.split(".")[0];
+  } else {
+    return "";
+  }
+};
