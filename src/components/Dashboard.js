@@ -37,6 +37,8 @@ import Badge from "@material-ui/core/Badge";
 import Quiz from "./QuizForEvents/quiz";
 import Forum from "./Forum";
 import ThemeContext from "../context/ThemeContext";
+import DietPlan from "./Dietplan/DietPlan";
+
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -112,6 +114,8 @@ const Dashboard = () => {
           return "Compare";
         case "team":
           return "team";
+        case "dietplan":
+          return "dietplan";
         case "achievement":
           return "achievement";
         case "challenge":
@@ -1007,6 +1011,7 @@ const Dashboard = () => {
         "challenge",
         "quiz",
         "forum",
+        "dietplan",
       ].includes(dashboardState.selectedAction)
     ) {
       setDashboardState({
@@ -1166,6 +1171,36 @@ const Dashboard = () => {
                       <button
                         style={{
                           background:
+                            dashboardState.selectedAction === "dietplan"
+                              ? theme.buttonTextColor
+                              : theme.buttonBGColor,
+                          color:
+                            dashboardState.selectedAction === "dietplan"
+                              ? theme.buttonBGColor
+                              : theme.buttonTextColor,
+                          border:
+                            dashboardState.selectedAction === "dietplan"
+                              ? "1px solid"
+                              : "1px transparent",
+                          borderColor: theme.buttonBGColor,
+                        }}
+                        onClick={() => {
+                          setDashboardState((prevState) => {
+                            return {
+                              ...prevState,
+                              selectedAction: "dietplan",
+                              listOfChallenges: getCurrentAllEvents(),
+                            };
+                          });
+                        }}
+                      >
+                        My meal
+                      </button>
+                    )}
+                    {dashboardState.listOfChallenges.length > 0 && (
+                      <button
+                        style={{
+                          background:
                             dashboardState.selectedAction === "forum"
                               ? theme.buttonTextColor
                               : theme.buttonBGColor,
@@ -1223,7 +1258,6 @@ const Dashboard = () => {
                           Quiz{" "}
                         </button>
                       )}
-
                     {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
@@ -1255,7 +1289,6 @@ const Dashboard = () => {
                           Team{" "}
                         </button>
                       )}
-
                     {dashboardState.listOfChallenges.length > 0 && (
                       <button
                         style={{
@@ -1297,7 +1330,6 @@ const Dashboard = () => {
                         )}
                       </button>
                     )}
-
                     {dashboardState.challengeSwitch !== "upcoming" &&
                       dashboardState.listOfChallenges.length > 0 && (
                         <button
@@ -1329,7 +1361,6 @@ const Dashboard = () => {
                           Programs
                         </button>
                       )}
-
                     {(dashboardState.challengeSwitch === "current" ||
                       dashboardState.challengeSwitch === "upcoming") &&
                       dashboardState.listOfChallenges.length > 0 && (
@@ -1362,7 +1393,6 @@ const Dashboard = () => {
                           Data Source
                         </button>
                       )}
-
                     {dashboardState.challengeSwitch !== "upcoming" && (
                       <>
                         {dashboardState.listOfChallenges.length > 0 && (
@@ -1605,6 +1635,11 @@ const Dashboard = () => {
               {dashboardState.selectedAction === "team" && (
                 <CreateTeam eventId={dashboardState.selectedChallenge} />
               )}
+
+              {dashboardState.selectedAction === "dietplan" && (
+                <DietPlan eventId={dashboardState.selectedChallenge} />
+              )}
+
               {dashboardState.selectedAction === "achievement" && (
                 <Achievments
                   eventId={dashboardState.selectedChallenge}
