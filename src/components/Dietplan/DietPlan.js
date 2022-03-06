@@ -7,12 +7,7 @@ import TableCell from "@material-ui/core/TableCell";
 import { Paper, TableRow } from "@material-ui/core";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
-import html2canvas from "html2canvas";
 import urlprefix from "../../services/apicollection";
-import ReactToPdf from "react-to-pdf";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 const DietPlan = () => {
   const inputRef = useRef(null);
 
@@ -20,91 +15,15 @@ const DietPlan = () => {
     fontWeight: "bolder",
   };
   const [dietplandata, setdietplandata] = useState();
-  const [earlyMorning, setearlyMorning] = useState([
-    "early Morning",
-    "early Morning",
-    "early Morning",
-    "early Morning",
-    ,
-    "early Morning",
-    ,
-    "early Morning",
-    ,
-    "early Morning",
-  ]);
-  const [midMorning, setmidMorning] = useState([
-    "min Morning",
-    "min Morning",
-    "min Morning",
-    "min Morning",
-    ,
-    "min Morning",
-    ,
-    "min Morning",
-    ,
-    "min Morning",
-  ]);
-  const [breakfast, setbreakfast] = useState([
-    "breakfast",
-    "breakfast",
-    "breakfast",
-    "breakfast",
-    ,
-    "breakfast",
-    ,
-    "breakfast",
-    ,
-    "breakfast",
-  ]);
+  const [earlyMorning, setearlyMorning] = useState([]);
+  const [midMorning, setmidMorning] = useState([]);
+  const [breakfast, setbreakfast] = useState([]);
 
-  const [dinner, setdinner] = useState([
-    "dinner",
-    "dinner",
-    "dinner",
-    "dinner",
-    ,
-    "dinner",
-    ,
-    "dinner",
-    ,
-    "dinner",
-  ]);
-  const [Lunch, setLunch] = useState([
-    "Lunch",
-    "Lunch",
-    "Lunch",
-    "Lunch",
-    "Lunch",
-    "Lunch",
-    "Lunch",
-  ]);
-  const [Evening, setEvening] = useState([
-    "Evening",
-    "Evening",
-    "Evening",
-    "Evening",
-    "Evening",
-    "Evening",
-    "Evening",
-  ]);
-  const [postDinner, setpostDinner] = useState([
-    "postDinner",
-    "postDinner",
-    "postDinner",
-    "postDinner",
-    "postDinner",
-    "postDinner",
-    "postDinner",
-  ]);
-  const [routineDates, setroutineDates] = useState([
-    "2022-03-03",
-    "2022-03-03",
-    "2022-03-03",
-    "2022-03-03",
-    "2022-03-03",
-    "2022-03-03",
-    "2022-03-03",
-  ]);
+  const [dinner, setdinner] = useState([]);
+  const [Lunch, setLunch] = useState([]);
+  const [Evening, setEvening] = useState([]);
+  const [postDinner, setpostDinner] = useState([]);
+  const [routineDates, setroutineDates] = useState([]);
   const [style, setstyle] = useState({ display: "none" });
   const [width, setwidth] = useState({ width: "100%", height: "100%" });
   const [flag, setflag] = useState(true);
@@ -124,7 +43,6 @@ const DietPlan = () => {
       setwidth({ width: "100%", height: "100%" });
     }
   }, [flag]);
-  const ref = React.createRef();
 
   const useStyles1 = makeStyles((theme) => ({
     container: {
@@ -229,36 +147,6 @@ const DietPlan = () => {
             {" "}
             Submit
           </button>
-          <div>
-            {dietplandata && (
-              <ReactToPdf targetRef={ref} filename="div-blue.pdf">
-                {({ toPdf }) => (
-                  <button
-                    className="w-28 ml-8 mt-6"
-                    style={{
-                      height: "35px",
-                      background: "#d65151",
-                      color: "#fff",
-                      borderRadius: "25px",
-                    }}
-                    onClick={() => {
-                      setstyle({ display: "block" }),
-                        toPdf(),
-                        setwidth({
-                          width: "800px",
-                          height: "100%",
-                          fontSize: 9,
-                        });
-                      setflag(false);
-                    }}
-                  >
-                    Download
-                  </button>
-                )}
-                {/* <KeyboardArrowLeft /> */}
-              </ReactToPdf>
-            )}
-          </div>
         </div>
       </div>
       <div style={width}>
