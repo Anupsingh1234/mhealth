@@ -23,12 +23,14 @@ import {
   registerUserHandler,
   loginUserHandler,
   forgetPasswordHandler,
+  getSocialLinks,
 } from "../../services/loginapi";
 import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
 import ThemeContext from "../../context/ThemeContext";
 import classNames from "classnames";
 import { icons } from "../../assets/icons/constants";
+import { getClientHostName } from "../../utils/commonFunctions";
 
 const Login = ({ YottaMatch }) => {
   window.message = Message;
@@ -80,8 +82,23 @@ const Login = ({ YottaMatch }) => {
     return false;
   }
 
+  const [socialLinks, setSocialLinks] = useState("");
+
   useEffect(() => {
     isLoggedIn() && history.push("/programs");
+  }, []);
+
+  useEffect(() => {
+    getSocialLinks(getClientHostName())
+      .then((res) => {
+        if (res.data.response.responseMessage === "SUCCESS") {
+          const data = res.data.response.responseData;
+          setSocialLinks(data);
+        }
+      })
+      .catch((err) => {
+        setSocialLinks([]);
+      });
   }, []);
 
   const handleInput = (type, value) => {
@@ -495,17 +512,24 @@ const Login = ({ YottaMatch }) => {
       <div className="illustration relative">
         <div>
           <img src={theme?.eventLogo || login} width={400} height={597} />
-          <div className="absolute left-0 top-[28%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
-            {Object.entries(icons).map((data) => (
-              <img
-                key={data[0]}
-                src={data[1]}
-                className="inline cursor-pointer"
-                width="22px"
-                height="22px"
-              />
-            ))}
-          </div>
+          {Array.isArray(socialLinks) && socialLinks.length > 0 && (
+            <div className="absolute left-0 top-[50%] translate-x-0 translate-y-[-50%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
+              {socialLinks.map(
+                (data) =>
+                  icons[data.socialMedia] && (
+                    <a href={data.mediaLink} target="_blank">
+                      <img
+                        key={data.id}
+                        src={icons[data.socialMedia]}
+                        className="inline cursor-pointer"
+                        width="22px"
+                        height="22px"
+                      />
+                    </a>
+                  )
+              )}
+            </div>
+          )}
           <div
             className={classNames(
               "absolute bottom-4 left-0 px-4",
