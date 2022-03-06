@@ -973,7 +973,7 @@ const MisReport = () => {
                   >
                     <PrimaryButton
                       mini
-                      className="w-[max-content] mx-auto"
+                      className="w-24 mx-auto"
                       onClick={getData}
                     >
                       {" "}

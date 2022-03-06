@@ -652,7 +652,7 @@ const AuditReport = (props) => {
               </div>
             </div>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              <PrimaryButton mini className="w-[max-content]">
+              <PrimaryButton mini className="w-24">
                 {" "}
                 Submit
               </PrimaryButton>

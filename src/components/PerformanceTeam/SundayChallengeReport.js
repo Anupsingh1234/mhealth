@@ -550,25 +550,6 @@ const SundayChallengeReport = (props) => {
                           {" "}
                           {item.status ? item.status : "-"}{" "}
                         </TableCell>
-                        {/* <TableCell>
-                          {item.message === true ? (
-                            <button
-                              style={{
-                                backgroundColor: 'green',
-                                color: 'white',
-                                width: '150px',
-                              }}
-                              onClick={() => {
-                                setResponsemessageModal(true),
-                                  setPhone(item.senderPhone);
-                              }}
-                            >
-                              Response
-                            </button>
-                          ) : (
-                            '-'
-                          )}
-                        </TableCell> */}
                       </TableRow>
                     </>
                   );
@@ -629,7 +610,6 @@ const SundayChallengeReport = (props) => {
               />
               <button
                 style={{
-                  // backgroundColor: 'green',
                   color: "white",
                   marginLeft: "75%",
                   width: "80px",
