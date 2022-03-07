@@ -54,6 +54,7 @@
     "react-switch": "6.0.0",
     "react-tabs": "^3.2.2",
     "react-timer-hook": "^3.0.5",
+    "react-to-pdf": "^0.0.14",
     "react-tooltip": "^4.2.21",
     "react-use": "^17.3.2",
     "reactjs-alert": "^1.2.5",
