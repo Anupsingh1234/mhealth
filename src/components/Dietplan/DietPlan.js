@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import TableHead from "@material-ui/core/TableHead";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,8 +7,73 @@ import TableCell from "@material-ui/core/TableCell";
 import { Paper, TableRow } from "@material-ui/core";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import urlprefix from "../../services/apicollection";
+import { urlPrefix, secretToken } from "../../services/apicollection";
+import { PrimaryButton } from "../Form/Button";
+
 const DietPlan = () => {
+  var currD = [
+    "00",
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+    "31",
+  ];
+  var currM = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
+
+  var date = new Date();
+  var currentDate = date.getDate();
+
+  var days = currentDate;
+
+  var last = new Date(date.getTime() - days * 24 * 60 * 60 * 1000);
+  var day = last.getDate();
+  var month = last.getMonth() + 1;
+  var year = last.getFullYear();
+  var currentMos = date.getMonth() + 1;
+  var currYear = date.getFullYear();
+
+  var to = currYear + "-" + "0" + currentMos + "-" + "0" + currentDate;
+  var from = year + "-" + "0" + month + "-" + day;
   const font = {
     fontWeight: "bolder",
   };
@@ -16,10 +81,10 @@ const DietPlan = () => {
   const [earlyMorning, setearlyMorning] = useState([]);
   const [midMorning, setmidMorning] = useState([]);
   const [breakfast, setbreakfast] = useState([]);
-
   const [dinner, setdinner] = useState([]);
   const [Lunch, setLunch] = useState([]);
   const [Evening, setEvening] = useState([]);
+  const [postDinner, setpostDinner] = useState([]);
   const [routineDates, setroutineDates] = useState([]);
   const [style, setstyle] = useState({ display: "none" });
   const [width, setwidth] = useState({ width: "100%", height: "100%" });
@@ -61,9 +126,9 @@ const DietPlan = () => {
     },
   }));
   const classes1 = useStyles1();
-
+  console.log(urlPrefix, "urlPrefix");
   const getData = () => {
-    const URL = `${urlprefix}v1.0/userhealthChart?fromDate=${fromdate}&toDate=${toDate}`;
+    const URL = `${urlPrefix}v1.0/userhealthChart?fromDate=${fromdate}&toDate=${toDate}`;
     return axios
       .get(URL, {
         headers: {
@@ -80,20 +145,24 @@ const DietPlan = () => {
       .then((res) => {
         // let x = 0;
         setdietplandata(res.data.response.responseData);
-        setroutineDates(res.data.response.responseData.phc?.dates);
-        setdinner(res.data.response.responseData.phc.plansMap.Dinner);
-        setbreakfast(res.data.response.responseData.phc.plansMap.Breakfast);
-        setearlyMorning(
-          res.data.response.responseData.phc.plansMap.Early_Morning
-        );
-        setEvening(res.data.response.responseData.phc.plansMap.Evening);
-        setmidMorning(res.data.response.responseData.phc.plansMap.Mid_Morning);
+        {
+          res.data.response.responseData.phc &&
+            setroutineDates(res.data.response.responseData.phc?.dates);
+          setdinner(res.data.response.responseData.phc.plansMap.Dinner);
+          setbreakfast(res.data.response.responseData.phc.plansMap.Breakfast);
+          setearlyMorning(
+            res.data.response.responseData.phc.plansMap.Early_Morning
+          );
+          setEvening(res.data.response.responseData.phc.plansMap.Evening);
+          setmidMorning(
+            res.data.response.responseData.phc.plansMap.Mid_Morning
+          );
 
-        // setLunch(res.data.response.responseData.phc[0].plansMap.lunch);
-        setLunch(res.data.response.responseData.phc.plansMap.AfterNoon);
+          // setLunch(res.data.response.responseData.phc[0].plansMap.lunch);
+          setLunch(res.data.response.responseData.phc.plansMap.AfterNoon);
+        }
       });
   };
-  console.log(routineDates);
   return (
     <>
       <div className="head">
@@ -105,7 +174,7 @@ const DietPlan = () => {
                 style={{ fontSize: 12, width: "200px" }}
                 id="date"
                 type="date"
-                defaultValue=""
+                value={from}
                 className={classes1.textField}
                 InputLabelProps={{
                   shrink: true,
@@ -122,7 +191,7 @@ const DietPlan = () => {
                 style={{ fontSize: 12, width: "200px" }}
                 id="date"
                 type="date"
-                defaultValue=""
+                value={to}
                 className={classes1.textField}
                 InputLabelProps={{
                   shrink: true,
@@ -131,7 +200,7 @@ const DietPlan = () => {
               />
             </form>
           </fieldset>
-          <button
+          <PrimaryButton
             className="w-28 ml-8 mt-6"
             style={{
               height: "35px",
@@ -143,7 +212,7 @@ const DietPlan = () => {
           >
             {" "}
             Submit
-          </button>
+          </PrimaryButton>
         </div>
       </div>
       <div style={width}>
@@ -239,7 +308,7 @@ const DietPlan = () => {
             </div>
           </div>
           <hr />
-          {dietplandata && (
+          {dietplandata && routineDates.length >= 0 ? (
             <Table style={{ marginTop: "10px" }}>
               <TableHead>
                 {" "}
@@ -328,6 +397,17 @@ const DietPlan = () => {
                 </TableRow>
               </TableBody>
             </Table>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "350px",
+              }}
+            >
+              No Data Available
+            </div>
           )}
         </Paper>
       </div>
