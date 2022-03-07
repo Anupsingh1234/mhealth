@@ -77,6 +77,7 @@ const DietPlan = () => {
   const font = {
     fontWeight: "bolder",
   };
+  // console.log(from, "from", to);
   const [dietplandata, setdietplandata] = useState();
   const [earlyMorning, setearlyMorning] = useState([]);
   const [midMorning, setmidMorning] = useState([]);
@@ -89,8 +90,8 @@ const DietPlan = () => {
   const [style, setstyle] = useState({ display: "none" });
   const [width, setwidth] = useState({ width: "100%", height: "100%" });
   const [flag, setflag] = useState(true);
-  const [fromdate, setfromDate] = useState();
-  const [toDate, settoDate] = useState();
+  const [fromdate, setfromDate] = useState(from);
+  const [toDate, settoDate] = useState(to);
   const FromDate = (e) => {
     setfromDate(e.target.value);
   };
@@ -163,6 +164,7 @@ const DietPlan = () => {
         }
       });
   };
+  console.log(routineDates);
   return (
     <>
       <div className="head">
@@ -174,7 +176,7 @@ const DietPlan = () => {
                 style={{ fontSize: 12, width: "200px" }}
                 id="date"
                 type="date"
-                value={from}
+                value={fromdate}
                 className={classes1.textField}
                 InputLabelProps={{
                   shrink: true,
@@ -191,7 +193,7 @@ const DietPlan = () => {
                 style={{ fontSize: 12, width: "200px" }}
                 id="date"
                 type="date"
-                value={to}
+                value={toDate}
                 className={classes1.textField}
                 InputLabelProps={{
                   shrink: true,
