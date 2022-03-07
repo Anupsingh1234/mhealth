@@ -340,7 +340,7 @@ function Navbar({ className }) {
 
             {condition && condition.isModerator === true ? (
               <>
-                <p>
+                <p className="mt-6">
                   <span>
                     <Icon.Navigation
                       onClick={() => setSocialPost(true)}
@@ -357,7 +357,7 @@ function Navbar({ className }) {
                     />
                   )}
                 </p>
-                <p>
+                <p className="mt-6">
                   <span style={{}}>
                     <Icon.Link onClick={() => setSocialLink(true)} />
                   </span>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import TableHead from "@material-ui/core/TableHead";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,8 +9,6 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import urlprefix from "../../services/apicollection";
 const DietPlan = () => {
-  const inputRef = useRef(null);
-
   const font = {
     fontWeight: "bolder",
   };
@@ -22,7 +20,6 @@ const DietPlan = () => {
   const [dinner, setdinner] = useState([]);
   const [Lunch, setLunch] = useState([]);
   const [Evening, setEvening] = useState([]);
-  const [postDinner, setpostDinner] = useState([]);
   const [routineDates, setroutineDates] = useState([]);
   const [style, setstyle] = useState({ display: "none" });
   const [width, setwidth] = useState({ width: "100%", height: "100%" });
@@ -150,7 +147,7 @@ const DietPlan = () => {
         </div>
       </div>
       <div style={width}>
-        <Paper id="my-table" className="mt-5" elevation={3} ref={ref}>
+        <Paper id="my-table" className="mt-5" elevation={3}>
           <div style={style}>
             {" "}
             <div

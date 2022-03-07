@@ -1194,7 +1194,7 @@ const Dashboard = () => {
                           });
                         }}
                       >
-                        My meal
+                        My plan
                       </button>
                     )}
                     {dashboardState.listOfChallenges.length > 0 && (
