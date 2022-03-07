@@ -100,7 +100,6 @@ const DietPlan = () => {
   const ToDate = (e) => {
     settoDate(e.target.value);
   };
-  // flag == true ? "" : setstyle({ display: "none" });
   useEffect(() => {
     if (flag == false) {
       setstyle({ display: "none" });
