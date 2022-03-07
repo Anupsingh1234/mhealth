@@ -7,7 +7,9 @@ import TableCell from "@material-ui/core/TableCell";
 import { Paper, TableRow } from "@material-ui/core";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import urlprefix from "../../services/apicollection";
+import { urlPrefix, secretToken } from "../../services/apicollection";
+import { PrimaryButton } from "../Form/Button";
+
 const DietPlan = () => {
   const inputRef = useRef(null);
 
@@ -64,9 +66,9 @@ const DietPlan = () => {
     },
   }));
   const classes1 = useStyles1();
-
+  console.log(urlPrefix, "urlPrefix");
   const getData = () => {
-    const URL = `${urlprefix}v1.0/userhealthChart?fromDate=${fromdate}&toDate=${toDate}`;
+    const URL = `${urlPrefix}v1.0/userhealthChart?fromDate=${fromdate}&toDate=${toDate}`;
     return axios
       .get(URL, {
         headers: {
@@ -83,17 +85,22 @@ const DietPlan = () => {
       .then((res) => {
         // let x = 0;
         setdietplandata(res.data.response.responseData);
-        setroutineDates(res.data.response.responseData.phc?.dates);
-        setdinner(res.data.response.responseData.phc.plansMap.Dinner);
-        setbreakfast(res.data.response.responseData.phc.plansMap.Breakfast);
-        setearlyMorning(
-          res.data.response.responseData.phc.plansMap.Early_Morning
-        );
-        setEvening(res.data.response.responseData.phc.plansMap.Evening);
-        setmidMorning(res.data.response.responseData.phc.plansMap.Mid_Morning);
+        {
+          res.data.response.responseData.phc &&
+            setroutineDates(res.data.response.responseData.phc?.dates);
+          setdinner(res.data.response.responseData.phc.plansMap.Dinner);
+          setbreakfast(res.data.response.responseData.phc.plansMap.Breakfast);
+          setearlyMorning(
+            res.data.response.responseData.phc.plansMap.Early_Morning
+          );
+          setEvening(res.data.response.responseData.phc.plansMap.Evening);
+          setmidMorning(
+            res.data.response.responseData.phc.plansMap.Mid_Morning
+          );
 
-        // setLunch(res.data.response.responseData.phc[0].plansMap.lunch);
-        setLunch(res.data.response.responseData.phc.plansMap.AfterNoon);
+          // setLunch(res.data.response.responseData.phc[0].plansMap.lunch);
+          setLunch(res.data.response.responseData.phc.plansMap.AfterNoon);
+        }
       });
   };
   console.log(routineDates);
@@ -134,7 +141,7 @@ const DietPlan = () => {
               />
             </form>
           </fieldset>
-          <button
+          <PrimaryButton
             className="w-28 ml-8 mt-6"
             style={{
               height: "35px",
@@ -146,11 +153,11 @@ const DietPlan = () => {
           >
             {" "}
             Submit
-          </button>
+          </PrimaryButton>
         </div>
       </div>
       <div style={width}>
-        <Paper id="my-table" className="mt-5" elevation={3} ref={ref}>
+        <Paper id="my-table" className="mt-5" elevation={3}>
           <div style={style}>
             {" "}
             <div
@@ -242,7 +249,7 @@ const DietPlan = () => {
             </div>
           </div>
           <hr />
-          {dietplandata && (
+          {dietplandata && routineDates.length >= 0 ? (
             <Table style={{ marginTop: "10px" }}>
               <TableHead>
                 {" "}
@@ -331,6 +338,17 @@ const DietPlan = () => {
                 </TableRow>
               </TableBody>
             </Table>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "350px",
+              }}
+            >
+              No Data Available
+            </div>
           )}
         </Paper>
       </div>
