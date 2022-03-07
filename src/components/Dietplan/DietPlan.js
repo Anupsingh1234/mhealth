@@ -11,11 +11,73 @@ import { urlPrefix, secretToken } from "../../services/apicollection";
 import { PrimaryButton } from "../Form/Button";
 
 const DietPlan = () => {
-  const inputRef = useRef(null);
+  var currD = [
+    "00",
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+    "24",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "30",
+    "31",
+  ];
+  var currM = [
+    "01",
+    "02",
+    "03",
+    "04",
+    "05",
+    "06",
+    "07",
+    "08",
+    "09",
+    "10",
+    "11",
+    "12",
+  ];
 
+  var date = new Date();
+  var currentDate = date.getDate();
+
+  var days = currentDate;
+
+  var last = new Date(date.getTime() - days * 24 * 60 * 60 * 1000);
+  var day = last.getDate();
+  var month = last.getMonth() + 1;
+  var year = last.getFullYear();
+  var currentMos = date.getMonth() + 1;
+  var currYear = date.getFullYear();
+
+  var to = currYear + "-" + "0" + currentMos + "-" + "0" + currentDate;
+  var from = year + "-" + "0" + month + "-" + day;
   const font = {
     fontWeight: "bolder",
   };
+  // console.log(from, "from", to);
   const [dietplandata, setdietplandata] = useState();
   const [earlyMorning, setearlyMorning] = useState([]);
   const [midMorning, setmidMorning] = useState([]);
@@ -115,7 +177,7 @@ const DietPlan = () => {
                 style={{ fontSize: 12, width: "200px" }}
                 id="date"
                 type="date"
-                defaultValue=""
+                value={from}
                 className={classes1.textField}
                 InputLabelProps={{
                   shrink: true,
@@ -132,7 +194,7 @@ const DietPlan = () => {
                 style={{ fontSize: 12, width: "200px" }}
                 id="date"
                 type="date"
-                defaultValue=""
+                value={to}
                 className={classes1.textField}
                 InputLabelProps={{
                   shrink: true,
