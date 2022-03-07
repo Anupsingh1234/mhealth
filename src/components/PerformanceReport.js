@@ -306,8 +306,9 @@ const Performance = (props) => {
             justifyContent: "center",
             alignItems: "center",
           }}
+          className="w-[max-content] mx-auto"
         >
-          <PrimaryButton mini className="w-24 mx-auto" onClick={getData}>
+          <PrimaryButton mini onClick={getData}>
             submit
           </PrimaryButton>
           <span style={{ marginTop: 20, color: "red", marginLeft: 50 }}>

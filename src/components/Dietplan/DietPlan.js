@@ -82,7 +82,6 @@ const DietPlan = () => {
   const [earlyMorning, setearlyMorning] = useState([]);
   const [midMorning, setmidMorning] = useState([]);
   const [breakfast, setbreakfast] = useState([]);
-
   const [dinner, setdinner] = useState([]);
   const [Lunch, setLunch] = useState([]);
   const [Evening, setEvening] = useState([]);
@@ -100,6 +99,7 @@ const DietPlan = () => {
   const ToDate = (e) => {
     settoDate(e.target.value);
   };
+  // flag == true ? "" : setstyle({ display: "none" });
   useEffect(() => {
     if (flag == false) {
       setstyle({ display: "none" });

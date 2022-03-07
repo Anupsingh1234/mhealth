@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getClientTheme } from "../services/challengeApi";
 import { getSocialLinks } from "../services/loginapi";
+import { getClientHostName } from "../utils/commonFunctions";
 const defaultPrimaryColor =
   "linear-gradient(to left, #0052d4, #65c7f7, #9cecfb)";
 
@@ -16,19 +17,6 @@ const defaultTheme = {
 const useTheme = () => {
   const [loading, setLoading] = useState(false);
   const [theme, setTheme] = useState("");
-  const getClientHostName = () => {
-    if (
-      window !== undefined &&
-      window?.location &&
-      window.location?.hostname &&
-      window.location.hostname !== "localhost"
-    ) {
-      return window.location.hostname.split(".")[0];
-    } else {
-      return "";
-    }
-  };
-
   useEffect(() => {
     setLoading(true);
     getClientTheme(getClientHostName())
@@ -53,9 +41,8 @@ const useTheme = () => {
         setTheme(defaultTheme);
         setLoading(false);
       });
-    getSocialLinks(getClientHostName()).then((res) => {
-      console.log({ res });
-    });
+
+    setLoading(true);
   }, []);
 
   return { theme, loading };
