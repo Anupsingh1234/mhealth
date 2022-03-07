@@ -77,7 +77,6 @@ const DietPlan = () => {
   const font = {
     fontWeight: "bolder",
   };
-  // console.log(from, "from", to);
   const [dietplandata, setdietplandata] = useState();
   const [earlyMorning, setearlyMorning] = useState([]);
   const [midMorning, setmidMorning] = useState([]);
@@ -164,7 +163,6 @@ const DietPlan = () => {
         }
       });
   };
-  console.log(routineDates);
   return (
     <>
       <div className="head">
