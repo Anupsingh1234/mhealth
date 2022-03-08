@@ -60,19 +60,15 @@ const DietPlan = () => {
     "11",
     "12",
   ];
-
   var date = new Date();
   var currentDate = date.getDate();
-
   var days = currentDate;
-
   var last = new Date(date.getTime() - days * 24 * 60 * 60 * 1000);
   var day = last.getDate();
   var month = last.getMonth() + 1;
   var year = last.getFullYear();
   var currentMos = date.getMonth() + 1;
   var currYear = date.getFullYear();
-
   var dates = currD[currentDate];
   var newDate = (parseInt(dates) - 7).toString();
   if (newDate.length == 1) {
@@ -80,7 +76,6 @@ const DietPlan = () => {
   } else {
     dates = newDate;
   }
-
   var to = currYear + "-" + currM[currentMos] + "-" + currD[currentDate];
   var from = year + "-" + currM[currentMos] + "-" + dates;
   const font = {
