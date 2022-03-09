@@ -46,6 +46,7 @@ const DietPlan = () => {
     "31",
   ];
   var currM = [
+    "00",
     "01",
     "02",
     "03",
@@ -59,25 +60,27 @@ const DietPlan = () => {
     "11",
     "12",
   ];
-
   var date = new Date();
   var currentDate = date.getDate();
-
   var days = currentDate;
-
   var last = new Date(date.getTime() - days * 24 * 60 * 60 * 1000);
   var day = last.getDate();
   var month = last.getMonth() + 1;
   var year = last.getFullYear();
   var currentMos = date.getMonth() + 1;
   var currYear = date.getFullYear();
-
-  var to = currYear + "-" + "0" + currentMos + "-" + "0" + currentDate;
-  var from = year + "-" + "0" + month + "-" + day;
+  var dates = currD[currentDate];
+  var newDate = (parseInt(dates) - 7).toString();
+  if (newDate.length == 1) {
+    dates = "0" + newDate;
+  } else {
+    dates = newDate;
+  }
+  var to = currYear + "-" + currM[currentMos] + "-" + currD[currentDate];
+  var from = year + "-" + currM[currentMos] + "-" + dates;
   const font = {
     fontWeight: "bolder",
   };
-  // console.log(from, "from", to);
   const [dietplandata, setdietplandata] = useState();
   const [earlyMorning, setearlyMorning] = useState([]);
   const [midMorning, setmidMorning] = useState([]);
@@ -127,7 +130,6 @@ const DietPlan = () => {
     },
   }));
   const classes1 = useStyles1();
-  console.log(urlPrefix, "urlPrefix");
   const getData = () => {
     const URL = `${urlPrefix}v1.0/userhealthChart?fromDate=${fromdate}&toDate=${toDate}`;
     return axios
@@ -144,27 +146,19 @@ const DietPlan = () => {
         },
       })
       .then((res) => {
-        // let x = 0;
         setdietplandata(res.data.response.responseData);
         {
           res.data.response.responseData.phc &&
             setroutineDates(res.data.response.responseData.phc?.dates);
-          setdinner(res.data.response.responseData.phc.plansMap.Dinner);
-          setbreakfast(res.data.response.responseData.phc.plansMap.Breakfast);
-          setearlyMorning(
-            res.data.response.responseData.phc.plansMap.Early_Morning
-          );
-          setEvening(res.data.response.responseData.phc.plansMap.Evening);
-          setmidMorning(
-            res.data.response.responseData.phc.plansMap.Mid_Morning
-          );
-
-          // setLunch(res.data.response.responseData.phc[0].plansMap.lunch);
-          setLunch(res.data.response.responseData.phc.plansMap.AfterNoon);
+          setdinner(res.data.response.responseData.phc.plansMap._6);
+          setbreakfast(res.data.response.responseData.phc.plansMap._2);
+          setearlyMorning(res.data.response.responseData.phc.plansMap._1);
+          setEvening(res.data.response.responseData.phc.plansMap._5);
+          setmidMorning(res.data.response.responseData.phc.plansMap._3);
+          setLunch(res.data.response.responseData.phc.plansMap._4);
         }
       });
   };
-  console.log(routineDates);
   return (
     <>
       <div className="head">
@@ -332,67 +326,79 @@ const DietPlan = () => {
               </TableHead>
               <TableBody>
                 <TableRow>
-                  <TableCell align="Left"> Early Morning </TableCell>
+                  <TableCell align="Left">
+                    {" "}
+                    {earlyMorning[0]?.keyTemplate}{" "}
+                  </TableCell>
                   {earlyMorning?.map((item, index) => {
                     return (
                       <TableCell align="center" style={font}>
                         {" "}
-                        {item}
+                        {item.itemDesc}
                       </TableCell>
                     );
                   })}
                 </TableRow>
                 <TableRow>
-                  <TableCell align="left"> Breakfast </TableCell>
+                  <TableCell align="left">
+                    {" "}
+                    {breakfast[0]?.keyTemplate}{" "}
+                  </TableCell>
                   {breakfast?.map((item, index) => {
                     return (
                       <TableCell align="center" style={font}>
                         {" "}
-                        {item}
+                        {item.itemDesc}
                       </TableCell>
                     );
                   })}
                 </TableRow>
                 <TableRow>
-                  <TableCell align="left"> Mid Morning </TableCell>
+                  <TableCell align="left">
+                    {" "}
+                    {midMorning[0]?.keyTemplate}{" "}
+                  </TableCell>
                   {midMorning?.map((item, index) => {
                     return (
                       <TableCell align="center" style={font}>
                         {" "}
-                        {item}
+                        {item.itemDesc}
                       </TableCell>
                     );
                   })}
                 </TableRow>
                 <TableRow>
-                  <TableCell align="left"> Lunch </TableCell>
+                  <TableCell align="left"> {Lunch[0]?.keyTemplate} </TableCell>
                   {Lunch?.map((item, index) => {
                     return (
                       <TableCell align="center" style={font}>
                         {" "}
-                        {item}
+                        {item.itemDesc}
                       </TableCell>
                     );
                   })}
                 </TableRow>
                 <TableRow>
-                  <TableCell align="left"> Evening </TableCell>
+                  <TableCell align="left">
+                    {" "}
+                    {Evening[0]?.keyTemplate}{" "}
+                  </TableCell>
                   {Evening?.map((item, index) => {
                     return (
                       <TableCell align="center" style={font}>
                         {" "}
-                        {item}
+                        {item.itemDesc}
                       </TableCell>
                     );
                   })}
                 </TableRow>
                 <TableRow>
-                  <TableCell align="left"> Dinner </TableCell>
+                  <TableCell align="left"> {dinner[0]?.keyTemplate} </TableCell>
                   {dinner?.map((item, index) => {
                     return (
                       <TableCell align="center" style={font}>
                         {" "}
-                        {item}
+                        {item.itemDesc}
                       </TableCell>
                     );
                   })}
