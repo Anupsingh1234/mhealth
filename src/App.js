@@ -138,12 +138,12 @@ const App = () => {
             displayName: "Pdf",
             showInNavbar: false,
           },
-          {
-            pageLink: "/dashboard",
-            view: DashboardLegacy,
-            displayName: "Dashboard",
-            showInNavbar: true,
-          },
+          // {
+          //   pageLink: "/dashboard",
+          //   view: DashboardLegacy,
+          //   displayName: "Dashboard",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/admin",
             view: CreateQuiz,
@@ -249,12 +249,12 @@ const App = () => {
             displayName: "Pdf",
             showInNavbar: false,
           },
-          {
-            pageLink: "/dashboard",
-            view: DashboardLegacy,
-            displayName: "Dashboard",
-            showInNavbar: true,
-          },
+          // {
+          //   pageLink: "/dashboard",
+          //   view: DashboardLegacy,
+          //   displayName: "Dashboard",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/admin",
             view: CreateQuiz,
@@ -359,12 +359,12 @@ const App = () => {
             displayName: "Pdf",
             showInNavbar: false,
           },
-          {
-            pageLink: "/dashboard",
-            view: DashboardLegacy,
-            displayName: "Dashboard",
-            showInNavbar: true,
-          },
+          // {
+          //   pageLink: "/dashboard",
+          //   view: DashboardLegacy,
+          //   displayName: "Dashboard",
+          //   showInNavbar: true,
+          // },
           // { DEPRECATED: 4-MARCH-2022
           //   pageLink: "/",
           //   view: UpcomingEvents,

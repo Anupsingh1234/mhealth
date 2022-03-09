@@ -10,7 +10,7 @@ import "../../styles/SearchByCode.css";
 const SearchByCode = ({ handleSearchEvent }) => {
   const [keyword, setKeyword] = useState("");
   return (
-    <div className="SBCcontainer">
+    <div className="max-w-xl my-[2rem] mx-auto bg-[#f8fafc] rounded py-[3rem] px-[2rem] flex h-auto items-center justify-center">
       <div className="iconDiv">
         <FA icon={faQrcode} size="6x" />
       </div>
@@ -19,7 +19,7 @@ const SearchByCode = ({ handleSearchEvent }) => {
           <div className="title">Do you have a code?</div>
           <div className="subTitle">You can search the event by code.</div>
         </div>
-        <div className="inputContainer">
+        <div className="flex flex-col gap-4 md:flex-row mt-[2rem] items-center max-w-xs">
           <Input
             type="text"
             name="code"

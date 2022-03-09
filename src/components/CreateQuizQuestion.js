@@ -47,13 +47,11 @@ const Admin123 = () => {
   const [duplicateModal, setDuplicateModal] = useState(false);
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
-  console.log(addId);
   const [duplicate, setDuplicate] = useState({
     eventId: "",
     fromEventId: "",
     quizId: "",
   });
-  console.log(duplicate, "duplicate");
   const handleDuplicate = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -548,13 +546,15 @@ const Admin123 = () => {
             </div>
             <TabPanel>
               <div>
-                <PrimaryButton
-                  mini
-                  className="w-24 text-sm ml-6 mb-2"
-                  onClick={() => setDuplicateModal(true)}
-                >
-                  Duplicate
-                </PrimaryButton>
+                <div className="w-24">
+                  <PrimaryButton
+                    mini
+                    className="text-sm ml-6 mb-2"
+                    onClick={() => setDuplicateModal(true)}
+                  >
+                    Duplicate
+                  </PrimaryButton>
+                </div>
                 <div style={{ display: "flex", marginLeft: "30px" }}>
                   <div style={{ width: "30%" }}>
                     <label style={{ fontSize: 12 }}>
@@ -813,10 +813,10 @@ const Admin123 = () => {
                 </div>
                 <div style={{ display: "flex", marginLeft: "10px" }}>
                   <div style={{ width: "80%" }}></div>
-                  <div style={{ width: "20%" }}>
+                  <div className="w-24">
                     <PrimaryButton
                       mini
-                      className="w-24 text-sm mt-4"
+                      className="w-[max-content] text-sm mt-4"
                       onClick={handleSubmit}
                     >
                       Save Quiz

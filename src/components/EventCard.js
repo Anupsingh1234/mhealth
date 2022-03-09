@@ -99,8 +99,6 @@ const EventCard = ({
       : "" || inputEmail !== null
       ? inputEmail.indexOf("@")
       : "";
-  // const lastword = validinputEmail.indexOf('.');
-  // let b = lastword;
   const a = word + 1;
 
   window.key =
@@ -374,8 +372,8 @@ const EventCard = ({
       <div onClick={() => handleChallengeCardClick(challenge)}>
         <div
           style={{
-            width: 279,
-            height: 180,
+            width: 230,
+            height: 100,
             borderRadius: "12px 12px 0px 0px",
             background: "#fff",
             overflow: "hidden",
@@ -387,9 +385,9 @@ const EventCard = ({
               "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Background.png"
             }
             style={{
-              width: 279,
-              height: 180,
-              objectFit: "fill",
+              width: 230,
+              height: 100,
+              objectFit: "cover",
               borderRadius: "12px 12px 0px 0px",
             }}
             onError={(e) => {
@@ -400,39 +398,10 @@ const EventCard = ({
           />
         </div>
         <div className="challenge-card-details">
-          <div
-            // className={
-            //   selectedAction === "Compare"
-            //     ? selectedChallengeArray.includes(challenge.id)
-            //       ? "challenge-card-details-name challenge-card-details-name-first"
-            //       : "challenge-card-details-name"
-            //     : selectedChallenge == challenge.id
-            //       ? "challenge-card-details-name challenge-card-details-name-first"
-            //       : "challenge-card-details-name"
-            // }
-            className="challenge-card-details-name"
-          >
+          <div className="challenge-card-details-name">
             {challenge.challengeName}
           </div>
-          <div
-            // className={
-            //   selectedAction === "Compare"
-            //     ? selectedChallengeArray.includes(challenge.id)
-            //       ? "challenge-card-details-start-date-time challenge-card-details-start-date-time-first"
-            //       : "challenge-card-details-start-date-time"
-            //     : selectedChallenge == challenge.id
-            //       ? "challenge-card-details-start-date-time challenge-card-details-start-date-time-first"
-            //       : "challenge-card-details-start-date-time"
-            // }
-            className="challenge-card-details-start-date-time"
-          >
-            {/* starts at{' '}
-            {startTime?.toLocaleString('en-US', {
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true,
-            })} */}
-          </div>
+          <div className="challenge-card-details-start-date-time"></div>
         </div>
         <div
           className="event-image-card-avatar-div"

@@ -50,6 +50,7 @@ import {
 import { useHistory } from "react-router-dom";
 import { PROGRAMS } from "../constants/footerTabs";
 import "../styles/DashboardWithParam.css";
+import { PrimaryButton } from "./Form";
 
 const Programs = (props) => {
   // Getting default tab for dashboard
@@ -1134,16 +1135,15 @@ const Programs = (props) => {
                   }}
                 />
               )}
-              <div
-                style={{ marginLeft: "1rem" }}
+              <PrimaryButton
+                mini
                 onClick={() => {
                   localStorage.setItem("view", "event");
                   history.push("/default-view");
                 }}
-                className="viewEventButton"
               >
                 View Events
-              </div>
+              </PrimaryButton>
             </div>
           </div>
 

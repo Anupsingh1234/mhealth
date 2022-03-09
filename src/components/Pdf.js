@@ -56,7 +56,8 @@ export const Pdf = () => {
       const pdf = new jsPDF();
       pdf.addImage(imgData, "PNG", 5, 5, 200, 288);
       pdf.save("Certificate.pdf");
-      history.push("/dashboard");
+      // history.push("/dashboard");
+      history.push("/programs");
     });
   };
 

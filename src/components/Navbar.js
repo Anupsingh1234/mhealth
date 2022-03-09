@@ -29,11 +29,11 @@ function Navbar({ className }) {
     //   localStorage.getItem('role') !== 'Customer')
     condition && condition.isAdmin === true
       ? [
-          {
-            pageLink: "/dashboard",
-            displayName: "Dashboard",
-            showInNavbar: true,
-          },
+          // {
+          //   pageLink: "/dashboard",
+          //   displayName: "Dashboard",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/admin",
             // view: Admin,
@@ -85,11 +85,11 @@ function Navbar({ className }) {
         ]
       : condition && condition.isModerator === true
       ? [
-          {
-            pageLink: "/dashboard",
-            displayName: "Dashboard",
-            showInNavbar: true,
-          },
+          // {
+          //   pageLink: "/dashboard",
+          //   displayName: "Dashboard",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/admin",
             // view: Admin,
@@ -136,11 +136,11 @@ function Navbar({ className }) {
           },
         ]
       : [
-          {
-            pageLink: "/dashboard",
-            displayName: "Dashboard",
-            showInNavbar: true,
-          },
+          // {
+          //   pageLink: "/dashboard",
+          //   displayName: "Dashboard",
+          //   showInNavbar: true,
+          // },
           {
             pageLink: "/profile",
             displayName: "Profile",
@@ -238,11 +238,11 @@ function Navbar({ className }) {
 
         {windowSize.width > 769 && (
           <React.Fragment>
-            <Link to="/dashboard">
+            {/* <Link to="/dashboard">
               <span>
                 <Icon.Home {...activeNavIcon("/dashboard")} />
               </span>
-            </Link>
+            </Link> */}
             {condition && condition.isAdmin == true ? (
               <>
                 <Link to="/admin">

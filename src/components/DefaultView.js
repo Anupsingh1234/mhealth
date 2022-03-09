@@ -47,6 +47,7 @@ import {
   ACTION_ICONS_COLOR,
   ACTION_ICONS_BGCOLOR,
 } from "../constants/dashboardAction";
+import { PrimaryButton } from "./Form/Button";
 
 import { useHistory } from "react-router-dom";
 
@@ -1109,15 +1110,15 @@ const Programs = () => {
                     }}
                   />
                 )}
-                <div
+                <PrimaryButton
+                  mini
                   onClick={() => {
                     history.push("/programs");
                     localStorage.setItem("view", "program");
                   }}
-                  className="viewEventButton"
                 >
                   View Programs
-                </div>
+                </PrimaryButton>
               </div>
             </div>
           </div>
