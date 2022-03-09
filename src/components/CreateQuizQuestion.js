@@ -499,8 +499,8 @@ const Admin123 = () => {
 
   return (
     <div className="Profile" style={{ height: "auto", overflowX: "hidden" }}>
-      <TopUserDetails />
-      <Navbar />
+      {/* <TopUserDetails />
+      <Navbar /> */}
       <div className="profile-background" style={{ overflowX: "hidden" }}>
         <div
           className="form reset-form"

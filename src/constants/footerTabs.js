@@ -18,6 +18,7 @@ import {
   faWalking,
   faHiking,
   faCog,
+  faArchive,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const PROGRAMS = [
@@ -61,10 +62,10 @@ export const PROGRAMS = [
     key: "settings",
     title: "Settings",
     onClick: () => {
-      window.location.replace("/#/program/settings");
+      window.location.replace("/#/settings");
     },
     icon: faCog,
-    selected: window.location.hash === "#/program/settings",
+    selected: window.location.hash === "#/settings",
   },
   {
     key: "report",
@@ -75,34 +76,21 @@ export const PROGRAMS = [
     icon: faBook,
     selected: window.location.hash === "#/program/report",
   },
+  {
+    key: "eventmanagement",
+    title: "Event Management",
+    onClick: () => {
+      window.location.replace("/#/eventmanagement");
+    },
+    icon: faArchive,
+    selected: window.location.hash === "#/eventmanagement",
+  },
   // { key: "manage", title: "Manage", onClick: () => { window.location.replace("/#/program/manage") }, icon: faChess, selected: window.location.hash === "#/program/manage" },
-];
-
-export const SETTINGS = [
-  { key: "home", title: "Home", route: "/programs", icon: faHome },
-  {
-    key: "data_source",
-    title: "Data Source",
-    route: "/action/gallery",
-    icon: faDatabase,
-  },
-  {
-    key: "profile",
-    title: "Profile",
-    route: "/action/gallery",
-    icon: faAddressCard,
-  },
-  {
-    key: "reset_pin",
-    title: "Reset Pin",
-    route: "/action/gallery",
-    icon: faKey,
-  },
 ];
 
 export const REPORT = [
   { key: "home", title: "Home", route: "/programs", icon: faHome },
-  { key: "report", title: "Report", route: "/action/gallery", icon: faBook },
+  { key: "report", title: "Report", route: "/action/report", icon: faBook },
 ];
 
 // export const MANAGE = [

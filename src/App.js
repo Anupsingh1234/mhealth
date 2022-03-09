@@ -25,6 +25,7 @@ import {
   faHiking,
   faBook,
   faCog,
+  faArchive,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Login = lazy(() => import("./components/Login/Login"));
@@ -51,12 +52,14 @@ const Programs = lazy(() => import("./components/Programs"));
 const DefaultView = lazy(() => import("./components/DefaultView"));
 const Footer = lazy(() => import("./components/Footer"));
 const Forum = lazy(() => import("./components/Forum"));
+const Settings = lazy(() => import("./components/Settings"));
 const Messages = lazy(() => import("./components/Forum/components/Messages"));
 import Modal from "react-modal";
 import ThemeContext from "./context/ThemeContext";
 
 import axios from "axios";
 import classNames from "classnames";
+
 Modal.setAppElement("#root");
 
 const App = () => {
@@ -104,10 +107,10 @@ const App = () => {
       key: "settings",
       title: "Settings",
       onClick: () => {
-        window.location.replace("/#/program/settings");
+        window.location.replace("/#/settings");
       },
       icon: faCog,
-      selected: window.location.hash === "#/program/settings",
+      selected: window.location.hash === "#/settings",
     },
     {
       key: "report",
@@ -117,6 +120,15 @@ const App = () => {
       },
       icon: faBook,
       selected: window.location.hash === "#/program/report",
+    },
+    {
+      key: "eventmanagement",
+      title: "Event Management",
+      onClick: () => {
+        window.location.replace("/#/eventmanagement");
+      },
+      icon: faArchive,
+      selected: window.location.hash === "#/eventmanagement",
     },
     // { key: "manage", title: "Manage", onClick: () => { window.location.replace("/#/program/manage") }, icon: faChess, selected: window.location.hash === "#/program/manage" },
   ];
@@ -130,6 +142,12 @@ const App = () => {
             pageLink: "/",
             view: Login,
             displayName: "Login",
+            showInNavbar: true,
+          },
+          {
+            pageLink: "/settings",
+            view: Settings,
+            displayName: "Settings",
             showInNavbar: true,
           },
           {
@@ -244,6 +262,12 @@ const App = () => {
             showInNavbar: true,
           },
           {
+            pageLink: "/settings",
+            view: Settings,
+            displayName: "Settings",
+            showInNavbar: true,
+          },
+          {
             pageLink: "/pdf",
             view: Pdf,
             displayName: "Pdf",
@@ -351,6 +375,12 @@ const App = () => {
             pageLink: "/",
             view: Login,
             displayName: "Login",
+            showInNavbar: true,
+          },
+          {
+            pageLink: "/settings",
+            view: Settings,
+            displayName: "Settings",
             showInNavbar: true,
           },
           {

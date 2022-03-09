@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SubEventCard from "./SubEventCard";
 import FallbackDiv from "../../Utility/FallbackDiv";
 import useActivity from "../hooks/useActivity";
@@ -6,8 +6,12 @@ import NoData from "../../NoData";
 import DateRangePickerW from "./DateRangePickerW";
 import TriStateToggle from "./TriStateToggle";
 import "../../../styles/Activity.css";
+import ThemeContext from "../../../context/ThemeContext";
+import classNames from "classnames";
 
 const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
+  const { theme } = useContext(ThemeContext);
+  console.log({ theme });
   const [selval, setselval] = useState("");
 
   const [mystyle, setmystyle] = useState({
@@ -211,7 +215,7 @@ const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
   return (
     <>
       {/* Todo: Remove top filters if not needed */}
-      <div className="activityContainerv2">
+      <div className="flex flex-col mt-4 border border-[#f3f4f6] p-4 bg-[#f9fafb] mx-8 h-[75vh] overflow-scroll">
         <div className="filterContainer">
           <div className="challenge-selector">
             <div className="ch-heading">Programs</div>

@@ -64,7 +64,6 @@ const Activity = ({ eventId, currentEventObj }) => {
       let unique = [
         ...new Map(data.map((item) => [item["eventType"], item])).values(),
       ];
-      console.log(unique.typeof);
       setdataarr(unique);
       // setuniquearr()
     }, [data]);

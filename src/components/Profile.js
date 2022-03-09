@@ -382,30 +382,31 @@ const Profile = (props) => {
       });
   }, []);
 
-  useEffect(() => {
-    const { setFooterTabs } = props;
-    const SETTINGS_TABS = [
-      {
-        key: "home",
-        title: "Home",
-        onClick: () => {
-          window.location.replace("/#/program/settings");
-        },
-        selected: false,
-        icon: faHome,
-      },
-      {
-        key: "profile",
-        title: "Profile",
-        onClick: () => {
-          window.location.replace("/#/profile");
-        },
-        icon: faAddressCard,
-        selected: window.location.hash === "#/profile",
-      },
-    ];
-    setFooterTabs(SETTINGS_TABS);
-  }, []);
+  // because of new implementation
+  // useEffect(() => {
+  //   const { setFooterTabs } = props;
+  //   const SETTINGS_TABS = [
+  //     {
+  //       key: "home",
+  //       title: "Home",
+  //       onClick: () => {
+  //         window.location.replace("/#/settings");
+  //       },
+  //       selected: false,
+  //       icon: faHome,
+  //     },
+  //     {
+  //       key: "profile",
+  //       title: "Profile",
+  //       onClick: () => {
+  //         window.location.replace("/#/profile");
+  //       },
+  //       icon: faAddressCard,
+  //       selected: window.location.hash === "#/profile",
+  //     },
+  //   ];
+  //   setFooterTabs(SETTINGS_TABS);
+  // }, []);
   const handleInputChange = (type, value) => {
     setUserDetails({
       ...userDetails,
@@ -738,9 +739,9 @@ const Profile = (props) => {
   return (
     <>
       <div className="Profile">
-        <TopUserDetails updateAgain={updateAgain} />
-        <Navbar />
-        <div className="flex flex-col min-h-[100vh] bg-[#518ad6] justify-center items-center md:ml-20">
+        {/* <TopUserDetails updateAgain={updateAgain} /> */}
+        {/* <Navbar /> */}
+        <div className="flex flex-col min-h-[100vh] bg-[#518ad6] justify-center items-center">
           <div className="basic-info flex-row gap-2 justify-center items-center">
             <div className="bg-white mr-2 rounded-md p-4">
               <div className="mhealth-input-box padding-05em">

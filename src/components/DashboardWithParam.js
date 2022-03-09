@@ -135,6 +135,7 @@ const Dashboard = (props) => {
         case "achievement":
         case "Challenge":
         case "team":
+        case "Source":
           const WALKATHON_TABS = [
             {
               key: "home",
@@ -254,6 +255,21 @@ const Dashboard = (props) => {
               icon: faUserFriends,
               selected: dashboardState.selectedAction === "team",
             },
+            {
+              key: "data_source",
+              title: "Source",
+              onClick: () => {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    selectedAction: "Source",
+                    listOfChallenges: getCurrentAllEvents(),
+                  };
+                });
+              },
+              icon: faUserFriends,
+              selected: dashboardState.selectedAction === "Source",
+            },
           ];
           setFooterTabs(WALKATHON_TABS);
           return;
@@ -307,24 +323,6 @@ const Dashboard = (props) => {
               icon: faDatabase,
               selected: dashboardState.selectedAction === "Source",
             },
-            // {
-            //   key: "profile",
-            //   title: "Profile",
-            //   onClick: () => {
-            //     setDashboardState((prevState) => {
-            //       return {
-            //         ...prevState,
-            //         selectedAction: "Activities",
-            //         selectedChallengeArray: [],
-            //         compareData: { data: [], categories: [] },
-            //         listOfChallenges: getCurrentAllEvents(),
-            //       };
-            //     })
-            //     window.location.replace("/#/profile")
-            //   },
-            //   icon: faChess,
-            //   selected: dashboardState.selectedAction === "Activities"
-            // },
           ];
           setFooterTabs(SETTINGS_TABS);
           return;
@@ -432,15 +430,9 @@ const Dashboard = (props) => {
           ];
           setFooterTabs(GALLERY_TABS);
           return;
-        // case "settings":
-        //   setFooterTabs(FOOTER_TABS.SETTINGS)
-        //   return
         case "report":
           setFooterTabs(FOOTER_TABS.REPORT);
           return;
-        // case "manage":
-        //   setFooterTabs(FOOTER_TABS.MANAGE)
-        //   return
       }
     }
   }, [id, dashboardState.selectedAction]);
@@ -1599,7 +1591,7 @@ const Dashboard = (props) => {
               (dashboardState.challengeSwitch === "current" ||
                 dashboardState.challengeSwitch === "upcoming") &&
               dashboardState.listOfChallenges.length > 0 &&
-              id === "settings"
+              id === "walkathon"
             }
             onClick={() => {
               setDashboardState((prevState) => {
