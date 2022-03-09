@@ -642,7 +642,7 @@ const MisReport = () => {
   return (
     <div className="Profile" style={{ height: "auto", overflowX: "hidden" }}>
       <TopUserDetails />
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="profile-background" style={{ overflowX: "hidden" }}>
         <div
           className="form reset-form"

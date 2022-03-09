@@ -1094,7 +1094,7 @@ const Programs = (props) => {
     <div className="Dasboard">
       {/* <Navbar /> */}
 
-      <div className="flex flex-col min-h-[100vh] bg-white">
+      <div className="flex flex-col min-h-[100vh] bg-white mx-12">
         <ChallengeList>
           <TopUserDetails />
           <div className="challengesContainer">

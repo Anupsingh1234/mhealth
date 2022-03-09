@@ -141,7 +141,7 @@ const EventManagement = () => {
     <>
       <div style={{ minHeight: "100vh", width: "100vw", background: "#fff" }}>
         <TopUserDetails />
-        <Navbar />
+        {/* <Navbar /> */}
 
         <div className="Main">
           <div className="Challenges">

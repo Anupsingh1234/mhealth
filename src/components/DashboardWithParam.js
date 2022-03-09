@@ -60,6 +60,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "../styles/DashboardWithParam.css";
+import { PrimaryButton } from "./Form/Button";
 
 const Dashboard = (props) => {
   const [dashboardState, setDashboardState] = useState({
@@ -1681,9 +1682,9 @@ const Dashboard = (props) => {
   const { location } = useLocation();
   return (
     <div className="Dasboard">
-      <Navbar />
+      {/* <Navbar /> */}
       {dashboardState.selectedAction === "Activities" ? (
-        <div className="Main">
+        <div className="flex flex-col min-h-[100vh] bg-white mx-12">
           <TopUserDetails />
           <TopRow
             {...{
@@ -1809,14 +1810,14 @@ const TopRow = ({
             setEventDetailModal(true);
           }}
         />
-        <div
+        <PrimaryButton
+          mini
           onClick={() => {
             history.push("/default-view");
           }}
-          className="viewEventButton"
         >
           All Events
-        </div>
+        </PrimaryButton>
       </div>
 
       {eventDetailModal && (

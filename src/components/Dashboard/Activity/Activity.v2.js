@@ -11,7 +11,6 @@ import classNames from "classnames";
 
 const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
   const { theme } = useContext(ThemeContext);
-  console.log({ theme });
   const [selval, setselval] = useState("");
 
   const [mystyle, setmystyle] = useState({
@@ -198,6 +197,16 @@ const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
             ? "filter-button-program selected-filter-button"
             : "filter-button-program"
         }
+        style={{
+          background:
+            type.toUpperCase() === selectedFilter.toUpperCase()
+              ? theme.buttonBGColor
+              : undefined,
+          color:
+            type.toUpperCase() === selectedFilter.toUpperCase()
+              ? theme.buttonTextColor
+              : undefined,
+        }}
         onClick={() => {
           setSelectedFilter(type);
         }}
@@ -219,13 +228,15 @@ const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
         <div className="filterContainer">
           <div className="challenge-selector">
             <div className="ch-heading">Programs</div>
-            <TriStateToggle
-              values={["all", "old", "Subscribed", "Available"]}
-              selected={selectedFilter}
-              handleChange={(value) => {
-                setSelectedFilter(value);
-              }}
-            />
+            <div className="w-[16.5rem] overflow-hidden">
+              <TriStateToggle
+                values={["all", "old", "Subscribed", "Available"]}
+                selected={selectedFilter}
+                handleChange={(value) => {
+                  setSelectedFilter(value);
+                }}
+              />
+            </div>
           </div>
 
           <div className="challenge-selector">

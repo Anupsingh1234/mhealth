@@ -1444,7 +1444,7 @@ const SubEventCard = ({
         className="challenge-card"
         style={
           type == "view"
-            ? { margin: "25px 5px", height: "auto", cursor: "default" }
+            ? { margin: "35px 5px", height: "auto", cursor: "default" }
             : { height: "auto" }
         }
       >

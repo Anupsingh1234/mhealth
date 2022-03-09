@@ -1087,9 +1087,9 @@ const Programs = () => {
 
   return (
     <div className="Dasboard">
-      <Navbar />
+      {/* <Navbar /> */}
 
-      <div className="Main">
+      <div className="flex flex-col min-h-[100vh] bg-white mx-12">
         <ChallengeList>
           <TopUserDetails />
           <div className="challengesContainer" style={{ marginBottom: "1rem" }}>

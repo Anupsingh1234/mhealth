@@ -621,7 +621,7 @@ h3 > span {
 .challenge-card-start-date {
   border-radius: 12px;
   width: 7rem;
-  height: 3.4rem;
+  height: max-content;
   background-color: #fff;
   position: absolute;
   bottom: -30px;

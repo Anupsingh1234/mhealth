@@ -406,7 +406,7 @@ const EventCard = ({
         <div
           className="event-image-card-avatar-div"
           style={{
-            bottom: -48,
+            bottom: 38,
             right: 12,
             left: "auto",
           }}
