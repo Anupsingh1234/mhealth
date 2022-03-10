@@ -50,6 +50,7 @@ import {
 import { PrimaryButton } from "./Form/Button";
 
 import { useHistory } from "react-router-dom";
+import classNames from "classnames";
 
 const Programs = () => {
   const [dashboardState, setDashboardState] = useState({
@@ -1086,45 +1087,38 @@ const Programs = () => {
   }));
 
   return (
-    <div className="Dasboard">
-      {/* <Navbar /> */}
-
-      <div className="flex flex-col min-h-[100vh] bg-white mx-12">
-        <ChallengeList>
-          <TopUserDetails />
-          <div className="challengesContainer" style={{ marginBottom: "1rem" }}>
-            <div className="challenge-selector">
-              <div className="challenges-heading">Challenges</div>
-              <TriStateToggle
-                values={["old", "current", "upcoming"]}
-                selected={dashboardState.challengeSwitch}
-                handleChange={handleToggleStateChange}
-              />
-              <div style={{ display: "flex", alignItems: "center" }}>
-                {eventDetailModal && (
-                  <EventInfoModal
-                    challenge={dashboardState.selectedChallengeObject}
-                    modalView={eventDetailModal}
-                    setModalView={() => {
-                      setEventDetailModal(false);
-                    }}
-                  />
-                )}
-                <PrimaryButton
-                  mini
-                  onClick={() => {
-                    history.push("/programs");
-                    localStorage.setItem("view", "program");
-                  }}
-                >
-                  View Programs
-                </PrimaryButton>
-              </div>
-            </div>
+    <div
+      className={classNames(
+        "bg-white flex flex-col",
+        "border border-red-800 min-h-[100vh] md:px-12 md:py-8 md:gap-4"
+      )}
+    >
+      <ChallengeList>
+        <TopUserDetails />
+        <div className="flex flex-col items-center md:flex-row gap-2 md:gap-8">
+          <p className="text-sm font-semibold">Challenges</p>
+          <TriStateToggle
+            values={["old", "current", "upcoming"]}
+            selected={dashboardState.challengeSwitch}
+            handleChange={handleToggleStateChange}
+          />
+          <div>
+            <PrimaryButton
+              mini
+              onClick={() => {
+                history.push("/programs");
+                localStorage.setItem("view", "program");
+              }}
+              className="text-xs"
+            >
+              View Programs
+            </PrimaryButton>
           </div>
-        </ChallengeList>
+        </div>
+      </ChallengeList>
 
-        <DefaultDashboard handleSearchEvent={handleSearchEvent}>
+      <DefaultDashboard handleSearchEvent={handleSearchEvent}>
+        <div className="mx-2">
           <ListOfEvents
             handleChallengeCardClick={handleChallengeCardClick}
             fetchChallenges={fetchChallenges}
@@ -1140,28 +1134,28 @@ const Programs = () => {
             selectedChallengeArray={dashboardState.selectedChallengeArray}
             selectedChallenge={dashboardState.selectedChallenge}
           />
-        </DefaultDashboard>
+        </div>
+      </DefaultDashboard>
 
-        {/* Event Register Modal by localStorage */}
-        {localStorage.challengeIDRegister &&
-          localStorage.mobileNumber &&
-          dashboardState.allChallenge.length > 0 && (
-            <EventRegisterModal
-              challenge={
-                dashboardState.allChallenge.filter(
-                  (ch) => ch.id === parseInt(localStorage.challengeIDRegister)
-                )[0] ?? {}
-              }
-              modalView={showRegisterModal}
-              setModalView={() => {
-                localStorage.removeItem("challengeIDRegister");
-                setShowRegisterModal(false);
-              }}
-              setDashboardState={setDashboardState}
-              instruction_details={dashboardState?.instruction_details}
-            />
-          )}
-      </div>
+      {/* Event Register Modal by localStorage */}
+      {localStorage.challengeIDRegister &&
+        localStorage.mobileNumber &&
+        dashboardState.allChallenge.length > 0 && (
+          <EventRegisterModal
+            challenge={
+              dashboardState.allChallenge.filter(
+                (ch) => ch.id === parseInt(localStorage.challengeIDRegister)
+              )[0] ?? {}
+            }
+            modalView={showRegisterModal}
+            setModalView={() => {
+              localStorage.removeItem("challengeIDRegister");
+              setShowRegisterModal(false);
+            }}
+            setDashboardState={setDashboardState}
+            instruction_details={dashboardState?.instruction_details}
+          />
+        )}
 
       {/* Challenge Status */}
       {displayChallengeStatus && (
@@ -1170,6 +1164,15 @@ const Programs = () => {
             challengeStatusMsg,
             setDisplayChallengeStatus,
             displayChallengeStatus,
+          }}
+        />
+      )}
+      {eventDetailModal && (
+        <EventInfoModal
+          challenge={dashboardState.selectedChallengeObject}
+          modalView={eventDetailModal}
+          setModalView={() => {
+            setEventDetailModal(false);
           }}
         />
       )}

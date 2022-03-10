@@ -36,6 +36,7 @@ import {
 import axios from "axios";
 import InfoDialog from "./Utility/InfoDialog";
 import { PrimaryButton } from "./Form";
+import classNames from "classnames";
 // import FormItem from 'antd/lib/form/FormItem';
 
 const Admin123 = () => {
@@ -498,20 +499,21 @@ const Admin123 = () => {
   const [image, setImage] = useState("question");
 
   return (
-    <div className="Profile" style={{ height: "auto", overflowX: "hidden" }}>
+    <div
+      className={classNames(
+        "flex flex-col bg-[white] min-w-[100vw] justify-center items-center"
+      )}
+    >
       {/* <TopUserDetails />
       <Navbar /> */}
-      <div className="profile-background" style={{ overflowX: "hidden" }}>
+      <div>
         <div
-          className="form reset-form"
           style={{
             marginTop: 0,
-            width: "90%",
             height: "auto",
-            // marginTop: 0,
-            // marginTop: "20px"
             marginTop: "2%",
           }}
+          className="border border-gray-200 rounded"
         >
           <Tabs style={{ marginTop: 0 }}>
             {" "}

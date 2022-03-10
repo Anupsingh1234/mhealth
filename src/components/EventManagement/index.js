@@ -139,7 +139,10 @@ const EventManagement = () => {
   };
   return (
     <>
-      <div style={{ minHeight: "100vh", width: "100vw", background: "#fff" }}>
+      <div
+        style={{ minHeight: "100vh", width: "100vw", background: "#fff" }}
+        className="overflow-scroll"
+      >
         <TopUserDetails />
         {/* <Navbar /> */}
 

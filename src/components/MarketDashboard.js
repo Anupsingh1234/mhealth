@@ -57,19 +57,16 @@ const MarketDashboard = () => {
   const handleChange = (e) => {
     setEventValue(e.target.value);
   };
-  console.log(eventValue, "eventDetails");
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <TopUserDetails />
-      <div style={{ backgroundColor: "white" }}>
+      <div className="bg-white w-[80vw] max-h-[80vh] overflow-scroll border border-gray-100 rounded-lg">
         {event.length > 1 ? (
           <div
             className="select_date"
             style={{
-              maxWidth: "250px",
-              // overflowX: "scroll",
               justifyContent: "center",
               alignItems: "center",
               top: 20,

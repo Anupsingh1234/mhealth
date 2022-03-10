@@ -1141,6 +1141,7 @@ const Programs = (props) => {
                   localStorage.setItem("view", "event");
                   history.push("/default-view");
                 }}
+                className="text-xs"
               >
                 View Events
               </PrimaryButton>

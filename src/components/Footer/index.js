@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 
 import "./Footer.css";
+import classNames from "classnames";
 
 const Footer = (props) => {
   const { tabs } = props;
@@ -43,7 +44,14 @@ const Tab = ({ tab }) => {
         className="icon"
         color={getClass(tab) ? "#fff" : "#555"}
       />
-      <p>{tab.title}</p>
+      <p
+        className={classNames(
+          "m-0 mt-[0.25rem] p-0 font-semibold leading-snug text-[10px]",
+          getClass(tab) ? "text-white" : "text-black"
+        )}
+      >
+        {tab.title}
+      </p>
     </div>
   );
 };

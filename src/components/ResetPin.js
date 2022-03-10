@@ -7,6 +7,7 @@ import TopUserDetails from "./TopUserDetails";
 import ResetPin1 from "../assets/resetPin.svg";
 import { faChess, faHome, faKey } from "@fortawesome/free-solid-svg-icons";
 import { PrimaryButton } from "./Form";
+import classNames from "classnames";
 
 const ResetPin = (props) => {
   const [userDetails, setUserDetails] = useState({
@@ -87,17 +88,18 @@ const ResetPin = (props) => {
 
   const { oldPin, newPin, confirmPin } = userDetails;
   return (
-    <div className="Profile">
+    <div
+      className={classNames(
+        "flex items-center justify-center bg-[white] min-w-[100vw] mt-24"
+      )}
+    >
       {/* <TopUserDetails /> */}
       {/* <Navbar /> */}
-      <div className="profile-background">
-        <div
-          className="form reset-form"
-          style={{
-            minWidth: "30%",
-          }}
-        >
-          <div className="heading ">Provide information to update PIN</div>
+      <div className="flex gap-4">
+        <div className="bg-white border border-gray-200 rounded px-4 py-4">
+          <div className="text-2xl font-semibold mt-1">
+            Provide information to update PIN
+          </div>
           <div className="basic-info-container ">
             <div className="basic-info">
               <div className="mhealth-input-box padding-05em">
@@ -155,7 +157,7 @@ const ResetPin = (props) => {
             </div>
           </div>
         </div>
-        <div className="reset-pin-illustration">
+        <div className="bg-white w-[24rem] flex items-center justify-center">
           <img src={ResetPin1} width={"100%"} height={"100%"} />
         </div>
       </div>

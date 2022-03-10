@@ -76,15 +76,15 @@ export const PROGRAMS = [
     icon: faBook,
     selected: window.location.hash === "#/program/report",
   },
-  {
-    key: "eventmanagement",
-    title: "Event Management",
-    onClick: () => {
-      window.location.replace("/#/eventmanagement");
-    },
-    icon: faArchive,
-    selected: window.location.hash === "#/eventmanagement",
-  },
+  // {
+  //   key: "eventmanagement",
+  //   title: "Event Management",
+  //   onClick: () => {
+  //     window.location.replace("/#/eventmanagement");
+  //   },
+  //   icon: faArchive,
+  //   selected: window.location.hash === "#/eventmanagement",
+  // },
   // { key: "manage", title: "Manage", onClick: () => { window.location.replace("/#/program/manage") }, icon: faChess, selected: window.location.hash === "#/program/manage" },
 ];
 

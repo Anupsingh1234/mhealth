@@ -738,12 +738,16 @@ const Profile = (props) => {
   const [updateAgain, setUpdateAgain] = useState(false);
   return (
     <>
-      <div className="Profile">
+      <div>
         {/* <TopUserDetails updateAgain={updateAgain} /> */}
         {/* <Navbar /> */}
-        <div className="flex flex-col min-h-[100vh] bg-[#518ad6] justify-center items-center">
+        <div
+          className={classNames(
+            "flex flex-col min-h-[80vh] bg-[white] min-w-[100vw] justify-center items-center"
+          )}
+        >
           <div className="basic-info flex-row gap-2 justify-center items-center">
-            <div className="bg-white mr-2 rounded-md p-4">
+            <div className="bg-white mr-2 rounded-md p-4 border border-gray-200">
               <div className="mhealth-input-box padding-05em">
                 <label>Avatar</label>
                 <div className="avatar-container">
@@ -827,7 +831,7 @@ const Profile = (props) => {
               </div>
             </div>
 
-            <div className="bg-white mr-2 rounded-md p-4 flex flex-col gap-2">
+            <div className="bg-white mr-2 rounded-md p-4 flex flex-col gap-2  border border-gray-200">
               <div className="flex">
                 <div className="mhealth-input-box padding-05em">
                   <label className="text-black">First name</label>
@@ -1094,7 +1098,7 @@ const Profile = (props) => {
               </div>
             </div>
 
-            <div className="bg-white rounded-md p-4 flex flex-col gap-2">
+            <div className="bg-white rounded-md p-4 flex flex-col gap-2  border border-gray-200">
               <p className="text-black mb-4" style={{ marginTop: "-5%" }}>
                 Add Dependent
               </p>

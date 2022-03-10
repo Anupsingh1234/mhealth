@@ -1683,9 +1683,9 @@ const Dashboard = (props) => {
   return (
     <div className="Dasboard">
       {/* <Navbar /> */}
+      <TopUserDetails />
       {dashboardState.selectedAction === "Activities" ? (
         <div className="flex flex-col min-h-[100vh] bg-white mx-12">
-          <TopUserDetails />
           <TopRow
             {...{
               history,

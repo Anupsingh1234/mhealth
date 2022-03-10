@@ -26,6 +26,7 @@ import message from "antd-message";
 import { TextField } from "@material-ui/core";
 import { EditAttributesSharp } from "@material-ui/icons";
 import { PrimaryButton } from "./Form";
+import classNames from "classnames";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -431,7 +432,13 @@ export default function SocialPostComponent() {
   };
 
   return (
-    <div className="bg-white w-[600px] flex flex-col items-center justify-center mt-2 rounded">
+    <div
+      className={classNames(
+        "bg-white w-[600px] flex flex-col items-center",
+        "justify-center mt-2 rounded-lg border border-gray-200",
+        "mt-12 px-4 py-2"
+      )}
+    >
       <h3>
         <u>Social Post</u>
       </h3>

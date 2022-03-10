@@ -57,6 +57,7 @@ import SundayChallengeReport from "./PerformanceTeam/SundayChallengeReport";
 import CorporateReport from "./PerformanceTeam/CorporateReport";
 import ActivityReport from "./ActivityReport";
 import { PrimaryButton } from "./Form";
+import classNames from "classnames";
 const MisReport = () => {
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = useState(true);
@@ -640,18 +641,15 @@ const MisReport = () => {
   const classes1 = useStyles1();
 
   return (
-    <div className="Profile" style={{ height: "auto", overflowX: "hidden" }}>
+    <div className="bg-white min-h-[100vh]">
       <TopUserDetails />
       {/* <Navbar /> */}
-      <div className="profile-background" style={{ overflowX: "hidden" }}>
+      <div className="bg-white border border-gray-200 rounded-lg min-h-[100vh]">
         <div
-          className="form reset-form"
           style={{
             marginTop: 40,
-            width: "90%",
             height: "auto",
             marginTop: 50,
-            // marginTop: "20px"
           }}
         >
           <Tabs style={{ marginTop: 20 }}>

@@ -7,6 +7,7 @@ import {
   faUserPlus,
   faLocationArrow,
   faLink,
+  faArchive,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Profile from "./Profile";
@@ -15,10 +16,15 @@ import CreateQuiz from "./CreateQuizQuestion";
 import MarketDashboard from "./MarketDashboard";
 import SocialPostComponent from "./SocialPostComponent";
 import SocialLinkComponent from "./SocialLinkComponent";
+import EventManagement from "./EventManagement";
 import classNames from "classnames";
+import TopUserDetails from "./TopUserDetails";
 
 const Settings = () => {
   const [selectedTab, setSelectedTab] = useState("profile");
+  const condition = JSON?.parse(localStorage.getItem("condition"));
+  const isAdmin = condition && condition.isAdmin === true;
+  const isModerator = condition && condition.isModerator === true;
   const actions = [
     {
       id: "profile",
@@ -27,6 +33,7 @@ const Settings = () => {
       onClick: () => {
         setSelectedTab("profile");
       },
+      display: true,
     },
     {
       id: "reset_pin",
@@ -35,6 +42,7 @@ const Settings = () => {
       onClick: () => {
         setSelectedTab("reset_pin");
       },
+      display: true,
     },
     {
       id: "admin",
@@ -43,6 +51,7 @@ const Settings = () => {
       onClick: () => {
         setSelectedTab("admin");
       },
+      display: isAdmin || isModerator,
     },
     {
       id: "market_place",
@@ -51,6 +60,7 @@ const Settings = () => {
       onClick: () => {
         setSelectedTab("market_place");
       },
+      display: isAdmin || isModerator,
     },
     {
       id: "social_post",
@@ -59,6 +69,7 @@ const Settings = () => {
       onClick: () => {
         setSelectedTab("social_post");
       },
+      display: isModerator,
     },
     {
       id: "social_link",
@@ -67,10 +78,22 @@ const Settings = () => {
       onClick: () => {
         setSelectedTab("social_link");
       },
+      display: isModerator,
+    },
+    {
+      id: "eventmanagement",
+      label: "Event Management",
+      icon: faArchive,
+      onClick: () => {
+        setSelectedTab("eventmanagement");
+      },
+      display: isAdmin,
     },
   ];
+
   return (
-    <div className="bg-[#518ad6] h-[100vh] w-[100vw] flex flex-col items-center">
+    <div className="bg-white h-[100vh] w-[100vw] flex flex-col items-center">
+      <TopUserDetails />
       <div
         className={classNames(
           "flex flex-col gap-4",
@@ -78,20 +101,23 @@ const Settings = () => {
           "text-center mt-2"
         )}
       >
-        <div className="flex gap-4">
-          {actions.map(({ icon, label, onClick, id }, index) => (
-            <Actions
-              {...{
-                icon,
-                label,
-                onClick,
-                index,
-                id,
-                selectedTab,
-                setSelectedTab,
-              }}
-            />
-          ))}
+        <div className="flex">
+          {actions
+            .filter((action) => action.display)
+            .map(({ icon, label, onClick, id, display }, index) => (
+              <Actions
+                {...{
+                  icon,
+                  label,
+                  onClick,
+                  index,
+                  id,
+                  display,
+                  selectedTab,
+                  setSelectedTab,
+                }}
+              />
+            ))}
         </div>
       </div>
       <div>{renderComponent(selectedTab)}</div>
@@ -105,29 +131,32 @@ const Actions = ({
   onClick,
   index,
   id,
+  display,
   selectedTab,
   setSelectedTab,
 }) => (
-  <div>
-    <div
-      key={index}
-      role="button"
-      tabIndex={index}
-      onClick={onClick}
-      className={classNames(
-        "cursor-pointer flex flex-col items-center justify-center",
-        "w-[50px] h-[50px] rounded-full text-sm",
-        { "text-black bg-white": id === selectedTab },
-        { "text-white bg-black": id !== selectedTab }
-      )}
-    >
-      <FontAwesomeIcon
-        icon={icon}
-        size="1x"
-        color={id !== selectedTab ? "#fff" : "#000"}
-      />
+  <div className="flex flex-col items-center justify-center w-[80px] h-[auto]">
+    <div className="h-[60px] flex items-center">
+      <div
+        key={index}
+        role="button"
+        tabIndex={index}
+        onClick={onClick}
+        className={classNames(
+          "cursor-pointer flex flex-col items-center justify-center",
+          "w-[50px] h-[50px] rounded-full text-sm",
+          { "text-black bg-gray-200": id === selectedTab },
+          { "text-white bg-black": id !== selectedTab }
+        )}
+      >
+        <FontAwesomeIcon
+          icon={icon}
+          size="1x"
+          color={id !== selectedTab ? "#fff" : "#000"}
+        />
+      </div>
     </div>
-    <p className="text-xs mt-1">{label}</p>
+    <p className="text-xs mt-1 h-[40px]">{label}</p>
   </div>
 );
 
@@ -145,6 +174,8 @@ const renderComponent = (selectedTab) => {
       return <SocialLinkComponent />;
     case "social_post":
       return <SocialPostComponent />;
+    case "eventmanagement":
+      return <EventManagement />;
     default:
       return "";
   }

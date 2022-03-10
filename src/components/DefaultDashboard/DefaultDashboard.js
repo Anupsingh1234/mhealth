@@ -7,7 +7,9 @@ const DefaultDashboard = (props) => {
   return (
     <div>
       {children}
-      <SearchByCode handleSearchEvent={handleSearchEvent} />
+      <div className="mx-2">
+        <SearchByCode handleSearchEvent={handleSearchEvent} />
+      </div>
     </div>
   );
 };

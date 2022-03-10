@@ -398,7 +398,10 @@ const EventCard = ({
           />
         </div>
         <div className="challenge-card-details">
-          <div className="challenge-card-details-name">
+          <div
+            className="challenge-card-details-name"
+            style={cardSelected ? { color: theme.buttonTextColor } : undefined}
+          >
             {challenge.challengeName}
           </div>
           <div className="challenge-card-details-start-date-time"></div>

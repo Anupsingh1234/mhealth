@@ -18,6 +18,7 @@ import FirstPageIcon from "@material-ui/icons/FirstPage";
 import Message from "antd-message";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { PrimaryButton } from "./Form/Button";
+import classNames from "classnames";
 
 import axios from "axios";
 
@@ -455,7 +456,13 @@ export default function EventInfoModal({
   };
 
   return (
-    <div className="bg-white rounded w-[600px] flex flex-col items-center justify-center">
+    <div
+      className={classNames(
+        "bg-white w-[600px] flex flex-col items-center",
+        "justify-center mt-2 rounded-lg border border-gray-200",
+        "mt-12 px-4 py-2"
+      )}
+    >
       <h3>
         <u>Social Link</u>
       </h3>

@@ -10,14 +10,16 @@ import "../../styles/SearchByCode.css";
 const SearchByCode = ({ handleSearchEvent }) => {
   const [keyword, setKeyword] = useState("");
   return (
-    <div className="max-w-xl my-[2rem] mx-auto bg-[#f8fafc] rounded py-[3rem] px-[2rem] flex h-auto items-center justify-center">
+    <div className="max-w-xl my-[2rem] mx-auto bg-[#7dd3fc] rounded py-[3rem] px-[2rem] flex h-auto items-center justify-center">
       <div className="iconDiv">
         <FA icon={faQrcode} size="6x" />
       </div>
       <div className="inputC">
         <div>
           <div className="title">Do you have a code?</div>
-          <div className="subTitle">You can search the event by code.</div>
+          <div className="subTitle" style={{ color: "#fff" }}>
+            You can search the event by code.
+          </div>
         </div>
         <div className="flex flex-col gap-4 md:flex-row mt-[2rem] items-center max-w-xs">
           <Input
@@ -27,14 +29,17 @@ const SearchByCode = ({ handleSearchEvent }) => {
             placeholder="Enter code"
             onChange={(e) => setKeyword(e.target.value)}
             onKeyPress={() => handleSearchEvent(keyword)}
+            className="rounded"
           />
-          <PrimaryButton
-            mini
-            className="ml-2"
-            onClick={() => handleSearchEvent(keyword)}
-          >
-            Search
-          </PrimaryButton>
+          <div>
+            <PrimaryButton
+              mini
+              className="ml-2"
+              onClick={() => handleSearchEvent(keyword)}
+            >
+              Search
+            </PrimaryButton>
+          </div>
         </div>
       </div>
     </div>
