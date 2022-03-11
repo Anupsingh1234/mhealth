@@ -232,7 +232,7 @@ const DietPlan = () => {
             {" "}
             Submit
           </PrimaryButton>
-          <button onClick={pdfDownload}> Download </button>
+          {/* <button onClick={pdfDownload}> Download </button> */}
         </div>
       </div>
       <div style={width}>
@@ -271,11 +271,11 @@ const DietPlan = () => {
                       Coach : {dietplandata && dietplandata?.phc?.coachName} |
                       Program : {dietplandata && dietplandata?.phc?.pname}
                     </h4>
-                    <h4>
+                    {/* <h4>
                       {" "}
                       Mobile no.{" "}
                       {dietplandata && dietplandata?.phc?.phoneNumber}{" "}
-                    </h4>
+                    </h4> */}
                     <h4>
                       Email id: {dietplandata && dietplandata?.phc?.emailId}
                     </h4>
