@@ -57,6 +57,9 @@ const HraCard = (eventID, currentEventObj) => {
   };
   useEffect(()=>{
 card()
+setscoreDetails()
+setcardDetails()
+setProgramList()
   },[eventID])
   const [subcard, setsubcard] = useState(false);
   const [optionId, setoptionId] = useState([]);
@@ -448,19 +451,7 @@ card()
               )}
             </div>
           </div>
-        </>
-      ) : (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <img src={dataSource} width={400} height={200} />
-          <span style={{ margin: "1rem" }}>No Data</span>
-        </div>
-      )}
+        
       {nextquestion == true ? (
         <Paper elevation={3} className="quizPart flex flex-col" style={{}}>
           <div
@@ -584,21 +575,23 @@ card()
             </div>
           </div>
         </Paper>
-      ) : nextquestion == false ? (
+      ) : scoreDetails && nextquestion == false ? (
         <Paper
           elevation={3}
           style={{
-            height: "200px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            minHeight: "200px",
+            maxHeight:'auto',
+            // display: "flex",
+            // justifyContent: "center",
+            // alignItems: "center",
+            
           }}
+          
         >
-          {scoreDetails && (
-            <div
-              style={{
+                   
+          <div style={{
                 marginTop: "30px",
-                marginLeft: "30px",
+                marginLeft: "25%",
                 display: "flex",
                 justifyContent: "space-around",
                 background: "gray",
@@ -606,17 +599,43 @@ card()
                 width: "600px",
                 padding: "15px",
                 borderRadius: "25px",
+                position:'relative'
+                // margin:'10px 10px 10px'
               }}
             >
               <h2> Assessment : {scoreDetails.assesmentName} </h2>{" "}
               <h2> Total score : {scoreDetails.totalScore} </h2>{" "}
+
+              
             </div>
-          )}
+            <div style={{
+                marginTop: "30px",
+                marginLeft: "30px",
+                display: "flex",
+                
+                width: "90%",
+                padding: "15px",
+                borderRadius: "25px",
+                textAlign:'justify'
+              }}>  
+              
+              <div style={{width:'10%',fontWeight:'800',fontSize:'14px'}}>
+              Assessments :
+                </div>
+                <div style={{width:'90%'}}>
+                {scoreDetails.recommedations} 
+                </div>
+              </div>
+           
+    
+
         </Paper>
       ) : (
         ""
       )}
-      {subcard && (
+      {programList1&&programList1.length>0&&(<>
+      <h1>Recommended Program</h1>
+      
         <div style={{ display: "flex", flexWrap: "wrap" }}>
           {programList1.map((subEventDetail) => (
             <>
@@ -628,6 +647,18 @@ card()
               />
             </>
           ))}
+        </div>
+    </>)}</>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <img src={dataSource} width={400} height={200} />
+          <span style={{ margin: "1rem" }}>No Data</span>
         </div>
       )}
     </>
