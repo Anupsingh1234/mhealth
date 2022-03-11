@@ -27,7 +27,7 @@ yarn-error.log*
 
 dump.rdb
 
-package-lock.json
-yarn.lock
+# package-lock.json
+# yarn.lock
 
 .eslintcache

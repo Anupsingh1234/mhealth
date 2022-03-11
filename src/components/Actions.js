@@ -1,7 +1,6 @@
 import React from "react";
 import Navbar from "./Navbar";
 import TopUserDetails from "./TopUserDetails";
-import MultiSelect from "./Form/MultiSelect";
 
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
@@ -60,7 +59,7 @@ const Actions = ({
                         }}
                         className="actionBackButton"
                     /> */}
-            <div style={{ marginLeft: "1rem" }}>
+            {/* <div style={{ marginLeft: "1rem" }}>
               {dashboardState.selectedAction === "Compare" ? (
                 <div
                   style={{
@@ -91,7 +90,7 @@ const Actions = ({
                   </div>
                 </div>
               )}
-            </div>
+            </div> */}
           </div>
 
           {children}
