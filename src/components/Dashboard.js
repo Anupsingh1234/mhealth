@@ -38,7 +38,7 @@ import Quiz from "./QuizForEvents/quiz";
 import Forum from "./Forum";
 import ThemeContext from "../context/ThemeContext";
 import DietPlan from "./Dietplan/DietPlan";
-
+import HRA from "../components/HRA/Index";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -122,6 +122,8 @@ const Dashboard = () => {
           return "challenge";
         case "quiz":
           return "quiz";
+          case "hra":
+            return "hra";
         default:
           return "Activities";
       }
@@ -1012,6 +1014,7 @@ const Dashboard = () => {
         "quiz",
         "forum",
         "dietplan",
+        "hra",
       ].includes(dashboardState.selectedAction)
     ) {
       setDashboardState({
@@ -1167,6 +1170,37 @@ const Dashboard = () => {
                   style={{ justifyContent: "flex-end" }}
                 >
                   <div className="leaderboard-actions">
+                    {dashboardState.listOfChallenges.length > 0 && (
+                      <button
+                        style={{
+                          background:
+                            dashboardState.selectedAction === "hra"
+                              ? theme.buttonTextColor
+                              : theme.buttonBGColor,
+                          color:
+                            dashboardState.selectedAction === "hra"
+                              ? theme.buttonBGColor
+                              : theme.buttonTextColor,
+                          border:
+                            dashboardState.selectedAction === "hra"
+                              ? "1px solid"
+                              : "1px transparent",
+                          borderColor: theme.buttonBGColor,
+                        }}
+                        onClick={() => {
+                          setDashboardState((prevState) => {
+                            return {
+                              ...prevState,
+                              selectedAction: "hra",
+                              listOfChallenges: getCurrentAllEvents(),
+                            };
+                          });
+                        }}
+                      >
+                        HRA
+                      </button>
+                    )}
+
                     {dashboardState.listOfChallenges.length > 0 && (
                       <button
                         style={{
@@ -1687,6 +1721,12 @@ const Dashboard = () => {
             )}
             {dashboardState.selectedAction.toUpperCase() === "FORUM" && (
               <Forum eventID={dashboardState.selectedChallenge} />
+            )}
+            {dashboardState.selectedAction.toUpperCase() === "HRA" && (
+              <HRA
+                eventID={dashboardState.selectedChallenge}
+                currentEventObj={dashboardState.selectedChallengeObject}
+              />
             )}
           </>
         ) : (
