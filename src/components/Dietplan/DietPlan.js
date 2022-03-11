@@ -7,8 +7,9 @@ import TableCell from "@material-ui/core/TableCell";
 import { Paper, TableRow } from "@material-ui/core";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
-import { urlPrefix, secretToken } from "../../services/apicollection";
+import { urlPrefix } from "../../services/apicollection";
 import { PrimaryButton } from "../Form/Button";
+import { jsPDF } from "jspdf";
 
 const DietPlan = () => {
   var currD = [
@@ -60,15 +61,19 @@ const DietPlan = () => {
     "11",
     "12",
   ];
+
   var date = new Date();
   var currentDate = date.getDate();
+
   var days = currentDate;
+
   var last = new Date(date.getTime() - days * 24 * 60 * 60 * 1000);
   var day = last.getDate();
   var month = last.getMonth() + 1;
   var year = last.getFullYear();
   var currentMos = date.getMonth() + 1;
   var currYear = date.getFullYear();
+
   var dates = currD[currentDate];
   var newDate = (parseInt(dates) - 7).toString();
   if (newDate.length == 1) {
@@ -76,6 +81,7 @@ const DietPlan = () => {
   } else {
     dates = newDate;
   }
+
   var to = currYear + "-" + currM[currentMos] + "-" + currD[currentDate];
   var from = year + "-" + currM[currentMos] + "-" + dates;
   const font = {
@@ -129,6 +135,16 @@ const DietPlan = () => {
       minWidth: 120,
     },
   }));
+
+  const pdfDownload = () => {
+    const doc = new jsPDF();
+    earlyMorning?.forEach(({ itemDesc }, index) => {
+      doc.text(itemDesc, 10, 10);
+    });
+    doc.save("a4.pdf");
+  };
+  // doc.text("Hello world!", 10, 10);
+
   const classes1 = useStyles1();
   const getData = () => {
     const URL = `${urlPrefix}v1.0/userhealthChart?fromDate=${fromdate}&toDate=${toDate}`;
@@ -146,19 +162,26 @@ const DietPlan = () => {
         },
       })
       .then((res) => {
-        setdietplandata(res.data.response.responseData);
         {
           res.data.response.responseData.phc &&
-            setroutineDates(res.data.response.responseData.phc?.dates);
-          setdinner(res.data.response.responseData.phc.plansMap._6);
-          setbreakfast(res.data.response.responseData.phc.plansMap._2);
-          setearlyMorning(res.data.response.responseData.phc.plansMap._1);
-          setEvening(res.data.response.responseData.phc.plansMap._5);
-          setmidMorning(res.data.response.responseData.phc.plansMap._3);
-          setLunch(res.data.response.responseData.phc.plansMap._4);
+            setdietplandata(res.data.response.responseData);
+          setroutineDates(res.data.response.responseData.phc?.dates.reverse());
+          setdinner(res.data.response.responseData.phc.plansMap._6.reverse());
+          setbreakfast(
+            res.data.response.responseData.phc.plansMap._2.reverse()
+          );
+          setearlyMorning(
+            res.data.response.responseData.phc.plansMap._1.reverse()
+          );
+          setEvening(res.data.response.responseData.phc.plansMap._5.reverse());
+          setmidMorning(
+            res.data.response.responseData.phc.plansMap._3.reverse()
+          );
+          setLunch(res.data.response.responseData.phc.plansMap._4.reverse());
         }
       });
   };
+  console.log(dietplandata, "sadksjah");
   return (
     <>
       <div className="head">
@@ -209,11 +232,12 @@ const DietPlan = () => {
             {" "}
             Submit
           </PrimaryButton>
+          <button onClick={pdfDownload}> Download </button>
         </div>
       </div>
       <div style={width}>
         <Paper id="my-table" className="mt-5" elevation={3}>
-          <div style={style}>
+          <div>
             {" "}
             <div
               style={{
@@ -232,28 +256,40 @@ const DietPlan = () => {
                 }}
               >
                 <div style={{ display: "none" }}>
-                  <h4 style={{ fontWeight: "bolder" }}>
-                    {" "}
-                    Diet shorts by nisha
-                  </h4>
+                  <h4 style={{ fontWeight: "bolder" }}> </h4>
                 </div>
+                {dietplandata && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <h4 style={{ fontWeight: "bolder" }}>
+                      {" "}
+                      Coach : {dietplandata && dietplandata?.phc?.coachName} |
+                      Program : {dietplandata && dietplandata?.phc?.pname}
+                    </h4>
+                    <h4>
+                      {" "}
+                      Mobile no.{" "}
+                      {dietplandata && dietplandata?.phc?.phoneNumber}{" "}
+                    </h4>
+                    <h4>
+                      Email id: {dietplandata && dietplandata?.phc?.emailId}
+                    </h4>
+                  </div>
+                )}
                 <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <h4 style={{ fontWeight: "bolder" }}> Nutritionist Nisha</h4>
-                  <h4> Mobile no. 9999848574 </h4>
-                  <h4>Email id: waytolife.dtnisha@gmail.com</h4>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
+                  style={
+                    ({
+                      display: "flex",
 
-                    justifyContent: "center",
-                  }}
+                      justifyContent: "center",
+                    },
+                    style)
+                  }
                 >
                   <TableBody
                     style={{ fontWeight: "bolder", marginTop: "30px" }}
@@ -303,9 +339,12 @@ const DietPlan = () => {
               </div>{" "}
             </div>
           </div>
-          <hr />
+
           {dietplandata && routineDates.length >= 0 ? (
-            <Table style={{ marginTop: "10px" }}>
+            <Table
+              style={{ marginTop: "30px", borderTop: "1px solid #ecf0f1" }}
+            >
+              <hr />
               <TableHead>
                 {" "}
                 <TableRow>
@@ -314,94 +353,128 @@ const DietPlan = () => {
                     Meal{" "}
                   </TableCell>
 
-                  {routineDates?.map((item, index) => {
-                    return (
-                      <TableCell align="center" style={font}>
-                        {" "}
-                        {item}
-                      </TableCell>
-                    );
-                  })}
+                  {routineDates &&
+                    routineDates.reverse().map((item, index) => {
+                      return (
+                        <TableCell
+                          align="center"
+                          style={(font, { borderRight: "1px solid Black" })}
+                        >
+                          {" "}
+                          {item}
+                        </TableCell>
+                      );
+                    })}
                 </TableRow>
               </TableHead>
               <TableBody>
                 <TableRow>
                   <TableCell align="Left">
                     {" "}
-                    {earlyMorning[0]?.keyTemplate}{" "}
+                    {earlyMorning && earlyMorning[0]?.keyTemplate}{" "}
                   </TableCell>
-                  {earlyMorning?.map((item, index) => {
-                    return (
-                      <TableCell align="center" style={font}>
-                        {" "}
-                        {item.itemDesc}
-                      </TableCell>
-                    );
-                  })}
+                  {earlyMorning &&
+                    earlyMorning?.map((item, index) => {
+                      return (
+                        <TableCell
+                          align="center"
+                          style={(font, { borderRight: "1px solid Black" })}
+                        >
+                          {" "}
+                          {item.value}
+                        </TableCell>
+                      );
+                    })}
                 </TableRow>
                 <TableRow>
                   <TableCell align="left">
                     {" "}
-                    {breakfast[0]?.keyTemplate}{" "}
+                    {breakfast && breakfast[0]?.keyTemplate}{" "}
                   </TableCell>
-                  {breakfast?.map((item, index) => {
-                    return (
-                      <TableCell align="center" style={font}>
-                        {" "}
-                        {item.itemDesc}
-                      </TableCell>
-                    );
-                  })}
+                  {breakfast &&
+                    breakfast?.map((item, index) => {
+                      return (
+                        <TableCell
+                          align="center"
+                          style={(font, { borderRight: "1px solid Black" })}
+                        >
+                          {" "}
+                          {item.value}
+                        </TableCell>
+                      );
+                    })}
                 </TableRow>
                 <TableRow>
                   <TableCell align="left">
                     {" "}
-                    {midMorning[0]?.keyTemplate}{" "}
+                    {midMorning && midMorning[0]?.keyTemplate}{" "}
                   </TableCell>
-                  {midMorning?.map((item, index) => {
-                    return (
-                      <TableCell align="center" style={font}>
-                        {" "}
-                        {item.itemDesc}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-                <TableRow>
-                  <TableCell align="left"> {Lunch[0]?.keyTemplate} </TableCell>
-                  {Lunch?.map((item, index) => {
-                    return (
-                      <TableCell align="center" style={font}>
-                        {" "}
-                        {item.itemDesc}
-                      </TableCell>
-                    );
-                  })}
+                  {midMorning &&
+                    midMorning?.map((item, index) => {
+                      return (
+                        <TableCell
+                          align="center"
+                          style={(font, { borderRight: "1px solid Black" })}
+                        >
+                          {" "}
+                          {item.value}
+                        </TableCell>
+                      );
+                    })}
                 </TableRow>
                 <TableRow>
                   <TableCell align="left">
                     {" "}
-                    {Evening[0]?.keyTemplate}{" "}
+                    {Lunch && Lunch[0]?.keyTemplate}{" "}
                   </TableCell>
-                  {Evening?.map((item, index) => {
-                    return (
-                      <TableCell align="center" style={font}>
-                        {" "}
-                        {item.itemDesc}
-                      </TableCell>
-                    );
-                  })}
+                  {Lunch &&
+                    Lunch?.map((item, index) => {
+                      return (
+                        <TableCell
+                          align="center"
+                          style={(font, { borderRight: "1px solid Black" })}
+                        >
+                          {" "}
+                          {item.value}
+                        </TableCell>
+                      );
+                    })}
                 </TableRow>
                 <TableRow>
-                  <TableCell align="left"> {dinner[0]?.keyTemplate} </TableCell>
-                  {dinner?.map((item, index) => {
-                    return (
-                      <TableCell align="center" style={font}>
-                        {" "}
-                        {item.itemDesc}
-                      </TableCell>
-                    );
-                  })}
+                  <TableCell align="left">
+                    {" "}
+                    {Evening && Evening[0]?.keyTemplate}{" "}
+                  </TableCell>
+                  {Evening &&
+                    Evening?.map((item, index) => {
+                      return (
+                        <TableCell
+                          align="center"
+                          style={(font, { borderRight: "1px solid Black" })}
+                        >
+                          {" "}
+                          {item.value}
+                        </TableCell>
+                      );
+                    })}
+                </TableRow>
+                <TableRow>
+                  <TableCell align="left">
+                    {" "}
+                    {dinner && dinner[0]?.keyTemplate}{" "}
+                  </TableCell>
+                  {dinner &&
+                    dinner?.map((item, index) => {
+                      return (
+                        <TableCell
+                          align="center"
+                          style={(font, { borderRight: "1px solid Black" })}
+                        >
+                          {" "}
+                          {item.value}
+                        </TableCell>
+                      );
+                    })}
                 </TableRow>
               </TableBody>
             </Table>
