@@ -1356,11 +1356,11 @@ const Dashboard = () => {
                               badgeContent={pendingInviteCount}
                               color="error"
                             >
-                              Invite Friends
+                              Invite 
                             </Badge>
                           </div>
                         ) : (
-                          "Invite Friends"
+                          "Invite "
                         )}
                       </button>
                     )}

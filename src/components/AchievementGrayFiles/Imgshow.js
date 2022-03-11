@@ -599,7 +599,7 @@ const Imgshow = (props) => {
         </Card>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h4> Milestones : </h4>
+        <h4>Monthly Milestones : </h4>
         <div>
           {/* {LeaderboardImg.map((elem) => {
             return ( */}
