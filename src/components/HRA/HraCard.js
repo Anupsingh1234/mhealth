@@ -27,11 +27,11 @@ const HraCard = (eventID, currentEventObj) => {
   const [programList1, setProgramList] = useState([]);
   const programList = [];
   const [dataList, setDataList] = useState([]);
-  
+  const [cardId, setcardId] = useState();
   const Assessment = (id) => {
     if (dataList.profileComplete === true) {
   
-      setcardId(id);
+     localStorage.setItem("cardId",id)
       submitAnswer(localStorage.getItem("userId"), 0, 0, 0), id;
       startQuiz(id);
     } else {
@@ -70,7 +70,7 @@ setProgramList()
   const [nextquestion, setnextquestion] = useState();
   const [scoreDetails, setscoreDetails] = useState();
   const [cardDetails, setcardDetails] = useState();
-  const [cardId, setcardId] = useState();
+
   const [flag, setflag] = useState(false);
   const [Option, setOption] = useState();
  
@@ -148,9 +148,7 @@ setProgramList()
         );
       });
   };
-  const quizFunction = () => {
-    startQuiz();
-  };
+  
   const submitAnswer = (hraid, questionid, option, freetext) => {
     settextAns(null);
     setflag(true);
@@ -183,7 +181,9 @@ setProgramList()
           ? setnextquestion(res?.data?.response?.responseData)
           : setnextquestion(false);
         if (res?.data?.response?.responseData == true) {
-          settotalScore(totalScore + score), quizFunction();
+          settotalScore(totalScore + score);
+          startQuiz(cardId);
+          settextAns("")
         } else {
           settotalScore(totalScore - score);
         }
@@ -191,9 +191,12 @@ setProgramList()
         // setquestion(res?.data?.response?.responseData);
       });
   };
-  console.log(nextquestion, Option && Option[0]?.id);
+  const quizFunction = (id) => {
+   
+  };
+  console.log(nextquestion,cardId,'cardid');
   const startQuiz = (id) => {
-    const URL = `${urlPrefix}v1.0/getHRAQuestions?hraId=${id}`;
+    const URL = `${urlPrefix}v1.0/getHRAQuestions?hraId=${localStorage.getItem("cardId")}`;
     return axios
       .get(URL, {
         headers: {
@@ -560,7 +563,7 @@ setProgramList()
                   <PrimaryButton
                     onClick={() => {
                       submitAnswer(
-                        1,
+                        localStorage.getItem("cardId"),
                         question.hraQuestionId,
                         optionId,
                         textAns

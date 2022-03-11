@@ -1148,8 +1148,8 @@ const Dashboard = () => {
             selectedChallenge={dashboardState.selectedChallenge}
           />
         </ChallengeList>
-        {remainingDays === 0 ? (
-          <>
+        {/* {remainingDays === 0 ? (
+          <> */}
             <div className="Leaderboard" id="Leaderboard">
               <div className="leaderboard-header">
                 <div
@@ -1728,7 +1728,7 @@ const Dashboard = () => {
                 currentEventObj={dashboardState.selectedChallengeObject}
               />
             )}
-          </>
+          {/* </>
         ) : (
           <>
             <h1 style={{ textAlign: "center" }}>
@@ -1739,7 +1739,7 @@ const Dashboard = () => {
               )}
             </h1>
           </>
-        )}
+        )} */}
         {dashboardState.selectedAction === "Source" &&
           (dashboardState.challengeSwitch === "current" ||
             dashboardState.challengeSwitch === "upcoming") && (
