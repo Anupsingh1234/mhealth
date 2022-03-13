@@ -32,7 +32,7 @@ const HraCard = (eventID, currentEventObj) => {
     if (dataList.profileComplete === true) {
   
      localStorage.setItem("cardId",id)
-      submitAnswer(localStorage.getItem("userId"), 0, 0, 0), id;
+      // submitAnswer(localStorage.getItem("userId"), 0, 0, 0), id;
       startQuiz(id);
     } else {
       setProfileModal(true);
@@ -182,8 +182,9 @@ setProgramList()
           : setnextquestion(false);
         if (res?.data?.response?.responseData == true) {
           settotalScore(totalScore + score);
-          startQuiz(cardId);
+          startQuiz();
           settextAns("")
+          setoptionId("")
         } else {
           settotalScore(totalScore - score);
         }
@@ -622,10 +623,10 @@ setProgramList()
                 textAlign:'justify'
               }}>  
               
-              <div style={{width:'10%',fontWeight:'800',fontSize:'14px'}}>
+              <div style={{width:'13%',fontWeight:'800',fontSize:'14px'}}>
               Assessments :
                 </div>
-                <div style={{width:'90%'}}>
+                <div style={{width:'87%'}}>
                 {scoreDetails.recommedations} 
                 </div>
               </div>
