@@ -1094,38 +1094,38 @@ const Programs = (props) => {
     <div className="Dasboard">
       {/* <Navbar /> */}
 
-      <div className="flex flex-col min-h-[100vh] bg-white mx-12">
+      <div className="flex flex-col min-h-[100vh] bg-white md:mx-12 mt-12 md:mt-8">
         <ChallengeList>
           <TopUserDetails />
-          <div className="challengesContainer">
+          <div className="flex flex-col md:flex-row mt-6 gap-4">
             <div className="challenge-selector">
-              <div className="challenges-heading" style={{ marginRight: 20 }}>
-                Challenges
-              </div>
+              <p className="text-sm font-semibold">Challenges</p>
               <TriStateToggle
                 values={["old", "current", "upcoming"]}
                 selected={dashboardState.challengeSwitch}
                 handleChange={handleToggleStateChange}
               />
             </div>
-            <div className="eventDropdown">
-              <SelectBox
-                options={events || []}
-                selectedValue={dashboardState.selectedChallengeObject.id}
-                handleChange={(e) => {
-                  const eventObj = dashboardState.listOfChallenges.find(
-                    (ev) => ev.id === parseInt(e.target.value)
-                  );
-                  handleChallengeCardClick(eventObj);
-                }}
-              />
-              <FA
-                icon={faInfoCircle}
-                color="#518ad6"
-                onClick={() => {
-                  setEventDetailModal(true);
-                }}
-              />
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+              <div className="flex flex-row items-center justify-center gap-4">
+                <SelectBox
+                  options={events || []}
+                  selectedValue={dashboardState.selectedChallengeObject.id}
+                  handleChange={(e) => {
+                    const eventObj = dashboardState.listOfChallenges.find(
+                      (ev) => ev.id === parseInt(e.target.value)
+                    );
+                    handleChallengeCardClick(eventObj);
+                  }}
+                />
+                <FA
+                  icon={faInfoCircle}
+                  color="#518ad6"
+                  onClick={() => {
+                    setEventDetailModal(true);
+                  }}
+                />
+              </div>
               {eventDetailModal && (
                 <EventInfoModal
                   challenge={dashboardState.selectedChallengeObject}
@@ -1135,16 +1135,18 @@ const Programs = (props) => {
                   }}
                 />
               )}
-              <PrimaryButton
-                mini
-                onClick={() => {
-                  localStorage.setItem("view", "event");
-                  history.push("/default-view");
-                }}
-                className="text-xs"
-              >
-                View Events
-              </PrimaryButton>
+              <div>
+                <PrimaryButton
+                  mini
+                  onClick={() => {
+                    localStorage.setItem("view", "event");
+                    history.push("/default-view");
+                  }}
+                  className="text-xs"
+                >
+                  View Events
+                </PrimaryButton>
+              </div>
             </div>
           </div>
 

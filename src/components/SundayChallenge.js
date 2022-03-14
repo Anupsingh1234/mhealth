@@ -275,7 +275,8 @@ const SundayChallenge = (props) => {
           {type === "DAY" ? (
             <Card
               style={{
-                width: "370px",
+                width: "100%",
+                maxWidth: "370px",
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}
@@ -384,7 +385,8 @@ const SundayChallenge = (props) => {
           ) : type === "KM" ? (
             <Card
               style={{
-                width: "370px",
+                width: "100%",
+                maxWidth: "370px",
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}
@@ -492,7 +494,8 @@ const SundayChallenge = (props) => {
           ) : type === "AVG" ? (
             <Card
               style={{
-                width: "370px",
+                width: "100%",
+                maxWidth: "370px",
                 borderTopLeftRadius: "10px",
                 borderTopRightRadius: "10px",
               }}
@@ -605,16 +608,16 @@ const SundayChallenge = (props) => {
         </div>
       </Modal>
       <div
-        className="sundayCrds"
+        className="sundayCrds md:mx-auto gap-5 md:mt-5"
         style={{
           display: "flex",
           justifyContent: "space-between",
-          marginTop: 25,
         }}
       >
         <Card
           style={{
-            width: "370px",
+            width: "100%",
+            maxWidth: "370px",
             borderTopLeftRadius: "10px",
             borderTopRightRadius: "10px",
           }}
@@ -623,18 +626,17 @@ const SundayChallenge = (props) => {
             <div
               style={{
                 color: "white",
-                marginTop: "-10px",
                 display: "flex",
                 justifyContent: "center",
                 background: "#95a5a6",
                 height: 45,
+                alignItems: "center",
               }}
             >
-              <div style={{ display: "flex" }}>
-                <h2 style={{ marginLeft: 150, marginTop: 16 }}> Streak </h2>
+              <div className="flex items-center justify-center">
+                <h2> Streak </h2>
                 <ReactTooltip multiline={true} className="reactTool" />{" "}
                 <div
-                  style={{ marginLeft: 130 }}
                   data-tip="Streak is defined as Number of days walked in continuation without taking any break.<br/>
                             Challenge will start from your accepted date and will continue till the target date. <br/>
                             You can see your progress on card, and on completion of target,<br/>
@@ -642,10 +644,8 @@ const SundayChallenge = (props) => {
                   data-multiline="true"
                 >
                   <CardMedia
-                    style={{ marginTop: 18, float: "right" }}
                     component="img"
-                    height="20"
-                    width="20"
+                    style={{ width: 20 }}
                     image="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Info.png"
                   />
                 </div>{" "}
@@ -994,7 +994,8 @@ const SundayChallenge = (props) => {
         </Card>
         <Card
           style={{
-            width: "370px",
+            width: "100%",
+            maxWidth: "370px",
             borderTopLeftRadius: "10px",
             borderTopRightRadius: "10px",
           }}
@@ -1002,26 +1003,22 @@ const SundayChallenge = (props) => {
           <div
             style={{
               color: "white",
-              marginTop: "-10px",
               display: "flex",
               justifyContent: "center",
               background: "#95a5a6",
               height: 45,
+              alignItems: "center",
             }}
           >
-            <div style={{ display: "flex" }}>
-              <h2 style={{ marginLeft: 150, marginTop: 16 }}> Distance </h2>{" "}
-              <ReactTooltip multiline={true} />
+            <div className="flex justify-center items-center">
+              <h2> Distance </h2> <ReactTooltip multiline={true} />
               <div
-                style={{ marginLeft: 110 }}
                 data-tip="In this challenge you need to cover mentioned KM in a day,<br/> You will get 7 days to achieve the target, once you achieve it, <br/>you will earn a badge which can be seen in Achievement section of leaderboard."
                 data-multiline="true"
               >
                 <CardMedia
-                  style={{ marginTop: 18, float: "right" }}
+                  style={{ width: 20 }}
                   component="img"
-                  height="20"
-                  width="20"
                   image="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Info.png"
                 />
               </div>{" "}
@@ -1374,7 +1371,8 @@ const SundayChallenge = (props) => {
         </Card>{" "}
         <Card
           style={{
-            width: "370px",
+            width: "100%",
+            maxWidth: "370px",
             borderTopLeftRadius: "10px",
             borderTopRightRadius: "10px",
           }}
@@ -1382,27 +1380,23 @@ const SundayChallenge = (props) => {
           <div
             style={{
               color: "white",
-              marginTop: "-10px",
               display: "flex",
               justifyContent: "center",
               background: "#95a5a6",
               height: 45,
+              alignItems: "center",
             }}
           >
-            <div style={{ display: "flex" }}>
-              <h2 style={{ marginLeft: 150, marginTop: 16 }}> Average </h2>{" "}
-              <ReactTooltip multiline={true} />{" "}
+            <div className="flex items-center justify-center">
+              <h2> Average </h2> <ReactTooltip multiline={true} />{" "}
               <div
-                style={{ marginLeft: 110 }}
                 data-tip="This challenge comprise of Average of distance covered in 7 days <br/> Starting from date of acceptance to till the end of challenge date. <br/>
 Once achieved, you will earn a badge which can be seen in Achievement<br/> section of leaderboard."
                 data-multiline="true"
               >
                 <CardMedia
-                  style={{ marginTop: 18, float: "right" }}
+                  style={{ width: 20 }}
                   component="img"
-                  height="20"
-                  width="20"
                   image="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Info.png"
                 />
               </div>{" "}

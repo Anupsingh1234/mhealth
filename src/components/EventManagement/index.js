@@ -154,6 +154,7 @@ const EventManagement = () => {
                   display: "flex",
                   alignItems: "center",
                   flexWrap: "wrap",
+                  gap: 10,
                 }}
               >
                 <div className="challenges-heading" style={{ marginRight: 20 }}>

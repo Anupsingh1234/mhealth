@@ -137,6 +137,8 @@ const Dashboard = (props) => {
         case "Challenge":
         case "team":
         case "Source":
+        case "quiz":
+        case "Gallery":
           const WALKATHON_TABS = [
             {
               key: "home",
@@ -341,96 +343,96 @@ const Dashboard = (props) => {
       }
     } else {
       switch (id) {
-        case "quiz":
-          setDashboardState((prevState) => {
-            return {
-              ...prevState,
-              selectedAction: "quiz",
-              listOfChallenges: getCurrentAllEvents(),
-            };
-          });
-          const QUIZ_TABS = [
-            {
-              key: "home",
-              title: "Home",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Activities",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-                window.location.replace("/#/program/walkathon");
-              },
-              icon: faHome,
-              selected: false,
-            },
-            {
-              key: "quiz",
-              title: "Quiz",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "quiz",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faComments,
-              selected: dashboardState.selectedAction === "quiz",
-            },
-          ];
-          setFooterTabs(QUIZ_TABS);
-          return;
-        case "gallery":
-          setDashboardState((prevState) => {
-            return {
-              ...prevState,
-              selectedAction: "Gallery",
-              listOfChallenges: getCurrentAllEvents(),
-            };
-          });
-          const GALLERY_TABS = [
-            {
-              key: "home",
-              title: "Home",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Activities",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-                window.location.replace("/#/program/walkathon");
-              },
-              icon: faHome,
-              selected: false,
-            },
-            {
-              key: "gallery",
-              title: "Gallery",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Gallery",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faPhotoVideo,
-              selected: dashboardState.selectedAction === "Gallery",
-            },
-          ];
-          setFooterTabs(GALLERY_TABS);
-          return;
+        // case "quiz":
+        //   setDashboardState((prevState) => {
+        //     return {
+        //       ...prevState,
+        //       selectedAction: "quiz",
+        //       listOfChallenges: getCurrentAllEvents(),
+        //     };
+        //   });
+        //   const QUIZ_TABS = [
+        //     {
+        //       key: "home",
+        //       title: "Home",
+        //       onClick: () => {
+        //         setDashboardState((prevState) => {
+        //           return {
+        //             ...prevState,
+        //             selectedAction: "Activities",
+        //             selectedChallengeArray: [],
+        //             compareData: { data: [], categories: [] },
+        //             listOfChallenges: getCurrentAllEvents(),
+        //           };
+        //         });
+        //         window.location.replace("/#/program/walkathon");
+        //       },
+        //       icon: faHome,
+        //       selected: false,
+        //     },
+        //     {
+        //       key: "quiz",
+        //       title: "Quiz",
+        //       onClick: () => {
+        //         setDashboardState((prevState) => {
+        //           return {
+        //             ...prevState,
+        //             selectedAction: "quiz",
+        //             listOfChallenges: getCurrentAllEvents(),
+        //           };
+        //         });
+        //       },
+        //       icon: faComments,
+        //       selected: dashboardState.selectedAction === "quiz",
+        //     },
+        //   ];
+        //   setFooterTabs(QUIZ_TABS);
+        //   return;
+        // case "gallery":
+        //   setDashboardState((prevState) => {
+        //     return {
+        //       ...prevState,
+        //       selectedAction: "Gallery",
+        //       listOfChallenges: getCurrentAllEvents(),
+        //     };
+        //   });
+        //   const GALLERY_TABS = [
+        //     {
+        //       key: "home",
+        //       title: "Home",
+        //       onClick: () => {
+        //         setDashboardState((prevState) => {
+        //           return {
+        //             ...prevState,
+        //             selectedAction: "Activities",
+        //             selectedChallengeArray: [],
+        //             compareData: { data: [], categories: [] },
+        //             listOfChallenges: getCurrentAllEvents(),
+        //           };
+        //         });
+        //         window.location.replace("/#/program/walkathon");
+        //       },
+        //       icon: faHome,
+        //       selected: false,
+        //     },
+        //     {
+        //       key: "gallery",
+        //       title: "Gallery",
+        //       onClick: () => {
+        //         setDashboardState((prevState) => {
+        //           return {
+        //             ...prevState,
+        //             selectedAction: "Gallery",
+        //             listOfChallenges: getCurrentAllEvents(),
+        //           };
+        //         });
+        //       },
+        //       icon: faPhotoVideo,
+        //       selected: dashboardState.selectedAction === "Gallery",
+        //     },
+        //   ];
+        //   setFooterTabs(GALLERY_TABS);
+        //   return;
         case "report":
           setFooterTabs(FOOTER_TABS.REPORT);
           return;
@@ -1568,7 +1570,10 @@ const Dashboard = (props) => {
           <ActionCard
             isProgramAvailable={dashboardState.isProgramAvailable}
             name="compare"
-            display={dashboardState.challengeSwitch !== "upcoming" && false}
+            display={
+              dashboardState.challengeSwitch !== "upcoming" &&
+              id === "walkathon"
+            }
             onClick={() =>
               setDashboardState((prevState) => {
                 let comparableEvents = dashboardState.allChallenge
@@ -1643,7 +1648,7 @@ const Dashboard = (props) => {
             display={
               dashboardState.challengeSwitch !== "upcoming" &&
               dashboardState.listOfChallenges.length > 0 &&
-              id === "gallery"
+              id === "health"
             }
             onClick={() => {
               setDashboardState((prevState) => {
@@ -1662,13 +1667,49 @@ const Dashboard = (props) => {
             display={
               dashboardState.challengeSwitch !== "upcoming" &&
               dashboardState.listOfChallenges.length > 0 &&
-              id === "quiz"
+              id === "health"
             }
             onClick={() => {
               setDashboardState((prevState) => {
                 return {
                   ...prevState,
                   selectedAction: "quiz",
+                  listOfChallenges: getCurrentAllEvents(),
+                };
+              });
+            }}
+          />
+          <ActionCard
+            isProgramAvailable={dashboardState.isProgramAvailable}
+            name="hra"
+            display={
+              dashboardState.challengeSwitch !== "upcoming" &&
+              dashboardState.listOfChallenges.length > 0 &&
+              id === "health"
+            }
+            onClick={() => {
+              setDashboardState((prevState) => {
+                return {
+                  ...prevState,
+                  selectedAction: "hra",
+                  listOfChallenges: getCurrentAllEvents(),
+                };
+              });
+            }}
+          />
+          <ActionCard
+            isProgramAvailable={dashboardState.isProgramAvailable}
+            name="my plan"
+            display={
+              dashboardState.challengeSwitch !== "upcoming" &&
+              dashboardState.listOfChallenges.length > 0 &&
+              id === "health"
+            }
+            onClick={() => {
+              setDashboardState((prevState) => {
+                return {
+                  ...prevState,
+                  selectedAction: "myplan",
                   listOfChallenges: getCurrentAllEvents(),
                 };
               });
@@ -1681,11 +1722,11 @@ const Dashboard = (props) => {
 
   const { location } = useLocation();
   return (
-    <div className="Dasboard">
+    <div className="flex flex-col bg-white">
       {/* <Navbar /> */}
       <TopUserDetails />
       {dashboardState.selectedAction === "Activities" ? (
-        <div className="flex flex-col min-h-[100vh] bg-white mx-12">
+        <div className="flex flex-col min-h-[100vh] mb-[5vh] md:mb-0 bg-white md:mx-12 mt-10 md:mt-8 overflow-scroll">
           <TopRow
             {...{
               history,
@@ -1783,41 +1824,46 @@ const TopRow = ({
     value: event.id,
   }));
   return (
-    <div className="challengesContainer">
+    <div className="flex flex-col md:flex-row mt-6 gap-4">
       <div className="challenge-selector">
-        <div className="ch-heading">Challenges</div>
+        <p className="text-sm font-semibold">Challenges</p>
         <TriStateToggle
           values={["old", "current", "upcoming"]}
           selected={dashboardState.challengeSwitch}
           handleChange={handleToggleStateChange}
         />
       </div>
-      <div className="eventDropdown">
-        <SelectBox
-          options={events || []}
-          selectedValue={dashboardState.selectedChallengeObject.id}
-          handleChange={(e) => {
-            const eventObj = dashboardState.listOfChallenges.find(
-              (ev) => ev.id === parseInt(e.target.value)
-            );
-            handleChallengeCardClick(eventObj);
-          }}
-        />
-        <FA
-          icon={faInfoCircle}
-          color="#518ad6"
-          onClick={() => {
-            setEventDetailModal(true);
-          }}
-        />
-        <PrimaryButton
-          mini
-          onClick={() => {
-            history.push("/default-view");
-          }}
-        >
-          All Events
-        </PrimaryButton>
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+        <div className="flex flex-row items-center justify-center gap-4">
+          <SelectBox
+            options={events || []}
+            selectedValue={dashboardState.selectedChallengeObject.id}
+            handleChange={(e) => {
+              const eventObj = dashboardState.listOfChallenges.find(
+                (ev) => ev.id === parseInt(e.target.value)
+              );
+              handleChallengeCardClick(eventObj);
+            }}
+          />
+          <FA
+            icon={faInfoCircle}
+            color="#518ad6"
+            onClick={() => {
+              setEventDetailModal(true);
+            }}
+          />
+        </div>
+        <div>
+          <PrimaryButton
+            mini
+            onClick={() => {
+              history.push("/default-view");
+            }}
+            className="text-xs"
+          >
+            All Events
+          </PrimaryButton>
+        </div>
       </div>
 
       {eventDetailModal && (

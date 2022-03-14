@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 
-import "./Footer.css";
 import classNames from "classnames";
 
 const Footer = (props) => {
@@ -12,7 +11,11 @@ const Footer = (props) => {
   }, [props.tabs]);
 
   return (
-    <div className="footer">
+    <div
+      className={classNames(
+        "fixed left-0 bottom-0 w-full h-[75px] bg-[#f5f5f5] text-black text-center flex justify-center"
+      )}
+    >
       {tabs.map((tab) => (
         <Tab tab={tab} key={tab.key} />
       ))}
@@ -35,7 +38,10 @@ const Tab = ({ tab }) => {
   };
   return (
     <div
-      className={getClass(tab) ? "tabContainerSelected" : "tabContainer"}
+      className={classNames(
+        "flex flex-col justify-center items-center min-w-[125px] bg-[#f5f5f5] hover:bg-[#e5e5e5] cursor-pointer",
+        { "bg-[#555] hover:bg-[#444]": getClass(tab) }
+      )}
       onClick={() => tab.onClick()}
     >
       <FA

@@ -271,13 +271,14 @@ const Imgshow = (props) => {
 
   const classes = useStyles();
   return (
-    <>
+    <div className="md:mx-36">
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-between",
           marginTop: 25,
+          gap: 20,
         }}
       >
         <Card
@@ -598,7 +599,9 @@ const Imgshow = (props) => {
           </CardContent>
         </Card>
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
+        style={{ display: "flex", flexDirection: "column", marginTop: "2rem" }}
+      >
         <h4> Milestones : </h4>
         <div>
           {/* {LeaderboardImg.map((elem) => {
@@ -913,7 +916,7 @@ const Imgshow = (props) => {
          })} */}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Imgshow;

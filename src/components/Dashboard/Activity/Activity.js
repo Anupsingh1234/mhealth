@@ -232,12 +232,12 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
         : filteredSubEvent
       : subEventList;
   return (
-    <div className="activityContainer">
+    <div className="h-[52vh] md:h-[45vh] flex flex-col mt-[1rem] p-[1rem] border border-[#f3f4f6] bg-[#f9fafb]">
       {/* Todo: Remove top filters if not needed */}
       <div className="filterContainer">
         <div className="challenge-selector">
           <div className="ch-heading">Programs</div>
-          <div>
+          <div className="w-[16.5rem] overflow-hidden">
             <TriStateToggle
               values={["all", "old", "Subscribed", "Available"]}
               selected={selectedFilter}
@@ -253,9 +253,7 @@ const Activity = ({ eventId, currentEventObj, isProgramAvailable }) => {
             <DateRangePickerW {...{ value, handleDateChange }} />
           </div>
           <div>{renderFilterButton("Schedule")}</div>
-        </div>
 
-        <div>
           <select onChange={sel}>
             <option value="all"> select :- </option>
             {dataarr.map((curelem, index) => {

@@ -513,7 +513,7 @@ const Admin123 = () => {
             height: "auto",
             marginTop: "2%",
           }}
-          className="border border-gray-200 rounded"
+          className="border border-gray-200 rounded max-w-sm md:max-w-full"
         >
           <Tabs style={{ marginTop: 0 }}>
             {" "}
@@ -814,11 +814,10 @@ const Admin123 = () => {
                   </div>
                 </div>
                 <div style={{ display: "flex", marginLeft: "10px" }}>
-                  <div style={{ width: "80%" }}></div>
-                  <div className="w-24">
+                  <div className="w-[max-content] ml-4">
                     <PrimaryButton
                       mini
-                      className="w-[max-content] text-sm mt-4"
+                      className="text-sm mt-4"
                       onClick={handleSubmit}
                     >
                       Save Quiz

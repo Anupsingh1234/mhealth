@@ -743,14 +743,14 @@ const Profile = (props) => {
         {/* <Navbar /> */}
         <div
           className={classNames(
-            "flex flex-col min-h-[80vh] bg-[white] min-w-[100vw] justify-center items-center"
+            "flex flex-col min-h-[80vh] mb-[20vh] md:mb-[1vh] overflow-scroll bg-[white] min-w-[100vw] justify-center items-center max-w-sm"
           )}
         >
           <div className="basic-info flex-row gap-2 justify-center items-center">
             <div className="bg-white mr-2 rounded-md p-4 border border-gray-200">
               <div className="mhealth-input-box padding-05em">
                 <label>Avatar</label>
-                <div className="avatar-container">
+                <div className="flex flex-col bg-[#f3f4f6] mb-2">
                   <div className="avatar">
                     <Avatar
                       src={userDetails.avtarImg}
@@ -1248,7 +1248,7 @@ const Profile = (props) => {
             <div className="basic-info flex-row flex mx-auto">
               {depenName && depenName.length > 0 ? (
                 <>
-                  <div className="bg-white rounded-md p-4 mt-4">
+                  <div className="bg-white rounded-md p-4 mt-4 max-w-sm md:max-w-3xl overflow-scroll">
                     {depenName && depenName.length > 0 ? (
                       <TablePagination
                         rowsPerPageOptions={[4, 5, 10]}

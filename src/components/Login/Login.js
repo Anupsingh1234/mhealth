@@ -29,8 +29,8 @@ import { getUserDetailsHandler } from "../../services/userprofileApi";
 import CodeMatch from "./CodeMatch";
 import ThemeContext from "../../context/ThemeContext";
 import classNames from "classnames";
-import { icons } from "../../assets/icons/constants";
 import { getClientHostName } from "../../utils/commonFunctions";
+import SocialMediaBar from "./SocialMediaBar";
 
 const Login = ({ YottaMatch }) => {
   window.message = Message;
@@ -512,24 +512,12 @@ const Login = ({ YottaMatch }) => {
       <div className="illustration relative">
         <div>
           <img src={theme?.eventLogo || login} width={400} height={597} />
-          {Array.isArray(socialLinks) && socialLinks.length > 0 && (
-            <div className="absolute left-0 top-[50%] translate-x-0 translate-y-[-50%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
-              {socialLinks.map(
-                (data) =>
-                  icons[data.socialMedia] && (
-                    <a href={data.mediaLink} target="_blank">
-                      <img
-                        key={data.id}
-                        src={icons[data.socialMedia]}
-                        className="inline cursor-pointer"
-                        width="22px"
-                        height="22px"
-                      />
-                    </a>
-                  )
-              )}
-            </div>
-          )}
+          <SocialMediaBar
+            socialLinks={socialLinks}
+            className={
+              "hidden md:flex md:absolute md:left-0 md:top-[50%] md:translate-x-0 md:translate-y-[-50%] md:flex-col"
+            }
+          />
           <div
             className={classNames(
               "absolute bottom-4 left-0 px-4",
@@ -559,7 +547,7 @@ const Login = ({ YottaMatch }) => {
         <img src={theme.sponsorLogo} width="36px" height="36px" />
         {/* <div className="logo-text">mHealth.ai</div> */}
       </div>
-      <div className="form-container">
+      <div className="form-container flex flex-col">
         <div className={"form"}>
           {!ismobileNoVerified && (
             <MobileInputForm
@@ -568,7 +556,6 @@ const Login = ({ YottaMatch }) => {
                 handleInput,
                 loaderInfo,
                 handleMobileInputSubmit,
-                YottaMatch,
               }}
             />
           )}
@@ -606,6 +593,12 @@ const Login = ({ YottaMatch }) => {
           {ismobileNoVerified && isOtpVerified && isUserRegistered && (
             <SuccessForm />
           )}
+        </div>
+        <div className="mt-4">
+          <SocialMediaBar
+            socialLinks={socialLinks}
+            className={"flex md:hidden max-w-[100%] mx-8 flex-wrap rounded-lg"}
+          />
         </div>
       </div>
     </div>

@@ -1788,13 +1788,12 @@ const CreateTeam = (props) => {
               {leaveId && (
                 <PrimaryButton
                   mini
-                  className="w-[max-content] text-sm"
+                  className="w-[max-content] text-sm mt-2"
                   onClick={() => {
                     openLeaveModal();
                   }}
                 >
-                  {" "}
-                  Leave Team{" "}
+                  Leave Team
                 </PrimaryButton>
               )}
             </div>
@@ -2114,10 +2113,7 @@ const CreateTeam = (props) => {
       mod.moderatorId == localStorage.getItem("userId") ||
       mod.teamBuild !== "NA" ? (
         <div className="main_div" style={{ display: "flex", width: "100%" }}>
-          <div
-            className="adminuse"
-            style={{ width: "15%", display: "flex", gap: 10 }}
-          >
+          <div className="adminuse" style={{ display: "flex", gap: 10 }}>
             {mod.teamBuild !== "NA" ? (
               <PrimaryButton
                 mini
@@ -2135,11 +2131,10 @@ const CreateTeam = (props) => {
             {mod.teamBuild !== "NA" ? (
               <PrimaryButton
                 mini
-                // className="create-event-button target-btn rounded-full text-sm"
                 onClick={() => {
                   onOpenMemberModal();
                 }}
-                // style={{ width: "100px" }}
+                className="w-[max-content]"
               >
                 Members
               </PrimaryButton>

@@ -224,7 +224,7 @@ const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
   return (
     <>
       {/* Todo: Remove top filters if not needed */}
-      <div className="flex flex-col mt-4 border border-[#f3f4f6] p-4 bg-[#f9fafb] mx-8 h-[75vh] overflow-scroll">
+      <div className="flex flex-col mt-4 border border-[#f3f4f6] p-4 bg-[#f9fafb] md:mx-8 h-[95vh] md:h-[85vh] overflow-scroll">
         <div className="filterContainer">
           <div className="challenge-selector">
             <div className="ch-heading">Programs</div>

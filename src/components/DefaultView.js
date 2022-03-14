@@ -1095,7 +1095,7 @@ const Programs = () => {
     >
       <ChallengeList>
         <TopUserDetails />
-        <div className="flex flex-col items-center md:flex-row gap-2 md:gap-8">
+        <div className="flex flex-col items-center md:flex-row gap-2 md:gap-8 mt-16 md:mt-8">
           <p className="text-sm font-semibold">Challenges</p>
           <TriStateToggle
             values={["old", "current", "upcoming"]}
@@ -1118,7 +1118,7 @@ const Programs = () => {
       </ChallengeList>
 
       <DefaultDashboard handleSearchEvent={handleSearchEvent}>
-        <div className="mx-2">
+        <div className="mx-2 mt-12 md:mt-2 mb-12">
           <ListOfEvents
             handleChallengeCardClick={handleChallengeCardClick}
             fetchChallenges={fetchChallenges}

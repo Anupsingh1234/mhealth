@@ -283,7 +283,7 @@ const TargetSetting = ({ dashboardState }) => {
   );
   return (
     <div className="target-container">
-      <div className="target-btn-container gap-2">
+      <div className="flex flex-col md:flex-row justify-end mb-4 gap-2">
         {eventData?.message == "You Are Qualified " ? (
           <div className="w-42">
             <PrimaryButton mini onClick={onOpenModal}>

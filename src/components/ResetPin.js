@@ -95,9 +95,9 @@ const ResetPin = (props) => {
     >
       {/* <TopUserDetails /> */}
       {/* <Navbar /> */}
-      <div className="flex gap-4">
+      <div className="flex gap-4 flex-col md:flex-row items-center justify-center mx-4">
         <div className="bg-white border border-gray-200 rounded px-4 py-4">
-          <div className="text-2xl font-semibold mt-1">
+          <div className="text-xl font-semibold mt-1">
             Provide information to update PIN
           </div>
           <div className="basic-info-container ">

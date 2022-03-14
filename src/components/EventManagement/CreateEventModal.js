@@ -325,7 +325,6 @@ const CreateEventModal = ({
         }
       });
   }
-  console.log(finaleditgmail, findvalue, "findvalue");
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [modId, setmodId] = useState(

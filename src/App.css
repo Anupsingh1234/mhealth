@@ -1763,38 +1763,43 @@ select:focus {
   border-bottom: 1px solid #eee;
 }
 .target-metric-column {
-  width: 25%;
+  max-width: 100px;
+  min-width: 100px;
   background: #fafafa;
   padding: 4px 8px;
   border-right: 1px solid #eee;
   border-left: 1px solid #eee;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
   justify-content: center;
 }
+
 .target-data-column {
-  width: 75%;
+  max-width: 100px;
+  min-width: 100px;
   display: flex;
 }
 
 .target-data-inner-column {
-  width: 50%;
+  max-width: 100px;
+  min-width: 100px;
   padding: 4px 10px;
   border-right: 1px solid #eee;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: left;
 }
 .target-data-inner-column1 {
-  width: 100%;
+  max-width: 100px;
+  min-width: 100px;
   padding: 4px 10px;
   border-right: 1px solid #eee;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: left;
 }
 .target-data-bold {
   font-weight: 800;
@@ -1809,6 +1814,25 @@ select:focus {
   justify-content: center;
   margin-top: 5px;
   color: #888888;
+}
+
+@media (min-width: 769px) {
+ .target-data-inner-column1{
+   max-width: 55%;
+   min-width: 55%;
+ }
+ .target-data-inner-column{
+    max-width: 55%;
+   min-width: 55%;
+ }
+ .target-metric-column {
+   max-width: 25%;
+   min-width: 25%;
+ }
+ .target-data-column{
+   max-width: 55%;
+   min-width: 55%;
+ }
 }
 
 .event-text-field > div {
@@ -3117,9 +3141,7 @@ input::-webkit-inner-spin-button {
   .parallel {
     flex-direction: column;
   }
-  .full-screen-button {
-    padding: 2px;
-  }
+
   .full-screen-button > svg {
     width: 12px;
     height: 12px;
@@ -3472,9 +3494,9 @@ input::-webkit-inner-spin-button {
   .navbar-middle > img {
     margin-right: 5px;
   }
-  .Avatar-Container > * {
+  /* .Avatar-Container > * {
     display: none;
-  }
+  } */
   .bx {
     width: 88%;
   }

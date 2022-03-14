@@ -10,6 +10,8 @@ import {
   faBullseye,
   faChess,
   faTrophy,
+  faArrowUpWideShort,
+  faDiamond,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const ACTION_ICONS = {
@@ -26,6 +28,8 @@ export const ACTION_ICONS = {
   leaderboard: faTrophy,
   profile: faChess,
   resetpin: faTrophy,
+  hra: faArrowUpWideShort,
+  "my plan": faDiamond,
 };
 
 export const ACTION_ICONS_COLOR = {

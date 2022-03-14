@@ -37,6 +37,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import { urlPrefix } from "../services/apicollection";
 import axios from "axios";
 import moment from "moment";
+import classNames from "classnames";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -824,15 +825,11 @@ export default function EnhancedTable({
                   {currentEvent["id"] && (
                     <Tooltip title="Pin users">
                       <button
-                        style={{
-                          background: "#E0E7FF",
-                          color: "#4338CA",
-                          borderRadius: 24,
-                          marginLeft: 10,
-                          cursor: "pointer",
-                          padding: "2px 10px",
-                          fontSize: 12,
-                        }}
+                        className={classNames(
+                          "bg-[#E0E7FF] text-[#4338CA]",
+                          "rounded-full ml-[10px] cursor-pointer text-xs",
+                          "px-4 py-2 w-[max-content]"
+                        )}
                         onClick={() => setPinActive(!pinActive)}
                       >
                         Tag Friends
@@ -950,39 +947,29 @@ export default function EnhancedTable({
                 style={{ cursor: "pointer", marginTop: "-5px" }}
               />
               <span style={{ fontWeight: "800", marginLeft: "5px" }}>[</span>{" "}
-              <span
-                // type="date"
-
-                style={{
-                  // background: '#f3f4f6',
-                  // padding: '6px 10px',
-                  // borderRadius: 6,
-                  fontSize: 12,
-
-                  marginLeft: "2px",
-                  fontWeight: "800",
-                }}
-              >
-                {showStartDate.substring(0, 6)}
-                {showStartDate.substring(8)}
-              </span>
-              <span style={{ fontWeight: "800", marginLeft: "8px" }}>-</span>{" "}
-              <span
-                // type="date"
-
-                style={{
-                  // background: '#f3f4f6',
-                  // padding: '6px 10px',
-                  // borderRadius: 6,
-                  fontSize: 12,
-
-                  marginLeft: "5px",
-                  fontWeight: "800",
-                }}
-              >
-                {showEndDate.substring(0, 6)}
-                {showEndDate.substring(8)}
-              </span>
+              <div className="w-[max-content] text-center">
+                <span
+                  style={{
+                    fontSize: 12,
+                    marginLeft: "2px",
+                    fontWeight: "800",
+                  }}
+                >
+                  {showStartDate.substring(0, 6)}
+                  {showStartDate.substring(8)}
+                </span>
+                <span style={{ fontWeight: "800" }}>-</span>{" "}
+                <span
+                  style={{
+                    fontSize: 12,
+                    marginLeft: "5px",
+                    fontWeight: "800",
+                  }}
+                >
+                  {showEndDate.substring(0, 6)}
+                  {showEndDate.substring(8)}
+                </span>
+              </div>
               <span style={{ fontWeight: "800" }}>]</span>
             </div>
             <div></div>

@@ -26,6 +26,7 @@ import {
   faBook,
   faCog,
   faArchive,
+  faHeartPulse,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Login = lazy(() => import("./components/Login/Login"));
@@ -86,22 +87,13 @@ const App = () => {
       selected: window.location.hash === "#/program/walkathon",
     },
     {
-      key: "quiz",
-      title: "Quiz",
+      key: "health",
+      title: "Health",
       onClick: () => {
-        window.location.replace("/#/program/quiz");
+        window.location.replace("/#/program/health");
       },
-      icon: faComments,
-      selected: window.location.hash === "#/program/quiz",
-    },
-    {
-      key: "gallery",
-      title: "Gallery",
-      onClick: () => {
-        window.location.replace("/#/program/gallery");
-      },
-      icon: faPhotoVideo,
-      selected: window.location.hash === "#/program/gallery",
+      icon: faHeartPulse,
+      selected: window.location.hash === "#/program/health",
     },
     {
       key: "settings",

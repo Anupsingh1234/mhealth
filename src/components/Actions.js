@@ -29,7 +29,7 @@ const Actions = ({
   children,
 }) => {
   return (
-    <div className="Dasboard">
+    <div className="flex flex-col mb-[10vh]">
       <div className="actionContainer">
         {/* <Navbar /> */}
         {/* <TopUserDetails /> */}
