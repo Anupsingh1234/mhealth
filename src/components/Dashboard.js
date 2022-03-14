@@ -17,6 +17,7 @@ import CreateTeam from "./TeamForEvents/CreateOrUpdateTeam";
 import { Achievments } from "./Achievments";
 import SundayChallenge from "./SundayChallenge";
 import { getLeaderBoardHeading } from "../utils/commonFunctions";
+import dataSource from "../assets/dataSource.svg";
 import {
   getLeaderBoardData,
   getChallengesByDate,
@@ -211,7 +212,7 @@ const Dashboard = () => {
       localStorage.removeItem("status");
     }
   }, []);
-
+console.log(dashboardState.selectedChallengeObject,'object')
   useEffect(() => {
     if (dashboardState.selectedChallenge) {
       localStorage.setItem("selectEvent", dashboardState.selectedChallenge);
@@ -1653,6 +1654,7 @@ const Dashboard = () => {
                   {...{ reloadChallengeAccepted, setReloadChallengeAccepted }}
                 />
               )}
+              {dashboardState.leaderBoardData["data"]["rankWiseBoard"]&&dashboardState.leaderBoardData["data"]["rankWiseBoard"].length>0?(<>
               {dashboardState.selectedAction === "Leaderboard" &&
               dashboardState.leaderBoardData.loading === false ? (
                 <LeaderboardTable
@@ -1665,6 +1667,18 @@ const Dashboard = () => {
                   <FacebookCircularProgress />
                 )
               )}
+              </>): (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <img src={dataSource} width={400} height={200} />
+          <span style={{ margin: "1rem" }}>No Data</span>
+        </div>
+      )}
 
               {dashboardState.selectedAction === "team" && (
                 <CreateTeam eventId={dashboardState.selectedChallenge} />
