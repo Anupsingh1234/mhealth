@@ -30,6 +30,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import NoData from "../NoData";
 import { PrimaryButton } from "../Form";
+import nodata from "../../assets/nodata.svg";
 // import CancelIcon from '@mui/icons-material/Cancel';
 const Quiz = (props) => {
   const [question, setquestion] = useState("");
@@ -1028,7 +1029,10 @@ const Quiz = (props) => {
             </Paper> */}
                 </div>
               ) : (
-                <NoData />
+                <div className=" max-w-sm md:max-w-full flex flex-col justify-center items-center">
+                  <img src={nodata} className="w-60" />
+                  <p>No data</p>
+                </div>
               )}
             </div>
           )}
@@ -1064,10 +1068,7 @@ const Quiz = (props) => {
                 />
               )}
 
-              <TableBody>
-                {/* {props.data &&
-            props.data?.map((item, index) => {
-              return ( */}
+              <TableBody className="flex md:justify-center">
                 {session && (
                   <TableRow style={{ background: "#e0f2fe" }} className="cells">
                     <TableCell align="center">
@@ -1087,24 +1088,6 @@ const Quiz = (props) => {
                     </TableCell>
                   </TableRow>
                 )}
-
-                {/* <TableRow hover tabIndex={-1}>
-                  <TableCell align="center">{item && item.rank}</TableCell>
-                  <TableCell align="center">{item && item.name}</TableCell>
-                  <TableCell align="center">
-                    {' '}
-                    {item && item.timeTaken}
-                  </TableCell>
-                  <TableCell align="center">
-                    {' '}
-                    {item && item.totalAttemptedQue}
-                  </TableCell>
-                  <TableCell align="center">
-                    {' '}
-                    {item && item.lastAttemptedDate}
-                  </TableCell>
-                </TableRow> */}
-
                 {leaderboard ? (
                   stableSort(leaderboard, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -1133,7 +1116,10 @@ const Quiz = (props) => {
                       );
                     })
                 ) : (
-                  <NoData />
+                  <div className="max-w-sm md:max-w-full flex flex-col justify-center items-center">
+                    <img src={nodata} className="w-60" />
+                    <p>No data</p>
+                  </div>
                 )}
                 {/* );
             })} */}

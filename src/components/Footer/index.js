@@ -13,7 +13,10 @@ const Footer = (props) => {
   return (
     <div
       className={classNames(
-        "fixed left-0 bottom-0 w-full h-[75px] bg-[#f5f5f5] text-black text-center flex justify-center"
+        "fixed left-0 bottom-0",
+        "w-full h-[75px] bg-[#f5f5f5] text-black",
+        "text-center flex md:justify-center",
+        "max-w-sm md:max-w-full overflow-scroll"
       )}
     >
       {tabs.map((tab) => (
@@ -27,9 +30,14 @@ const Tab = ({ tab }) => {
   const selectedTab = window.location.hash.split("/");
   const getClass = (tab) => {
     if (
-      ["programs", "walkathon", "manage", "settings", "report"].includes(
-        tab.key
-      )
+      [
+        "programs",
+        "walkathon",
+        "manage",
+        "settings",
+        "report",
+        "health",
+      ].includes(tab.key)
     ) {
       return selectedTab[selectedTab.length - 1] === tab.key;
     } else {
@@ -39,7 +47,7 @@ const Tab = ({ tab }) => {
   return (
     <div
       className={classNames(
-        "flex flex-col justify-center items-center min-w-[125px] bg-[#f5f5f5] hover:bg-[#e5e5e5] cursor-pointer",
+        "flex flex-col justify-center items-center min-w-[80px] md:min-w-[125px] bg-[#f5f5f5] hover:bg-[#e5e5e5] cursor-pointer",
         { "bg-[#555] hover:bg-[#444]": getClass(tab) }
       )}
       onClick={() => tab.onClick()}

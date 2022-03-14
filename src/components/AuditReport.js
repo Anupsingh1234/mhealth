@@ -567,30 +567,14 @@ const AuditReport = (props) => {
       <div>
         <div class="container" style={{ marginTop: "10px" }}>
           <form onSubmit={(e) => submit(e)}>
-            <div
-              class="row"
-              style={{ display: "flex", justifyContent: "space-around" }}
-            >
-              <div
-                className="select_date"
-                style={{
-                  maxWidth: "250px",
-                  // overflowX: "scroll",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  top: 20,
-                }}
-              >
+            <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
+              <div>
                 <fieldset>
                   <legend>Select Event</legend>
                   <Select
                     style={{ width: "250px" }}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
-                    // open={open}
-                    // onClose={handleClose}
-                    // onOpen={handleOpen}
-                    // value={age}
                     onChange={handleChange}
                   >
                     {/* <option value='null'>Select Event ....</option> */}
@@ -605,16 +589,7 @@ const AuditReport = (props) => {
                   </Select>
                 </fieldset>
               </div>
-              <div
-                className="select_date"
-                style={{
-                  maxWidth: "250px",
-                  // overflowX: "scroll",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  top: 20,
-                }}
-              >
+              <div>
                 <fieldset>
                   <legend>Select Player</legend>
                   <Select
@@ -637,22 +612,15 @@ const AuditReport = (props) => {
               </div>
               {/* <div class='col-md-1'></div> */}
             </div>
-            <div
-              style={{ display: "flex", justifyContent: "center" }}
-              className="w-[max-content] mx-auto"
-            >
-              <PrimaryButton mini>Submit</PrimaryButton>
+            <div className="flex justify-center mb-4">
+              <PrimaryButton className="w-16" mini>
+                Submit
+              </PrimaryButton>
             </div>
           </form>
         </div>
         {/* <Paper className={classes.paper}> */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
           <Tooltip title="Export data">
             <CSVLink data={datas} headers={headers} separator={","}>
               <SystemUpdateAltIcon />

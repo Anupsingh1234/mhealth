@@ -44,6 +44,7 @@ import { urlPrefix, secretToken } from "../../services/apicollection";
 import InfoDialog from "../Utility/InfoDialog";
 import SundayChallenge from "../SundayChallenge";
 import { PrimaryButton } from "../Form";
+import noData from "../../assets/nodata.svg";
 const SundayChallengeReport = (props) => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
@@ -420,7 +421,7 @@ const SundayChallengeReport = (props) => {
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
         <fieldset style={{ width: "150px", height: 50 }}>
           <legend>Select Date:</legend>
           <form className={classes3.container} noValidate>
@@ -437,43 +438,25 @@ const SundayChallengeReport = (props) => {
             />
           </form>
         </fieldset>
-        <div
+      </div>
+      <div className="flex justify-center mb-4">
+        <PrimaryButton mini className="w-16" onClick={handleChange}>
+          submit
+        </PrimaryButton>
+        <span
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            marginTop: 20,
+            color: "red",
             marginLeft: 50,
           }}
         >
-          <PrimaryButton
-            mini
-            className="w-[max-content] text-sm"
-            onClick={handleChange}
-          >
-            submit
-          </PrimaryButton>
-          <span
-            style={{
-              marginTop: 20,
-              color: "red",
-              marginLeft: 50,
-            }}
-          >
-            {" "}
-            {/* {resMessage}{" "} */}
-          </span>
-        </div>{" "}
-      </div>
+          {" "}
+          {/* {resMessage}{" "} */}
+        </span>
+      </div>{" "}
       <hr />
-
       <div style={{ height: 500 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
           {/* <Tooltip title="Export data">
             <CSVLink data={datas} headers={headers} separator={","}>
               <SystemUpdateAltIcon />
@@ -575,7 +558,8 @@ const SundayChallengeReport = (props) => {
                 {" "}
                 <img
                   style={{ width: 200, height: 200 }}
-                  src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                  // src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                  src={noData}
                 />
                 Data is not present
               </div>{" "}

@@ -233,7 +233,6 @@ export default function PerformanceTable({
   const [weekMonth, setWeekMonth] = useState();
   const [radioValue, setRadioValue] = useState(false);
   const [imgborder, setimgborder] = useState(1);
-  console.log(imgborder);
 
   const [open, setOpen] = useState(false);
   const onOpenModal = () => {
@@ -1099,8 +1098,8 @@ export default function PerformanceTable({
         </TableContainer>
       </Paper>
       {radioValue === "Week" || radioValue === "Month" ? (
-        <div style={{ display: "flex" }}>
-          <div style={{ width: "50%" }}>
+        <div className="flex flex-col md:flex-row gap-5">
+          <div className="w-full md:[w-50%]">
             <Chart
               options={{
                 tooltip: {
@@ -1143,7 +1142,7 @@ export default function PerformanceTable({
               width="100%"
             />
           </div>
-          <div style={{ width: "50%", marginLeft: "20px" }}>
+          <div className="w-full md:[w-50%]">
             <Chart
               options={{
                 tooltip: {
@@ -1177,8 +1176,8 @@ export default function PerformanceTable({
           </div>
         </div>
       ) : radioValue === "Daily" || radioValue !== undefined ? (
-        <div style={{ display: "flex" }}>
-          <div style={{ width: "50%" }}>
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-[50%] gap-5">
             <Chart
               options={{
                 tooltip: {
@@ -1221,7 +1220,7 @@ export default function PerformanceTable({
               width="100%"
             />
           </div>
-          <div style={{ width: "50%", marginLeft: "20px" }}>
+          <div className="w-full md:w-[50%]">
             <Chart
               options={{
                 toolbar: {

@@ -42,6 +42,7 @@ import { CSVLink } from "react-csv";
 import axios from "axios";
 import { urlPrefix } from "../../services/apicollection";
 import { PrimaryButton } from "../Form";
+import nodata from "../../assets/nodata.svg";
 
 const CorporateReport = (props) => {
   const [order, setOrder] = useState("asc");
@@ -464,7 +465,7 @@ const CorporateReport = (props) => {
 
   return (
     <>
-      <div className="corpoReport">
+      <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
         <fieldset>
           <legend>From Date:</legend>
           <form className={classes3.container} noValidate>
@@ -497,44 +498,26 @@ const CorporateReport = (props) => {
             />
           </form>
         </fieldset>
-        <div
+      </div>
+      <div className="flex justify-center mb-4">
+        <PrimaryButton mini className="w-16" onClick={handleChange}>
+          {" "}
+          submit{" "}
+        </PrimaryButton>
+        <span
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            marginTop: 20,
+            color: "red",
             marginLeft: 50,
           }}
         >
-          <PrimaryButton
-            mini
-            className="w-[max-content] text-sm"
-            onClick={handleChange}
-          >
-            {" "}
-            submit{" "}
-          </PrimaryButton>
-          <span
-            style={{
-              marginTop: 20,
-              color: "red",
-              marginLeft: 50,
-            }}
-          >
-            {" "}
-            {/* {resMessage}{" "} */}
-          </span>
-        </div>{" "}
-      </div>
+          {" "}
+          {/* {resMessage}{" "} */}
+        </span>
+      </div>{" "}
       <hr />
-
       <div style={{ height: 500 }}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
           {/* <Tooltip title="Export data">
             <CSVLink data={datas} headers={headers} separator={","}>
               <SystemUpdateAltIcon />
@@ -637,7 +620,8 @@ const CorporateReport = (props) => {
                 {" "}
                 <img
                   style={{ width: 200, height: 200 }}
-                  src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                  // src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                  src={nodata}
                 />
                 Data is not present
               </div>{" "}

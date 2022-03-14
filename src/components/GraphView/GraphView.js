@@ -13,6 +13,7 @@ import Message from "antd-message";
 import { LocalSeeOutlined } from "@material-ui/icons";
 import { urlPrefix, secretToken } from "../../services/apicollection";
 import { PrimaryButton } from "../Form";
+import nodata from "../../assets/nodata.svg";
 const GraphReport = (props) => {
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -71,32 +72,20 @@ const GraphReport = (props) => {
     <>
       {/* <div style={{ backgroundColor: "white" }}> */}
       <div style={{ height: "80vh", background: "white", overflowY: "scroll" }}>
-        <div class="container" style={{ maxWidth: "50%" }}>
+        <div>
           <form
             onSubmit={(e) =>
               Event ? submit(e) : setErr("Please select an event")
             }
           >
-            <div
-              class="row"
-              style={{ display: "flex", justifyContent: "space-around" }}
-            >
-              <div
-                className="select_date"
-                style={{
-                  maxWidth: "250px",
-                }}
-              >
+            <div>
+              <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
                 <fieldset>
                   <legend>Select Event</legend>
                   <Select
                     style={{ width: "250px" }}
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
-                    // open={open}
-                    // onClose={handleClose}
-                    // onOpen={handleOpen}
-                    // value={age}
                     onChange={handleChange}
                   >
                     {/* <option value='null'>Select Event ....</option> */}
@@ -113,8 +102,8 @@ const GraphReport = (props) => {
               </div>
 
               {/* <div class='col-md-1'></div> */}
-              <div className="flex items-center justify-center">
-                <PrimaryButton mini className="w-[max-content] text-sm">
+              <div className="flex justify-center mb-4">
+                <PrimaryButton mini className="w-16">
                   {" "}
                   Submit
                 </PrimaryButton>
@@ -122,13 +111,7 @@ const GraphReport = (props) => {
             </div>
           </form>
         </div>{" "}
-        <p
-          style={{
-            marginLeft: "1000px",
-          }}
-        >
-          Total Member: {circle}
-        </p>
+        <p className="text-right mr-4">Total Member: {circle}</p>
         <hr />{" "}
         <div style={{}}>
           <div
@@ -234,7 +217,8 @@ const GraphReport = (props) => {
                   {" "}
                   <img
                     style={{ width: 200, height: 200 }}
-                    src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                    src={nodata}
+                    // src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                   />
                   Data is not present
                 </div>{" "}

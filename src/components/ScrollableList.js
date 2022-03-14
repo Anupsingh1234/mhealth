@@ -89,6 +89,7 @@ const ScrollableList = ({
         onScroll={handleScroll}
         ref={scrollingDiv}
         className="challenges-list"
+        style={{ width: "100%" }}
       >
         {children}
       </div>

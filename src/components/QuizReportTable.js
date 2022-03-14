@@ -54,6 +54,7 @@ import { Edit } from "react-feather";
 import { CSVLink } from "react-csv";
 import { urlPrefix, secretToken } from "../services/apicollection";
 import { PrimaryButton } from "./Form";
+import nodata from "../assets/nodata.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -584,20 +585,8 @@ const AuditReport = (props) => {
         <div class="container" style={{ marginTop: "10px" }}>
           {/* <h3>Quiz Table</h3> */}
           <form onSubmit={(e) => submitQuiz(e)}>
-            <div
-              class="row"
-              style={{ display: "flex", justifyContent: "space-around" }}
-            >
-              <div
-                className="select_date"
-                style={{
-                  maxWidth: "250px",
-                  // overflowX: "scroll",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  top: 20,
-                }}
-              >
+            <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
+              <div>
                 <fieldset>
                   <legend>Select Event</legend>
                   <Select
@@ -621,16 +610,7 @@ const AuditReport = (props) => {
                   </Select>
                 </fieldset>
               </div>
-              <div
-                className="select_date"
-                style={{
-                  maxWidth: "250px",
-                  // overflowX: "scroll",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  top: 20,
-                }}
-              >
+              <div>
                 <fieldset>
                   <legend>Select Quiz</legend>
                   <Select
@@ -660,13 +640,7 @@ const AuditReport = (props) => {
           </form>
         </div>
         {/* <Paper className={classes.paper}> */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
           {/* <Tooltip title="Export data">
             <CSVLink data={datas} headers={headers} separator={','}>
               <SystemUpdateAltIcon />
@@ -856,7 +830,8 @@ const AuditReport = (props) => {
                 {" "}
                 <img
                   style={{ width: 200, height: 200 }}
-                  src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                  src={nodata}
+                  // src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                 />
                 Data is not present
               </div>{" "}

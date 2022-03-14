@@ -37,6 +37,7 @@ import axios from "axios";
 import InfoDialog from "./Utility/InfoDialog";
 import { PrimaryButton } from "./Form";
 import classNames from "classnames";
+import nodata from "../assets/nodata.svg";
 // import FormItem from 'antd/lib/form/FormItem';
 
 const Admin123 = () => {
@@ -825,15 +826,9 @@ const Admin123 = () => {
                   </div>
                 </div>
 
-                <div style={{ minWidth: "800px", overflowX: "auto" }}>
+                <div>
                   {/* <Paper className={classes.paper}> */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
                     {/* <Tooltip title="Export data">
                       <CSVLink data={datas} headers={headers} separator={','}>
                         <SystemUpdateAltIcon />
@@ -1001,26 +996,9 @@ const Admin123 = () => {
                     </div>
                   ) : (
                     <>
-                      <div
-                        style={{
-                          height: 250,
-                          padding: "5px",
-                          marginTop: 30,
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          fontSize: 12,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        className=""
-                      >
+                      <div className="flex flex-col justify-center items-center">
                         {" "}
-                        <img
-                          style={{ width: 200, height: 200 }}
-                          src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
-                        />
+                        <img style={{ width: 200, height: 200 }} src={nodata} />
                         Data is not present
                       </div>{" "}
                     </>

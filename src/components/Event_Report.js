@@ -494,21 +494,8 @@ const AuditReport = (props) => {
       <div>
         <div class="container" style={{ marginTop: "10px" }}>
           <form onSubmit={(e) => submit(e)}>
-            <div
-              //   class="row"
-              style={{ display: "flex" }}
-            >
-              <div
-                className="select_date"
-                style={{
-                  maxWidth: "250px",
-                  // overflowX: "scroll",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  top: 20,
-                  marginLeft: "10%",
-                }}
-              >
+            <div>
+              <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
                 <fieldset>
                   <legend>Event Details</legend>
                   <Select
@@ -522,8 +509,8 @@ const AuditReport = (props) => {
                   </Select>
                 </fieldset>
               </div>
-              <div className="flex items-center justify-center ml-4">
-                <PrimaryButton mini className="w-[max-content] text-sm">
+              <div className="flex justify-center mb-4">
+                <PrimaryButton mini className="w-16">
                   Submit
                 </PrimaryButton>
               </div>
@@ -532,13 +519,7 @@ const AuditReport = (props) => {
           </form>
         </div>
         {/* <Paper className={classes.paper}> */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
           {/* <Tooltip title="Export data">
             <CSVLink data={datas} headers={headers} separator={','}>
               <SystemUpdateAltIcon />

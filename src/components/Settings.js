@@ -98,7 +98,7 @@ const Settings = () => {
         className={classNames(
           "flex flex-col gap-4",
           "px-10 py-2 w-[max-content] rounded",
-          "text-center mt-2"
+          "text-center mt-12 md:mt-2 max-w-sm md:max-w-full"
         )}
       >
         <div className="flex">

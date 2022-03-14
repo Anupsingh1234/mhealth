@@ -127,6 +127,7 @@ const Dashboard = (props) => {
     // Fetching challenges
     const { setFooterTabs } = props;
 
+    console.log({ id }, dashboardState.selectedAction);
     if (id === "walkathon") {
       switch (dashboardState.selectedAction) {
         case "Leaderboard":
@@ -137,8 +138,7 @@ const Dashboard = (props) => {
         case "Challenge":
         case "team":
         case "Source":
-        case "quiz":
-        case "Gallery":
+        case "Compare":
           const WALKATHON_TABS = [
             {
               key: "home",
@@ -273,8 +273,96 @@ const Dashboard = (props) => {
               icon: faUserFriends,
               selected: dashboardState.selectedAction === "Source",
             },
+            {
+              key: "compare",
+              title: "Compare",
+              onClick: () => {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    selectedAction: "Compare",
+                    selectedChallengeArray: [],
+                    compareData: { data: [], categories: [] },
+                    listOfChallenges: getCurrentAllEvents(),
+                  };
+                });
+              },
+              icon: faTrophy,
+              selected: dashboardState.selectedAction === "Leaderboard",
+            },
           ];
           setFooterTabs(WALKATHON_TABS);
+          return;
+        default:
+          setFooterTabs(FOOTER_TABS.PROGRAMS);
+          setDashboardState((prevState) => {
+            return {
+              ...prevState,
+              selectedAction: "Activities",
+              selectedChallengeArray: [],
+              compareData: { data: [], categories: [] },
+              listOfChallenges: getCurrentAllEvents(),
+            };
+          });
+      }
+    } else if (id === "health") {
+      switch (dashboardState.selectedAction) {
+        case "Gallery":
+        case "quiz":
+          const HEALTH_TAB = [
+            {
+              key: "home",
+              title: "Home",
+              onClick: () => {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    selectedAction: "Activities",
+                    selectedChallengeArray: [],
+                    compareData: { data: [], categories: [] },
+                    listOfChallenges: getCurrentAllEvents(),
+                  };
+                });
+              },
+              icon: faHome,
+              selected: false,
+            },
+            {
+              key: "gallery",
+              title: "Gallery",
+              onClick: () => {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    selectedAction: "Gallery",
+                    selectedChallengeArray: [],
+                    compareData: { data: [], categories: [] },
+                    listOfChallenges: getCurrentAllEvents(),
+                  };
+                });
+              },
+              icon: faPhotoVideo,
+              selected: dashboardState.selectedAction === "Gallery",
+            },
+            {
+              key: "quiz",
+              title: "Quiz",
+              onClick: () => {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    selectedAction: "quiz",
+                    selectedChallengeArray: [],
+                    compareData: { data: [], categories: [] },
+                    listOfChallenges: getCurrentAllEvents(),
+                  };
+                });
+              },
+              icon: faComments,
+              selected: dashboardState.selectedAction === "quiz",
+            },
+          ];
+          setFooterTabs(HEALTH_TAB);
           return;
         default:
           setFooterTabs(FOOTER_TABS.PROGRAMS);
@@ -682,6 +770,7 @@ const Dashboard = (props) => {
               ? localStorage.challengeIDRegister
               : allChallengeData[0]["id"]
           ).then((galleryResponse) => {
+            console.log({ galleryResponse });
             if (galleryResponse.data.response.responseMessage === "SUCCESS") {
               setDashboardState((prevState) => {
                 return {
@@ -1444,8 +1533,8 @@ const Dashboard = (props) => {
 
   const renderActionsByType = (id) => {
     return (
-      <div className="gridCenter">
-        <div className="dashboardActionContainer">
+      <div className="gridCenter mt-8">
+        <div className="flex flex-wrap items-center justify-center max-w-md mt-4">
           <ActionCard
             isProgramAvailable={dashboardState.isProgramAvailable}
             name="leaderboard"
@@ -1679,7 +1768,8 @@ const Dashboard = (props) => {
               });
             }}
           />
-          <ActionCard
+          {/* TODO */}
+          {/* <ActionCard
             isProgramAvailable={dashboardState.isProgramAvailable}
             name="hra"
             display={
@@ -1714,7 +1804,7 @@ const Dashboard = (props) => {
                 };
               });
             }}
-          />
+          /> */}
         </div>
       </div>
     );
@@ -1726,7 +1816,7 @@ const Dashboard = (props) => {
       {/* <Navbar /> */}
       <TopUserDetails />
       {dashboardState.selectedAction === "Activities" ? (
-        <div className="flex flex-col min-h-[100vh] mb-[5vh] md:mb-0 bg-white md:mx-12 mt-10 md:mt-8 overflow-scroll">
+        <div className="flex flex-col min-h-[100vh] mb-[10vh] md:mb-0 bg-white md:mx-12 mt-10 md:mt-8 overflow-scroll">
           <TopRow
             {...{
               history,
@@ -1770,14 +1860,29 @@ const Dashboard = (props) => {
             )}
         </div>
       ) : (
-        <Actions
-          setDashboardState={setDashboardState}
-          dashboardState={dashboardState}
-          getCurrentAllEvents={getCurrentAllEvents}
-          handleCompare={handleCompare}
-        >
-          {renderViewByActionType(dashboardState)}
-        </Actions>
+        <div className="mt-16 md:mx-16">
+          {dashboardState.selectedAction === "Compare" && (
+            <ListOfEvents
+              handleChallengeCardClick={handleChallengeCardClick}
+              fetchChallenges={fetchChallenges}
+              data={dashboardState.listOfChallenges}
+              dashboardState={dashboardState}
+              setDashboardState={setDashboardState}
+              selectedAction={dashboardState.selectedAction}
+              listType="event"
+              selectedChallengeArray={dashboardState.selectedChallengeArray}
+              selectedChallenge={dashboardState.selectedChallenge}
+            />
+          )}
+          <Actions
+            setDashboardState={setDashboardState}
+            dashboardState={dashboardState}
+            getCurrentAllEvents={getCurrentAllEvents}
+            handleCompare={handleCompare}
+          >
+            {renderViewByActionType(dashboardState)}
+          </Actions>
+        </div>
       )}
 
       {/* Challenge Status */}
@@ -1800,7 +1905,8 @@ const ActionCard = ({ onClick, name, display, isProgramAvailable }) => {
       <div className="actions">
         <div
           className="actionButton"
-          onClick={isProgramAvailable ? onClick : undefined}
+          onClick={onClick}
+          // onClick={isProgramAvailable ? onClick : undefined}
         >
           <div style={{ display: "flex" }}>
             <FA icon={ACTION_ICONS[name]} size="1x" color="#fff" />

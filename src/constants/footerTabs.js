@@ -50,7 +50,6 @@ export const PROGRAMS = [
     icon: faHeartPulse,
     selected: window.location.hash === "#/program/health",
   },
-
   {
     key: "settings",
     title: "Settings",

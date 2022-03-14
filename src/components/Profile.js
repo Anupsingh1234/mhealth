@@ -743,10 +743,10 @@ const Profile = (props) => {
         {/* <Navbar /> */}
         <div
           className={classNames(
-            "flex flex-col min-h-[80vh] mb-[20vh] md:mb-[1vh] overflow-scroll bg-[white] min-w-[100vw] justify-center items-center max-w-sm"
+            "flex flex-col min-h-[80vh] mb-[20vh] md:mb-[1vh] overflow-scroll bg-[white] min-w-[100vw] max-w-sm"
           )}
         >
-          <div className="basic-info flex-row gap-2 justify-center items-center">
+          <div className="flex w-full p-0 pl-8 flex-col md:flex-row gap-2 md:justify-center md:items-center">
             <div className="bg-white mr-2 rounded-md p-4 border border-gray-200">
               <div className="mhealth-input-box padding-05em">
                 <label>Avatar</label>
@@ -832,7 +832,7 @@ const Profile = (props) => {
             </div>
 
             <div className="bg-white mr-2 rounded-md p-4 flex flex-col gap-2  border border-gray-200">
-              <div className="flex">
+              <div className="flex flex-col md:flex-row">
                 <div className="mhealth-input-box padding-05em">
                   <label className="text-black">First name</label>
                   <input
@@ -855,8 +855,8 @@ const Profile = (props) => {
                   />
                 </div>
               </div>
-              <div className="flex">
-                <div style={{ width: "70%" }}>
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full md:w-[70%]">
                   <div className="mhealth-input-box padding-05em">
                     <label>Email ID</label>
                     <input
@@ -939,7 +939,7 @@ const Profile = (props) => {
                 </div>
               </div>
 
-              <div className="flex">
+              <div className="flex flex-col md:flex-row">
                 <div className="mhealth-input-box padding-05em">
                   <label>Gender</label>
                   <select
@@ -994,7 +994,7 @@ const Profile = (props) => {
                   />
                 </div>
               </div>
-              <div className="flex">
+              <div className="flex flex-col md:flex-row">
                 <div className="mhealth-input-box padding-05em">
                   <label>Pin Code</label>
                   <input
@@ -1245,7 +1245,7 @@ const Profile = (props) => {
             </div>
           </div>
           <div className="basic-info-container">
-            <div className="basic-info flex-row flex mx-auto">
+            <div className="basic-info flex-row flex md:justify-center">
               {depenName && depenName.length > 0 ? (
                 <>
                   <div className="bg-white rounded-md p-4 mt-4 max-w-sm md:max-w-3xl overflow-scroll">
@@ -1273,7 +1273,7 @@ const Profile = (props) => {
                       />
                     )}{" "}
                     {depenName && depenName.length > 0 ? (
-                      <>
+                      <div className="max-w-sm md:max-w-full overflow-scroll">
                         <Table
                           className={classNames(classes.table)}
                           aria-labelledby="tableTitle"
@@ -1430,7 +1430,7 @@ const Profile = (props) => {
                                 })}
                           </TableBody>
                         </Table>
-                      </>
+                      </div>
                     ) : (
                       ""
                     )}

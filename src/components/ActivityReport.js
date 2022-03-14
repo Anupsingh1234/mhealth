@@ -32,6 +32,7 @@ import "react-tabs/style/react-tabs.css";
 
 import { urlPrefix } from "../services/apicollection";
 import { PrimaryButton } from "./Form";
+import noData from "../assets/nodata.svg";
 
 const ActivityReport = () => {
   const [endDate, setendDate] = useState("");
@@ -334,22 +335,10 @@ const ActivityReport = () => {
         err ? Message.err("No data on this date..") : "";
       });
   };
-  console.log(result, "result");
   return (
     <>
-      <div
-        className="main_div"
-        style={{ display: "flex", justifyContent: "space-around" }}
-      >
-        <div
-          className="select_date"
-          style={{
-            width: "23%",
-            justifyContent: "center",
-            alignItems: "center",
-            top: 20,
-          }}
-        >
+      <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
+        <div>
           <fieldset>
             <legend>From Date:</legend>
             <form className={classes1.container} noValidate>
@@ -368,15 +357,7 @@ const ActivityReport = () => {
           </fieldset>
         </div>
 
-        <div
-          className="select_date"
-          style={{
-            width: "250px",
-            justifyContent: "center",
-            alignItems: "center",
-            top: 20,
-          }}
-        >
+        <div>
           <fieldset>
             <legend>To Date:</legend>
             <form className={classes1.container} noValidate>
@@ -394,12 +375,8 @@ const ActivityReport = () => {
             </form>
           </fieldset>
         </div>
-        <div className="flex items-center justify-center">
-          <PrimaryButton
-            mini
-            className="w-[max-content] text-sm"
-            onClick={handleRequest}
-          >
+        <div className="flex justify-center mb-4">
+          <PrimaryButton mini className="w-16" onClick={handleRequest}>
             Submit
           </PrimaryButton>
         </div>
@@ -407,13 +384,7 @@ const ActivityReport = () => {
 
       <hr></hr>
       <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
           <div className="d-flex a-i-center">
             <TablePagination
               rowsPerPageOptions={[50, 75, 100]}
@@ -494,6 +465,7 @@ const ActivityReport = () => {
                 <img
                   style={{ width: 200, height: 200 }}
                   src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                  src={noData}
                 />
                 Data is not present
               </div>{" "}

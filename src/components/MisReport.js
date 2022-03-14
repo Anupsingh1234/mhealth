@@ -58,6 +58,7 @@ import CorporateReport from "./PerformanceTeam/CorporateReport";
 import ActivityReport from "./ActivityReport";
 import { PrimaryButton } from "./Form";
 import classNames from "classnames";
+import nodata from "../assets/nodata.svg";
 const MisReport = () => {
   const { theme } = useContext(ThemeContext);
   const [open, setOpen] = useState(true);
@@ -644,7 +645,7 @@ const MisReport = () => {
     <div className="bg-white min-h-[100vh]">
       <TopUserDetails />
       {/* <Navbar /> */}
-      <div className="bg-white border border-gray-200 rounded-lg min-h-[100vh]">
+      <div className="bg-white border border-gray-200 rounded-lg min-h-[100vh] mb-[20vh]">
         <div
           style={{
             marginTop: 40,
@@ -654,12 +655,8 @@ const MisReport = () => {
         >
           <Tabs style={{ marginTop: 20 }}>
             {" "}
-            <div
-              className="d-flex j-c-sp-btn a-i-center cursor-pointer"
-              style={{ justifyContent: "flex-end" }}
-            >
-              <div className="leaderboard-actions ">
-                {" "}
+            <div className="cursor-pointer">
+              <div className="leaderboard-actions">
                 <TabList style={{ border: "0px" }}>
                   <Tab
                     style={{
@@ -841,35 +838,11 @@ const MisReport = () => {
               </div>
             </div>
             <TabPanel>
-              <div style={{}}>
-                <div
-                  className="main_div"
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div
-                    style={{
-                      marginTop: 50,
-                      display: "flex",
-                      justifyContent: "space-around",
-                      fontSize: 12,
-                      height: "10vh",
-                      // position: "absolute"
-                    }}
-                  >
+              <div>
+                <div>
+                  <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
                     {/* <Performance /> */}
-                    <div
-                      className="select_date"
-                      style={{
-                        maxWidth: "250px",
-                        // overflowX: "scroll",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        top: 20,
-                      }}
-                    >
+                    <div>
                       <fieldset>
                         <legend>Select Event:</legend>
                         <form className={classes1.container} noValidate>
@@ -877,10 +850,6 @@ const MisReport = () => {
                             style={{ width: "250px" }}
                             labelId="demo-controlled-open-select-label"
                             id="demo-controlled-open-select"
-                            // open={open}
-                            // onClose={handleClose}
-                            // onOpen={handleOpen}
-                            // value={age}
                             onChange={handleChange}
                           >
                             {events.map((curelem, index) => {
@@ -898,15 +867,7 @@ const MisReport = () => {
                       </fieldset>
                     </div>
 
-                    <div
-                      className="select_date"
-                      style={{
-                        maxWidth: "250px",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        top: 20,
-                      }}
-                    >
+                    <div>
                       <fieldset>
                         <legend>Select Program</legend>
                         <form className={classes1.container} noValidate>
@@ -914,10 +875,6 @@ const MisReport = () => {
                             style={{ width: "250px" }}
                             labelId="demo-controlled-open-select-label"
                             id="demo-controlled-open-select"
-                            // open={open}
-                            // onClose={handleClose}
-                            // onOpen={handleOpen}
-                            // value={age}
                             onChange={progChange}
                           >
                             {programs &&
@@ -935,15 +892,7 @@ const MisReport = () => {
                         </form>
                       </fieldset>
                     </div>
-                    <div
-                      className="select_date"
-                      style={{
-                        width: "20%",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        top: 20,
-                      }}
-                    >
+                    <div>
                       <fieldset>
                         <legend>Select Date:</legend>
                         <form className={classes1.container} noValidate>
@@ -956,23 +905,14 @@ const MisReport = () => {
                               shrink: true,
                             }}
                             onChange={getDate}
-                            //
                           />
                         </form>
                       </fieldset>
                     </div>
                   </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    className="w-[max-content] mx-auto"
-                  >
-                    <PrimaryButton mini onClick={getData}>
-                      {" "}
-                      submit{" "}
+                  <div className="flex justify-center mb-4">
+                    <PrimaryButton mini onClick={getData} className="w-16">
+                      submit
                     </PrimaryButton>
                     <span
                       style={{
@@ -987,21 +927,15 @@ const MisReport = () => {
                   </div>
                 </div>
 
-                <div style={{ minWidth: "800px", overflowX: "auto" }}>
+                <div>
                   {/* <Paper className={classes.paper}> */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  >
+                  <div className="flex items-center justify-start ml-4 md:ml-0 md:justify-center">
                     <Tooltip title="Export data">
                       <CSVLink data={datas} headers={headers} separator={","}>
                         <SystemUpdateAltIcon />
                       </CSVLink>
                     </Tooltip>
-                    <div className="d-flex a-i-center">
+                    <div className="text-right">
                       <TablePagination
                         rowsPerPageOptions={[50, 75, 100]}
                         component="div"
@@ -1034,7 +968,7 @@ const MisReport = () => {
                   </div>
                   {/* <div > */}
                   {data.length > 0 ? (
-                    <div style={{ padding: 20 }}>
+                    <div className="p-2 max-w-sm overflow-scroll md:max-w-3xl">
                       <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
@@ -1175,25 +1109,12 @@ const MisReport = () => {
                     </div>
                   ) : (
                     <>
-                      <div
-                        style={{
-                          height: 250,
-                          padding: "5px",
-                          marginTop: 30,
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          fontSize: 12,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        className=""
-                      >
+                      <div className="flex flex-col items-center justify-center max-w-sm md:max-w-full">
                         {" "}
                         <img
                           style={{ width: 200, height: 200 }}
-                          src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                          src={nodata}
+                          // src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                         />
                         Data is not present
                       </div>{" "}

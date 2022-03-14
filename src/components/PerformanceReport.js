@@ -53,6 +53,7 @@ import EfficientPlayer from "./PerformanceTeam/EfficientTeam";
 import InspiringPlayer from "./PerformanceTeam/InspiringTeam";
 import ConsistantPlayer from "./PerformanceTeam/ConsistantPlayer";
 import { PrimaryButton } from "./Form/Button";
+import nodata from "../assets/nodata.svg";
 const Performance = (props) => {
   const [events, setevents] = useState([]);
   const [programs, setprograms] = useState([]);
@@ -166,27 +167,10 @@ const Performance = (props) => {
 
   return (
     <>
-      <div className="main_div">
-        <div
-          style={{
-            marginTop: 50,
-            display: "flex",
-            justifyContent: "space-around",
-            fontSize: 12,
-            height: "10vh",
-            // position: "absolute"
-          }}
-        >
+      <div>
+        <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
           {/* <Performance /> */}
-          <div
-            className="select_date"
-            style={{
-              maxWidth: "250px",
-              justifyContent: "center",
-              alignItems: "center",
-              top: 20,
-            }}
-          >
+          <div>
             <fieldset>
               <legend>Select Event:</legend>
               <form className={classes1.container} noValidate>
@@ -194,10 +178,6 @@ const Performance = (props) => {
                   style={{ width: "250px" }}
                   labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
-                  // open={open}
-                  // onClose={handleClose}
-                  // onOpen={handleOpen}
-                  // value={age}
                   onChange={handleChange}
                 >
                   {events.map((curelem, index) => {
@@ -211,50 +191,7 @@ const Performance = (props) => {
               </form>
             </fieldset>
           </div>
-
-          {/* <div
-            className='select_date'
-            style={{
-              width: "23%",
-              justifyContent: "center",
-              alignItems: "center",
-              top: 20
-            }}
-          >
-            <fieldset>
-              <legend>Select Program</legend>
-              <form className={classes1.container} noValidate>
-                <Select
-                  style={{ width: "100%" }}
-                  labelId='demo-controlled-open-select-label'
-                  id='demo-controlled-open-select'
-                  // open={open}
-                  // onClose={handleClose}
-                  // onOpen={handleOpen}
-                  // value={age}
-                  onChange={progChange}
-                >
-                  {programs &&
-                    programs.map((curelem, index) => {
-                      return (
-                        <MenuItem style={{fontSize:12}} value={curelem.id}>
-                          {curelem.eventName}
-                        </MenuItem>
-                      );
-                    })}
-                </Select>
-              </form>
-            </fieldset>
-          </div> */}
-          <div
-            className="select_date"
-            style={{
-              width: "23%",
-              justifyContent: "center",
-              alignItems: "center",
-              top: 20,
-            }}
-          >
+          <div>
             <fieldset>
               <legend>From Date:</legend>
               <form className={classes1.container} noValidate>
@@ -272,15 +209,7 @@ const Performance = (props) => {
               </form>
             </fieldset>
           </div>
-          <div
-            className="select_date"
-            style={{
-              width: "250px",
-              justifyContent: "center",
-              alignItems: "center",
-              top: 20,
-            }}
-          >
+          <div>
             <fieldset>
               <legend>To Date:</legend>
               <form className={classes1.container} noValidate>
@@ -348,7 +277,8 @@ const Performance = (props) => {
                   {" "}
                   <img
                     style={{ width: 200, height: 200 }}
-                    src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
+                    src={nodata}
+                    // src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                   />
                   Data is not present
                 </div>{" "}

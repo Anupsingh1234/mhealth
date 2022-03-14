@@ -95,9 +95,9 @@ const ResetPin = (props) => {
     >
       {/* <TopUserDetails /> */}
       {/* <Navbar /> */}
-      <div className="flex gap-4 flex-col md:flex-row items-center justify-center mx-4">
-        <div className="bg-white border border-gray-200 rounded px-4 py-4">
-          <div className="text-xl font-semibold mt-1">
+      <div className="flex gap-4 flex-col md:flex-row items-center justify-center">
+        <div className="bg-white border border-gray-200 rounded px-8 py-4 w-full flex flex-col justify-center">
+          <div className="text-xl font-semibold mt-1 text-center">
             Provide information to update PIN
           </div>
           <div className="basic-info-container ">
@@ -158,7 +158,7 @@ const ResetPin = (props) => {
           </div>
         </div>
         <div className="bg-white w-[24rem] flex items-center justify-center">
-          <img src={ResetPin1} width={"100%"} height={"100%"} />
+          <img src={ResetPin1} className="w-60" />
         </div>
       </div>
     </div>
