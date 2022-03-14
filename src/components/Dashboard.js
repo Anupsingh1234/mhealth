@@ -50,7 +50,7 @@ import {
 import Forum from "./Forum";
 import ThemeContext from "../context/ThemeContext";
 import DietPlan from "./Dietplan/DietPlan";
-
+import HRA from "../components/HRA/Index";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -135,6 +135,8 @@ const Dashboard = () => {
           return "challenge";
         case "quiz":
           return "quiz";
+        case "hra":
+          return "hra";
         default:
           return "Activities";
       }
@@ -1062,6 +1064,7 @@ const Dashboard = () => {
         "quiz",
         "forum",
         "dietplan",
+        "hra",
       ].includes(dashboardState.selectedAction)
     ) {
       setDashboardState({

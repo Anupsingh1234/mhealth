@@ -602,7 +602,7 @@ const Imgshow = (props) => {
       <div
         style={{ display: "flex", flexDirection: "column", marginTop: "2rem" }}
       >
-        <h4> Milestones : </h4>
+        <h4>Monthly Milestones : </h4>
         <div>
           {/* {LeaderboardImg.map((elem) => {
             return ( */}

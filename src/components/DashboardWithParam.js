@@ -7,6 +7,8 @@ import TriStateToggle from "./toggle/TriStateToggle";
 import { lighten, makeStyles, useTheme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import EventGallery from "./EventGallery";
+// import HRA from "./HRA";
+// import DietPlan from "./Dietplan";
 import Navbar from "./Navbar";
 import LeaderboardTable from "./LeaderBoardTable";
 import ListOfEvents from "./ListOfEvents";
@@ -1471,6 +1473,7 @@ const Dashboard = (props) => {
   };
 
   const renderViewByActionType = (state) => {
+    console.log(state.selectedAction, "sls");
     switch (state.selectedAction) {
       case "Leaderboard":
         return (
@@ -1528,6 +1531,15 @@ const Dashboard = (props) => {
         return <TargetSetting dashboardState={dashboardState} />;
       case "Source":
         return <UpdateDataSource dashboardState={dashboardState} />;
+      case "hra":
+        return (
+          <HRA
+            eventID={dashboardState.selectedChallenge}
+            currentEventObj={dashboardState.selectedChallengeObject}
+          />
+        );
+      case "myplan":
+        return <DietPlan eventId={dashboardState.selectedChallenge} />;
     }
   };
 
@@ -1768,8 +1780,7 @@ const Dashboard = (props) => {
               });
             }}
           />
-          {/* TODO */}
-          {/* <ActionCard
+          <ActionCard
             isProgramAvailable={dashboardState.isProgramAvailable}
             name="hra"
             display={
@@ -1804,7 +1815,7 @@ const Dashboard = (props) => {
                 };
               });
             }}
-          /> */}
+          />
         </div>
       </div>
     );

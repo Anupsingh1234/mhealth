@@ -2783,10 +2783,10 @@ const SubEventCard = ({
                                 enabled: true,
                               };
                           }}
-                          style={{
-                            maxHeight: "400px",
-                            backgroundColor: "yellow",
-                          }}
+                          // style={{
+                          //   maxHeight: "400px",
+                          //   backgroundColor: "yellow",
+                          // }}
                           maxDate={new Date(ddt)}
                           locale="us"
                           minDate={new Date()}
