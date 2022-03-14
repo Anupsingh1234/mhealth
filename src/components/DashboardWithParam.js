@@ -7,8 +7,8 @@ import TriStateToggle from "./toggle/TriStateToggle";
 import { lighten, makeStyles, useTheme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import EventGallery from "./EventGallery";
-// import HRA from "./HRA";
-// import DietPlan from "./Dietplan";
+import DietPlan from "./Dietplan/DietPlan";
+import HRA from "../components/HRA/Index";
 import Navbar from "./Navbar";
 import LeaderboardTable from "./LeaderBoardTable";
 import ListOfEvents from "./ListOfEvents";
@@ -42,7 +42,12 @@ import Quiz from "./QuizForEvents/quiz";
 import DefaultDashboard from "./DefaultDashboard";
 import SelectBox from "./Form/Select";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
-import { faHome, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowDownWideShort,
+  faDiamond,
+  faHome,
+  faInfoCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import EventInfoModal from "./EventInfoModal";
 import Actions from "./Actions";
 import { ACTION_ICONS } from "../constants/dashboardAction";
@@ -311,6 +316,8 @@ const Dashboard = (props) => {
       switch (dashboardState.selectedAction) {
         case "Gallery":
         case "quiz":
+        case "hra":
+        case "myplan":
           const HEALTH_TAB = [
             {
               key: "home",
@@ -362,6 +369,40 @@ const Dashboard = (props) => {
               },
               icon: faComments,
               selected: dashboardState.selectedAction === "quiz",
+            },
+            {
+              key: "hra",
+              title: "HRA",
+              onClick: () => {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    selectedAction: "hra",
+                    selectedChallengeArray: [],
+                    compareData: { data: [], categories: [] },
+                    listOfChallenges: getCurrentAllEvents(),
+                  };
+                });
+              },
+              icon: faArrowDownWideShort,
+              selected: dashboardState.selectedAction === "hra",
+            },
+            {
+              key: "myplan",
+              title: "My Plan",
+              onClick: () => {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    selectedAction: "myplan",
+                    selectedChallengeArray: [],
+                    compareData: { data: [], categories: [] },
+                    listOfChallenges: getCurrentAllEvents(),
+                  };
+                });
+              },
+              icon: faDiamond,
+              selected: dashboardState.selectedAction === "myplan",
             },
           ];
           setFooterTabs(HEALTH_TAB);
@@ -1822,6 +1863,7 @@ const Dashboard = (props) => {
   };
 
   const { location } = useLocation();
+  console.log(dashboardState.selectedAction, "testtt");
   return (
     <div className="flex flex-col bg-white">
       {/* <Navbar /> */}

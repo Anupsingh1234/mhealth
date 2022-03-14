@@ -181,11 +181,10 @@ const DietPlan = () => {
         }
       });
   };
-  console.log(dietplandata, "sadksjah");
   return (
-    <>
-      <div className="head">
-        <div className="d-flex h-14">
+    <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
+      <div>
+        <div className="flex flex-col md:flex-row gap-4">
           <fieldset>
             <legend>From Date:</legend>
             <form className={classes1.container} noValidate>
@@ -203,7 +202,7 @@ const DietPlan = () => {
             </form>
           </fieldset>
 
-          <fieldset style={{ marginLeft: "40px" }}>
+          <fieldset>
             <legend>To Date:</legend>
             <form className={classes1.container} noValidate>
               <TextField
@@ -492,7 +491,7 @@ const DietPlan = () => {
           )}
         </Paper>
       </div>
-    </>
+    </div>
   );
 };
 

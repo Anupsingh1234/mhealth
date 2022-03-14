@@ -1040,11 +1040,11 @@ const Quiz = (props) => {
         <Paper
           className="quizPapertwo"
           elevation={2}
-          style={
-            {
-              // marginLeft: 15,
-            }
-          }
+          style={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+          }}
         >
           <h3 style={{ textAlign: "center", marginLeft: 18 }}>
             {" "}
@@ -1068,7 +1068,7 @@ const Quiz = (props) => {
                 />
               )}
 
-              <TableBody className="flex md:justify-center">
+              <TableBody className="flex w-full justify-center">
                 {session && (
                   <TableRow style={{ background: "#e0f2fe" }} className="cells">
                     <TableCell align="center">

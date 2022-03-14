@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import classnames from "classnames";
 import Chart from "react-apexcharts";
 import Message from "antd-message";
@@ -51,9 +51,13 @@ import { useHistory } from "react-router-dom";
 import { PROGRAMS } from "../constants/footerTabs";
 import "../styles/DashboardWithParam.css";
 import { PrimaryButton } from "./Form";
+import SelectedEventContext from "../context/SelectedEventContext";
 
 const Programs = (props) => {
   // Getting default tab for dashboard
+  const { selected, setSelected } = useContext(SelectedEventContext);
+
+  console.log({ selected });
   const history = useHistory();
   const [dashboardState, setDashboardState] = useState({
     listOfChallenges: [],
@@ -1110,11 +1114,16 @@ const Programs = (props) => {
               <div className="flex flex-row items-center justify-center gap-4">
                 <SelectBox
                   options={events || []}
-                  selectedValue={dashboardState.selectedChallengeObject.id}
+                  selectedValue={
+                    selected
+                      ? selected.id
+                      : dashboardState.selectedChallengeObject.id
+                  }
                   handleChange={(e) => {
                     const eventObj = dashboardState.listOfChallenges.find(
                       (ev) => ev.id === parseInt(e.target.value)
                     );
+                    setSelected(eventObj);
                     handleChallengeCardClick(eventObj);
                   }}
                 />
