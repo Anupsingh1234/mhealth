@@ -651,11 +651,11 @@ const AuditReport = (props) => {
                 </fieldset>
               </div>
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <PrimaryButton mini className="w-24">
-                {" "}
-                Submit
-              </PrimaryButton>
+            <div
+              style={{ display: "flex", justifyContent: "center" }}
+              className="w-[max-content] mx-auto"
+            >
+              <PrimaryButton mini> Submit</PrimaryButton>
             </div>
           </form>
         </div>

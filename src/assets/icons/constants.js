@@ -11,7 +11,7 @@ export const icons = {
     "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/social/icons8-reddit.svg",
   pinterest:
     "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/social/icons8-pinterest.svg",
-  linkedIn:
+  linkedin:
     "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/social/icons8-linkedin.svg",
   instagram:
     "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/social/icons8-instagram.svg",
