@@ -8,7 +8,7 @@ import { urlPrefix } from "../../services/apicollection";
 import AssessmentInfo from "./AssessmentInfo";
 
 import dataSource from "../../assets/dataSource.svg";
-
+import message from "antd-message";
 import { updateUserDetailsHandler } from "../../services/userprofileApi";
 import SubEventCard from "../Dashboard/Activity/SubEventCard";
 import { getSubEvent } from "../../services/apicollection";
@@ -30,8 +30,7 @@ const HraCard = (eventID, currentEventObj) => {
   const [cardId, setcardId] = useState();
   const Assessment = (id) => {
     if (dataList.profileComplete === true) {
-  
-     localStorage.setItem("cardId",id)
+      localStorage.setItem("cardId", id);
       // submitAnswer(localStorage.getItem("userId"), 0, 0, 0), id;
       startQuiz(id);
     } else {
@@ -55,14 +54,14 @@ const HraCard = (eventID, currentEventObj) => {
       setProfilePayload();
     });
   };
-  useEffect(()=>{
-card()
-setscoreDetails()
-setcardDetails()
-setProgramList()
-  },[eventID])
+  useEffect(() => {
+    card();
+    setscoreDetails();
+    setcardDetails();
+    setProgramList();
+  }, [eventID]);
   const [subcard, setsubcard] = useState(false);
-  const [optionId, setoptionId] = useState([]);
+  const [optionId, setOptionId] = useState([]);
   const [score, setscore] = useState();
   const [isnext, setisnext] = useState(true);
   const [totalScore, settotalScore] = useState(0);
@@ -70,13 +69,13 @@ setProgramList()
   const [nextquestion, setnextquestion] = useState();
   const [scoreDetails, setscoreDetails] = useState();
   const [cardDetails, setcardDetails] = useState();
-
+  const [isCheck, setIsCheck] = useState(false);
   const [flag, setflag] = useState(false);
   const [Option, setOption] = useState();
- 
+
   const handleCheck = (e) => {
     const { name, checked } = e.target;
-
+    setIsCheck(true);
     if (checked) {
       optionId.push(parseInt(name));
     } else {
@@ -86,7 +85,7 @@ setProgramList()
         });
       }
       const result = arrayRemove(optionId, name);
-      setoptionId(result);
+      setOptionId(result);
     }
   };
   console.log(optionId);
@@ -148,56 +147,72 @@ setProgramList()
         );
       });
   };
-  
-  const submitAnswer = (hraid, questionid, option, freetext) => {
-    settextAns(null);
-    setflag(true);
-    setoptionId([]);
-    const URL = `${urlPrefix}v1.0/submitHraAnswer`;
-    return axios
-      .post(
-        URL,
-        {
-          hraId: cardId,
-          hraQuestionId: questionid,
-          optionId: optionId,
-          text: freetext,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.token}`,
-            timeStamp: "timestamp",
-            accept: "*/*",
-            "Access-Control-Allow-Origin": "*",
-            withCredentials: true,
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-            "Access-Control-Allow-Headers":
-              "accept, content-type, x-access-token, x-requested-with",
-          },
-        }
-      )
-      .then((res) => {
-        res?.data?.response?.responseData
-          ? setnextquestion(res?.data?.response?.responseData)
-          : setnextquestion(false);
-        if (res?.data?.response?.responseData == true) {
-          settotalScore(totalScore + score);
-          startQuiz();
-          settextAns("")
-          setoptionId("")
-        } else {
-          settotalScore(totalScore - score);
-        }
 
-        // setquestion(res?.data?.response?.responseData);
-      });
+  const submitAnswer = (hraid, questionid, option, freetext) => {
+    if (optionId.length > 0 || textAns !== null) {
+      // if (textAns !== "") {
+      // settextAns(null);
+      setflag(true);
+
+      const URL = `${urlPrefix}v1.0/submitHraAnswer`;
+      return axios
+        .post(
+          URL,
+          {
+            hraId: cardId,
+            hraQuestionId: questionid,
+            optionId: optionId,
+            text: freetext,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.token}`,
+              timeStamp: "timestamp",
+              accept: "*/*",
+              "Access-Control-Allow-Origin": "*",
+              withCredentials: true,
+              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+              "Access-Control-Allow-Headers":
+                "accept, content-type, x-access-token, x-requested-with",
+            },
+          }
+        )
+        .then((res) => {
+          res?.data?.response?.responseData
+            ? setnextquestion(res?.data?.response?.responseData)
+            : setnextquestion(false);
+          if (res?.data?.response?.responseData == true) {
+            settotalScore(totalScore + score);
+
+            startQuiz();
+
+            settextAns("");
+            setOptionId([]);
+            setIsCheck(false);
+          } else {
+            settotalScore(totalScore - score);
+          }
+
+          // setquestion(res?.data?.response?.responseData);
+        });
+      // } else {
+      //   message.error("Please write something here ! ");
+      // }
+    } else if (
+      (question && question.ansType == "MULTIPLE") ||
+      (question && question.ansType == "SINGLE")
+    ) {
+      message.error("Please choose any option !");
+    } else {
+      message.error("Please write something here ! ");
+    }
   };
-  const quizFunction = (id) => {
-   
-  };
-  console.log(nextquestion,cardId,'cardid');
+
+  console.log(nextquestion, cardId, "cardid");
   const startQuiz = (id) => {
-    const URL = `${urlPrefix}v1.0/getHRAQuestions?hraId=${localStorage.getItem("cardId")}`;
+    const URL = `${urlPrefix}v1.0/getHRAQuestions?hraId=${localStorage.getItem(
+      "cardId"
+    )}`;
     return axios
       .get(URL, {
         headers: {
@@ -222,7 +237,7 @@ setProgramList()
           : "";
       });
   };
- 
+
   const getActivitySubEvent = (arr) => {
     let URL = `${urlPrefix}${getSubEvent}?eventId=${localStorage.getItem(
       "selectEvent"
@@ -242,29 +257,26 @@ setProgramList()
         },
       })
       .then((res) => {
-        const list=[]
+        const list = [];
         for (var i = 0; i < arr.length; i++) {
           console.log(arr[i], "arra");
-         
-        const data = res.data.response.responseData.filter((item) => {
-              return item?.id == arr[i];
-            })
-           
-            
-            list.push(...data)
-            console.log(data,list,'data')
-         
+
+          const data = res.data.response.responseData.filter((item) => {
+            return item?.id == arr[i];
+          });
+
+          list.push(...data);
+          console.log(data, list, "data");
         }
-        setProgramList(list)
-      
+        setProgramList(list);
+
         setsubcard(true);
-       
       });
   };
-  const listed=(data)=>{
+  const listed = (data) => {
     programList.push(data);
-  }
-  console.log(programList1, programList,"list");
+  };
+  console.log(programList1, programList, "list");
   const handleSubscription = () => {
     getActivitySubEvent();
   };
@@ -272,9 +284,12 @@ setProgramList()
     setscore(mark);
     optionId.push(parseInt(val));
   };
+  const handleCheckbox = (e) => {
+    setOptionId([...optionId, e.target.value]);
+  };
   return (
     <>
-      {cardDetails && cardDetails.length > 0 && dataList? (
+      {cardDetails && cardDetails.length > 0 && dataList ? (
         <>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             <div
@@ -330,7 +345,10 @@ setProgramList()
                         <div className="register-button">
                           <PrimaryButton
                             style={{ marginBottom: "10px" }}
-                            onClick={()=>{Assessment(item.id);setcardId(item.id);}}
+                            onClick={() => {
+                              Assessment(item.id);
+                              setcardId(item.id);
+                            }}
                           >
                             Assessment
                           </PrimaryButton>
@@ -425,13 +443,14 @@ setProgramList()
                           disabled={dataList.location !== null ? true : false}
                         />
                       </div>
-                      <div style={{ width: "50%" }}>
+                      <div style={{ width: "25%" }}></div>
+                      <div style={{ width: "20%", marginTop: "5%" }}>
                         <PrimaryButton
                           style={{
                             backgroundColor: "green",
                             color: "white",
-                            marginTop: "10%",
-                            marginLeft: "50%",
+                            // marginTop: "30%",
+                            // marginLeft: "50%",
                             borderRadius: "10px",
                             height: "40px",
                             width: "80px",
@@ -455,204 +474,216 @@ setProgramList()
               )}
             </div>
           </div>
-        
-      {nextquestion == true ? (
-        <Paper elevation={3} className="quizPart flex flex-col" style={{}}>
-          <div
-            className="question bg-slate-200 pt-3 pb-3 pl-1 pr-1 mt-8 ml-8"
-            style={{
-              width: "650px",
-              padding: "20px",
-              borderRadius: "20px",
-              fontSize: "18px",
-            }}
-          >
-            <span className="font-extrabold">
-              {" "}
-              {question && question.hraQuestionId} .{" "}
-            </span>
-            <span className=" font-semibold">
-              {" "}
-              {question && question.question}{" "}
-            </span>
-          </div>
 
-          <div className="flex ">
-            {" "}
-            <div className="flex flex-col pb-4 ml-8">
-              <div className="answers mt-3 p-2">
-                {question && question.ansType == "SINGLE" ? (
-                  question.hraOptions?.map((item, index) => {
-                    return (
-                      <div
-                        style={{ width: "600px" }}
-                        className="p-2 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
-                      >
-                        {" "}
-                        <div>
-                          <input
-                            type="radio"
-                            name="teamselect"
-                            value={item.id}
-                            onChange={(e) => {
-                              selectOption(
-                                e.target.value,
-                                item.id,
-                                item.optionScore
-                              );
-                            }}
-                            style={{ marginRight: "15px" }}
-                            id={index}
-                          />
-                          <label for={index} classNamem="p-3">
-                            {item.optionText}
-                          </label>
-                        </div>
+          {nextquestion == true ? (
+            <Paper elevation={3} className="quizPart flex flex-col" style={{}}>
+              <div
+                className="question bg-slate-200 pt-3 pb-3 pl-1 pr-1 mt-8 ml-8"
+                style={{
+                  width: "650px",
+                  padding: "20px",
+                  borderRadius: "20px",
+                  fontSize: "18px",
+                }}
+              >
+                <span className="font-extrabold">
+                  {" "}
+                  {question && question.hraQuestionId} .{" "}
+                </span>
+                <span className=" font-semibold">
+                  {" "}
+                  {question && question.question}{" "}
+                </span>
+              </div>
+
+              <div className="flex ">
+                {" "}
+                <div className="flex flex-col pb-4 ml-8">
+                  <div className="answers mt-3 p-2">
+                    {question && question.ansType == "SINGLE" ? (
+                      question.hraOptions?.map((item, index) => {
+                        return (
+                          <div
+                            style={{ width: "600px" }}
+                            className="p-2 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
+                          >
+                            {" "}
+                            <div>
+                              <input
+                                type="radio"
+                                name="teamselect"
+                                value={item.id}
+                                onChange={(e) => {
+                                  selectOption(
+                                    e.target.value,
+                                    item.id,
+                                    item.optionScore
+                                  );
+                                }}
+                                style={{ marginRight: "15px" }}
+                                id={index}
+                              />
+                              <label for={index} className="p-3">
+                                {item.optionText}
+                              </label>
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : question && question.ansType == "MULTIPLE" ? (
+                      question.hraOptions?.map((item, index) => {
+                        return (
+                          <div
+                            style={{ width: "600px" }}
+                            className="p-1 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
+                          >
+                            {" "}
+                            <div key={item.id}>
+                              <Checkbox
+                                id={index}
+                                onChange={handleCheck}
+                                // value={optionId}
+                                name={item.id}
+                                // checked={false}
+                                style={{ fontSize: 9 }}
+                                // inputProps={{
+                                //   "aria-label": "uncontrolled-checkbox",
+                                // }}
+                              />
+                              {/* <input
+                                type="checkbox"
+                                value={item.id}
+                                onChange={handleCheckbox}
+                                // checked={optionId[index]}
+                                name="categories"
+                                checked={optionId[index]}
+                              /> */}
+                              <label for={index} className="p-3">
+                                {item.optionText}{" "}
+                              </label>
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <div style={{ width: "600px" }}>
+                        <TextField
+                          style={{ width: "300px", marginTop: "20px" }}
+                          type="text"
+                          value={textAns}
+                          multiline
+                          label="Write Your Answer"
+                          onChange={(e) => {
+                            settextAns(e.target.value);
+                            setOptionId([Option && Option[0]?.id]);
+                          }}
+                        />
                       </div>
-                    );
-                  })
-                ) : question && question.ansType == "MULTIPLE" ? (
-                  question.hraOptions?.map((item, index) => {
-                    return (
-                      <div
-                        style={{ width: "600px" }}
-                        className="p-1 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
-                      >
-                        {" "}
-                        <div>
-                          <Checkbox
-                            id={index}
-                            onChange={handleCheck}
-                            name={item.id}
-                            style={{ fontSize: 9 }}
-                            inputProps={{
-                              "aria-label": "uncontrolled-checkbox",
-                            }}
-                          />
-                          <label for={index} classNamem="p-3">
-                            {item.optionText}{" "}
-                          </label>
-                        </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div style={{ width: "600px" }}>
-                    <TextField
-                      style={{ width: "300px", marginTop: "20px" }}
-                      type="text"
-                      value={textAns}
-                      multiline
-                      label="Write Your Answer"
-                      onChange={(e) => {
-                        settextAns(e.target.value);
-                        setoptionId([Option && Option[0]?.id]);
-                      }}
-                    />
+                    )}
                   </div>
-                )}
+                  <div
+                    style={{
+                      width: "140px",
+                      height: "35px",
+                      padding: "15px",
+                    }}
+                    className="drop-shadow-lg flex justify-end"
+                  >
+                    {isnext && (
+                      <PrimaryButton
+                        onClick={() => {
+                          submitAnswer(
+                            localStorage.getItem("cardId"),
+                            question.hraQuestionId,
+                            optionId,
+                            textAns !== "" ? textAns : null
+                          );
+                          setoptionId([]);
+                        }}
+                        // disabled={
+                        //   optionId.length > 0 || textAns !== null ? false : true
+                        // }
+                      >
+                        Submit{" "}
+                      </PrimaryButton>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Paper>
+          ) : scoreDetails && nextquestion == false ? (
+            <Paper
+              elevation={3}
+              style={{
+                minHeight: "200px",
+                maxHeight: "auto",
+                // display: "flex",
+                // justifyContent: "center",
+                // alignItems: "center",
+              }}
+            >
+              <div
+                style={{
+                  marginTop: "30px",
+                  marginLeft: "25%",
+                  display: "flex",
+                  justifyContent: "space-around",
+                  background: "gray",
+                  color: "#fff",
+                  width: "600px",
+                  padding: "15px",
+                  borderRadius: "25px",
+                  position: "relative",
+                  // margin:'10px 10px 10px'
+                }}
+              >
+                <h2> Assessment : {scoreDetails.assesmentName} </h2>{" "}
+                <h2> Total score : {scoreDetails.totalScore} </h2>{" "}
               </div>
               <div
                 style={{
-                  width: "140px",
-                  height: "35px",
+                  marginTop: "30px",
+                  marginLeft: "30px",
+                  display: "flex",
+
+                  width: "90%",
                   padding: "15px",
+                  borderRadius: "25px",
+                  textAlign: "justify",
                 }}
-                className="drop-shadow-lg flex justify-end"
               >
-                {isnext && (
-                  <PrimaryButton
-                    onClick={() => {
-                      submitAnswer(
-                        localStorage.getItem("cardId"),
-                        question.hraQuestionId,
-                        optionId,
-                        textAns
-                      );
-                      setoptionId([]);
-                    }}
-                  >
-                    Submit{" "}
-                  </PrimaryButton>
-                )}
-              </div>
-            </div>
-          </div>
-        </Paper>
-      ) : scoreDetails && nextquestion == false ? (
-        <Paper
-          elevation={3}
-          style={{
-            minHeight: "200px",
-            maxHeight:'auto',
-            // display: "flex",
-            // justifyContent: "center",
-            // alignItems: "center",
-            
-          }}
-          
-        >
-                   
-          <div style={{
-                marginTop: "30px",
-                marginLeft: "25%",
-                display: "flex",
-                justifyContent: "space-around",
-                background: "gray",
-                color: "#fff",
-                width: "600px",
-                padding: "15px",
-                borderRadius: "25px",
-                position:'relative'
-                // margin:'10px 10px 10px'
-              }}
-            >
-              <h2> Assessment : {scoreDetails.assesmentName} </h2>{" "}
-              <h2> Total score : {scoreDetails.totalScore} </h2>{" "}
-
-              
-            </div>
-            <div style={{
-                marginTop: "30px",
-                marginLeft: "30px",
-                display: "flex",
-                
-                width: "90%",
-                padding: "15px",
-                borderRadius: "25px",
-                textAlign:'justify'
-              }}>  
-              
-              <div style={{width:'13%',fontWeight:'800',fontSize:'14px'}}>
-              Assessments :
+                <div
+                  style={{ width: "13%", fontWeight: "800", fontSize: "14px" }}
+                >
+                  Assessments :
                 </div>
-                <div style={{width:'87%'}}>
-                {scoreDetails.recommedations} 
+                <div style={{ width: "87%" }}>
+                  {scoreDetails.recommedations}
                 </div>
               </div>
-           
-    
-
-        </Paper>
-      ) : (
-        ""
-      )}
-      {programList1&&programList1.length>0&&(<>
-      <h1>Recommended Program</h1>
-      
-        <div style={{ display: "flex", flexWrap: "wrap" }}>
-          {programList1.map((subEventDetail) => (
+            </Paper>
+          ) : (
+            ""
+          )}
+          {programList1 && programList1.length > 0 && (
             <>
-              <SubEventCard
-                subEventDetail={subEventDetail}
-                currentEventObj={currentEventObj}
-                handleSubscription={handleSubscription}
-                type="view"
-              />
+              <h1>Recommended Program</h1>
+
+              <div style={{ display: "flex", flexWrap: "wrap" }}>
+                {programList1.map((subEventDetail) => (
+                  <>
+                    <SubEventCard
+                      subEventDetail={subEventDetail}
+                      currentEventObj={currentEventObj}
+                      handleSubscription={handleSubscription}
+                      type="view"
+                    />
+                  </>
+                ))}
+              </div>
             </>
-          ))}
-        </div>
-    </>)}</>
+          )}
+        </>
       ) : (
         <div
           style={{
