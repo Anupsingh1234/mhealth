@@ -76,7 +76,7 @@ const HraCard = (eventID, currentEventObj) => {
   const [isCheck, setIsCheck] = useState(false);
   const [flag, setflag] = useState(false);
   const [Option, setOption] = useState();
-
+  const [info, setinfo] = useState();
   const handleCheck = (e) => {
     const { name, checked } = e.target;
     setIsCheck(true);
@@ -92,12 +92,18 @@ const HraCard = (eventID, currentEventObj) => {
       setOptionId(result);
     }
   };
-  console.log(optionId);
   useEffect(() => {
     nextquestion == false ? scoreCall() : "";
     flag == false ? card() : "";
   }, [nextquestion]);
 
+  const filterInfo = (e) => {
+    var marvelHeroes = cardDetails.filter(function (hero) {
+      const x = hero.id == e;
+      return x;
+    });
+    setinfo(marvelHeroes);
+  };
   const card = (e) => {
     const URL = `${urlPrefix}v1.0/getAssistmentCard?challengerZoneId=${localStorage.getItem(
       "selectEvent"
@@ -116,12 +122,10 @@ const HraCard = (eventID, currentEventObj) => {
         },
       })
       .then((res) => {
-        console.log();
         {
           res.data.response.responseData &&
             setcardDetails(res.data.response.responseData.hac);
           setDataList(res.data.response.responseData);
-          console.log(res.data.response.responseData);
         }
 
         // setscoreDetails(res?.data?.response?.responseData);
@@ -212,7 +216,6 @@ const HraCard = (eventID, currentEventObj) => {
     }
   };
 
-  console.log(nextquestion, cardId, "cardid");
   const startQuiz = (id) => {
     const URL = `${urlPrefix}v1.0/getHRAQuestions?hraId=${localStorage.getItem(
       "cardId"
@@ -263,14 +266,11 @@ const HraCard = (eventID, currentEventObj) => {
       .then((res) => {
         const list = [];
         for (var i = 0; i < arr.length; i++) {
-          console.log(arr[i], "arra");
-
           const data = res.data.response.responseData.filter((item) => {
             return item?.id == arr[i];
           });
 
           list.push(...data);
-          console.log(data, list, "data");
         }
         setProgramList(list);
 
@@ -280,7 +280,6 @@ const HraCard = (eventID, currentEventObj) => {
   // const listed = (data) => {
   //   programList.push(data);
   // };
-  console.log(programList1, programList, "list");
   const handleSubscription = () => {
     getActivitySubEvent();
   };
@@ -361,7 +360,9 @@ const HraCard = (eventID, currentEventObj) => {
                         <div className="challenge-card-start-date1">
                           <InfoIcon
                             style={{ fontSize: 18, color: "#1e88e5" }}
-                            onClick={() => setModalView(true)}
+                            onClick={() => {
+                              setModalView(true), filterInfo(item.id);
+                            }}
                           />
                         </div>
                       </div>
@@ -484,7 +485,7 @@ const HraCard = (eventID, currentEventObj) => {
                         <AssessmentInfo
                           modalView={modalView}
                           setModalView={setModalView}
-                          details={cardDetails}
+                          details={info && info}
                         />
                       )}
                     </div>
