@@ -160,8 +160,8 @@ const HraCard = (eventID, currentEventObj) => {
   };
 
   const submitAnswer = (hraid, questionid, option, freetext) => {
-    if (optionId.length > 0 || textAns !== null) {
-      // if (textAns !== "") {
+    console.log(optionId, textAns, "optionId");
+    if (optionId && optionId.length !== 0) {
       // settextAns(null);
       setflag(true);
 
@@ -206,9 +206,6 @@ const HraCard = (eventID, currentEventObj) => {
 
           // setquestion(res?.data?.response?.responseData);
         });
-      // } else {
-      //   message.error("Please write something here ! ");
-      // }
     } else if (
       (question && question.ansType == "MULTIPLE") ||
       (question && question.ansType == "SINGLE")
@@ -622,7 +619,7 @@ const HraCard = (eventID, currentEventObj) => {
                             optionId,
                             textAns !== "" ? textAns : null
                           );
-                          setoptionId([]);
+                          setOptionId([]);
                         }}
                         // disabled={
                         //   optionId.length > 0 || textAns !== null ? false : true
