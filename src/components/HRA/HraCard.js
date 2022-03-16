@@ -123,6 +123,7 @@ const HraCard = (eventID, currentEventObj) => {
       })
       .then((res) => {
         {
+          console.log(res.data.response.responseData, "card");
           res.data.response.responseData &&
             setcardDetails(res.data.response.responseData.hac);
           setDataList(res.data.response.responseData);
@@ -133,7 +134,9 @@ const HraCard = (eventID, currentEventObj) => {
   };
 
   const scoreCall = () => {
-    const URL = `${urlPrefix}v1.0/getHRAScoreCard?hraId=${cardId}`;
+    const URL = `${urlPrefix}v1.0/getHRAScoreCard?hraId=${localStorage.getItem(
+      "cardId"
+    )}`;
     return axios
       .get(URL, {
         headers: {
@@ -239,6 +242,9 @@ const HraCard = (eventID, currentEventObj) => {
         } else {
           setnextquestion(false);
         }
+        if (res?.data?.response?.responseData.next === false) {
+          scoreCall();
+        }
         res?.data?.response?.responseData.ansType == "TEXT"
           ? setOption(res?.data?.response?.responseData?.hraOptions)
           : "";
@@ -285,11 +291,9 @@ const HraCard = (eventID, currentEventObj) => {
   };
   const selectOption = (val, id, mark) => {
     setscore(mark);
-    optionId.push(parseInt(val));
+    setOptionId([parseInt(val)]);
   };
-  const handleCheckbox = (e) => {
-    setOptionId([...optionId, e.target.value]);
-  };
+
   return (
     <>
       {cardDetails && cardDetails.length > 0 && dataList ? (
@@ -507,7 +511,7 @@ const HraCard = (eventID, currentEventObj) => {
               >
                 <span className="font-extrabold">
                   {" "}
-                  {question && question.hraQuestionId} .{" "}
+                  {question && question.index} .{" "}
                 </span>
                 <span className=" font-semibold">
                   {" "}
@@ -527,16 +531,16 @@ const HraCard = (eventID, currentEventObj) => {
                             className="p-2 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
                           >
                             {" "}
-                            <div>
+                            <div key={item.id}>
                               <input
                                 type="radio"
                                 name="teamselect"
                                 key={item.id}
                                 id={item.id}
-                                // value={item.id}
+                                value={item.id}
                                 onChange={(e) => {
                                   selectOption(
-                                    item.id,
+                                    e.target.value,
                                     item.id,
                                     item.optionScore
                                   );
