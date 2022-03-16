@@ -44,8 +44,12 @@ const HraCard = (eventID, currentEventObj) => {
   };
   const updateProfile = () => {
     let payload = {
-      dob: profilePayload.dob + " " + "12:00:00",
-      gender: profilePayload.gender,
+      dob:
+        profilePayload.dob !== undefined
+          ? profilePayload.dob + " " + "12:00:00"
+          : null,
+      gender:
+        profilePayload.gender !== undefined ? profilePayload.gender : null,
       city: profilePayload.location,
     };
     updateUserDetailsHandler(payload).then((res) => {
@@ -273,9 +277,9 @@ const HraCard = (eventID, currentEventObj) => {
         setsubcard(true);
       });
   };
-  const listed = (data) => {
-    programList.push(data);
-  };
+  // const listed = (data) => {
+  //   programList.push(data);
+  // };
   console.log(programList1, programList, "list");
   const handleSubscription = () => {
     getActivitySubEvent();
@@ -292,24 +296,25 @@ const HraCard = (eventID, currentEventObj) => {
       {cardDetails && cardDetails.length > 0 && dataList ? (
         <>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
-            <div
-              // onClick={() => {
-              //   localStorage.setItem("eventCode", subEventDetail.eventCode);
-              // }}
-              className="challenge-card"
-              style={
-                {
-                  margin: "25px 5px",
-                  height: "auto",
-                  cursor: "pointer",
-                }
-                // : { height: "auto" }
-              }
-            >
-              {cardDetails &&
-                cardDetails.map((item, index) => {
-                  return (
-                    <>
+            {cardDetails &&
+              cardDetails.map((item, index) => {
+                return (
+                  <>
+                    <div
+                      // onClick={() => {
+                      //   localStorage.setItem("eventCode", subEventDetail.eventCode);
+                      // }}
+
+                      className="challenge-card"
+                      style={
+                        {
+                          margin: "25px 5px",
+                          height: "auto",
+                          cursor: "pointer",
+                        }
+                        // : { height: "auto" }
+                      }
+                    >
                       {" "}
                       <div
                         key={index}
@@ -360,119 +365,132 @@ const HraCard = (eventID, currentEventObj) => {
                           />
                         </div>
                       </div>
-                    </>
-                  );
-                })}
-
-              {profileModal && (
-                <InfoDialog
-                  open={profileModal}
-                  handleClose={() => setProfileModal(false)}
-                >
-                  <CancelIcon
-                    style={{
-                      position: "absolute",
-                      top: 5,
-                      right: 5,
-                      color: "#ef5350",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setProfileModal(false)}
-                  />
-                  <div style={{ height: "200px", width: "500px" }}>
-                    <div style={{ display: "flex", marginLeft: "10px" }}>
-                      <div style={{ width: "50%" }}>
-                        <label>DOB</label>
-                        <input
-                          autofocus="autofocus"
-                          style={{
-                            background: "#f3f4f6",
-                            padding: "10px 10px",
-                            borderRadius: 6,
-                            fontSize: 12,
-                            width: "90%",
-                            border: "1px solid black",
-                          }}
-                          type="date"
-                          name="dob"
-                          onChange={handleChange}
-                          value={
-                            dataList.dob !== null
-                              ? dataList.dob.substring(0, 10)
-                              : dataList.dob
-                          }
-                          disabled={dataList.dob !== null ? true : false}
-                        />
-                      </div>
-                      <div style={{ width: "50%" }}>
-                        <label>Gender</label>
-                        <input
-                          autofocus="autofocus"
-                          style={{
-                            background: "#f3f4f6",
-                            padding: "10px 10px",
-                            borderRadius: 6,
-                            fontSize: 12,
-                            width: "90%",
-                            border: "1px solid black",
-                          }}
-                          name="gender"
-                          placeholder="Enter Your Gender"
-                          onChange={handleChange}
-                          value={dataList.gender}
-                          disabled={dataList.gender !== null ? true : false}
-                        />
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", marginLeft: "10px" }}>
-                      <div style={{ width: "50%" }}>
-                        <label>City</label>
-                        <input
-                          autofocus="autofocus"
-                          style={{
-                            background: "#f3f4f6",
-                            padding: "10px 10px",
-                            borderRadius: 6,
-                            fontSize: 12,
-                            width: "90%",
-                            border: "1px solid black",
-                          }}
-                          name="city"
-                          onChange={handleChange}
-                          value={dataList.location}
-                          disabled={dataList.location !== null ? true : false}
-                        />
-                      </div>
-                      <div style={{ width: "25%" }}></div>
-                      <div style={{ width: "20%", marginTop: "5%" }}>
-                        <PrimaryButton
-                          style={{
-                            backgroundColor: "green",
-                            color: "white",
-                            // marginTop: "30%",
-                            // marginLeft: "50%",
-                            borderRadius: "10px",
-                            height: "40px",
-                            width: "80px",
-                          }}
-                          onClick={updateProfile}
+                      {profileModal && (
+                        <InfoDialog
+                          open={profileModal}
+                          handleClose={() => setProfileModal(false)}
                         >
-                          {" "}
-                          Save
-                        </PrimaryButton>
-                      </div>
+                          <CancelIcon
+                            style={{
+                              position: "absolute",
+                              top: 5,
+                              right: 5,
+                              color: "#ef5350",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setProfileModal(false)}
+                          />
+                          <div style={{ height: "200px", width: "500px" }}>
+                            <div
+                              style={{ display: "flex", marginLeft: "10px" }}
+                            >
+                              <div style={{ width: "50%" }}>
+                                <label>DOB</label>
+                                <input
+                                  autofocus="autofocus"
+                                  style={{
+                                    background: "#f3f4f6",
+                                    padding: "10px 10px",
+                                    borderRadius: 6,
+                                    fontSize: 12,
+                                    width: "90%",
+                                    border: "1px solid black",
+                                  }}
+                                  type="date"
+                                  name="dob"
+                                  onChange={handleChange}
+                                  value={
+                                    dataList.dob !== null
+                                      ? dataList.dob.substring(0, 10)
+                                      : dataList.dob
+                                  }
+                                  disabled={
+                                    dataList.dob !== null ? true : false
+                                  }
+                                />
+                              </div>
+                              <div style={{ width: "50%" }}>
+                                <label>Gender</label>
+                                <select
+                                  autofocus="autofocus"
+                                  style={{
+                                    background: "#f3f4f6",
+                                    padding: "10px 10px",
+                                    borderRadius: 6,
+                                    fontSize: 12,
+                                    width: "90%",
+                                    border: "1px solid black",
+                                  }}
+                                  name="gender"
+                                  placeholder="Enter Your Gender"
+                                  onChange={handleChange}
+                                  value={dataList.gender}
+                                  disabled={
+                                    dataList.gender !== null ? true : false
+                                  }
+                                >
+                                  <option value="">Select</option>
+                                  <option>Male</option>
+                                  <option>Female</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div
+                              style={{ display: "flex", marginLeft: "10px" }}
+                            >
+                              <div style={{ width: "50%" }}>
+                                <label>City</label>
+                                <input
+                                  autofocus="autofocus"
+                                  style={{
+                                    background: "#f3f4f6",
+                                    padding: "10px 10px",
+                                    borderRadius: 6,
+                                    fontSize: 12,
+                                    width: "90%",
+                                    border: "1px solid black",
+                                  }}
+                                  name="city"
+                                  onChange={handleChange}
+                                  value={dataList.location}
+                                  disabled={
+                                    dataList.location !== null ? true : false
+                                  }
+                                />
+                              </div>
+                              <div style={{ width: "25%" }}></div>
+                              <div style={{ width: "20%", marginTop: "5%" }}>
+                                <PrimaryButton
+                                  style={{
+                                    backgroundColor: "green",
+                                    color: "white",
+                                    // marginTop: "30%",
+                                    // marginLeft: "50%",
+                                    borderRadius: "10px",
+                                    height: "40px",
+                                    width: "80px",
+                                  }}
+                                  onClick={updateProfile}
+                                >
+                                  {" "}
+                                  Save
+                                </PrimaryButton>
+                              </div>
+                            </div>
+                          </div>
+                        </InfoDialog>
+                      )}
+                      {modalView && (
+                        <AssessmentInfo
+                          modalView={modalView}
+                          setModalView={setModalView}
+                          details={cardDetails}
+                        />
+                      )}
                     </div>
-                  </div>
-                </InfoDialog>
-              )}
-              {modalView && (
-                <AssessmentInfo
-                  modalView={modalView}
-                  setModalView={setModalView}
-                  details={cardDetails}
-                />
-              )}
-            </div>
+                  </>
+                );
+              })}
           </div>
 
           {nextquestion == true ? (
@@ -512,18 +530,19 @@ const HraCard = (eventID, currentEventObj) => {
                               <input
                                 type="radio"
                                 name="teamselect"
-                                value={item.id}
+                                key={item.id}
+                                id={item.id}
+                                // value={item.id}
                                 onChange={(e) => {
                                   selectOption(
-                                    e.target.value,
+                                    item.id,
                                     item.id,
                                     item.optionScore
                                   );
                                 }}
                                 style={{ marginRight: "15px" }}
-                                id={index}
                               />
-                              <label for={index} className="p-3">
+                              <label for={item.id} className="p-3">
                                 {item.optionText}
                               </label>
                             </div>
