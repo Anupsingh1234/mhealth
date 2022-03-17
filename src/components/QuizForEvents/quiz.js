@@ -238,16 +238,10 @@ const Quiz = (props) => {
     setmodmobile(marvelHeroes && marvelHeroes[0]?.moderator);
   };
 
-  console.log(modname, modmobile, "hookks");
   const time = new Date();
-  // console.log(time, time.getSeconds(), 'timer');
   {
-    // var a = time() + timer;
     timer && time.setSeconds(time.getSeconds() + timer);
-    // console.log(a, 'yijh');
-  } // 10 minutes timer
-  // console.log(time, 'hook');
-  // console.log(leaderboard.length, 'length');
+  }
   const lockAnswer = () => {
     const url = `${urlPrefix}v1.0/submitQuizAnswer`;
     let payload = {};
@@ -1044,6 +1038,8 @@ const Quiz = (props) => {
             textAlign: "center",
             display: "flex",
             justifyContent: "center",
+            flexDirection: "column",
+            gap: "1rem",
           }}
         >
           <h3 style={{ textAlign: "center", marginLeft: 18 }}>

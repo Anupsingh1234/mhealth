@@ -9,32 +9,11 @@ import {
   useLocation,
   useHistory,
 } from "react-router-dom";
-import {
-  faComments,
-  faUserFriends,
-  faRunning,
-  faDatabase,
-  faPhotoVideo,
-  faNotEqual,
-  faAward,
-  faCalendarWeek,
-  faBullseye,
-  faChess,
-  faTrophy,
-  faWalking,
-  faHiking,
-  faBook,
-  faCog,
-  faArchive,
-  faHeartPulse,
-} from "@fortawesome/free-solid-svg-icons";
-
 const Login = lazy(() => import("./components/Login/Login"));
 const Dashboard = lazy(() => import("./components/Dashboard"));
 const DashboardLegacy = lazy(() => import("./components/DashboardLegacy"));
-const DashboardWithParam = lazy(() =>
-  import("./components/DashboardWithParam")
-);
+const Walkathon = lazy(() => import("./components/Walkathon"));
+const Health = lazy(() => import("./components/Health"));
 const Profile = lazy(() => import("./components/Profile"));
 const ResetPin = lazy(() => import("./components/ResetPin"));
 const DataSource = lazy(() => import("./components/DataSourceConnect"));
@@ -50,16 +29,17 @@ const MarketPlace = lazy(() => import("./components/MarketDashboard"));
 const Pdf = lazy(() => import("./components/Pdf"));
 const Actions = lazy(() => import("./components/Actions"));
 const Programs = lazy(() => import("./components/Programs"));
-const DefaultView = lazy(() => import("./components/DefaultView"));
+const Home = lazy(() => import("./components/Home"));
 const Footer = lazy(() => import("./components/Footer"));
 const Forum = lazy(() => import("./components/Forum"));
 const Settings = lazy(() => import("./components/Settings"));
 const Messages = lazy(() => import("./components/Forum/components/Messages"));
 import Modal from "react-modal";
 import ThemeContext from "./context/ThemeContext";
+import { PROGRAMS } from "./constants/footerTabs";
 
 import axios from "axios";
-import classNames from "classnames";
+import TopUserDetails from "./components/TopUserDetails";
 
 Modal.setAppElement("#root");
 
@@ -67,64 +47,8 @@ const App = () => {
   const { theme } = useContext(ThemeContext);
   const location = useLocation();
   const history = useHistory();
-  const defaultTabs = [
-    {
-      key: "programs",
-      title: "Programs",
-      onClick: () => {
-        window.location.replace("/#/programs");
-      },
-      icon: faHiking,
-      selected: window.location.hash === "#/programs",
-    },
-    {
-      key: "walkathon",
-      title: "Walkathon",
-      onClick: () => {
-        window.location.replace("/#/program/walkathon");
-      },
-      icon: faWalking,
-      selected: window.location.hash === "#/program/walkathon",
-    },
-    {
-      key: "health",
-      title: "Health",
-      onClick: () => {
-        window.location.replace("/#/program/health");
-      },
-      icon: faHeartPulse,
-      selected: window.location.hash === "#/program/health",
-    },
-    {
-      key: "settings",
-      title: "Settings",
-      onClick: () => {
-        window.location.replace("/#/settings");
-      },
-      icon: faCog,
-      selected: window.location.hash === "#/settings",
-    },
-    {
-      key: "report",
-      title: "Report",
-      onClick: () => {
-        window.location.replace("/#/report");
-      },
-      icon: faBook,
-      selected: window.location.hash === "#/program/report",
-    },
-    // {
-    //   key: "eventmanagement",
-    //   title: "Event Management",
-    //   onClick: () => {
-    //     window.location.replace("/#/eventmanagement");
-    //   },
-    //   icon: faArchive,
-    //   selected: window.location.hash === "#/eventmanagement",
-    // },
-    // { key: "manage", title: "Manage", onClick: () => { window.location.replace("/#/program/manage") }, icon: faChess, selected: window.location.hash === "#/program/manage" },
-  ];
-  const [footerTabs, setFooterTabs] = useState(defaultTabs);
+
+  const [footerTabs, setFooterTabs] = useState(PROGRAMS);
   // const location = useLocation();
   const condition = JSON?.parse(localStorage.getItem("condition"));
   const pages =
@@ -148,12 +72,6 @@ const App = () => {
             displayName: "Pdf",
             showInNavbar: false,
           },
-          // {
-          //   pageLink: "/dashboard",
-          //   view: DashboardLegacy,
-          //   displayName: "Dashboard",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/admin",
             view: CreateQuiz,
@@ -166,12 +84,6 @@ const App = () => {
             displayName: "Market Place",
             showInNavbar: true,
           },
-          // {
-          //   pageLink: '/admin',
-          //   view: Admin,
-          //   displayName: 'Admin',
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/eventmanagement",
             view: EventManagement,
@@ -184,12 +96,6 @@ const App = () => {
             displayName: "Activities",
             showInNavbar: true,
           },
-          // { DEPRECATED: 4-MARCH-2022
-          //   pageLink: "/",
-          //   view: UpcomingEvents,
-          //   displayName: "UpcomingEvents",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -221,9 +127,15 @@ const App = () => {
             showInNavbar: false,
           },
           {
-            pageLink: "/program/:id",
-            view: DashboardWithParam,
-            displayName: "DashboardWithParam",
+            pageLink: "/walkathon",
+            view: Walkathon,
+            displayName: "Walkathon",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/health",
+            view: Health,
+            displayName: "Health",
             showInNavbar: false,
           },
           {
@@ -233,9 +145,9 @@ const App = () => {
             showInNavbar: false,
           },
           {
-            pageLink: "/default-view",
-            view: DefaultView,
-            displayName: "DashboardWithParam",
+            pageLink: "/home",
+            view: Home,
+            displayName: "Home",
             showInNavbar: false,
           },
           {
@@ -265,12 +177,6 @@ const App = () => {
             displayName: "Pdf",
             showInNavbar: false,
           },
-          // {
-          //   pageLink: "/dashboard",
-          //   view: DashboardLegacy,
-          //   displayName: "Dashboard",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/admin",
             view: CreateQuiz,
@@ -283,30 +189,12 @@ const App = () => {
             displayName: "Market Place",
             showInNavbar: true,
           },
-          // {
-          //   pageLink: "/admin",
-          //   view: Admin,
-          //   displayName: "Admin",
-          //   showInNavbar: true,
-          // },
-          // {
-          //   pageLink: "/eventmanagement",
-          //   view: EventManagement,
-          //   displayName: "Event Management",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/activities",
             view: Activities,
             displayName: "Activities",
             showInNavbar: true,
           },
-          // { DEPRECATED: 4-MARCH-2022
-          //   pageLink: "/",
-          //   view: UpcomingEvents,
-          //   displayName: "UpcomingEvents",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -338,9 +226,15 @@ const App = () => {
             showInNavbar: false,
           },
           {
-            pageLink: "/action/:id",
-            view: DashboardWithParam,
-            displayName: "DashboardWithParam",
+            pageLink: "/walkathon",
+            view: Walkathon,
+            displayName: "Walkathon",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/health",
+            view: Health,
+            displayName: "Health",
             showInNavbar: false,
           },
           {
@@ -350,9 +244,9 @@ const App = () => {
             showInNavbar: false,
           },
           {
-            pageLink: "/default-view",
-            view: DefaultView,
-            displayName: "DefaultView",
+            pageLink: "/home",
+            view: Home,
+            displayName: "Home",
             showInNavbar: false,
           },
           {
@@ -381,18 +275,6 @@ const App = () => {
             displayName: "Pdf",
             showInNavbar: false,
           },
-          // {
-          //   pageLink: "/dashboard",
-          //   view: DashboardLegacy,
-          //   displayName: "Dashboard",
-          //   showInNavbar: true,
-          // },
-          // { DEPRECATED: 4-MARCH-2022
-          //   pageLink: "/",
-          //   view: UpcomingEvents,
-          //   displayName: "UpcomingEvents",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -418,21 +300,27 @@ const App = () => {
             showInNavbar: false,
           },
           {
-            pageLink: "/action/:id",
-            view: DashboardWithParam,
-            displayName: "DashboardWithParam",
+            pageLink: "/walkathon",
+            view: Walkathon,
+            displayName: "Walkathon",
+            showInNavbar: false,
+          },
+          {
+            pageLink: "/health",
+            view: Health,
+            displayName: "Health",
             showInNavbar: false,
           },
           {
             pageLink: "/programs",
             view: Programs,
-            displayName: "DashboardWithParam",
+            displayName: "Programs",
             showInNavbar: false,
           },
           {
-            pageLink: "/default-view",
-            view: DefaultView,
-            displayName: "DashboardWithParam",
+            pageLink: "/home",
+            view: Home,
+            displayName: "Home",
             showInNavbar: false,
           },
           {
@@ -465,40 +353,12 @@ const App = () => {
     }
   );
 
-  // const [YottaMatch, setYottamatch] = useState(
-  //   window.location.href == "https://yottacare.mhealth.ai/#/login"
-  //     ? true
-  //     : false
-  // );
-
-  // useMount(() => {
-  //   console.log("test yotta on mount");
-  //   if (window.location.href == "https://yottacare.mhealth.ai/#/login") {
-  //     setYottamatch(true);
-  //   } else {
-  //     setYottamatch(false);
-  //   }
-  // });
-
-  const isYotta =
-    window.location.href == "https://yottacare.mhealth.ai/#/login" ||
-    window.location.href === "https://yottacare.mhealth.ai/#/";
-  const [YottaMatch, setYottamatch] = useState(isYotta);
-
-  useMount(() => {
-    console.log("test yotta on mount", window.location);
-    if (isYotta) {
-      setYottamatch(true);
-    } else {
-      setYottamatch(false);
-    }
-  });
-
   return (
     <div
       className={"flex flex-col min-h-[100vh]"}
       style={{ background: theme.primaryColor }}
     >
+      {!["/", "/login"].includes(location.pathname) && <TopUserDetails />}
       <Suspense fallback={<div />}>
         <Switch location={location}>
           {pages.map((page, index) => {
@@ -513,19 +373,14 @@ const App = () => {
               );
             } else {
               return (
-                <Route
-                  exact
-                  path={"/"}
-                  render={() => <Login YottaMatch={YottaMatch} />}
-                  key={0}
-                />
+                <Route exact path={"/"} render={() => <Login />} key={0} />
               );
             }
           })}
           <Redirect to="/" />
         </Switch>
       </Suspense>
-      {!["/", "/login", "/default-view"].includes(location.pathname) && (
+      {!["/", "/login"].includes(location.pathname) && (
         <Footer tabs={footerTabs} />
       )}
     </div>

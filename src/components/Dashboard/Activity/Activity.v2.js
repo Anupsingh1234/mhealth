@@ -9,7 +9,7 @@ import "../../../styles/Activity.css";
 import ThemeContext from "../../../context/ThemeContext";
 import classNames from "classnames";
 
-const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
+const ActivityV2 = ({ eventId, currentEventObj }) => {
   const { theme } = useContext(ThemeContext);
   const [selval, setselval] = useState("");
 
@@ -42,10 +42,6 @@ const ActivityV2 = ({ eventId, currentEventObj, isProgramAvailable }) => {
     eventId,
     value
   );
-
-  useEffect(() => {
-    isProgramAvailable(subEventList.length > 0);
-  }, [subEventList]);
 
   const handleDateChange = (ob) => {
     onChange(ob);

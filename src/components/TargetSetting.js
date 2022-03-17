@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Star, TrendingUp, TrendingDown } from "react-feather";
 import CircularProgressWithLabel from "./CircularProgressWithLabel";
@@ -21,6 +21,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 // import { Modal } from "react-responsive-modal";
 import InfoDialog from "./Utility/InfoDialog";
 import { PrimaryButton } from "./Form/Button";
+import GlobalStateContext from "../context/GlobalStateContext";
 
 function getModalStyle() {
   const top = 50;
@@ -45,18 +46,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const TargetSetting = ({ dashboardState }) => {
+  const { globalState } = useContext(GlobalStateContext);
   const [eventData, setEventData] = useState({});
   const [personalData, setPersonalData] = useState({});
   const [payload, setPayload] = useState({
-    eventId: dashboardState.selectedChallenge,
-    date: dashboardState.selectedChallengeObject.challengeStartDate.substring(
+    eventId: globalState.selectedChallengeObject.id,
+    date: globalState.selectedChallengeObject.challengeStartDate.substring(
       0,
       10
     ),
     distance: undefined,
     healthGoal: "",
   });
-  console.log(payload, "payload");
+
   const [imgborder, setimgborder] = useState(1);
 
   const [open, setOpen] = useState(false);
@@ -64,7 +66,7 @@ const TargetSetting = ({ dashboardState }) => {
     setOpen(true);
     localStorage.setItem(
       "challengeName",
-      dashboardState.selectedChallengeObject.challengeName
+      globalState.selectedChallengeObject.challengeName
     );
     localStorage.setItem("activeDays", eventData.totalActiveDays);
 
@@ -81,7 +83,7 @@ const TargetSetting = ({ dashboardState }) => {
   console.log(
     eventData,
     "eventData",
-    dashboardState.selectedChallengeObject.challengeName
+    globalState.selectedChallengeObject.challengeName
   );
 
   function formatDate(date) {
@@ -107,8 +109,8 @@ const TargetSetting = ({ dashboardState }) => {
   };
 
   const fetchTargetData = () => {
-    if (dashboardState.selectedChallenge) {
-      getPersonalTargetData(dashboardState.selectedChallenge)
+    if (globalState.selectedChallengeObject.id) {
+      getPersonalTargetData(globalState.selectedChallengeObject.id)
         .then((res) => {
           if (
             res.data.mhealthResponseMessage == "SUCCESS" &&
@@ -124,7 +126,7 @@ const TargetSetting = ({ dashboardState }) => {
         .catch((err) => {
           setPersonalData({});
         });
-      getEventTargetData(dashboardState.selectedChallenge)
+      getEventTargetData(globalState.selectedChallengeObject.id)
         .then((res) => {
           if (
             res.data.mhealthResponseMessage == "SUCCESS" &&
@@ -147,13 +149,13 @@ const TargetSetting = ({ dashboardState }) => {
     setPersonalData({});
     setEventData({});
     setPayload({
-      eventId: dashboardState.selectedChallenge,
+      eventId: globalState.selectedChallengeObject.id,
       date: "",
       distance: undefined,
       healthGoal: "",
     });
     fetchTargetData();
-  }, [dashboardState.selectedChallenge]);
+  }, [globalState.selectedChallengeObject.id]);
 
   const [targetModal, setTargetModal] = useState(false);
   const classes = useStyles();
@@ -270,7 +272,7 @@ const TargetSetting = ({ dashboardState }) => {
             });
           setTargetModal(false);
           setPayload({
-            eventId: dashboardState.selectedChallenge,
+            eventId: globalState.selectedChallengeObject.id,
             date: "",
             distance: undefined,
             healthGoal: "",
@@ -299,7 +301,7 @@ const TargetSetting = ({ dashboardState }) => {
             onClick={() => {
               setTargetModal(true);
               setPayload({
-                eventId: dashboardState.selectedChallenge,
+                eventId: globalState.selectedChallengeObject.id,
                 date: personalData?.startDate,
                 distance: personalData?.totalKMRequired,
               });
@@ -1048,7 +1050,7 @@ const TargetSetting = ({ dashboardState }) => {
         onClose={() => {
           setTargetModal(false);
           setPayload({
-            eventId: dashboardState.selectedChallenge,
+            eventId: globalState.selectedChallengeObject.id,
             date: "",
             distance: undefined,
             healthGoal: "",

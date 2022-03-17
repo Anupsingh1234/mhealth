@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Button from "@material-ui/core/Button";
 import { updateSource, getDataCurrentSource } from "../services/challengeApi";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -9,6 +9,7 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import InfoDialog from "./Utility/InfoDialog";
 import { getUserDetailsHandler } from "../services/userprofileApi";
 import { PrimaryButton } from "./Form/Button";
+import GlobalStateContext from "../context/GlobalStateContext";
 const dataSourceMapping = {
   WHATSAPP: "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/whatsapp.svg",
   STRAVA: "https://walkathon21.s3.ap-south-1.amazonaws.com/logo/strava.svg",
@@ -17,8 +18,9 @@ const dataSourceMapping = {
 };
 
 const UpdateDataSource = ({ dashboardState }) => {
+  const { globalState } = useContext(GlobalStateContext);
   let currentEvent = dashboardState.listOfChallenges.filter(
-    (item) => item.id == dashboardState.selectedChallenge
+    (item) => item.id == globalState.selectedChallengeObject.id
   )[0];
 
   const [currentDataSource, setCurrentDataSource] = useState();
@@ -41,7 +43,7 @@ const UpdateDataSource = ({ dashboardState }) => {
     setCurrentDataSource();
     setOriginalSource();
     fetchCurrentDataSource();
-  }, [dashboardState.selectedChallenge]);
+  }, [globalState.selectedChallengeObject.id]);
 
   // let authorizedSources =
   //   localStorage.getItem("authorizedDatasource") != undefined &&

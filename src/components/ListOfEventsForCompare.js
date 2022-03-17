@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import ScrollableList from "./ScrollableList";
 
-import EventCard from "./EventCard";
+import EventCardCompare from "./EventCardCompare";
 
 const ListOfEventsForCompare = ({
   handleChallengeCardClick,
@@ -14,6 +14,7 @@ const ListOfEventsForCompare = ({
   selectedChallengeArray,
   selectedChallenge,
 }) => {
+  const [compareList, setCompareList] = useState([]);
   const displayListOfChallenges = () => {
     let list = [];
     if (data && data.length > 0) {
@@ -24,7 +25,7 @@ const ListOfEventsForCompare = ({
           : data.filter((item) => item.isParticipated);
       list = tempList.map((challenge) => {
         return (
-          <EventCard
+          <EventCardCompare
             challenge={challenge}
             handleChallengeCardClick={handleChallengeCardClick}
             dashboardState={dashboardState}
@@ -35,17 +36,37 @@ const ListOfEventsForCompare = ({
             selectedChallenge={selectedChallenge}
             selectedChallengeArray={selectedChallengeArray}
             selectedAction={selectedAction}
+            compareList={compareList}
+            setCompareList={setCompareList}
           />
         );
       });
     } else {
       for (let i = 0; i < 4; i++) {
-        list.push(<div className="challenge-card" key={i}></div>);
+        list.push(
+          <div
+            className="challenge-card"
+            style={{
+              width: 320,
+              height: 240,
+            }}
+            key={i}
+          ></div>
+        );
       }
     }
     if (list.length === 0) {
       for (let i = 0; i < 4; i++) {
-        list.push(<div className="challenge-card" key={i}></div>);
+        list.push(
+          <div
+            className="challenge-card"
+            style={{
+              width: 320,
+              height: 240,
+            }}
+            key={i}
+          ></div>
+        );
       }
     }
     return list;

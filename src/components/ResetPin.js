@@ -61,31 +61,6 @@ const ResetPin = (props) => {
       });
   };
 
-  // useEffect(() => {
-  //   const { setFooterTabs } = props;
-  //   const SETTINGS_TABS = [
-  //     {
-  //       key: "home",
-  //       title: "Home",
-  //       onClick: () => {
-  //         window.location.replace("/#/program/settings");
-  //       },
-  //       selected: false,
-  //       icon: faHome,
-  //     },
-  //     {
-  //       key: "resetpin",
-  //       title: "Reset Pin",
-  //       onClick: () => {
-  //         window.location.replace("/#/profile");
-  //       },
-  //       icon: faKey,
-  //       selected: window.location.hash === "#/resetpin",
-  //     },
-  //   ];
-  //   setFooterTabs(SETTINGS_TABS);
-  // }, []);
-
   const { oldPin, newPin, confirmPin } = userDetails;
   return (
     <div

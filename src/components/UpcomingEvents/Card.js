@@ -38,7 +38,7 @@ const Card = ({
   useEffect(() => {
     if (userPastedCode && localStorage.token) {
       if (challenge.isParticipated) {
-        window.location.replace("/#/programs");
+        window.location.replace("/#/home");
         // window.location.replace("/#/dashboard");
       } else {
         setRegisterModalView(true);

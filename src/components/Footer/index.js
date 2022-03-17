@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 
 import classNames from "classnames";
 
 const Footer = (props) => {
   const { tabs } = props;
+  const [selectedTab, setSelectedTab] = useState();
 
   useEffect(() => {
-    // TODO: Remove after testing
-  }, [props.tabs]);
+    if (window.location.hash) {
+      const tabNameArray = window.location.hash.split("/");
+      const tabName = tabNameArray?.length > 1 ? tabNameArray[1] : "";
+      setSelectedTab(tabName);
+    }
+  }, [window.location.hash]);
 
   return (
     <div
@@ -16,39 +21,23 @@ const Footer = (props) => {
         "fixed left-0 bottom-0",
         "w-full h-[75px] bg-[#f5f5f5] text-black",
         "text-center flex md:justify-center",
-        "max-w-sm md:max-w-full overflow-scroll"
+        "max-w-sm md:max-w-full"
       )}
     >
       {tabs.map((tab) => (
-        <Tab tab={tab} key={tab.key} />
+        <Tab tab={tab} key={tab.key} selectedTab={selectedTab} />
       ))}
     </div>
   );
 };
 
-const Tab = ({ tab }) => {
-  const selectedTab = window.location.hash.split("/");
-  const getClass = (tab) => {
-    if (
-      [
-        "programs",
-        "walkathon",
-        "manage",
-        "settings",
-        "report",
-        "health",
-      ].includes(tab.key)
-    ) {
-      return selectedTab[selectedTab.length - 1] === tab.key;
-    } else {
-      return tab.selected;
-    }
-  };
+const Tab = ({ tab, selectedTab }) => {
+  const isSelected = tab.key === selectedTab;
   return (
     <div
       className={classNames(
-        "flex flex-col justify-center items-center min-w-[80px] md:min-w-[125px] bg-[#f5f5f5] hover:bg-[#e5e5e5] cursor-pointer",
-        { "bg-[#555] hover:bg-[#444]": getClass(tab) }
+        "flex flex-col justify-center items-center min-w-[65px] md:min-w-[125px] bg-[#f5f5f5] hover:bg-[#e5e5e5] cursor-pointer",
+        { "bg-[#555] hover:bg-[#444]": isSelected }
       )}
       onClick={() => tab.onClick()}
     >
@@ -56,12 +45,12 @@ const Tab = ({ tab }) => {
         icon={tab.icon}
         color="#737373"
         className="icon"
-        color={getClass(tab) ? "#fff" : "#555"}
+        color={isSelected ? "#fff" : "#555"}
       />
       <p
         className={classNames(
           "m-0 mt-[0.25rem] p-0 font-semibold leading-snug text-[10px]",
-          getClass(tab) ? "text-white" : "text-black"
+          isSelected ? "text-white" : "text-black"
         )}
       >
         {tab.title}

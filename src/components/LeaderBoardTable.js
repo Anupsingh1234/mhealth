@@ -398,8 +398,9 @@ export default function EnhancedTable({
   currentEvent,
   challengeSwitch,
 }) {
+  console.log({ leaderBoardData });
   const classes = useStyles();
-  const [leaderboardList, setLeaderboardList] = useState(leaderBoardData);
+  const [leaderboardList, setLeaderboardList] = useState([]);
   const EnhancedTableToolbar = (props) => {
     const classes = useToolbarStyles();
     const {
@@ -443,6 +444,7 @@ export default function EnhancedTable({
         leaderboardList["data"]["rankWiseBoard"] &&
         leaderboardList["data"]["sessionUserRank"]
       ) {
+        console.log("4");
         setTableRowData([
           leaderboardList["data"]["sessionUserRank"],
           ...leaderboardList["data"]["rankWiseBoard"].filter(
@@ -546,7 +548,7 @@ export default function EnhancedTable({
     activeDays: [0, 365],
   });
   const [isActive, setActive] = useState(true);
-
+  console.log({ tableRowData });
   const settingTableData = () => {
     if (leaderboardList && leaderboardList["data"] && currentEvent["id"]) {
       let pinnedUsers = leaderboardList["data"]["pinUserRank"]
@@ -554,6 +556,7 @@ export default function EnhancedTable({
         : [];
 
       if (leaderboardList["data"]["rankWiseBoard"]) {
+        console.log("@@@@", leaderboardList["data"]);
         if (leaderboardList["data"]["sessionUserRank"]) {
           let tableData = [
             leaderboardList["data"]["sessionUserRank"],
@@ -574,6 +577,7 @@ export default function EnhancedTable({
                     leaderboardList["data"]["sessionUserRank"]["userId"]
             ),
           ];
+          console.log("1");
           setTableRowData(tableData);
         } else {
           let tableData = [
@@ -587,7 +591,7 @@ export default function EnhancedTable({
                 : !pinnedUsers.includes(item.userId)
             ),
           ];
-
+          console.log("2");
           setTableRowData(tableData);
         }
       }
@@ -602,21 +606,18 @@ export default function EnhancedTable({
   useEffect(() => {
     setPinActive(false);
     setSelected([]);
+    setLeaderboardList(leaderBoardData);
     settingTableData();
   }, [leaderBoardData]);
 
   useEffect(() => {
     settingTableData();
-  }, [isActive]);
+  }, [isActive, leaderboardList]);
 
-  useEffect(() => {
-    if (challengeSwitch) {
-      setActive(challengeSwitch == "upcoming" ? false : true);
-    }
-  }, [challengeSwitch]);
   useEffect(() => {
     setActive(true);
   }, [currentEvent]);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -685,11 +686,13 @@ export default function EnhancedTable({
   const [searchText, setSearchText] = useState("");
 
   const getFilterData = () => {
+    console.log({ leaderboardList });
     const filterData = leaderboardList.data.rankWiseBoard.filter((v) =>
       !checkForFalsy(v.aliasName)
         ? v.aliasName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
         : v.userName.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
     );
+    console.log("3");
     setTableRowData(filterData);
   };
 
@@ -1004,7 +1007,7 @@ export default function EnhancedTable({
                     <FacebookCircularProgress />
                   </TableCell>
                 </TableRow>
-              ) : tableRowData.length > 0 && currentEvent["id"] ? (
+              ) : tableRowData.length > 0 ? (
                 <>
                   {stableSort(tableRowData, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)

@@ -32,7 +32,7 @@ import classNames from "classnames";
 import { getClientHostName } from "../../utils/commonFunctions";
 import SocialMediaBar from "./SocialMediaBar";
 
-const Login = ({ YottaMatch }) => {
+const Login = () => {
   window.message = Message;
   const { theme, loading: loadingTheme } = useContext(ThemeContext);
   const history = useHistory();
@@ -85,7 +85,7 @@ const Login = ({ YottaMatch }) => {
   const [socialLinks, setSocialLinks] = useState("");
 
   useEffect(() => {
-    isLoggedIn() && history.push("/programs");
+    isLoggedIn() && history.push("/home");
   }, []);
 
   useEffect(() => {
@@ -412,7 +412,7 @@ const Login = ({ YottaMatch }) => {
             }
           });
 
-          history.push("./programs");
+          history.push("./home");
         } else {
           message.error(res.data.response.responseMessage);
         }
@@ -570,7 +570,6 @@ const Login = ({ YottaMatch }) => {
                 handleOtpInputSubmit,
                 OTPRequestHandler,
                 handleSettingNewPassword,
-                YottaMatch,
               }}
             />
           )}
@@ -581,7 +580,6 @@ const Login = ({ YottaMatch }) => {
                 loaderInfo,
                 handleInput,
                 handleOtpInputSubmit,
-                YottaMatch,
               }}
             />
           )}

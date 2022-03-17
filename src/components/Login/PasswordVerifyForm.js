@@ -12,7 +12,6 @@ const PasswordVerifyForm = ({
   handleOtpInputSubmit,
   OTPRequestHandler,
   handleSettingNewPassword,
-  YottaMatch,
 }) => (
   <>
     <div className="heading user-password-heading center fadeInUp">
@@ -27,8 +26,7 @@ const PasswordVerifyForm = ({
             handleInput,
             handleUserLoginSubmit,
             handleOtpInputSubmit,
-            OTPRequestHandler,
-            YottaMatch
+            OTPRequestHandler
           )
         : inputPasswordWrapper(
             userData,
@@ -37,16 +35,14 @@ const PasswordVerifyForm = ({
             handleInput,
             handleUserLoginSubmit,
             handleOtpInputSubmit,
-            OTPRequestHandler,
-            YottaMatch
+            OTPRequestHandler
           )
       : passwordResetForm(
           userData,
           setUserData,
           loaderInfo,
           handleInput,
-          handleSettingNewPassword,
-          YottaMatch
+          handleSettingNewPassword
         )}
   </>
 );
@@ -60,8 +56,7 @@ const inputPasswordWrapper = (
   handleInput,
   handleUserLoginSubmit,
   handleOtpInputSubmit,
-  OTPRequestHandler,
-  YottaMatch
+  OTPRequestHandler
 ) => {
   return (
     <>
@@ -130,7 +125,6 @@ const inputPasswordWrapper = (
       </div>
       <div className="forgot-password" style={{ marginTop: "1em" }}>
         <SecondaryButton
-          // className={YottaMatch ? "is-yotta-secondary" : "is-secondary"}
           onClick={() => {
             setUserData({
               ...userData,
@@ -154,8 +148,7 @@ const forgotPinWrapper = (
   handleInput,
   handleUserLoginSubmit,
   handleOtpInputSubmit,
-  OTPRequestHandler,
-  YottaMatch
+  OTPRequestHandler
 ) => {
   const [gettingOTP, setGettingOTP] = useState(false);
   useEffect(() => {
@@ -284,8 +277,7 @@ const passwordResetForm = (
   setUserData,
   loaderInfo,
   handleInput,
-  handleSettingNewPassword,
-  YottaMatch
+  handleSettingNewPassword
 ) => (
   <>
     <div className="sub-heading center fadeInUp">

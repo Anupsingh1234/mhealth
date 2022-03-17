@@ -8,6 +8,7 @@ import {
   faLocationArrow,
   faLink,
   faArchive,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Profile from "./Profile";
@@ -19,6 +20,7 @@ import SocialLinkComponent from "./SocialLinkComponent";
 import EventManagement from "./EventManagement";
 import classNames from "classnames";
 import TopUserDetails from "./TopUserDetails";
+import MisReport from "./MisReport";
 
 const Settings = () => {
   const [selectedTab, setSelectedTab] = useState("profile");
@@ -88,6 +90,15 @@ const Settings = () => {
         setSelectedTab("eventmanagement");
       },
       display: isAdmin,
+    },
+    {
+      id: "reports",
+      label: "Reports",
+      icon: faBook,
+      onClick: () => {
+        setSelectedTab("reports");
+      },
+      display: isAdmin || isModerator,
     },
   ];
 
@@ -176,6 +187,8 @@ const renderComponent = (selectedTab) => {
       return <SocialPostComponent />;
     case "eventmanagement":
       return <EventManagement />;
+    case "reports":
+      return <MisReport />;
     default:
       return "";
   }

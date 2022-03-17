@@ -246,7 +246,7 @@ const UpcomingEvents = (props) => {
         if (!localStorage.token) {
           window.location.replace("/#/login");
         } else {
-          window.location.replace("/#/programs");
+          window.location.replace("/#/home");
         }
       }
     }
@@ -333,7 +333,7 @@ const UpcomingEvents = (props) => {
             }}
           >
             {localStorage.getItem("token")
-              ? history.push("/programs")
+              ? history.push("/home")
               : "LOGIN | REGISTER"}
           </button>
         </div>

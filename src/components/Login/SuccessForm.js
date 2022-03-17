@@ -27,7 +27,7 @@ const SuccessForm = () => {
       console.log(res);
     });
     setTimeout(() => {
-      history.push("/programs");
+      history.push("/home");
       // history.push("/dashboard");
     }, 2000);
   }, []);

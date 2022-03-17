@@ -32,7 +32,7 @@ let monthsObject = {
   12: "Dec",
 };
 
-const EventCard = ({
+const EventCardCompare = ({
   challenge,
   handleChallengeCardClick,
   dashboardState,
@@ -42,6 +42,8 @@ const EventCard = ({
   selectedAction,
   selectedChallengeArray,
   selectedChallenge,
+  compareList,
+  setCompareList,
 }) => {
   const [modalView, setModalView] = useState(false);
   const [registerModalView, setRegisterModalView] = useState(false);
@@ -366,17 +368,24 @@ const EventCard = ({
     selectedChallengeArray: eventList,
     selectedAction: action,
   } = globalState;
-  const cardSelected =
-    action === "Compare"
-      ? eventList.includes(challenge.id)
-      : event?.id == challenge.id;
+  const cardSelected = compareList.includes(challenge.id);
   return (
     <div
       className={"challenge-card"}
       style={cardSelected ? { background: theme.buttonBGColor } : undefined}
       key={challenge.id}
     >
-      <div onClick={() => handleChallengeCardClick(challenge)}>
+      <div
+        onClick={() => {
+          if (compareList.includes(challenge.id)) {
+            setCompareList(compareList.filter((id) => id !== challenge.id));
+          } else {
+            setCompareList([...compareList, challenge.id]);
+          }
+
+          handleChallengeCardClick(challenge);
+        }}
+      >
         <div
           style={{
             width: 230,
@@ -795,4 +804,4 @@ const EventCard = ({
   );
 };
 
-export default EventCard;
+export default EventCardCompare;

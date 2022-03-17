@@ -5,18 +5,18 @@ import "./index.css";
 import { SnackbarProvider } from "notistack";
 const App = lazy(() => import("./App"));
 import ThemeProvider from "./context/ThemeProvider";
-import SelectedEventProvider from "./context/SelectedEventProvider";
+import GlobalStateProvider from "./context/GlobalStateProvider";
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div />}>
       <Router>
         <ThemeProvider>
-          <SelectedEventProvider>
+          <GlobalStateProvider>
             <SnackbarProvider maxSnack={3}>
               <App />
             </SnackbarProvider>
-          </SelectedEventProvider>
+          </GlobalStateProvider>
         </ThemeProvider>
       </Router>
     </Suspense>

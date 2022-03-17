@@ -382,31 +382,6 @@ const Profile = (props) => {
       });
   }, []);
 
-  // because of new implementation
-  // useEffect(() => {
-  //   const { setFooterTabs } = props;
-  //   const SETTINGS_TABS = [
-  //     {
-  //       key: "home",
-  //       title: "Home",
-  //       onClick: () => {
-  //         window.location.replace("/#/settings");
-  //       },
-  //       selected: false,
-  //       icon: faHome,
-  //     },
-  //     {
-  //       key: "profile",
-  //       title: "Profile",
-  //       onClick: () => {
-  //         window.location.replace("/#/profile");
-  //       },
-  //       icon: faAddressCard,
-  //       selected: window.location.hash === "#/profile",
-  //     },
-  //   ];
-  //   setFooterTabs(SETTINGS_TABS);
-  // }, []);
   const handleInputChange = (type, value) => {
     setUserDetails({
       ...userDetails,

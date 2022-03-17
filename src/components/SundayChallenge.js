@@ -24,7 +24,6 @@ const SundayChallenge = (props) => {
   const [streakTrack, setstreakTrack] = useState({});
   const [joinModal, setjoinModal] = useState(false);
   const onjoinModal = (a, b, c) => {
-    console.log(a, b, c);
     setaction(a);
     settype(b);
     setvalue(c);
@@ -46,7 +45,6 @@ const SundayChallenge = (props) => {
 
   let day = new Date();
   let currDay = day.getDay();
-  console.log(currDay, "currDay");
   const getData = () => {
     const url = `${urlPrefix}v1.0/throwWeeklySundayChallenge?challengerZoneId=${props.eventId}
     `;
@@ -65,6 +63,7 @@ const SundayChallenge = (props) => {
         },
       })
       .then((res) => {
+        console.log({ res });
         {
           res.data.response.responseData?.kmSundayChallenge
             ? setdistance(res.data.response.responseData?.kmSundayChallenge)

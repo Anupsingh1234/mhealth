@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Input from "../Form/Input";
 import { PrimaryButton } from "../Form/Button";
 
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
 import { faQrcode } from "@fortawesome/free-solid-svg-icons";
+import ThemeContext from "../../context/ThemeContext";
 
 import "../../styles/SearchByCode.css";
 
 const SearchByCode = ({ handleSearchEvent }) => {
+  const { theme } = useContext(ThemeContext);
   const [keyword, setKeyword] = useState("");
   return (
-    <div className="max-w-xl my-[2rem] mx-auto bg-[#bae6fd] rounded py-[3rem] px-[2rem] flex h-auto items-center justify-center">
+    <div
+      style={{ background: theme.primaryColor }}
+      className="max-w-xl my-[2rem] mx-auto rounded py-[3rem] px-[2rem] flex h-auto items-center justify-center"
+    >
       <div className="iconDiv">
         <FA icon={faQrcode} size="6x" />
       </div>

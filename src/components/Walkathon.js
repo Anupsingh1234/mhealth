@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 import { Route, Redirect, Switch, useLocation } from "react-router-dom";
 import classnames from "classnames";
 import Chart from "react-apexcharts";
@@ -8,7 +8,7 @@ import { lighten, makeStyles, useTheme } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import EventGallery from "./EventGallery";
 import DietPlan from "./Dietplan/DietPlan";
-import HRA from "../components/HRA/Index";
+import HRA from "./HRA/Index";
 import Navbar from "./Navbar";
 import LeaderboardTable from "./LeaderBoardTable";
 import ListOfEvents from "./ListOfEvents";
@@ -25,7 +25,6 @@ import {
   getChallengesByDate,
   getEventGalleryData,
   getOldEvents,
-  getAchievements,
   challengeActionCall,
   getChallenges,
 } from "../services/challengeApi";
@@ -68,8 +67,54 @@ import {
 
 import "../styles/DashboardWithParam.css";
 import { PrimaryButton } from "./Form/Button";
+import GlobalStateContext from "../context/GlobalStateContext";
+import ListOfEventsForCompare from "./ListOfEventsForCompare";
 
-const Dashboard = (props) => {
+const Walkathon = (props) => {
+  const getDefaultTab = () => {
+    if (!localStorage.dashboard_default_tab) {
+      return "Leaderboard";
+    }
+
+    if (
+      localStorage.getItem("dashboard_default_tab") !== undefined &&
+      localStorage.getItem("dashboard_default_tab") !== null
+    ) {
+      switch (localStorage.getItem("dashboard_default_tab")) {
+        case "leaderboard":
+          return "Leaderboard";
+        case "event_gallery":
+          return "Gallery";
+        case "invite":
+          return "Challenge";
+        case "program":
+          return "Activities";
+        case "performance":
+          return "Performance";
+        case "target":
+          return "Target";
+        case "source":
+          return "Source";
+        case "compare":
+          return "Compare";
+        case "team":
+          return "team";
+        case "dietplan":
+          return "dietplan";
+        case "achievement":
+          return "achievement";
+        case "challenge":
+          return "challenge";
+        case "quiz":
+          return "quiz";
+        case "hra":
+          return "hra";
+        default:
+          return "Leaderboard";
+      }
+    }
+  };
+  const { globalState, setGlobalState } = useContext(GlobalStateContext);
   const [dashboardState, setDashboardState] = useState({
     listOfChallenges: [],
     leaderBoardData: {
@@ -77,10 +122,9 @@ const Dashboard = (props) => {
       loading: true,
       message: "",
     },
-    // selectedAction: getDefaultTab(),
-    selectedAction: "Activities",
-    selectedChallenge: "",
-    selectedChallengeObject: {},
+    selectedAction: getDefaultTab(),
+    selectedChallenge: globalState?.selectedChallengeObject?.id,
+    selectedChallengeObject: globalState?.selectedChallengeObject,
     selectedChallengeArray: [],
     compareData: { data: [], categories: [] },
     performanceData: {
@@ -119,461 +163,18 @@ const Dashboard = (props) => {
   const { id } = useParams();
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (Array.isA(dashboardState.listOfChallenges) && dashboardState.listOfChallenges.length > 0) {
-  //     const selected = dashboardState.listOfChallenges.find(d => parseInt(d.id) === parseInt(localStorage.selectEvent))
-
-  //     setDashboardState({
-  //       ...dashboardState,
-  //       selectedChallengeObject: selected
-  //     })
-  //   }
-  // }, [dashboardState.listOfChallenges])
-
   useEffect(() => {
-    // Fetching challenges
-    const { setFooterTabs } = props;
-
-    console.log({ id }, dashboardState.selectedAction);
-    if (id === "walkathon") {
-      switch (dashboardState.selectedAction) {
-        case "Leaderboard":
-        case "Performance":
-        case "Target":
-        case "challenge":
-        case "achievement":
-        case "Challenge":
-        case "team":
-        case "Source":
-        case "Compare":
-          const WALKATHON_TABS = [
-            {
-              key: "home",
-              title: "Home",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Activities",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faHome,
-              selected: false,
-            },
-            {
-              key: "leaderboard",
-              title: "Leaderboard",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Leaderboard",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faTrophy,
-              selected: dashboardState.selectedAction === "Leaderboard",
-            },
-            {
-              key: "daily_score",
-              title: "Daily Score",
-              onClick: () => {
-                handlePerformanceClick();
-              },
-              icon: faChess,
-              selected: dashboardState.selectedAction === "Performance",
-            },
-            {
-              key: "set_target",
-              title: "Set Target",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Target",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faBullseye,
-              selected: dashboardState.selectedAction === "Target",
-            },
-            {
-              key: "sunday_challenge",
-              title: "Sunday Challenge",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "challenge",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faCalendarWeek,
-              selected: dashboardState.selectedAction === "challenge",
-            },
-            {
-              key: "achievement",
-              title: "Achievement",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "achievement",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faAward,
-              selected: dashboardState.selectedAction === "achievement",
-            },
-            {
-              key: "invite",
-              title: "Invite",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Challenge",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faRunning,
-              selected: dashboardState.selectedAction === "Challenge",
-            },
-            {
-              key: "team",
-              title: "Team",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "team",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faUserFriends,
-              selected: dashboardState.selectedAction === "team",
-            },
-            {
-              key: "data_source",
-              title: "Source",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Source",
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faUserFriends,
-              selected: dashboardState.selectedAction === "Source",
-            },
-            {
-              key: "compare",
-              title: "Compare",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Compare",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faTrophy,
-              selected: dashboardState.selectedAction === "Leaderboard",
-            },
-          ];
-          setFooterTabs(WALKATHON_TABS);
-          return;
-        default:
-          setFooterTabs(FOOTER_TABS.PROGRAMS);
-          setDashboardState((prevState) => {
-            return {
-              ...prevState,
-              selectedAction: "Activities",
-              selectedChallengeArray: [],
-              compareData: { data: [], categories: [] },
-              listOfChallenges: getCurrentAllEvents(),
-            };
-          });
-      }
-    } else if (id === "health") {
-      switch (dashboardState.selectedAction) {
-        case "Gallery":
-        case "quiz":
-        case "hra":
-        case "myplan":
-          const HEALTH_TAB = [
-            {
-              key: "home",
-              title: "Home",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Activities",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faHome,
-              selected: false,
-            },
-            {
-              key: "gallery",
-              title: "Gallery",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Gallery",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faPhotoVideo,
-              selected: dashboardState.selectedAction === "Gallery",
-            },
-            {
-              key: "quiz",
-              title: "Quiz",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "quiz",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faComments,
-              selected: dashboardState.selectedAction === "quiz",
-            },
-            {
-              key: "hra",
-              title: "HRA",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "hra",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faArrowDownWideShort,
-              selected: dashboardState.selectedAction === "hra",
-            },
-            {
-              key: "myplan",
-              title: "My Plan",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "myplan",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faDiamond,
-              selected: dashboardState.selectedAction === "myplan",
-            },
-          ];
-          setFooterTabs(HEALTH_TAB);
-          return;
-        default:
-          setFooterTabs(FOOTER_TABS.PROGRAMS);
-          setDashboardState((prevState) => {
-            return {
-              ...prevState,
-              selectedAction: "Activities",
-              selectedChallengeArray: [],
-              compareData: { data: [], categories: [] },
-              listOfChallenges: getCurrentAllEvents(),
-            };
-          });
-      }
-    } else if (id === "settings") {
-      switch (dashboardState.selectedAction) {
-        case "Source":
-          const SETTINGS_TABS = [
-            {
-              key: "home",
-              title: "Home",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Activities",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faHome,
-              selected: false,
-            },
-            {
-              key: "data_source",
-              title: "Source",
-              onClick: () => {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    selectedAction: "Source",
-                    selectedChallengeArray: [],
-                    compareData: { data: [], categories: [] },
-                    listOfChallenges: getCurrentAllEvents(),
-                  };
-                });
-              },
-              icon: faDatabase,
-              selected: dashboardState.selectedAction === "Source",
-            },
-          ];
-          setFooterTabs(SETTINGS_TABS);
-          return;
-        default:
-          setFooterTabs(FOOTER_TABS.PROGRAMS);
-          setDashboardState((prevState) => {
-            return {
-              ...prevState,
-              selectedAction: "Activities",
-              selectedChallengeArray: [],
-              compareData: { data: [], categories: [] },
-              listOfChallenges: getCurrentAllEvents(),
-            };
-          });
-      }
-    } else {
-      switch (id) {
-        // case "quiz":
-        //   setDashboardState((prevState) => {
-        //     return {
-        //       ...prevState,
-        //       selectedAction: "quiz",
-        //       listOfChallenges: getCurrentAllEvents(),
-        //     };
-        //   });
-        //   const QUIZ_TABS = [
-        //     {
-        //       key: "home",
-        //       title: "Home",
-        //       onClick: () => {
-        //         setDashboardState((prevState) => {
-        //           return {
-        //             ...prevState,
-        //             selectedAction: "Activities",
-        //             selectedChallengeArray: [],
-        //             compareData: { data: [], categories: [] },
-        //             listOfChallenges: getCurrentAllEvents(),
-        //           };
-        //         });
-        //         window.location.replace("/#/program/walkathon");
-        //       },
-        //       icon: faHome,
-        //       selected: false,
-        //     },
-        //     {
-        //       key: "quiz",
-        //       title: "Quiz",
-        //       onClick: () => {
-        //         setDashboardState((prevState) => {
-        //           return {
-        //             ...prevState,
-        //             selectedAction: "quiz",
-        //             listOfChallenges: getCurrentAllEvents(),
-        //           };
-        //         });
-        //       },
-        //       icon: faComments,
-        //       selected: dashboardState.selectedAction === "quiz",
-        //     },
-        //   ];
-        //   setFooterTabs(QUIZ_TABS);
-        //   return;
-        // case "gallery":
-        //   setDashboardState((prevState) => {
-        //     return {
-        //       ...prevState,
-        //       selectedAction: "Gallery",
-        //       listOfChallenges: getCurrentAllEvents(),
-        //     };
-        //   });
-        //   const GALLERY_TABS = [
-        //     {
-        //       key: "home",
-        //       title: "Home",
-        //       onClick: () => {
-        //         setDashboardState((prevState) => {
-        //           return {
-        //             ...prevState,
-        //             selectedAction: "Activities",
-        //             selectedChallengeArray: [],
-        //             compareData: { data: [], categories: [] },
-        //             listOfChallenges: getCurrentAllEvents(),
-        //           };
-        //         });
-        //         window.location.replace("/#/program/walkathon");
-        //       },
-        //       icon: faHome,
-        //       selected: false,
-        //     },
-        //     {
-        //       key: "gallery",
-        //       title: "Gallery",
-        //       onClick: () => {
-        //         setDashboardState((prevState) => {
-        //           return {
-        //             ...prevState,
-        //             selectedAction: "Gallery",
-        //             listOfChallenges: getCurrentAllEvents(),
-        //           };
-        //         });
-        //       },
-        //       icon: faPhotoVideo,
-        //       selected: dashboardState.selectedAction === "Gallery",
-        //     },
-        //   ];
-        //   setFooterTabs(GALLERY_TABS);
-        //   return;
-        case "report":
-          setFooterTabs(FOOTER_TABS.REPORT);
-          return;
-      }
+    if (
+      !globalState ||
+      Object.keys(globalState).length === 0 ||
+      !globalState.selectedChallengeObject
+    ) {
+      window.location.replace("/#/home");
     }
-  }, [id, dashboardState.selectedAction]);
-
-  useEffect(() => {
     fetchChallenges();
   }, []);
+
+  useEffect(() => {}, [dashboardState]);
 
   useEffect(() => {
     // Fetch challenge/event based on code
@@ -643,8 +244,6 @@ const Dashboard = (props) => {
         //   ? getDefaultTab()
         //   : prevState.selectedAction,
         selectedAction: prevState.selectedAction,
-        selectedChallenge: "",
-        selectedChallengeObject: {},
         selectedChallengeArray: [],
         compareData: { data: [], categories: [] },
         performanceData: {
@@ -668,10 +267,6 @@ const Dashboard = (props) => {
       };
     });
     window.message = Message;
-
-    getAchievements().then((res) => {
-      setdistancelogo(res.data.response.responseData?.achievementIcons);
-    });
 
     getOldEvents().then((res) => {
       if (res.data.response.responseMessage === "SUCCESS") {
@@ -748,11 +343,7 @@ const Dashboard = (props) => {
         });
 
         if (allChallengeData.length > 0 && allChallengeData[0]) {
-          getLeaderBoardData(
-            localStorage.challengeIDRegister && !eventTypeSwitch
-              ? localStorage.challengeIDRegister
-              : allChallengeData[0]["id"]
-          )
+          getLeaderBoardData(globalState.selectedChallengeObject.id)
             .then((res) => {
               if (
                 res.data &&
@@ -808,36 +399,34 @@ const Dashboard = (props) => {
                 };
               });
             });
-          getEventGalleryData(
-            !eventTypeSwitch && localStorage.challengeIDRegister
-              ? localStorage.challengeIDRegister
-              : allChallengeData[0]["id"]
-          ).then((galleryResponse) => {
-            console.log({ galleryResponse });
-            if (galleryResponse.data.response.responseMessage === "SUCCESS") {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  eventGalleryData: {
-                    data: galleryResponse.data.response.responseData,
-                    loading: false,
-                    message: galleryResponse.data.response.responseMessage,
-                  },
-                };
-              });
-            } else {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  eventGalleryData: {
-                    data: [],
-                    loading: false,
-                    message: galleryResponse.data.response.responseMessage,
-                  },
-                };
-              });
+          getEventGalleryData(globalState.selectedChallengeObject.id).then(
+            (galleryResponse) => {
+              console.log({ galleryResponse });
+              if (galleryResponse.data.response.responseMessage === "SUCCESS") {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    eventGalleryData: {
+                      data: galleryResponse.data.response.responseData,
+                      loading: false,
+                      message: galleryResponse.data.response.responseMessage,
+                    },
+                  };
+                });
+              } else {
+                setDashboardState((prevState) => {
+                  return {
+                    ...prevState,
+                    eventGalleryData: {
+                      data: [],
+                      loading: false,
+                      message: galleryResponse.data.response.responseMessage,
+                    },
+                  };
+                });
+              }
             }
-          });
+          );
         } else {
           setDashboardState((prevState) => {
             return {
@@ -871,7 +460,7 @@ const Dashboard = (props) => {
         },
       };
     });
-    getEventGalleryData(dashboardState.selectedChallenge).then(
+    getEventGalleryData(globalState.selectedChallengeObject.id).then(
       (galleryResponse) => {
         if (galleryResponse.data.response.responseMessage === "SUCCESS") {
           setDashboardState((prevState) => {
@@ -1051,68 +640,71 @@ const Dashboard = (props) => {
 
   const fetchCompareAndPerformaceData = (type, compareIds) => {
     if (type == "Performance") {
-      getChallengesByDate(compareIds).then((res) => {
-        let performanceData = {
-          name: "",
-          data: [],
-          categories: [],
-        };
-        let performanceTableData = {
-          data: [],
-          loading: false,
-          message: res.data.response.responseMessage,
-        };
-        if (
-          res.data.response &&
-          res.data.response.responseMessage === "SUCCESS" &&
-          res.data.response.responseData
-        ) {
-          let responseData = res?.data?.response?.responseData;
-          if (
-            responseData.challengerWiseLeaderBoard &&
-            responseData.challengerWiseLeaderBoard.length > 0
-          ) {
-            let respDateWiseBoard =
-              responseData.challengerWiseLeaderBoard[0].dateWiseBoard &&
-              responseData.challengerWiseLeaderBoard[0].dateWiseBoard.length > 0
-                ? responseData.challengerWiseLeaderBoard[0].dateWiseBoard.sort(
-                    function (a, b) {
-                      return (
-                        new Date(b.valueTillDate) - new Date(a.valueTillDate)
-                      );
-                    }
-                  )
-                : [];
-
-            performanceData["name"] =
-              responseData.challengerWiseLeaderBoard[0]["challengerZoneName"];
-            performanceData["data"] = respDateWiseBoard.map(
-              (item) => item.value
-            );
-            performanceData["categories"] = respDateWiseBoard.map(
-              (item) => item.valueTillDate
-            );
-            performanceTableData = {
-              loading: false,
-              data: respDateWiseBoard.map((item, index) => {
-                return {
-                  ...item,
-                  index: index,
-                };
-              }),
-              message: res.data.response.responseMessage,
-            };
-          }
-        }
-        setDashboardState((prevState) => {
-          return {
-            ...prevState,
-            selectedChallengeArray: [],
-            performanceData: performanceData,
-            performanceTableData: performanceTableData,
+      getChallengesByDate(globalState.selectedChallengeObject.id).then(
+        (res) => {
+          let performanceData = {
+            name: "",
+            data: [],
+            categories: [],
           };
-        });
-      });
+          let performanceTableData = {
+            data: [],
+            loading: false,
+            message: res.data.response.responseMessage,
+          };
+          if (
+            res.data.response &&
+            res.data.response.responseMessage === "SUCCESS" &&
+            res.data.response.responseData
+          ) {
+            let responseData = res?.data?.response?.responseData;
+            if (
+              responseData.challengerWiseLeaderBoard &&
+              responseData.challengerWiseLeaderBoard.length > 0
+            ) {
+              let respDateWiseBoard =
+                responseData.challengerWiseLeaderBoard[0].dateWiseBoard &&
+                responseData.challengerWiseLeaderBoard[0].dateWiseBoard.length >
+                  0
+                  ? responseData.challengerWiseLeaderBoard[0].dateWiseBoard.sort(
+                      function (a, b) {
+                        return (
+                          new Date(b.valueTillDate) - new Date(a.valueTillDate)
+                        );
+                      }
+                    )
+                  : [];
+
+              performanceData["name"] =
+                responseData.challengerWiseLeaderBoard[0]["challengerZoneName"];
+              performanceData["data"] = respDateWiseBoard.map(
+                (item) => item.value
+              );
+              performanceData["categories"] = respDateWiseBoard.map(
+                (item) => item.valueTillDate
+              );
+              performanceTableData = {
+                loading: false,
+                data: respDateWiseBoard.map((item, index) => {
+                  return {
+                    ...item,
+                    index: index,
+                  };
+                }),
+                message: res.data.response.responseMessage,
+              };
+            }
+          }
+          setDashboardState((prevState) => {
+            return {
+              ...prevState,
+              selectedChallengeArray: [],
+              performanceData: performanceData,
+              performanceTableData: performanceTableData,
+            };
+          });
+        }
+      );
     } else {
       if (compareIds.length > 0) {
         getChallengesByDate(compareIds).then((res) => {
@@ -1253,17 +845,32 @@ const Dashboard = (props) => {
             };
           });
 
-          if (allChallengeData.length > 0 && allChallengeData[0]) {
-            getLeaderBoardData(allChallengeData[0]["id"]).then((res) => {
-              if (res.data.response.responseMessage === "SUCCESS") {
-                let data =
-                  res.data.response.responseData.challengerWiseLeaderBoard;
-                if (data && data[0]) {
+          if (globalState?.selectedChallengeObject?.id) {
+            getLeaderBoardData(globalState.selectedChallengeObject.id).then(
+              (res) => {
+                if (res.data.response.responseMessage === "SUCCESS") {
+                  let data =
+                    res.data.response.responseData.challengerWiseLeaderBoard;
+                  if (data && data[0]) {
+                    setDashboardState((prevState) => {
+                      return {
+                        ...prevState,
+                        leaderBoardData: {
+                          data: data[0],
+                          loading: false,
+                          message: res.data.response.responseMessage,
+                        },
+                        selectedChallenge: allChallengeData[0]["id"],
+                        selectedChallengeObject: allChallengeData[0],
+                      };
+                    });
+                  }
+                } else {
                   setDashboardState((prevState) => {
                     return {
                       ...prevState,
                       leaderBoardData: {
-                        data: data[0],
+                        data: { rankWiseBoard: [] },
                         loading: false,
                         message: res.data.response.responseMessage,
                       },
@@ -1272,22 +879,9 @@ const Dashboard = (props) => {
                     };
                   });
                 }
-              } else {
-                setDashboardState((prevState) => {
-                  return {
-                    ...prevState,
-                    leaderBoardData: {
-                      data: { rankWiseBoard: [] },
-                      loading: false,
-                      message: res.data.response.responseMessage,
-                    },
-                    selectedChallenge: allChallengeData[0]["id"],
-                    selectedChallengeObject: allChallengeData[0],
-                  };
-                });
               }
-            });
-            getEventGalleryData(allChallengeData[0]["id"]).then(
+            );
+            getEventGalleryData(globalState.selectedChallengeObject.id).then(
               (galleryResponse) => {
                 const status = galleryResponse.data.response.responseMessage;
 
@@ -1422,7 +1016,7 @@ const Dashboard = (props) => {
           message: "",
         },
       });
-      await getLeaderBoardData(eventObj.id)
+      await getLeaderBoardData(globalState.selectedChallengeObject.id)
         .then((res) => {
           if (res.data.response.responseMessage === "SUCCESS") {
             let data = res.data.response.responseData.challengerWiseLeaderBoard;
@@ -1461,31 +1055,33 @@ const Dashboard = (props) => {
             };
           });
         });
-      await getEventGalleryData(eventObj.id).then((galleryResponse) => {
-        if (galleryResponse.data.response.responseMessage === "SUCCESS") {
-          setDashboardState((prevState) => {
-            return {
-              ...prevState,
-              eventGalleryData: {
-                data: galleryResponse.data.response.responseData,
-                loading: false,
-                message: galleryResponse.data.response.responseMessage,
-              },
-            };
-          });
-        } else {
-          setDashboardState((prevState) => {
-            return {
-              ...prevState,
-              eventGalleryData: {
-                data: [],
-                loading: false,
-                message: galleryResponse.data.response.responseMessage,
-              },
-            };
-          });
+      await getEventGalleryData(globalState.selectedChallengeObject.id).then(
+        (galleryResponse) => {
+          if (galleryResponse.data.response.responseMessage === "SUCCESS") {
+            setDashboardState((prevState) => {
+              return {
+                ...prevState,
+                eventGalleryData: {
+                  data: galleryResponse.data.response.responseData,
+                  loading: false,
+                  message: galleryResponse.data.response.responseMessage,
+                },
+              };
+            });
+          } else {
+            setDashboardState((prevState) => {
+              return {
+                ...prevState,
+                eventGalleryData: {
+                  data: [],
+                  loading: false,
+                  message: galleryResponse.data.response.responseMessage,
+                },
+              };
+            });
+          }
         }
-      });
+      );
     } else if (dashboardState.selectedAction === "Performance") {
       updatedObj["performanceData"] = {
         name: "",
@@ -1513,14 +1109,71 @@ const Dashboard = (props) => {
     }
   };
 
+  const fetchLeaderBoardData = () => {
+    getLeaderBoardData(globalState.selectedChallengeObject.id)
+      .then((res) => {
+        if (
+          res.data &&
+          res.data.response &&
+          res.data.response.responseMessage === "SUCCESS"
+        ) {
+          let data = res.data.response.responseData.challengerWiseLeaderBoard;
+          if (data && data[0]) {
+            setDashboardState((prevState) => {
+              return {
+                ...prevState,
+                leaderBoardData: {
+                  data: data[0],
+                  loading: false,
+                  message: res.data.response.responseMessage,
+                },
+              };
+            });
+          }
+        } else {
+          setDashboardState((prevState) => {
+            return {
+              ...prevState,
+              leaderBoardData: {
+                data: { rankWiseBoard: [] },
+                loading: false,
+                message:
+                  res.data &&
+                  res.data.response &&
+                  res.data.response.responseMessage
+                    ? res.data.response.responseMessage
+                    : "No Data",
+              },
+            };
+          });
+        }
+      })
+      .catch((err) => {
+        setDashboardState((prevState) => {
+          return {
+            ...prevState,
+            leaderBoardData: {
+              data: { rankWiseBoard: [] },
+              loading: false,
+              message:
+                res.data &&
+                res.data.response &&
+                res.data.response.responseMessage
+                  ? res.data.response.responseMessage
+                  : "No Data",
+            },
+          };
+        });
+      });
+  };
+
   const renderViewByActionType = (state) => {
-    console.log(state.selectedAction, "sls");
     switch (state.selectedAction) {
       case "Leaderboard":
         return (
           <LeaderboardTable
             leaderBoardData={dashboardState.leaderBoardData}
-            currentEvent={dashboardState.selectedChallengeObject}
+            currentEvent={globalState.selectedChallengeObject}
             challengeSwitch={dashboardState.challengeSwitch}
           />
         );
@@ -1536,27 +1189,24 @@ const Dashboard = (props) => {
       case "Challenge":
         return (
           <ChallengeByInvite
-            eventId={dashboardState.selectedChallenge}
+            eventId={globalState.selectedChallengeObject.id}
             {...{ reloadChallengeAccepted, setReloadChallengeAccepted }}
           />
         );
       case "team":
-        return <CreateTeam eventId={dashboardState.selectedChallenge} />;
+        return <CreateTeam eventId={globalState.selectedChallengeObject.id} />;
       case "achievement":
-        return (
-          <Achievments
-            eventId={dashboardState.selectedChallenge}
-            logos={distancelogo}
-          />
-        );
+        return <Achievments eventId={globalState.selectedChallengeObject.id} />;
       case "challenge":
-        return <SundayChallenge eventId={dashboardState.selectedChallenge} />;
+        return (
+          <SundayChallenge eventId={globalState.selectedChallengeObject.id} />
+        );
       case "Performance":
         //daily scroe
         return (
           <PerformanceTab
             data={dashboardState.performanceTableData}
-            eventId={dashboardState.selectedChallenge}
+            eventId={globalState.selectedChallengeObject.id}
             handlePerformanceClick={handlePerformanceClick}
             challengeSwitch={dashboardState.challengeSwitch}
           />
@@ -1564,8 +1214,8 @@ const Dashboard = (props) => {
       case "quiz":
         return (
           <Quiz
-            eventId={dashboardState.selectedChallenge}
-            challengeSwitch={dashboardState.listOfChallenges}
+            eventId={globalState.selectedChallengeObject.id}
+            challengeSwitch={globalState.listOfChallenges}
           />
         );
       case "Target":
@@ -1584,15 +1234,16 @@ const Dashboard = (props) => {
     }
   };
 
-  const renderActionsByType = (id) => {
+  const renderActionBar = (id) => {
     return (
-      <div className="gridCenter mt-8">
-        <div className="flex flex-wrap items-center justify-center max-w-md mt-4">
+      <div className="gridCenter">
+        <div className="flex gap-2 md:gap-0 items-center md:justify-center max-w-sm mx-4 md:max-w-[max-content] mt-4 overflow-scroll">
           <ActionCard
             isProgramAvailable={dashboardState.isProgramAvailable}
             name="leaderboard"
             display={id === "walkathon"}
-            onClick={() =>
+            onClick={() => {
+              fetchLeaderBoardData();
               setDashboardState((prevState) => {
                 return {
                   ...prevState,
@@ -1601,8 +1252,9 @@ const Dashboard = (props) => {
                   compareData: { data: [], categories: [] },
                   listOfChallenges: getCurrentAllEvents(),
                 };
-              })
-            }
+              });
+            }}
+            selected={dashboardState.selectedAction === "Leaderboard"}
           />
 
           <ActionCard
@@ -1614,6 +1266,7 @@ const Dashboard = (props) => {
               id === "walkathon"
             }
             onClick={() => handlePerformanceClick()}
+            selected={dashboardState.selectedAction === "Performance"}
           />
 
           <ActionCard
@@ -1633,6 +1286,7 @@ const Dashboard = (props) => {
                 };
               });
             }}
+            selected={dashboardState.selectedAction === "Target"}
           />
 
           <ActionCard
@@ -1652,6 +1306,7 @@ const Dashboard = (props) => {
                 };
               });
             }}
+            selected={dashboardState.selectedAction === "challenge"}
           />
 
           <ActionCard
@@ -1671,6 +1326,7 @@ const Dashboard = (props) => {
                 };
               });
             }}
+            selected={dashboardState.selectedAction === "achievement"}
           />
 
           <ActionCard
@@ -1688,6 +1344,7 @@ const Dashboard = (props) => {
                 };
               });
             }}
+            selected={dashboardState.selectedAction === "Challenge"}
           />
 
           <ActionCard
@@ -1707,6 +1364,7 @@ const Dashboard = (props) => {
                 };
               });
             }}
+            selected={dashboardState.selectedAction === "team"}
           />
 
           <ActionCard
@@ -1730,6 +1388,7 @@ const Dashboard = (props) => {
                 };
               })
             }
+            selected={dashboardState.selectedAction === "Compare"}
           />
 
           <ActionCard
@@ -1750,172 +1409,23 @@ const Dashboard = (props) => {
                 };
               });
             }}
-          />
-
-          <ActionCard
-            isProgramAvailable={true}
-            name="profile"
-            display={id === "settings"}
-            onClick={() => {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  selectedAction: "Activities",
-                  listOfChallenges: getCurrentAllEvents(),
-                };
-              });
-              window.location.replace("/#/profile");
-            }}
-          />
-
-          <ActionCard
-            isProgramAvailable={true}
-            name="resetpin"
-            display={id === "settings"}
-            onClick={() => {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  selectedAction: "Activities",
-                  listOfChallenges: getCurrentAllEvents(),
-                };
-              });
-              window.location.replace("/#/resetpin");
-            }}
-          />
-
-          <ActionCard
-            isProgramAvailable={dashboardState.isProgramAvailable}
-            name="gallery"
-            display={
-              dashboardState.challengeSwitch !== "upcoming" &&
-              dashboardState.listOfChallenges.length > 0 &&
-              id === "health"
-            }
-            onClick={() => {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  selectedAction: "Gallery",
-                  listOfChallenges: getCurrentAllEvents(),
-                };
-              });
-            }}
-          />
-
-          <ActionCard
-            isProgramAvailable={dashboardState.isProgramAvailable}
-            name="quiz"
-            display={
-              dashboardState.challengeSwitch !== "upcoming" &&
-              dashboardState.listOfChallenges.length > 0 &&
-              id === "health"
-            }
-            onClick={() => {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  selectedAction: "quiz",
-                  listOfChallenges: getCurrentAllEvents(),
-                };
-              });
-            }}
-          />
-          <ActionCard
-            isProgramAvailable={dashboardState.isProgramAvailable}
-            name="hra"
-            display={
-              dashboardState.challengeSwitch !== "upcoming" &&
-              dashboardState.listOfChallenges.length > 0 &&
-              id === "health"
-            }
-            onClick={() => {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  selectedAction: "hra",
-                  listOfChallenges: getCurrentAllEvents(),
-                };
-              });
-            }}
-          />
-          <ActionCard
-            isProgramAvailable={dashboardState.isProgramAvailable}
-            name="my plan"
-            display={
-              dashboardState.challengeSwitch !== "upcoming" &&
-              dashboardState.listOfChallenges.length > 0 &&
-              id === "health"
-            }
-            onClick={() => {
-              setDashboardState((prevState) => {
-                return {
-                  ...prevState,
-                  selectedAction: "myplan",
-                  listOfChallenges: getCurrentAllEvents(),
-                };
-              });
-            }}
+            selected={dashboardState.selectedAction === "Source"}
           />
         </div>
       </div>
     );
   };
 
-  const { location } = useLocation();
-  console.log(dashboardState.selectedAction, "testtt");
   return (
     <div className="flex flex-col bg-white">
       {/* <Navbar /> */}
-      <TopUserDetails />
-      {dashboardState.selectedAction === "Activities" ? (
-        <div className="flex flex-col min-h-[100vh] mb-[10vh] md:mb-0 bg-white md:mx-12 mt-10 md:mt-8 overflow-scroll">
-          <TopRow
-            {...{
-              history,
-              dashboardState,
-              handleToggleStateChange,
-              handleChallengeCardClick,
-            }}
-          />
-          <Activity
-            eventId={dashboardState.selectedChallenge}
-            currentEventObj={dashboardState.selectedChallengeObject}
-            isProgramAvailable={(value) => {
-              setDashboardState({
-                ...dashboardState,
-                isProgramAvailable: value,
-              });
-            }}
-          />
-
-          <div>{renderActionsByType(id)}</div>
-
-          {/* Event Register Modal by localStorage */}
-          {/* TODO: check if event are registered via sms link else remove */}
-          {localStorage.challengeIDRegister &&
-            localStorage.mobileNumber &&
-            dashboardState.allChallenge.length > 0 && (
-              <EventRegisterModal
-                challenge={
-                  dashboardState.allChallenge.filter(
-                    (ch) => ch.id === parseInt(localStorage.challengeIDRegister)
-                  )[0] ?? {}
-                }
-                modalView={showRegisterModal}
-                setModalView={() => {
-                  localStorage.removeItem("challengeIDRegister");
-                  setShowRegisterModal(false);
-                }}
-                setDashboardState={setDashboardState}
-                instruction_details={dashboardState?.instruction_details}
-              />
-            )}
-        </div>
-      ) : (
-        <div className="mt-16 md:mx-16">
+      <div className="flex flex-col mt-4 md:mx-12 overflow-scroll">
+        {renderActionBar(id)}
+      </div>
+      <div className="border">
+        <div className="mt-4 md:mx-4">
           {dashboardState.selectedAction === "Compare" && (
-            <ListOfEvents
+            <ListOfEventsForCompare
               handleChallengeCardClick={handleChallengeCardClick}
               fetchChallenges={fetchChallenges}
               data={dashboardState.listOfChallenges}
@@ -1936,8 +1446,7 @@ const Dashboard = (props) => {
             {renderViewByActionType(dashboardState)}
           </Actions>
         </div>
-      )}
-
+      </div>
       {/* Challenge Status */}
       {displayChallengeStatus && (
         <ChallengeStatus
@@ -1952,90 +1461,29 @@ const Dashboard = (props) => {
   );
 };
 
-const ActionCard = ({ onClick, name, display, isProgramAvailable }) => {
+const ActionCard = ({ onClick, name, selected }) => {
   return (
-    display && (
-      <div className="actions">
-        <div
-          className="actionButton"
-          onClick={onClick}
-          // onClick={isProgramAvailable ? onClick : undefined}
-        >
-          <div style={{ display: "flex" }}>
-            <FA icon={ACTION_ICONS[name]} size="1x" color="#fff" />
-          </div>
-        </div>
-        <div className="actionName">{name.replace("_", " ")}</div>
-      </div>
-    )
-  );
-};
-
-const TopRow = ({
-  history,
-  dashboardState,
-  handleToggleStateChange,
-  handleChallengeCardClick,
-}) => {
-  const [eventDetailModal, setEventDetailModal] = useState(false);
-  const events = dashboardState.listOfChallenges.map((event) => ({
-    label: event.challengeName,
-    value: event.id,
-  }));
-  return (
-    <div className="flex flex-col md:flex-row mt-6 gap-4">
-      <div className="challenge-selector">
-        <p className="text-sm font-semibold">Challenges</p>
-        <TriStateToggle
-          values={["old", "current", "upcoming"]}
-          selected={dashboardState.challengeSwitch}
-          handleChange={handleToggleStateChange}
-        />
-      </div>
-      <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-        <div className="flex flex-row items-center justify-center gap-4">
-          <SelectBox
-            options={events || []}
-            selectedValue={dashboardState.selectedChallengeObject.id}
-            handleChange={(e) => {
-              const eventObj = dashboardState.listOfChallenges.find(
-                (ev) => ev.id === parseInt(e.target.value)
-              );
-              handleChallengeCardClick(eventObj);
-            }}
-          />
+    <div className="actions">
+      <div
+        className="actionButton"
+        onClick={onClick}
+        style={{
+          background: selected ? "#e5e7eb" : "#000",
+          color: selected ? "#000" : "#fff",
+        }}
+        // onClick={isProgramAvailable ? onClick : undefined}
+      >
+        <div style={{ display: "flex" }}>
           <FA
-            icon={faInfoCircle}
-            color="#518ad6"
-            onClick={() => {
-              setEventDetailModal(true);
-            }}
+            icon={ACTION_ICONS[name]}
+            size="1x"
+            color={selected ? "#000" : "#fff"}
           />
         </div>
-        <div>
-          <PrimaryButton
-            mini
-            onClick={() => {
-              history.push("/default-view");
-            }}
-            className="text-xs"
-          >
-            All Events
-          </PrimaryButton>
-        </div>
       </div>
-
-      {eventDetailModal && (
-        <EventInfoModal
-          challenge={dashboardState.selectedChallengeObject}
-          modalView={eventDetailModal}
-          setModalView={() => {
-            setEventDetailModal(false);
-          }}
-        />
-      )}
+      <div className="actionName">{name.replace("_", " ")}</div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Walkathon;
