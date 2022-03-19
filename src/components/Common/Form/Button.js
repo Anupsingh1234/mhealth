@@ -10,7 +10,7 @@ const Button = ({ type, id, className, text, onClick, loading = false }) => {
         "block w-full p-2 text-xs border-gray-300 rounded-md",
         "focus:ring-indigo-500 focus:border-indigo-500",
         "border border-slate-300",
-        "text-slate-600 uppercase leading-relaxed",
+        "uppercase leading-relaxed",
         {
           "bg-indigo-600 hover:bg-indigo-800 text-white border-0":
             type === "primary",

@@ -186,55 +186,51 @@ const DietPlan = (props) => {
       });
   };
   return (
-    <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
+    <div className="p-1 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
       <div>
-        <div className="flex flex-col md:flex-row gap-4">
-          <fieldset>
-            <legend>From Date:</legend>
-            <form className={classes1.container} noValidate>
-              <TextField
-                style={{ fontSize: 12, width: "200px" }}
-                id="date"
-                type="date"
-                value={fromdate}
-                className={classes1.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={FromDate}
-              />
-            </form>
-          </fieldset>
+        <div className="flex flex-col gap-2 md:gap-4 md:items-center">
+          <div className="flex gap-6">
+            <fieldset>
+              <legend>From Date:</legend>
+              <form className={classes1.container} noValidate>
+                <TextField
+                  style={{ fontSize: 12, width: "140px" }}
+                  id="date"
+                  type="date"
+                  value={fromdate}
+                  className={classes1.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={FromDate}
+                />
+              </form>
+            </fieldset>
 
-          <fieldset>
-            <legend>To Date:</legend>
-            <form className={classes1.container} noValidate>
-              <TextField
-                style={{ fontSize: 12, width: "200px" }}
-                id="date"
-                type="date"
-                value={toDate}
-                className={classes1.textField}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={ToDate}
-              />
-            </form>
-          </fieldset>
-          <PrimaryButton
-            className="w-28 ml-8 mt-6"
-            style={{
-              height: "35px",
-              background: "green",
-              color: "#fff",
-              borderRadius: "25px",
-            }}
-            onClick={() => getData()}
-          >
-            {" "}
-            Submit
-          </PrimaryButton>
+            <fieldset>
+              <legend>To Date:</legend>
+              <form className={classes1.container} noValidate>
+                <TextField
+                  style={{ fontSize: 12, width: "140px" }}
+                  id="date"
+                  type="date"
+                  value={toDate}
+                  className={classes1.textField}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  onChange={ToDate}
+                />
+              </form>
+            </fieldset>
+          </div>
+
+          <div>
+            <PrimaryButton mini className="w-24 ml-1" onClick={() => getData()}>
+              {" "}
+              Submit
+            </PrimaryButton>
+          </div>
           {/* <button onClick={pdfDownload}> Download </button> */}
         </div>
       </div>

@@ -49,4 +49,12 @@ export const PROGRAMS = [
     },
     icon: faCog,
   },
+  {
+    key: "community",
+    title: "Community",
+    onClick: () => {
+      window.location.replace("/#/forum");
+    },
+    icon: faCog,
+  },
 ];

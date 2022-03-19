@@ -529,26 +529,12 @@ export default function PerformanceTable({
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <TableContainer>
-          <div style={{ display: "flex" }}>
-            <span
-              style={{
-                fontSize: 14,
-                fontWeight: 700,
-                padding: 8,
-                width: "120px",
-              }}
-            >
-              Data View:
-            </span>
-            <span
-              style={{
-                marginTop: "10px",
-              }}
-            >
-              <div className="main" style={{ display: "flex", width: "45%" }}>
+          <div className="flex flex-col md:flex-row gap-2 mb-2 md:gap-5">
+            <div className="flex items-center gap-2">
+              <p className="font-bold">Data View:</p>
+              <div className="flex gap-2">
                 <div
                   className="first_div"
-                  style={{ width: "200px" }}
                   onChange={() => handle("Daily")}
                   value={radioValue}
                 >
@@ -560,12 +546,11 @@ export default function PerformanceTable({
                     // checked={"true"}
                     // onChange={() => getChallengesByDate(eventId)}
                   />
-                  <label for="Daily"> Daily </label>
+                  <label for="Daily"> Daily</label>
                 </div>
 
                 <div
                   className="mid_div"
-                  style={{ width: "200px" }}
                   onChange={() => handle("Week")}
                   value={radioValue}
                 >
@@ -580,7 +565,6 @@ export default function PerformanceTable({
 
                 <div
                   className="last_div"
-                  style={{ width: "200px" }}
                   onChange={() => handle("Month")}
                   value={radioValue}
                 >
@@ -588,10 +572,8 @@ export default function PerformanceTable({
                   <label for="Month"> Monthly </label>
                 </div>
               </div>
-            </span>
-
-            <div className="flex justify-start">
-              {/* <button onClick={onOpenModal}> Download certificate </button> */}
+            </div>
+            <div>
               {challengeSwitch !== "old" && dataButtonType === "WHATSAPP_WEB" && (
                 <div className="w-[max-content] text-sm flex items-center">
                   <PrimaryButton
@@ -673,7 +655,7 @@ export default function PerformanceTable({
                   </div>
                 )}
             </div>
-            <div style={{ width: "85%", display: "flex" }}>
+            <div>
               <Modal
                 open={open}
                 styles={{ modal: { borderRadius: "10px", maxWidth: "1000px" } }}

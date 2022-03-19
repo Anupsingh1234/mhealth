@@ -81,7 +81,7 @@ const CSVExport = ({ data, filename, source }) => {
     return newObj;
   });
   return (
-    <CSVLink data={newData} filename={filename}>
+    <CSVLink data={newData} filename={filename} style={{ fontSize: 0 }}>
       <button>
         <img
           src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/ReportDown.png"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { ForumCard } from "./components/ForumCard";
 import Messages from "./components/Messages";
 import CircularSpinner from "../../components/CircularSpinner";
@@ -10,9 +10,12 @@ import {
   leaveForum,
 } from "./forumApi";
 import { PrimaryButton, SecondaryButton } from "../Form";
+import GlobalStateContext from "../../context/GlobalStateContext";
+import { useMount } from "react-use";
 
 const Forum = (props) => {
   const { eventID } = props;
+  const { globalState } = useContext(GlobalStateContext);
   const [showMessagePage, setShowMessagePage] = useState(false);
   const [forums, setForums] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,7 +26,7 @@ const Forum = (props) => {
 
   const handleForumFetch = () => {
     setLoading(true);
-    getForumByEventID(eventID)
+    getForumByEventID(globalState?.selectedChallengeObject?.id)
       .then((res) => {
         setLoading(false);
         const {
@@ -81,12 +84,18 @@ const Forum = (props) => {
       });
   };
 
+  useMount(() => {
+    if (!globalState || Object.keys(globalState).length === 0) {
+      window.location.replace("#/home");
+    }
+  });
+
   useEffect(() => {
-    if (eventID) {
+    if (globalState?.selectedChallengeObject?.id) {
       setShowMessagePage(false);
       handleForumFetch();
     }
-  }, [eventID]);
+  }, [globalState?.selectedChallengeObject?.id]);
 
   useEffect(() => {
     setMessages([]);

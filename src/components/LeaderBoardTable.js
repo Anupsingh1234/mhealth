@@ -471,19 +471,19 @@ export default function EnhancedTable({
           })}
         >
           <div>
-            {pinActive && currentEvent["id"] ? (
+            {pinActive && currentEvent?.id ? (
               <div
                 className="leaderboard-table-title challenges-heading"
                 style={{ width: "120px" }}
               >
                 {numSelected}/
-                {`${currentEvent.pinnedUserCount}\n friends pinned`}
+                {`${currentEvent?.pinnedUserCount}\n friends pinned`}
               </div>
             ) : (
               ""
             )}
           </div>
-          {pinActive && currentEvent["id"] ? (
+          {pinActive && currentEvent?.id ? (
             <>
               <button
                 variant="contained"
@@ -550,7 +550,7 @@ export default function EnhancedTable({
   const [isActive, setActive] = useState(true);
   console.log({ tableRowData });
   const settingTableData = () => {
-    if (leaderboardList && leaderboardList["data"] && currentEvent["id"]) {
+    if (leaderboardList && leaderboardList["data"] && currentEvent?.id) {
       let pinnedUsers = leaderboardList["data"]["pinUserRank"]
         ? leaderboardList["data"]["pinUserRank"].map((item) => item.userId)
         : [];
@@ -626,7 +626,7 @@ export default function EnhancedTable({
 
   const handleClick = (event, rank) => {
     if (
-      selected.length < currentEvent.pinnedUserCount ||
+      selected.length < currentEvent?.pinnedUserCount ||
       selected.includes(rank)
     ) {
       const selectedIndex = selected.indexOf(rank);
@@ -736,17 +736,17 @@ export default function EnhancedTable({
   );
   const [dateRange, setDateRange] = useState(false);
   const [startDate, setStartDate] = useState(
-    currentEvent.challengeStartDate !== undefined
-      ? currentEvent.challengeStartDate.substring(0, 10)
+    currentEvent?.challengeStartDate !== undefined
+      ? currentEvent?.challengeStartDate.substring(0, 10)
       : ""
   );
   const [endDate, setEndDate] = useState(
-    moment(today).format("YYYY-MM-DD") > currentEvent.challengeEndDate !==
+    moment(today).format("YYYY-MM-DD") > currentEvent?.challengeEndDate !==
       undefined
-      ? currentEvent.challengeEndDate.substring(0, 10)
+      ? currentEvent?.challengeEndDate.substring(0, 10)
       : ""
-      ? currentEvent.challengeEndDate !== undefined
-        ? currentEvent.challengeEndDate.substring(0, 10)
+      ? currentEvent?.challengeEndDate !== undefined
+        ? currentEvent?.challengeEndDate.substring(0, 10)
         : ""
       : moment(today).format("YYYY-MM-DD")
   );
@@ -792,11 +792,11 @@ export default function EnhancedTable({
           setActive(true);
           if (res.data.response.responseMessage === "SUCCESS") {
             setDateRange(false);
-            setStartDate(currentEvent.challengeStartDate.substring(0, 10));
+            setStartDate(currentEvent?.challengeStartDate.substring(0, 10));
             setEndDate(
               moment(today).format("YYYY-MM-DD") >
-                currentEvent.challengeEndDate.substring(0, 10)
-                ? currentEvent.challengeEndDate.substring(0, 10)
+                currentEvent?.challengeEndDate.substring(0, 10)
+                ? currentEvent?.challengeEndDate.substring(0, 10)
                 : moment(today).format("YYYY-MM-DD")
             );
             let data = res.data.response.responseData.challengerWiseLeaderBoard;
@@ -816,9 +816,9 @@ export default function EnhancedTable({
       <Paper className={classes.paper}>
         <TableContainer>
           {/* START */}
-          <div>
-            <div>
-              {pinActive && currentEvent["id"] ? (
+          <div className="flex flex-col md:flex-row gap-2 md:mb-4">
+            <div className="flex items-center gap-2">
+              {pinActive && currentEvent?.id ? (
                 <EnhancedTableToolbar
                   numSelected={selected.length}
                   leaderboardList={leaderboardList}
@@ -832,12 +832,12 @@ export default function EnhancedTable({
                 />
               ) : (
                 <div className="leaderboard-table-button-wrapper">
-                  {currentEvent["id"] && (
+                  {currentEvent?.id && (
                     <Tooltip title="Pin users">
                       <button
                         className={classNames(
                           "bg-[#E0E7FF] text-[#4338CA]",
-                          "rounded-full ml-[10px] cursor-pointer text-xs",
+                          "rounded-full cursor-pointer text-xs",
                           "px-4 py-2 w-[max-content]"
                         )}
                         onClick={() => setPinActive(!pinActive)}
@@ -848,67 +848,95 @@ export default function EnhancedTable({
                   )}
                 </div>
               )}
+              {!pinActive && currentEvent?.id ? (
+                <div className="challenges-heading">
+                  <span
+                    style={{
+                      color: "#000",
+                      fontWeight: 700,
+                      display: "flex",
+                      width: "250px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span>
+                      <img
+                        src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Support.png"
+                        height="25px"
+                        width="25px"
+                      />
+                    </span>
+                    <span>
+                      {currentEvent
+                        ? currentEvent["moderatorName"]
+                          ? ` : ${currentEvent["moderatorName"]} ${
+                              currentEvent["moderatorMobileNumber"]
+                                ? " , " + currentEvent["moderatorMobileNumber"]
+                                : " )"
+                            }`
+                          : ""
+                        : ""}
+                    </span>
+                  </span>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
-            {!pinActive && currentEvent["id"] ? (
-              <div className=" challenges-heading" style={{ marginTop: "8px" }}>
-                {/* {currentEvent && currentEvent["challengeName"]
-              ? currentEvent["challengeName"]
-              : "Table Title"} */}
-                <span
-                  style={{
-                    marginLeft: 5,
-                    color: "#000",
-                    fontWeight: 700,
-                    display: "flex",
-                    width: "250px",
-                  }}
-                  // className="table-search-container"
-                >
-                  <span>
-                    <img
-                      src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Support.png"
-                      height="25px"
-                      width="25px"
-                      marginTop="-50px"
-                    />
-                  </span>
-                  <span style={{ marginTop: "5px", marginLeft: "5px" }}>
-                    {currentEvent
-                      ? currentEvent["moderatorName"]
-                        ? ` : ${currentEvent["moderatorName"]} ${
-                            currentEvent["moderatorMobileNumber"]
-                              ? " , " + currentEvent["moderatorMobileNumber"]
-                              : " )"
-                          }`
-                        : ""
-                      : ""}
-                  </span>
-                </span>
-              </div>
-            ) : (
-              ""
-            )}
 
-            <div className="d-flex a-i-center">
-              <input
-                className="table-search"
-                placeholder="Search by name"
-                style={{ marginTop: "2px", width: "110px" }}
-                onChange={(e) => {
-                  if (e.target.value === "") {
-                    settingTableData();
-                    return;
-                  }
-                  setSearchText(e.target.value);
-                  getFilterData();
-                }}
-              />
-              <ActiveButton
-                isActive={isActive}
-                handleActive={() => {
-                  setActive((isActive) => !isActive);
-                }}
-              />
+            <div className="d-flex flex-col md:flex-row md:items-center gap-2">
+              <div className="flex">
+                <input
+                  placeholder="Search by name"
+                  className="text-xs w-full border border-gray-200 h-[28px] rounded px-2"
+                  onChange={(e) => {
+                    if (e.target.value === "") {
+                      settingTableData();
+                      return;
+                    }
+                    setSearchText(e.target.value);
+                    getFilterData();
+                  }}
+                />
+                <ActiveButton
+                  isActive={isActive}
+                  handleActive={() => {
+                    setActive((isActive) => !isActive);
+                  }}
+                />
+              </div>
+              <div className="flex items-center">
+                {leaderboardList?.data?.rankWiseBoard?.length > 0 &&
+                  currentEvent?.id && (
+                    <div className="flex items-center">
+                      <p className="flex items-center" title="Export data">
+                        <CSVExport
+                          data={
+                            leaderboardList?.data?.rankWiseBoard?.length > 0
+                              ? leaderboardList?.data?.rankWiseBoard
+                              : []
+                          }
+                          filename={`${leaderboardList["data"]["challengerZoneName"]}.csv`}
+                          source="dashboard"
+                        />
+                      </p>
+                    </div>
+                  )}
+                {/* <Calendar size={20}  /> */}
+                <img
+                  className="mx-1"
+                  src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/DateRange.png"
+                  height="25px"
+                  width="25px"
+                  onClick={() => setDateRange(true)}
+                  style={{ cursor: "pointer" }}
+                />
+                <div className="flex md:flex-col text-xs font-bold">
+                  [{showStartDate.substring(0, 6)}
+                  {showStartDate.substring(8)}-{showEndDate.substring(0, 6)}
+                  {showEndDate.substring(8)}]
+                </div>
+              </div>
               <TablePagination
                 rowsPerPageOptions={[25, 50, 75, 100]}
                 component="div"
@@ -919,36 +947,6 @@ export default function EnhancedTable({
                 onChangeRowsPerPage={handleChangeRowsPerPage}
                 ActionsComponent={TablePaginationActions}
               />
-              {leaderboardList?.data?.rankWiseBoard?.length > 0 &&
-                currentEvent["id"] && (
-                  <>
-                    <p className="mx-1" title="Export data">
-                      <CSVExport
-                        data={
-                          leaderboardList?.data?.rankWiseBoard?.length > 0
-                            ? leaderboardList?.data?.rankWiseBoard
-                            : []
-                        }
-                        filename={`${leaderboardList["data"]["challengerZoneName"]}.csv`}
-                        source="dashboard"
-                      />
-                    </p>
-                  </>
-                )}
-              {/* <Calendar size={20}  /> */}
-              <img
-                className="mx-1"
-                src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/DateRange.png"
-                height="25px"
-                width="25px"
-                onClick={() => setDateRange(true)}
-                style={{ cursor: "pointer", marginTop: "-5px" }}
-              />
-              <div className="flex md:flex-col text-xs font-bold">
-                [{showStartDate.substring(0, 6)}
-                {showStartDate.substring(8)}-{showEndDate.substring(0, 6)}
-                {showEndDate.substring(8)}]
-              </div>
             </div>
           </div>
 
@@ -1315,11 +1313,11 @@ export default function EnhancedTable({
           open={dateRange}
           onClose={() => {
             setDateRange(false);
-            setStartDate(currentEvent.challengeStartDate.substring(0, 10));
+            setStartDate(currentEvent?.challengeStartDate.substring(0, 10));
             setEndDate(
               moment(today).format("YYYY-MM-DD") >
-                currentEvent.challengeEndDate.substring(0, 10)
-                ? currentEvent.challengeEndDate.substring(0, 10)
+                currentEvent?.challengeEndDate.substring(0, 10)
+                ? currentEvent?.challengeEndDate.substring(0, 10)
                 : moment(today).format("YYYY-MM-DD")
             );
           }}
@@ -1334,11 +1332,11 @@ export default function EnhancedTable({
             }}
             onClick={() => {
               setDateRange(false);
-              setStartDate(currentEvent.challengeStartDate.substring(0, 10));
+              setStartDate(currentEvent?.challengeStartDate.substring(0, 10));
               setEndDate(
                 moment(today).format("YYYY-MM-DD") >
-                  currentEvent.challengeEndDate.substring(0, 10)
-                  ? currentEvent.challengeEndDate.substring(0, 10)
+                  currentEvent?.challengeEndDate.substring(0, 10)
+                  ? currentEvent?.challengeEndDate.substring(0, 10)
                   : moment(today).format("YYYY-MM-DD")
               );
             }}
@@ -1354,19 +1352,19 @@ export default function EnhancedTable({
                 }}
                 onClick={() => {
                   // setStartDate(
-                  //   currentEvent.challengeStartDate.substring(0, 10)
+                  //   currentEvent?.challengeStartDate.substring(0, 10)
                   // ),
                   //   setEndDate(
                   //     moment(today).format('YYYY-MM-DD') >
-                  //       currentEvent.challengeEndDate.substring(0, 10)
-                  //       ? currentEvent.challengeEndDate.substring(0, 10)
+                  //       currentEvent?.challengeEndDate.substring(0, 10)
+                  //       ? currentEvent?.challengeEndDate.substring(0, 10)
                   //       : moment(today).format('YYYY-MM-DD')
                   //   ),
                   handleChange(
-                    currentEvent.challengeStartDate.substring(0, 10),
+                    currentEvent?.challengeStartDate.substring(0, 10),
                     moment(today).format("YYYY-MM-DD") >
-                      currentEvent.challengeEndDate.substring(0, 10)
-                      ? currentEvent.challengeEndDate.substring(0, 10)
+                      currentEvent?.challengeEndDate.substring(0, 10)
+                      ? currentEvent?.challengeEndDate.substring(0, 10)
                       : moment(today).format("YYYY-MM-DD")
                   );
                 }}
@@ -1464,7 +1462,7 @@ export default function EnhancedTable({
                     width: "70%",
                   }}
                   placeholder="DD/MM/YYYY"
-                  min={currentEvent.challengeStartDate.substring(0, 9)}
+                  min={currentEvent?.challengeStartDate.substring(0, 9)}
                   max={month}
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
@@ -1483,7 +1481,7 @@ export default function EnhancedTable({
                     width: "70%",
                   }}
                   placeholder="DD/MM/YYYY"
-                  min={currentEvent.challengeEndDate.substring(0, 9)}
+                  min={currentEvent?.challengeEndDate.substring(0, 9)}
                   max={month}
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}

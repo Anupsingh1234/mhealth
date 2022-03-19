@@ -29,72 +29,11 @@ const Actions = ({
   children,
 }) => {
   return (
-    <div className="flex flex-col mb-[10vh]">
+    <div className="flex flex-col">
       <div className="actionContainer">
         {/* <Navbar /> */}
         {/* <TopUserDetails /> */}
-        <div className="actionMain">
-          <div className="actionHeader">
-            {/* <FA
-                        icon={faArrowCircleLeft}
-                        size="2x"
-                        onClick={() => {
-                            if (dashboardState.selectedAction === "Compare") {
-                                setDashboardState({
-                                    ...dashboardState,
-                                    selectedAction: "Activities",
-                                    listOfChallenges: getCurrentAllEvents(),
-                                    compareData: {
-                                        categories: [],
-                                        data: []
-                                    }
-                                })
-                            } else {
-                                setDashboardState({
-                                    ...dashboardState,
-                                    selectedAction: "Activities",
-                                })
-                            }
-
-                        }}
-                        className="actionBackButton"
-                    /> */}
-            {/* <div style={{ marginLeft: "1rem" }}>
-              {dashboardState.selectedAction === "Compare" ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                  }}
-                >
-                  Select events to compare
-                  <MultiSelect
-                    label="Events"
-                    options={dashboardState.listOfChallenges.map((op) => ({
-                      name: op.challengeName,
-                      id: op.id,
-                    }))}
-                    handleChange={(value) => {
-                      handleCompare(value);
-                    }}
-                  />
-                </div>
-              ) : (
-                <div>
-                  <div className="actionTitle">
-                    {dashboardState.selectedChallengeObject.challengeName}
-                  </div>
-                  <div className="actionSubTitle">
-                    {actionName[dashboardState.selectedAction]}
-                  </div>
-                </div>
-              )}
-            </div> */}
-          </div>
-
-          {children}
-        </div>
+        <div className="actionMain">{children}</div>
       </div>
     </div>
   );

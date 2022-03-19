@@ -642,18 +642,14 @@ const MisReport = () => {
   const classes1 = useStyles1();
 
   return (
-    <div className="bg-white min-h-[100vh]">
-      <TopUserDetails />
-      {/* <Navbar /> */}
-      <div className="bg-white border border-gray-200 rounded-lg min-h-[100vh] mb-[20vh]">
+    <div className="bg-white">
+      <div className="bg-white border border-gray-200 rounded-lg mb-[20vh]">
         <div
           style={{
-            marginTop: 40,
             height: "auto",
-            marginTop: 50,
           }}
         >
-          <Tabs style={{ marginTop: 20 }}>
+          <Tabs>
             {" "}
             <div className="cursor-pointer">
               <div className="leaderboard-actions">
@@ -840,7 +836,7 @@ const MisReport = () => {
             <TabPanel>
               <div>
                 <div>
-                  <div className="p-4 flex flex-wrap md:flex-row gap-8 items-start w-full md:justify-center mb-4">
+                  <div className="p-4 flex flex-wrap md:flex-row gap-2 items-start w-full md:justify-center mb-4">
                     {/* <Performance /> */}
                     <div>
                       <fieldset>

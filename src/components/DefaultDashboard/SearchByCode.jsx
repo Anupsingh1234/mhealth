@@ -3,19 +3,30 @@ import Input from "../Form/Input";
 import { PrimaryButton } from "../Form/Button";
 
 import { FontAwesomeIcon as FA } from "@fortawesome/react-fontawesome";
-import { faQrcode } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCross,
+  faQrcode,
+  faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import ThemeContext from "../../context/ThemeContext";
 
 import "../../styles/SearchByCode.css";
 
-const SearchByCode = ({ handleSearchEvent }) => {
+const SearchByCode = ({ handleSearchEvent, setDisplaySearch }) => {
   const { theme } = useContext(ThemeContext);
   const [keyword, setKeyword] = useState("");
   return (
     <div
       style={{ background: theme.primaryColor }}
-      className="max-w-xl my-[1rem] md:my-[2rem] mx-auto rounded py-[1rem] md:py-[3rem] px-[2rem] flex h-auto items-center justify-center"
+      className="relative max-w-xl my-[1rem] md:my-[2rem] mx-auto rounded py-[1rem] md:py-[3rem] px-[2rem] flex h-auto items-center justify-center"
     >
+      <FA
+        icon={faTimesCircle}
+        className="absolute top-4 right-4 cursor-pointer"
+        size="1x"
+        color="#fff"
+        onClick={() => setDisplaySearch(false)}
+      />
       <div className="iconDiv">
         <FA icon={faQrcode} size="6x" />
       </div>

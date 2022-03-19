@@ -48,10 +48,8 @@ import {
   ACTION_ICONS_COLOR,
   ACTION_ICONS_BGCOLOR,
 } from "../constants/dashboardAction";
-import Forum from "./Forum";
 import ThemeContext from "../context/ThemeContext";
 import DietPlan from "./Dietplan/DietPlan";
-import HRA from "../components/HRA/Index";
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {

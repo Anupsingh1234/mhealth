@@ -353,38 +353,55 @@ const App = () => {
     }
   );
 
-  return (
-    <div
-      className={"flex flex-col min-h-[100vh]"}
-      style={{ background: theme.primaryColor }}
-    >
-      {!["/", "/login"].includes(location.pathname) && <TopUserDetails />}
-      <Suspense fallback={<div />}>
-        <Switch location={location}>
-          {pages.map((page, index) => {
-            if (isLoggedIn()) {
-              return (
-                <Route
-                  exact
-                  path={page.pageLink}
-                  render={() => <page.view setFooterTabs={setFooterTabs} />}
-                  key={index}
-                />
-              );
-            } else {
-              return (
-                <Route exact path={"/"} render={() => <Login />} key={0} />
-              );
-            }
-          })}
+  const renderLogin = () => {
+    return (
+      <div
+        className={"flex flex-col min-h-[100vh]"}
+        style={{ background: theme.primaryColor }}
+      >
+        <Suspense fallback={<div />}>
+          <Switch location={location}>
+            <Route exact path={"/"} render={() => <Login />} key={0} />
+          </Switch>
           <Redirect to="/" />
-        </Switch>
-      </Suspense>
-      {!["/", "/login", "/home"].includes(location.pathname) && (
-        <Footer tabs={footerTabs} />
-      )}
-    </div>
-  );
+        </Suspense>
+      </div>
+    );
+  };
+
+  const renderPages = () => {
+    return (
+      <div className={"flex flex-col min-h-[100vh] bg-[#fff]"}>
+        <div className="min-h-[5vh] max-h-[5vh] overflow-scroll items-center">
+          <TopUserDetails />
+        </div>
+        <div className="min-h-[87vh] max-h-[87vh] overflow-scroll">
+          <Suspense fallback={<div />}>
+            <Switch location={location}>
+              {pages.map((page, index) => {
+                return (
+                  <Route
+                    exact
+                    path={page.pageLink}
+                    render={() => <page.view setFooterTabs={setFooterTabs} />}
+                    key={index}
+                  />
+                );
+              })}
+              <Redirect to="/" />
+            </Switch>
+          </Suspense>
+        </div>
+        <div className="min-h-[8vh] max-h-[8vh] overflow-scroll">
+          {!["/home"].includes(location.pathname) && (
+            <Footer tabs={footerTabs} />
+          )}
+        </div>
+      </div>
+    );
+  };
+
+  return <div>{isLoggedIn() ? renderPages() : renderLogin()}</div>;
 };
 
 export default App;

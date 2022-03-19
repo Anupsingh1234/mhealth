@@ -520,6 +520,13 @@ h3 > span {
 /* *********** navbar ********** */
 
 /* ****** challenges dashboard ******* */
+.MuiToolbar-gutters{
+  padding: 0 !important;
+}
+
+.MuiTablePagination-toolbar{
+  min-height: 30px !important;
+}
 
 .Challenges {
   margin-top: 0.5rem;
@@ -531,7 +538,6 @@ h3 > span {
 .challenges-heading {
   font-size: 12px !important;
   font-weight: bold !important;
-  padding: 0.5em 0 !important;
 }
 .challenges-list {
   display: flex;
@@ -1170,8 +1176,6 @@ select:focus {
 .leaderboard-table-button-wrapper {
   display: flex;
   align-items: center;
-  margin-left: auto;
-  margin-top: 14px;
 }
 
 .pin-users-save-button {
@@ -1718,9 +1722,7 @@ select:focus {
 .target-container {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
   width: 100%;
-  margin-bottom: 9px;
   font-size: 14px;
 }
 

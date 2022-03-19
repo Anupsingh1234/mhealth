@@ -17,6 +17,7 @@ import { PrimaryButton } from "./Form/Button";
 import { useHistory } from "react-router-dom";
 import classNames from "classnames";
 import GlobalStateContext from "../context/GlobalStateContext";
+import SearchByCode from "./DefaultDashboard/SearchByCode";
 
 const Home = () => {
   const getDefaultTab = () => {
@@ -276,42 +277,52 @@ const Home = () => {
     }
   };
 
-  return (
-    <div
-      className={classNames(
-        "bg-white flex flex-col",
-        "min-h-[100vh] md:px-12 md:py-8 md:gap-4"
-      )}
-    >
-      <ChallengeList>
-        <div className="flex md:justify-between flex-col items-center md:flex-row gap-2 md:gap-8 mt-12 md:mt-8 ">
-          <TriStateToggle
-            values={["old", "current", "upcoming"]}
-            selected={dashboardState.challengeSwitch}
-            handleChange={handleToggleStateChange}
-          />
-        </div>
-      </ChallengeList>
+  const [displaySearch, setDisplaySearch] = useState(false);
 
-      <DefaultDashboard handleSearchEvent={handleSearchEvent}>
-        <div className="mx-2 mt-12 md:mt-2 mb-12">
-          <ListOfEvents
-            handleChallengeCardClick={handleChallengeCardClick}
-            fetchChallenges={fetchChallenges}
-            data={
-              dashboardState.searchedEvent.length > 0
-                ? dashboardState.searchedEvent
-                : dashboardState.listOfChallenges
-            }
-            dashboardState={dashboardState}
-            setDashboardState={setDashboardState}
-            selectedAction={dashboardState.selectedAction}
-            listType="event"
-            selectedChallengeArray={dashboardState.selectedChallengeArray}
-            selectedChallenge={dashboardState.selectedChallenge}
+  return (
+    <div className={classNames("bg-white flex flex-col", "md:px-12 md:gap-4")}>
+      <div className="gap-2 flex justify-between mx-4 flex-col md:flex-row-reverse items-end">
+        <TriStateToggle
+          values={["old", "current", "upcoming"]}
+          selected={dashboardState.challengeSwitch}
+          handleChange={handleToggleStateChange}
+        />
+        <div>
+          Click on challenge card to see actions or{" "}
+          <span
+            className="text-blue-600 underline cursor-pointer"
+            onClick={() => setDisplaySearch(true)}
+          >
+            search by code
+          </span>
+        </div>
+      </div>
+
+      <div className="mx-2 mt-2 mb-12">
+        <ListOfEvents
+          handleChallengeCardClick={handleChallengeCardClick}
+          fetchChallenges={fetchChallenges}
+          data={
+            dashboardState.searchedEvent.length > 0
+              ? dashboardState.searchedEvent
+              : dashboardState.listOfChallenges
+          }
+          dashboardState={dashboardState}
+          setDashboardState={setDashboardState}
+          selectedAction={dashboardState.selectedAction}
+          listType="event"
+          selectedChallengeArray={dashboardState.selectedChallengeArray}
+          selectedChallenge={dashboardState.selectedChallenge}
+        />
+      </div>
+      {displaySearch && (
+        <div className="mx-2">
+          <SearchByCode
+            handleSearchEvent={handleSearchEvent}
+            setDisplaySearch={setDisplaySearch}
           />
         </div>
-      </DefaultDashboard>
+      )}
 
       {/* Event Register Modal by localStorage */}
       {localStorage.challengeIDRegister &&

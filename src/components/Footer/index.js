@@ -21,7 +21,7 @@ const Footer = (props) => {
         "fixed left-0 bottom-0",
         "w-full h-[75px] bg-[#f5f5f5] text-black",
         "text-center flex md:justify-center",
-        "max-w-sm md:max-w-full"
+        "md:max-w-full"
       )}
     >
       {tabs.map((tab) => (
@@ -36,7 +36,7 @@ const Tab = ({ tab, selectedTab }) => {
   return (
     <div
       className={classNames(
-        "flex flex-col justify-center items-center min-w-[65px] md:min-w-[125px] bg-[#f5f5f5] hover:bg-[#e5e5e5] cursor-pointer",
+        "flex flex-col justify-center items-center flex-1 md:min-w-[125px] md:max-w-[125px] bg-[#f5f5f5] hover:bg-[#e5e5e5] cursor-pointer",
         { "bg-[#555] hover:bg-[#444]": isSelected }
       )}
       onClick={() => tab.onClick()}

@@ -69,6 +69,7 @@ import "../styles/DashboardWithParam.css";
 import { PrimaryButton } from "./Form/Button";
 import GlobalStateContext from "../context/GlobalStateContext";
 import ListOfEventsForCompare from "./ListOfEventsForCompare";
+import { useMount } from "react-use";
 
 const Walkathon = (props) => {
   const getDefaultTab = () => {
@@ -1173,7 +1174,7 @@ const Walkathon = (props) => {
         return (
           <LeaderboardTable
             leaderBoardData={dashboardState.leaderBoardData}
-            currentEvent={globalState.selectedChallengeObject}
+            currentEvent={globalState?.selectedChallengeObject}
             challengeSwitch={dashboardState.challengeSwitch}
           />
         );
@@ -1416,14 +1417,20 @@ const Walkathon = (props) => {
     );
   };
 
+  useMount(() => {
+    if (!globalState || Object.keys(globalState).length === 0) {
+      window.location.replace("#/home");
+    }
+  });
+
   return (
     <div className="flex flex-col bg-white">
       {/* <Navbar /> */}
-      <div className="flex flex-col mt-4 md:mx-12 overflow-scroll">
+      <div className="flex flex-col overflow-x-scroll min-h-[13vh] max-h-[15vh]">
         {renderActionBar(id)}
       </div>
-      <div className="border">
-        <div className="mt-4 md:mx-4">
+      <div className="border overflow-scroll max-h-[68vh]">
+        <div>
           {dashboardState.selectedAction === "Compare" && (
             <ListOfEventsForCompare
               handleChallengeCardClick={handleChallengeCardClick}

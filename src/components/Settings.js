@@ -103,16 +103,10 @@ const Settings = () => {
   ];
 
   return (
-    <div className="bg-white h-[100vh] w-[100vw] flex flex-col items-center">
+    <div className="w-[100vw] flex flex-col md:items-center">
       <TopUserDetails />
-      <div
-        className={classNames(
-          "flex flex-col gap-4",
-          "px-10 py-2 w-[max-content] rounded",
-          "text-center mt-12 md:mt-2 max-w-sm md:max-w-full"
-        )}
-      >
-        <div className="flex">
+      <div className={classNames("flex flex-col gap-4")}>
+        <div className="flex overflow-x-scroll min-h-[13vh] max-h-[15vh] gap-2 mx-2">
           {actions
             .filter((action) => action.display)
             .map(({ icon, label, onClick, id, display }, index) => (
@@ -131,7 +125,9 @@ const Settings = () => {
             ))}
         </div>
       </div>
-      <div>{renderComponent(selectedTab)}</div>
+      <div className="overflow-scroll max-h-[68vh]">
+        {renderComponent(selectedTab)}
+      </div>
     </div>
   );
 };
@@ -167,7 +163,7 @@ const Actions = ({
         />
       </div>
     </div>
-    <p className="text-xs mt-1 h-[40px]">{label}</p>
+    <p className="text-xs mt-1 h-[40px] text-center">{label}</p>
   </div>
 );
 

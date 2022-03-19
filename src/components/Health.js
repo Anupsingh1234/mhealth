@@ -73,7 +73,7 @@ import GlobalStateContext from "../context/GlobalStateContext";
 const Health = (props) => {
   const getDefaultTab = () => {
     if (!localStorage.dashboard_default_tab) {
-      return "Leaderboard";
+      return "Gallery";
     }
 
     if (
@@ -81,36 +81,18 @@ const Health = (props) => {
       localStorage.getItem("dashboard_default_tab") !== null
     ) {
       switch (localStorage.getItem("dashboard_default_tab")) {
-        case "leaderboard":
-          return "Leaderboard";
         case "event_gallery":
           return "Gallery";
-        case "invite":
-          return "Challenge";
-        case "program":
-          return "Activities";
-        case "performance":
-          return "Performance";
-        case "target":
-          return "Target";
         case "source":
           return "Source";
-        case "compare":
-          return "Compare";
-        case "team":
-          return "team";
         case "dietplan":
           return "dietplan";
-        case "achievement":
-          return "achievement";
-        case "challenge":
-          return "challenge";
         case "quiz":
           return "quiz";
         case "hra":
           return "hra";
         default:
-          return "Leaderboard";
+          return "Gallery";
       }
     }
   };
@@ -149,6 +131,8 @@ const Health = (props) => {
     isProgramAvailable: false,
     searchedEvent: [],
   });
+
+  console.log("sA", dashboardState.selectedAction);
   const [challengeStatusMsg, setChallengeStatusMsg] = useState("");
   const [displayChallengeStatus, setDisplayChallengeStatus] = useState(false);
   const [pendingInviteCount, setPendingCount] = useState(null);
@@ -1138,7 +1122,7 @@ const Health = (props) => {
   const renderActionBar = (id) => {
     return (
       <div className="gridCenter">
-        <div className="flex gap-2 md:gap-0 items-center md:justify-center max-w-sm mx-4 md:max-w-[max-content] mt-4 overflow-scroll">
+        <div className="flex md:gap-0 items-center md:justify-center max-w-sm md:max-w-[max-content] overflow-scroll">
           <ActionCard
             isProgramAvailable={dashboardState.isProgramAvailable}
             name="gallery"
@@ -1224,10 +1208,10 @@ const Health = (props) => {
   return (
     <div className="flex flex-col bg-white">
       {/* <Navbar /> */}
-      <div className="flex flex-col mt-4 md:mx-12 overflow-scroll">
+      <div className="flex flex-col overflow-x-scroll min-h-[13vh] max-h-[13vh]">
         {renderActionBar(id)}
       </div>
-      <div className="mt-4">
+      <div className="mt-4 overflow-scroll max-h-[68vh]">
         {dashboardState.selectedAction === "Compare" && (
           <ListOfEvents
             handleChallengeCardClick={handleChallengeCardClick}
