@@ -736,12 +736,18 @@ export default function EnhancedTable({
   );
   const [dateRange, setDateRange] = useState(false);
   const [startDate, setStartDate] = useState(
-    currentEvent.challengeStartDate.substring(0, 10)
+    currentEvent.challengeStartDate !== undefined
+      ? currentEvent.challengeStartDate.substring(0, 10)
+      : ""
   );
   const [endDate, setEndDate] = useState(
-    moment(today).format("YYYY-MM-DD") >
-      currentEvent.challengeEndDate.substring(0, 10)
+    moment(today).format("YYYY-MM-DD") > currentEvent.challengeEndDate !==
+      undefined
       ? currentEvent.challengeEndDate.substring(0, 10)
+      : ""
+      ? currentEvent.challengeEndDate !== undefined
+        ? currentEvent.challengeEndDate.substring(0, 10)
+        : ""
       : moment(today).format("YYYY-MM-DD")
   );
   const [showStartDate, setShowStartDate] = useState(

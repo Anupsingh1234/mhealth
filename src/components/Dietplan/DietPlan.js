@@ -11,7 +11,7 @@ import { urlPrefix } from "../../services/apicollection";
 import { PrimaryButton } from "../Form/Button";
 import { jsPDF } from "jspdf";
 
-const DietPlan = () => {
+const DietPlan = (props) => {
   var currD = [
     "00",
     "01",
@@ -62,6 +62,10 @@ const DietPlan = () => {
     "12",
   ];
 
+  useEffect(() => {
+    getData();
+  }, [props.eventId]);
+
   var date = new Date();
   var currentDate = date.getDate();
 
@@ -76,7 +80,7 @@ const DietPlan = () => {
 
   var dates = currD[currentDate];
   var newDate = (parseInt(dates) - 7).toString();
-  if (newDate.length == 1) {
+  if (newDate && newDate.length == 1) {
     dates = "0" + newDate;
   } else {
     dates = newDate;
@@ -339,7 +343,7 @@ const DietPlan = () => {
             </div>
           </div>
 
-          {dietplandata && routineDates.length >= 0 ? (
+          {dietplandata && routineDates && routineDates.length >= 0 ? (
             <Table
               style={{ marginTop: "30px", borderTop: "1px solid #ecf0f1" }}
             >

@@ -17,6 +17,7 @@ import CreateTeam from "./TeamForEvents/CreateOrUpdateTeam";
 import { Achievments } from "./Achievments";
 import SundayChallenge from "./SundayChallenge";
 import { getLeaderBoardHeading } from "../utils/commonFunctions";
+import dataSource from "../assets/dataSource.svg";
 import {
   getLeaderBoardData,
   getChallengesByDate,
@@ -245,7 +246,7 @@ const Dashboard = () => {
       localStorage.removeItem("status");
     }
   }, []);
-
+  console.log(dashboardState.selectedChallengeObject, "object");
   useEffect(() => {
     if (dashboardState.selectedChallenge) {
       localStorage.setItem("selectEvent", dashboardState.selectedChallenge);
@@ -1452,6 +1453,25 @@ const Dashboard = () => {
                     }
                   />
 
+                  <ActionCard
+                    isProgramAvailable={dashboardState.isProgramAvailable}
+                    name="data_source"
+                    display={
+                      (dashboardState.challengeSwitch === "current" ||
+                        dashboardState.challengeSwitch === "upcoming") &&
+                      dashboardState.listOfChallenges.length > 0
+                    }
+                    onClick={() => {
+                      setDashboardState((prevState) => {
+                        return {
+                          ...prevState,
+                          selectedAction: "Source",
+                          listOfChallenges: getCurrentAllEvents(),
+                        };
+                      });
+                    }}
+                  />
+
                   <>
                     <ActionCard
                       isProgramAvailable={dashboardState.isProgramAvailable}
@@ -1478,24 +1498,44 @@ const Dashboard = () => {
                       )} */}
                   </>
 
-                  <ActionCard
-                    isProgramAvailable={dashboardState.isProgramAvailable}
-                    name="data_source"
-                    display={
-                      (dashboardState.challengeSwitch === "current" ||
-                        dashboardState.challengeSwitch === "upcoming") &&
-                      dashboardState.listOfChallenges.length > 0
-                    }
-                    onClick={() => {
-                      setDashboardState((prevState) => {
-                        return {
-                          ...prevState,
-                          selectedAction: "Source",
-                          listOfChallenges: getCurrentAllEvents(),
-                        };
-                      });
-                    }}
-                  />
+                  {dashboardState.selectedAction === "Challenge" && (
+                    <ChallengeByInvite
+                      eventId={dashboardState.selectedChallenge}
+                      {...{
+                        reloadChallengeAccepted,
+                        setReloadChallengeAccepted,
+                      }}
+                    />
+                  )}
+                  {dashboardState.leaderBoardData["data"]["rankWiseBoard"] &&
+                  dashboardState.leaderBoardData["data"]["rankWiseBoard"]
+                    .length > 0 ? (
+                    <>
+                      {dashboardState.selectedAction === "Leaderboard" &&
+                      dashboardState.leaderBoardData.loading === false ? (
+                        <LeaderboardTable
+                          leaderBoardData={dashboardState.leaderBoardData}
+                          currentEvent={dashboardState.selectedChallengeObject}
+                          challengeSwitch={dashboardState.challengeSwitch}
+                        />
+                      ) : (
+                        dashboardState.selectedAction === "Leaderboard" && (
+                          <FacebookCircularProgress />
+                        )
+                      )}
+                    </>
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <img src={dataSource} width={400} height={200} />
+                      <span style={{ margin: "1rem" }}>No Data</span>
+                    </div>
+                  )}
 
                   <ActionCard
                     isProgramAvailable={dashboardState.isProgramAvailable}

@@ -8,7 +8,7 @@ import { urlPrefix } from "../../services/apicollection";
 import AssessmentInfo from "./AssessmentInfo";
 
 import dataSource from "../../assets/dataSource.svg";
-
+import message from "antd-message";
 import { updateUserDetailsHandler } from "../../services/userprofileApi";
 import SubEventCard from "../Dashboard/Activity/SubEventCard";
 import { getSubEvent } from "../../services/apicollection";
@@ -31,7 +31,7 @@ const HraCard = (eventID, currentEventObj) => {
   const Assessment = (id) => {
     if (dataList.profileComplete === true) {
       localStorage.setItem("cardId", id);
-      submitAnswer(localStorage.getItem("userId"), 0, 0, 0), id;
+      // submitAnswer(localStorage.getItem("userId"), 0, 0, 0), id;
       startQuiz(id);
     } else {
       setProfileModal(true);
@@ -44,8 +44,12 @@ const HraCard = (eventID, currentEventObj) => {
   };
   const updateProfile = () => {
     let payload = {
-      dob: profilePayload.dob + " " + "12:00:00",
-      gender: profilePayload.gender,
+      dob:
+        profilePayload.dob !== undefined
+          ? profilePayload.dob + " " + "12:00:00"
+          : null,
+      gender:
+        profilePayload.gender !== undefined ? profilePayload.gender : null,
       city: profilePayload.location,
     };
     updateUserDetailsHandler(payload).then((res) => {
@@ -61,7 +65,7 @@ const HraCard = (eventID, currentEventObj) => {
     setProgramList();
   }, [eventID]);
   const [subcard, setsubcard] = useState(false);
-  const [optionId, setoptionId] = useState([]);
+  const [optionId, setOptionId] = useState([]);
   const [score, setscore] = useState();
   const [isnext, setisnext] = useState(true);
   const [totalScore, settotalScore] = useState(0);
@@ -69,13 +73,13 @@ const HraCard = (eventID, currentEventObj) => {
   const [nextquestion, setnextquestion] = useState();
   const [scoreDetails, setscoreDetails] = useState();
   const [cardDetails, setcardDetails] = useState();
-
+  const [isCheck, setIsCheck] = useState(false);
   const [flag, setflag] = useState(false);
   const [Option, setOption] = useState();
-
+  const [info, setinfo] = useState();
   const handleCheck = (e) => {
     const { name, checked } = e.target;
-
+    setIsCheck(true);
     if (checked) {
       optionId.push(parseInt(name));
     } else {
@@ -85,15 +89,21 @@ const HraCard = (eventID, currentEventObj) => {
         });
       }
       const result = arrayRemove(optionId, name);
-      setoptionId(result);
+      setOptionId(result);
     }
   };
-  console.log(optionId);
   useEffect(() => {
     nextquestion == false ? scoreCall() : "";
     flag == false ? card() : "";
   }, [nextquestion]);
 
+  const filterInfo = (e) => {
+    var marvelHeroes = cardDetails.filter(function (hero) {
+      const x = hero.id == e;
+      return x;
+    });
+    setinfo(marvelHeroes);
+  };
   const card = (e) => {
     const URL = `${urlPrefix}v1.0/getAssistmentCard?challengerZoneId=${localStorage.getItem(
       "selectEvent"
@@ -112,12 +122,11 @@ const HraCard = (eventID, currentEventObj) => {
         },
       })
       .then((res) => {
-        console.log();
         {
+          console.log(res.data.response.responseData, "card");
           res.data.response.responseData &&
             setcardDetails(res.data.response.responseData.hac);
           setDataList(res.data.response.responseData);
-          console.log(res.data.response.responseData);
         }
 
         // setscoreDetails(res?.data?.response?.responseData);
@@ -125,7 +134,9 @@ const HraCard = (eventID, currentEventObj) => {
   };
 
   const scoreCall = () => {
-    const URL = `${urlPrefix}v1.0/getHRAScoreCard?hraId=${cardId}`;
+    const URL = `${urlPrefix}v1.0/getHRAScoreCard?hraId=${localStorage.getItem(
+      "cardId"
+    )}`;
     return axios
       .get(URL, {
         headers: {
@@ -149,49 +160,62 @@ const HraCard = (eventID, currentEventObj) => {
   };
 
   const submitAnswer = (hraid, questionid, option, freetext) => {
-    settextAns(null);
-    setflag(true);
-    setoptionId([]);
-    const URL = `${urlPrefix}v1.0/submitHraAnswer`;
-    return axios
-      .post(
-        URL,
-        {
-          hraId: cardId,
-          hraQuestionId: questionid,
-          optionId: optionId,
-          text: freetext,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.token}`,
-            timeStamp: "timestamp",
-            accept: "*/*",
-            "Access-Control-Allow-Origin": "*",
-            withCredentials: true,
-            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-            "Access-Control-Allow-Headers":
-              "accept, content-type, x-access-token, x-requested-with",
-          },
-        }
-      )
-      .then((res) => {
-        res?.data?.response?.responseData
-          ? setnextquestion(res?.data?.response?.responseData)
-          : setnextquestion(false);
-        if (res?.data?.response?.responseData == true) {
-          settotalScore(totalScore + score);
-          startQuiz(cardId);
-          settextAns("");
-        } else {
-          settotalScore(totalScore - score);
-        }
+    console.log(optionId, textAns, "optionId");
+    if (optionId && optionId.length !== 0) {
+      // settextAns(null);
+      setflag(true);
 
-        // setquestion(res?.data?.response?.responseData);
-      });
+      const URL = `${urlPrefix}v1.0/submitHraAnswer`;
+      return axios
+        .post(
+          URL,
+          {
+            hraId: cardId,
+            hraQuestionId: questionid,
+            optionId: optionId,
+            text: freetext,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.token}`,
+              timeStamp: "timestamp",
+              accept: "*/*",
+              "Access-Control-Allow-Origin": "*",
+              withCredentials: true,
+              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+              "Access-Control-Allow-Headers":
+                "accept, content-type, x-access-token, x-requested-with",
+            },
+          }
+        )
+        .then((res) => {
+          res?.data?.response?.responseData
+            ? setnextquestion(res?.data?.response?.responseData)
+            : setnextquestion(false);
+          if (res?.data?.response?.responseData == true) {
+            settotalScore(totalScore + score);
+
+            startQuiz();
+
+            settextAns("");
+            setOptionId([]);
+            setIsCheck(false);
+          } else {
+            settotalScore(totalScore - score);
+          }
+
+          // setquestion(res?.data?.response?.responseData);
+        });
+    } else if (
+      (question && question.ansType == "MULTIPLE") ||
+      (question && question.ansType == "SINGLE")
+    ) {
+      message.error("Please choose any option !");
+    } else {
+      message.error("Please write something here ! ");
+    }
   };
-  const quizFunction = (id) => {};
-  console.log(nextquestion, cardId, "cardid");
+
   const startQuiz = (id) => {
     const URL = `${urlPrefix}v1.0/getHRAQuestions?hraId=${localStorage.getItem(
       "cardId"
@@ -214,6 +238,9 @@ const HraCard = (eventID, currentEventObj) => {
           setquestion(res?.data?.response?.responseData), setnextquestion(true);
         } else {
           setnextquestion(false);
+        }
+        if (res?.data?.response?.responseData.next === false) {
+          scoreCall();
         }
         res?.data?.response?.responseData.ansType == "TEXT"
           ? setOption(res?.data?.response?.responseData?.hraOptions)
@@ -242,54 +269,52 @@ const HraCard = (eventID, currentEventObj) => {
       .then((res) => {
         const list = [];
         for (var i = 0; i < arr.length; i++) {
-          console.log(arr[i], "arra");
-
           const data = res.data.response.responseData.filter((item) => {
             return item?.id == arr[i];
           });
 
           list.push(...data);
-          console.log(data, list, "data");
         }
         setProgramList(list);
 
         setsubcard(true);
       });
   };
-  const listed = (data) => {
-    programList.push(data);
-  };
-  console.log(programList1, programList, "list");
+  // const listed = (data) => {
+  //   programList.push(data);
+  // };
   const handleSubscription = () => {
     getActivitySubEvent();
   };
   const selectOption = (val, id, mark) => {
     setscore(mark);
-    optionId.push(parseInt(val));
+    setOptionId([parseInt(val)]);
   };
+
   return (
     <>
       {cardDetails && cardDetails.length > 0 && dataList ? (
         <>
           <div style={{ display: "flex", flexWrap: "wrap" }}>
-            <div
-              // onClick={() => {
-              //   localStorage.setItem("eventCode", subEventDetail.eventCode);
-              // }}
-              className="challenge-card"
-              style={
-                {
-                  margin: "25px 5px",
-                  height: "auto",
-                  cursor: "pointer",
-                }
-                // : { height: "auto" }
-              }
-            >
-              {cardDetails &&
-                cardDetails.map((item, index) => {
-                  return (
-                    <>
+            {cardDetails &&
+              cardDetails.map((item, index) => {
+                return (
+                  <>
+                    <div
+                      // onClick={() => {
+                      //   localStorage.setItem("eventCode", subEventDetail.eventCode);
+                      // }}
+
+                      className="challenge-card"
+                      style={
+                        {
+                          margin: "25px 5px",
+                          height: "auto",
+                          cursor: "pointer",
+                        }
+                        // : { height: "auto" }
+                      }
+                    >
                       {" "}
                       <div
                         key={index}
@@ -336,122 +361,138 @@ const HraCard = (eventID, currentEventObj) => {
                         <div className="challenge-card-start-date1">
                           <InfoIcon
                             style={{ fontSize: 18, color: "#1e88e5" }}
-                            onClick={() => setModalView(true)}
+                            onClick={() => {
+                              setModalView(true), filterInfo(item.id);
+                            }}
                           />
                         </div>
                       </div>
-                    </>
-                  );
-                })}
-
-              {profileModal && (
-                <InfoDialog
-                  open={profileModal}
-                  handleClose={() => setProfileModal(false)}
-                >
-                  <CancelIcon
-                    style={{
-                      position: "absolute",
-                      top: 5,
-                      right: 5,
-                      color: "#ef5350",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => setProfileModal(false)}
-                  />
-                  <div style={{ height: "200px", width: "500px" }}>
-                    <div style={{ display: "flex", marginLeft: "10px" }}>
-                      <div style={{ width: "50%" }}>
-                        <label>DOB</label>
-                        <input
-                          autofocus="autofocus"
-                          style={{
-                            background: "#f3f4f6",
-                            padding: "10px 10px",
-                            borderRadius: 6,
-                            fontSize: 12,
-                            width: "90%",
-                            border: "1px solid black",
-                          }}
-                          type="date"
-                          name="dob"
-                          onChange={handleChange}
-                          value={
-                            dataList.dob !== null
-                              ? dataList.dob.substring(0, 10)
-                              : dataList.dob
-                          }
-                          disabled={dataList.dob !== null ? true : false}
-                        />
-                      </div>
-                      <div style={{ width: "50%" }}>
-                        <label>Gender</label>
-                        <input
-                          autofocus="autofocus"
-                          style={{
-                            background: "#f3f4f6",
-                            padding: "10px 10px",
-                            borderRadius: 6,
-                            fontSize: 12,
-                            width: "90%",
-                            border: "1px solid black",
-                          }}
-                          name="gender"
-                          placeholder="Enter Your Gender"
-                          onChange={handleChange}
-                          value={dataList.gender}
-                          disabled={dataList.gender !== null ? true : false}
-                        />
-                      </div>
-                    </div>
-                    <div style={{ display: "flex", marginLeft: "10px" }}>
-                      <div style={{ width: "50%" }}>
-                        <label>City</label>
-                        <input
-                          autofocus="autofocus"
-                          style={{
-                            background: "#f3f4f6",
-                            padding: "10px 10px",
-                            borderRadius: 6,
-                            fontSize: 12,
-                            width: "90%",
-                            border: "1px solid black",
-                          }}
-                          name="city"
-                          onChange={handleChange}
-                          value={dataList.location}
-                          disabled={dataList.location !== null ? true : false}
-                        />
-                      </div>
-                      <div style={{ width: "50%" }}>
-                        <PrimaryButton
-                          style={{
-                            backgroundColor: "green",
-                            color: "white",
-                            marginTop: "10%",
-                            marginLeft: "50%",
-                            borderRadius: "10px",
-                            height: "40px",
-                            width: "80px",
-                          }}
-                          onClick={updateProfile}
+                      {profileModal && (
+                        <InfoDialog
+                          open={profileModal}
+                          handleClose={() => setProfileModal(false)}
                         >
-                          {" "}
-                          Save
-                        </PrimaryButton>
-                      </div>
+                          <CancelIcon
+                            style={{
+                              position: "absolute",
+                              top: 5,
+                              right: 5,
+                              color: "#ef5350",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setProfileModal(false)}
+                          />
+                          <div style={{ height: "200px", width: "500px" }}>
+                            <div
+                              style={{ display: "flex", marginLeft: "10px" }}
+                            >
+                              <div style={{ width: "50%" }}>
+                                <label>DOB</label>
+                                <input
+                                  autofocus="autofocus"
+                                  style={{
+                                    background: "#f3f4f6",
+                                    padding: "10px 10px",
+                                    borderRadius: 6,
+                                    fontSize: 12,
+                                    width: "90%",
+                                    border: "1px solid black",
+                                  }}
+                                  type="date"
+                                  name="dob"
+                                  onChange={handleChange}
+                                  value={
+                                    dataList.dob !== null
+                                      ? dataList.dob.substring(0, 10)
+                                      : dataList.dob
+                                  }
+                                  disabled={
+                                    dataList.dob !== null ? true : false
+                                  }
+                                />
+                              </div>
+                              <div style={{ width: "50%" }}>
+                                <label>Gender</label>
+                                <select
+                                  autofocus="autofocus"
+                                  style={{
+                                    background: "#f3f4f6",
+                                    padding: "10px 10px",
+                                    borderRadius: 6,
+                                    fontSize: 12,
+                                    width: "90%",
+                                    border: "1px solid black",
+                                  }}
+                                  name="gender"
+                                  placeholder="Enter Your Gender"
+                                  onChange={handleChange}
+                                  value={dataList.gender}
+                                  disabled={
+                                    dataList.gender !== null ? true : false
+                                  }
+                                >
+                                  <option value="">Select</option>
+                                  <option>Male</option>
+                                  <option>Female</option>
+                                </select>
+                              </div>
+                            </div>
+                            <div
+                              style={{ display: "flex", marginLeft: "10px" }}
+                            >
+                              <div style={{ width: "50%" }}>
+                                <label>City</label>
+                                <input
+                                  autofocus="autofocus"
+                                  style={{
+                                    background: "#f3f4f6",
+                                    padding: "10px 10px",
+                                    borderRadius: 6,
+                                    fontSize: 12,
+                                    width: "90%",
+                                    border: "1px solid black",
+                                  }}
+                                  name="city"
+                                  onChange={handleChange}
+                                  value={dataList.location}
+                                  disabled={
+                                    dataList.location !== null ? true : false
+                                  }
+                                />
+                              </div>
+                              <div style={{ width: "25%" }}></div>
+                              <div style={{ width: "20%", marginTop: "5%" }}>
+                                <PrimaryButton
+                                  style={{
+                                    backgroundColor: "green",
+                                    color: "white",
+                                    // marginTop: "30%",
+                                    // marginLeft: "50%",
+                                    borderRadius: "10px",
+                                    height: "40px",
+                                    width: "80px",
+                                  }}
+                                  onClick={updateProfile}
+                                >
+                                  {" "}
+                                  Save
+                                </PrimaryButton>
+                              </div>
+                            </div>
+                          </div>
+                        </InfoDialog>
+                      )}
+                      {modalView && (
+                        <AssessmentInfo
+                          modalView={modalView}
+                          setModalView={setModalView}
+                          details={info && info}
+                        />
+                      )}
                     </div>
-                  </div>
-                </InfoDialog>
-              )}
-              {modalView && (
-                <AssessmentInfo
-                  modalView={modalView}
-                  setModalView={setModalView}
-                  details={cardDetails}
-                />
-              )}
-            </div>
+                  </>
+                );
+              })}
           </div>
 
           {nextquestion == true ? (
@@ -467,7 +508,7 @@ const HraCard = (eventID, currentEventObj) => {
               >
                 <span className="font-extrabold">
                   {" "}
-                  {question && question.hraQuestionId} .{" "}
+                  {question && question.index} .{" "}
                 </span>
                 <span className=" font-semibold">
                   {" "}
@@ -487,10 +528,12 @@ const HraCard = (eventID, currentEventObj) => {
                             className="p-2 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
                           >
                             {" "}
-                            <div>
+                            <div key={item.id}>
                               <input
                                 type="radio"
                                 name="teamselect"
+                                key={item.id}
+                                id={item.id}
                                 value={item.id}
                                 onChange={(e) => {
                                   selectOption(
@@ -500,9 +543,8 @@ const HraCard = (eventID, currentEventObj) => {
                                   );
                                 }}
                                 style={{ marginRight: "15px" }}
-                                id={index}
                               />
-                              <label for={index} classNamem="p-3">
+                              <label for={item.id} className="p-3">
                                 {item.optionText}
                               </label>
                             </div>
@@ -517,17 +559,27 @@ const HraCard = (eventID, currentEventObj) => {
                             className="p-1 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
                           >
                             {" "}
-                            <div>
+                            <div key={item.id}>
                               <Checkbox
                                 id={index}
                                 onChange={handleCheck}
+                                // value={optionId}
                                 name={item.id}
+                                // checked={false}
                                 style={{ fontSize: 9 }}
-                                inputProps={{
-                                  "aria-label": "uncontrolled-checkbox",
-                                }}
+                                // inputProps={{
+                                //   "aria-label": "uncontrolled-checkbox",
+                                // }}
                               />
-                              <label for={index} classNamem="p-3">
+                              {/* <input
+                                type="checkbox"
+                                value={item.id}
+                                onChange={handleCheckbox}
+                                // checked={optionId[index]}
+                                name="categories"
+                                checked={optionId[index]}
+                              /> */}
+                              <label for={index} className="p-3">
                                 {item.optionText}{" "}
                               </label>
                             </div>
@@ -544,7 +596,7 @@ const HraCard = (eventID, currentEventObj) => {
                           label="Write Your Answer"
                           onChange={(e) => {
                             settextAns(e.target.value);
-                            setoptionId([Option && Option[0]?.id]);
+                            setOptionId([Option && Option[0]?.id]);
                           }}
                         />
                       </div>
@@ -565,10 +617,13 @@ const HraCard = (eventID, currentEventObj) => {
                             localStorage.getItem("cardId"),
                             question.hraQuestionId,
                             optionId,
-                            textAns
+                            textAns !== "" ? textAns : null
                           );
-                          setoptionId([]);
+                          setOptionId([]);
                         }}
+                        // disabled={
+                        //   optionId.length > 0 || textAns !== null ? false : true
+                        // }
                       >
                         Submit{" "}
                       </PrimaryButton>
@@ -619,11 +674,11 @@ const HraCard = (eventID, currentEventObj) => {
                 }}
               >
                 <div
-                  style={{ width: "10%", fontWeight: "800", fontSize: "14px" }}
+                  style={{ width: "13%", fontWeight: "800", fontSize: "14px" }}
                 >
                   Assessments :
                 </div>
-                <div style={{ width: "90%" }}>
+                <div style={{ width: "87%" }}>
                   {scoreDetails.recommedations}
                 </div>
               </div>
