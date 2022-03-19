@@ -33,6 +33,7 @@ const Imgshow = (props) => {
       })
       .then((res) => {
         {
+          console.log(res.data.response.responseData,'res')
           res.data.response.responseData
             ? setcolorevent(res.data.response.responseData)
             : setcolorevent([]);
@@ -95,6 +96,8 @@ const Imgshow = (props) => {
   });
   //WEEK FUNCTION
   console.log(props.logo.STREAK, "streak");
+  console.log(props.logo.AVERAGE, "Average");
+  console.log(props.logo.DISTANCE, "Distance");
   const _1_A = colorevent.filter(function (hero) {
     const x = hero.key == "_1_A";
     return x;
@@ -109,7 +112,10 @@ const Imgshow = (props) => {
     const x = hero.key == "_3_A";
     return x;
   });
-
+  const _4_A = colorevent.filter(function (hero) {
+    const x = hero.key == "_4_A";
+    return x;
+  });
   const _5_A = colorevent.filter(function (hero) {
     const x = hero.key == "_5_A";
     return x;
@@ -119,22 +125,38 @@ const Imgshow = (props) => {
     const x = hero.key == "_7_A";
     return x;
   });
-
+  const _9_A = colorevent.filter(function (hero) {
+    const x = hero.key == "_9_A";
+    return x;
+  });
   const _10_A = colorevent.filter(function (hero) {
     const x = hero.key == "_10_A";
     return x;
   });
-
+  const _12_A = colorevent.filter(function (hero) {
+    const x = hero.key == "_12_A";
+    return x;
+  });
   const _14_A = colorevent.filter(function (hero) {
     const x = hero.key == "_14_A";
     return x;
   });
-
+  const _15_A = colorevent.filter(function (hero) {
+    const x = hero.key == "_15_A";
+    return x;
+  });
   const _17_A = colorevent.filter(function (hero) {
     const x = hero.key == "_17_A";
     return x;
   });
-
+  const _18_A = colorevent.filter(function (hero) {
+    const x = hero.key == "_18_A";
+    return x;
+  });
+  const _20_A = colorevent.filter(function (hero) {
+    const x = hero.key == "_20_A";
+    return x;
+  });
   const _21_A = colorevent.filter(function (hero) {
     const x = hero.key == "_21_A";
     return x;
@@ -151,6 +173,10 @@ const Imgshow = (props) => {
     const x = hero.key == "_5_D";
     return x;
   });
+  const _4_D = colorevent.filter(function (hero) {
+    const x = hero.key == "_4_D";
+    return x;
+  });
 
   const _3_D = colorevent.filter(function (hero) {
     const x = hero.key == "_3_D";
@@ -161,19 +187,36 @@ const Imgshow = (props) => {
     const x = hero.key == "_7_D";
     return x;
   });
-
+  const _12_D = colorevent.filter(function (hero) {
+    const x = hero.key == "_12_D";
+    return x;
+  });
   const _14_D = colorevent.filter(function (hero) {
     const x = hero.key == "_14_D";
     return x;
   });
-
+  const _15_D = colorevent.filter(function (hero) {
+    const x = hero.key == "_15_D";
+    return x;
+  });
   const _17_D = colorevent.filter(function (hero) {
     const x = hero.key == "_17_D";
     return x;
   });
-
+  const _18_D = colorevent.filter(function (hero) {
+    const x = hero.key == "_18_D";
+    return x;
+  });
+  const _20_D = colorevent.filter(function (hero) {
+    const x = hero.key == "_20_D";
+    return x;
+  });
   const _21_D = colorevent.filter(function (hero) {
     const x = hero.key == "_21_D";
+    return x;
+  });
+  const _24_D = colorevent.filter(function (hero) {
+    const x = hero.key == "_24_D";
     return x;
   });
 
@@ -209,7 +252,10 @@ const Imgshow = (props) => {
     const x = hero.key == "_3_K";
     return x;
   });
-
+  var _4_K = colorevent.filter(function (hero) {
+    const x = hero.key == "_4_K";
+    return x;
+  });
   var _5_K = colorevent.filter(function (hero) {
     const x = hero.key == "_5_K";
     return x;
@@ -219,22 +265,38 @@ const Imgshow = (props) => {
     const x = hero.key == "_7_K";
     return x;
   });
-
+  var _9_K = colorevent.filter(function (hero) {
+    const x = hero.key == "_9_K";
+    return x;
+  });
   var _10_K = colorevent.filter(function (hero) {
     const x = hero.key == "_10_K";
     return x;
   });
-
+  var _12_K = colorevent.filter(function (hero) {
+    const x = hero.key == "_12_K";
+    return x;
+  });
   var _14_K = colorevent.filter(function (hero) {
     const x = hero.key == "_14_K";
     return x;
   });
-
+  var _15_K = colorevent.filter(function (hero) {
+    const x = hero.key == "_15_K";
+    return x;
+  });
   var _17_K = colorevent.filter(function (hero) {
     const x = hero.key == "_17_K";
     return x;
   });
-
+  var _18_K = colorevent.filter(function (hero) {
+    const x = hero.key == "_18_K";
+    return x;
+  });
+  var _20_K = colorevent.filter(function (hero) {
+    const x = hero.key == "_20_K";
+    return x;
+  });
   var _21_K = colorevent.filter(function (hero) {
     const x = hero.key == "_21_K";
     return x;
@@ -282,7 +344,7 @@ const Imgshow = (props) => {
       >
         <Card
           className={classes.root}
-          style={{ maxWidth: "350px" }}
+          style={{ maxWidth: "33%" }}
           variant="outlined"
         >
           <Typography
@@ -313,6 +375,15 @@ const Imgshow = (props) => {
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
+            <img
+              data-tip={_4_D[0]?.achievedDate ? _4_D[0]?.achievedDate : ""}
+              src={
+                _4_D[0]?.achievementIcon
+                  ? _4_D[0]?.achievementIcon
+                  : streak._4_D
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
             <ReactTooltip />
             <img
               data-tip={_5_D[0]?.achievedDate ? _5_D[0]?.achievedDate : ""}
@@ -332,12 +403,22 @@ const Imgshow = (props) => {
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />
+           
             <img
               data-tip={_10_D[0]?.achievedDate ? _10_D[0]?.achievedDate : ""}
               src={
                 _10_D[0]?.achievementIcon
                   ? _10_D[0]?.achievementIcon
                   : streak._10_D
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />
+             <img
+              data-tip={_12_D[0]?.achievedDate ? _12_D[0]?.achievedDate : ""}
+              src={
+                _12_D[0]?.achievementIcon
+                  ? _12_D[0]?.achievementIcon
+                  : streak._12_D
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />
@@ -351,11 +432,38 @@ const Imgshow = (props) => {
               style={{ width: 80, height: 80, marginTop: 10 }}
             />
             <img
+              data-tip={_15_D[0]?.achievedDate ? _15_D[0]?.achievedDate : ""}
+              src={
+                _15_D[0]?.achievementIcon
+                  ? _15_D[0]?.achievementIcon
+                  : streak._15_D
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />
+            <img
               data-tip={_17_D[0]?.achievedDate ? _17_D[0]?.achievedDate : ""}
               src={
                 _17_D[0]?.achievementIcon
                   ? _17_D[0]?.achievementIcon
                   : streak._17_D
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />
+             <img
+              data-tip={_18_D[0]?.achievedDate ? _18_D[0]?.achievedDate : ""}
+              src={
+                _18_D[0]?.achievementIcon
+                  ? _18_D[0]?.achievementIcon
+                  : streak._18_D
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />
+             <img
+              data-tip={_20_D[0]?.achievedDate ? _20_D[0]?.achievedDate : ""}
+              src={
+                _20_D[0]?.achievementIcon
+                  ? _20_D[0]?.achievementIcon
+                  : streak._20_D
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />
@@ -365,6 +473,15 @@ const Imgshow = (props) => {
                 _21_D[0]?.achievementIcon
                   ? _21_D[0]?.achievementIcon
                   : streak._21_D
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />
+             <img
+              data-tip={_24_D[0]?.achievedDate ? _24_D[0]?.achievedDate : ""}
+              src={
+                _24_D[0]?.achievementIcon
+                  ? _9_D[0]?.achievementIcon
+                  : streak._24_D
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />
@@ -394,7 +511,7 @@ const Imgshow = (props) => {
 
         <Card
           className={classes.root}
-          style={{ maxWidth: "350px" }}
+          style={{ maxWidth: "33%" }}
           variant="outlined"
         >
           <Typography
@@ -443,6 +560,15 @@ const Imgshow = (props) => {
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
+             <img
+              data-tip={_4_K[0]?.achievedDate ? _4_K[0]?.achievedDate : ""}
+              src={
+                _4_K[0]?.achievementIcon
+                  ? _4_K[0]?.achievementIcon
+                  : distance._4_K
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
             <img
               data-tip={_5_K[0]?.achievedDate ? _5_K[0]?.achievedDate : ""}
               src={
@@ -461,12 +587,30 @@ const Imgshow = (props) => {
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
+             <img
+              data-tip={_9_K[0]?.achievedDate ? _9_K[0]?.achievedDate : ""}
+              src={
+                _9_K[0]?.achievementIcon
+                  ? _9_K[0]?.achievementIcon
+                  : distance._9_K
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
             <img
               data-tip={_10_K[0]?.achievedDate ? _10_K[0]?.achievedDate : ""}
               src={
                 _10_K[0]?.achievementIcon
                   ? _10_K[0]?.achievementIcon
                   : distance._10_K
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
+             <img
+              data-tip={_12_K[0]?.achievedDate ? _12_K[0]?.achievedDate : ""}
+              src={
+                _12_K[0]?.achievementIcon
+                  ? _12_K[0]?.achievementIcon
+                  : distance._12_K
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
@@ -479,12 +623,39 @@ const Imgshow = (props) => {
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
+             <img
+              data-tip={_15_K[0]?.achievedDate ? _15_K[0]?.achievedDate : ""}
+              src={
+                _15_K[0]?.achievementIcon
+                  ? _15_K[0]?.achievementIcon
+                  : distance._15_K
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
             <img
               data-tip={_17_K[0]?.achievedDate ? _17_K[0]?.achievedDate : ""}
               src={
                 _17_K[0]?.achievementIcon
                   ? _17_K[0]?.achievementIcon
                   : distance._17_K
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
+             <img
+              data-tip={_18_K[0]?.achievedDate ? _18_K[0]?.achievedDate : ""}
+              src={
+                _18_K[0]?.achievementIcon
+                  ? _18_K[0]?.achievementIcon
+                  : distance._18_K
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
+             <img
+              data-tip={_20_K[0]?.achievedDate ? _20_K[0]?.achievedDate : ""}
+              src={
+                _20_K[0]?.achievementIcon
+                  ? _20_K[0]?.achievementIcon
+                  : distance._20_K
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
@@ -505,7 +676,7 @@ const Imgshow = (props) => {
 
         <Card
           className={classes.root}
-          style={{ maxWidth: "350px" }}
+          style={{ maxWidth: "33%" }}
           variant="outlined"
         >
           <Typography
@@ -546,6 +717,13 @@ const Imgshow = (props) => {
               style={{ width: 80, height: 80, marginTop: 10 }}
             />
             <img
+              data-tip={_4_A[0]?.achievedDate ? _4_A[0]?.achievedDate : ""}
+              src={
+                _4_A[0]?.achievementIcon ? _4_A[0]?.achievementIcon : week._4_A
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />
+            <img
               data-tip={_5_A[0]?.achievedDate ? _5_A[0]?.achievedDate : ""}
               src={
                 _5_A[0]?.achievementIcon ? _5_A[0]?.achievementIcon : week._5_A
@@ -559,12 +737,28 @@ const Imgshow = (props) => {
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
+              <img
+              data-tip={_9_A[0]?.achievedDate ? _9_A[0]?.achievedDate : ""}
+              src={
+                _9_A[0]?.achievementIcon ? _9_A[0]?.achievementIcon : week._9_A
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
             <img
               data-tip={_10_A[0]?.achievedDate ? _10_A[0]?.achievedDate : ""}
               src={
                 _10_A[0]?.achievementIcon
                   ? _10_A[0]?.achievementIcon
                   : week._10_A
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
+            <img
+              data-tip={_12_A[0]?.achievedDate ? _12_A[0]?.achievedDate : ""}
+              src={
+                _12_A[0]?.achievementIcon
+                  ? _12_A[0]?.achievementIcon
+                  : week._12_A
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
@@ -578,11 +772,38 @@ const Imgshow = (props) => {
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
             <img
+              data-tip={_15_A[0]?.achievedDate ? _15_A[0]?.achievedDate : ""}
+              src={
+                _15_A[0]?.achievementIcon
+                  ? _15_A[0]?.achievementIcon
+                  : week._15_A
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
+            <img
               data-tip={_17_A[0]?.achievedDate ? _17_A[0]?.achievedDate : ""}
               src={
                 _17_A[0]?.achievementIcon
                   ? _17_A[0]?.achievementIcon
                   : week._17_A
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
+            <img
+              data-tip={_18_A[0]?.achievedDate ? _18_A[0]?.achievedDate : ""}
+              src={
+                _18_A[0]?.achievementIcon
+                  ? _18_A[0]?.achievementIcon
+                  : week._18_A
+              }
+              style={{ width: 80, height: 80, marginTop: 10 }}
+            />{" "}
+            <img
+              data-tip={_20_A[0]?.achievedDate ? _20_A[0]?.achievedDate : ""}
+              src={
+                _20_A[0]?.achievementIcon
+                  ? _20_A[0]?.achievementIcon
+                  : week._20_A
               }
               style={{ width: 80, height: 80, marginTop: 10 }}
             />{" "}
@@ -599,7 +820,7 @@ const Imgshow = (props) => {
         </Card>
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <h4>Monthly Milestones : </h4>
+        <h4> Monthly Milestones : </h4>
         <div>
           {/* {LeaderboardImg.map((elem) => {
             return ( */}
@@ -707,6 +928,48 @@ const Imgshow = (props) => {
               <Paper elevation={0}>
                 <img
                   src={
+                    colorMiles._150_M?.achievementIcon
+                      ? colorMiles._150_M?.achievementIcon
+                      : mileStone._150_M
+                  }
+                  style={{ width: 130, height: 130 }}
+                />{" "}
+              </Paper>
+              <Box
+                style={{
+                  width: 130,
+                  paddingBottom: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "center",
+                  fontSize: 12,
+                }}
+              >
+                {" "}
+                <Paper elevation={2} style={{ width: 130 }}>
+                  {colorMiles._150_M?.date?.map((item, index) => {
+                    console.log(item, "item");
+                    return (
+                      <>
+                        {" "}
+                        <div> {item}</div>
+                      </>
+                    );
+                  })}{" "}
+                </Paper>{" "}
+              </Box>
+            </Box>
+            <Box
+              style={{
+                // width: 130,
+                // height: 130,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Paper elevation={0}>
+                <img
+                  src={
                     colorMiles._200_M?.achievementIcon
                       ? colorMiles._200_M?.achievementIcon
                       : mileStone._200_M
@@ -727,6 +990,48 @@ const Imgshow = (props) => {
                 {" "}
                 <Paper elevation={2} style={{ width: 130 }}>
                   {colorMiles._200_M?.date?.map((item, index) => {
+                    console.log(item, "item");
+                    return (
+                      <>
+                        {" "}
+                        <div> {item}</div>
+                      </>
+                    );
+                  })}{" "}
+                </Paper>{" "}
+              </Box>
+            </Box>
+            <Box
+              style={{
+                // width: 130,
+                // height: 130,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Paper elevation={0}>
+                <img
+                  src={
+                    colorMiles._250_M?.achievementIcon
+                      ? colorMiles._250_M?.achievementIcon
+                      : mileStone._250_M
+                  }
+                  style={{ width: 130, height: 130 }}
+                />{" "}
+              </Paper>
+              <Box
+                style={{
+                  width: 130,
+                  paddingBottom: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "center",
+                  fontSize: 12,
+                }}
+              >
+                {" "}
+                <Paper elevation={2} style={{ width: 130 }}>
+                  {colorMiles._250_M?.date?.map((item, index) => {
                     console.log(item, "item");
                     return (
                       <>
@@ -791,6 +1096,48 @@ const Imgshow = (props) => {
               <Paper elevation={0}>
                 <img
                   src={
+                    colorMiles._350_M?.achievementIcon
+                      ? colorMiles._350_M?.achievementIcon
+                      : mileStone._350_M
+                  }
+                  style={{ width: 130, height: 130 }}
+                />{" "}
+              </Paper>
+              <Box
+                style={{
+                  width: 130,
+                  paddingBottom: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "center",
+                  fontSize: 12,
+                }}
+              >
+                {" "}
+                <Paper elevation={2} style={{ width: 130 }}>
+                  {colorMiles._350_M?.date?.map((item, index) => {
+                    console.log(item, "item");
+                    return (
+                      <>
+                        {" "}
+                        <div> {item}</div>
+                      </>
+                    );
+                  })}{" "}
+                </Paper>{" "}
+              </Box>
+            </Box>
+            <Box
+              style={{
+                // width: 130,
+                // height: 130,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Paper elevation={0}>
+                <img
+                  src={
                     colorMiles._400_M?.achievementIcon
                       ? colorMiles._400_M?.achievementIcon
                       : mileStone._400_M
@@ -833,11 +1180,53 @@ const Imgshow = (props) => {
               <Paper elevation={0}>
                 <img
                   src={
+                    colorMiles._450_M?.achievementIcon
+                      ? colorMiles._450_M?.achievementIcon
+                      : mileStone._450_M
+                  }
+                  style={{ width: 130, height: 130 }}
+                />{" "}
+              </Paper>
+              <Box
+                style={{
+                  width: 130,
+                  paddingBottom: 10,
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "center",
+                  fontSize: 12,
+                }}
+              >
+                {" "}
+                <Paper elevation={2} style={{ width: 130 }}>
+                  {colorMiles._450_M?.date?.map((item, index) => {
+                    console.log(item, "item");
+                    return (
+                      <>
+                        {" "}
+                        <div> {item}</div>
+                      </>
+                    );
+                  })}{" "}
+                </Paper>{" "}
+              </Box>
+            </Box>
+            <Box
+              style={{
+                // width: 130,
+                // height: 130,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Paper elevation={0}>
+                <img
+                  src={
                     colorMiles._500_M?.achievementIcon
                       ? colorMiles._500_M?.achievementIcon
                       : mileStone._500_M
                   }
-                  style={{ width: 130, height: 130, marginLeft: 64 }}
+                  style={{ width: 130, height: 130, marginLeft: 0 }}
                 />{" "}
               </Paper>
               <Box
@@ -865,48 +1254,7 @@ const Imgshow = (props) => {
               </Box>
             </Box>
             .
-            <Box
-              style={{
-                // width: 130,
-                // height: 130,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <Paper elevation={0}>
-                <img
-                  src={
-                    colorMiles._600_M?.achievementIcon
-                      ? colorMiles._600_M?.achievementIcon
-                      : mileStone._600_M
-                  }
-                  style={{ width: 130, height: 130 }}
-                />{" "}
-              </Paper>
-              <Box
-                style={{
-                  width: 130,
-                  paddingBottom: 10,
-                  display: "flex",
-                  flexDirection: "column",
-                  textAlign: "center",
-                  fontSize: 12,
-                }}
-              >
-                {" "}
-                <Paper elevation={2} style={{ width: 130 }}>
-                  {colorMiles._600_M?.date?.map((item, index) => {
-                    console.log(item, "item");
-                    return (
-                      <>
-                        {" "}
-                        <div> {item}</div>
-                      </>
-                    );
-                  })}{" "}
-                </Paper>{" "}
-              </Box>
-            </Box>
+           
           </div>
           {/* </>
            );
