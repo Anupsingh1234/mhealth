@@ -12,25 +12,14 @@ import classNames from "classnames";
 const ActivityV2 = ({ eventId, currentEventObj }) => {
   const { theme } = useContext(ThemeContext);
   const [selval, setselval] = useState("");
-
-  const [mystyle, setmystyle] = useState({
-    display: "flex",
-    flexWrap: "wrap",
-  });
   const setcardstyle = { display: "flex", flexWrap: "wrap", display: "none" };
   const agsetcardstyle = { display: "flex", flexWrap: "wrap", display: "none" };
   const agcardstyle = { display: "flex", flexWrap: "wrap" };
-  const [filterstyle, setfilterstyle] = useState({
-    display: "flex",
-    flexWrap: "wrap",
-    display: "none",
-  });
   const [dataarr, setdataarr] = useState([]);
   const [uniquearr, setuniquearr] = useState([]);
   const setfiltercardstyle = { display: "flex", flexWrap: "wrap" };
 
   function sel(e) {
-    setmystyle(setcardstyle), setfilterstyle(setfiltercardstyle);
     setselval(e.target.value);
   }
   const [selectedFilter, setSelectedFilter] = useState("all");
@@ -52,7 +41,6 @@ const ActivityV2 = ({ eventId, currentEventObj }) => {
   };
   useEffect(() => {
     setSelectedFilter("all");
-    setmystyle(agcardstyle), setfilterstyle(agsetcardstyle);
     setFilteredSubEvent([]);
   }, [eventId]);
 
@@ -220,29 +208,32 @@ const ActivityV2 = ({ eventId, currentEventObj }) => {
   return (
     <>
       {/* Todo: Remove top filters if not needed */}
-      <div className="flex flex-col mt-4 border border-[#f3f4f6] p-4 bg-[#f9fafb] md:mx-8 h-[95vh] md:h-[85vh] overflow-scroll">
-        <div className="filterContainer">
-          <div className="challenge-selector">
-            <div className="ch-heading">Programs</div>
-            <div className="w-[16.5rem] overflow-hidden">
-              <TriStateToggle
-                values={["all", "old", "Subscribed", "Available"]}
-                selected={selectedFilter}
-                handleChange={(value) => {
-                  setSelectedFilter(value);
-                }}
-              />
-            </div>
-          </div>
-
-          <div className="challenge-selector">
-            <div>
-              <DateRangePickerW {...{ value, handleDateChange }} />
-            </div>
-            <div>{renderFilterButton("Schedule")}</div>
-          </div>
-
+      <div
+        className={classNames(
+          "flex flex-col mt-4",
+          "border border-[#f3f4f6] p-4 bg-[#f9fafb]",
+          "h-[95vh] md:h-[85vh] overflow-scroll",
+          "md:items-center"
+        )}
+      >
+        <div className="flex flex-col md:flex-row gap-1 px-2">
           <div>
+            <div className="flex gap-0 items-center">
+              <div className="w-[16.5rem] overflow-hidden">
+                <TriStateToggle
+                  values={["all", "old", "Subscribed", "Available"]}
+                  selected={selectedFilter}
+                  handleChange={(value) => {
+                    setSelectedFilter(value);
+                  }}
+                />
+              </div>
+              <div>{renderFilterButton("Schedule")}</div>
+            </div>
+          </div>
+
+          <div className="flex gap-1">
+            <DateRangePickerW {...{ value, handleDateChange }} />
             <select onChange={sel}>
               <option value="all"> select :- </option>
               {dataarr.map((curelem, index) => {
@@ -255,6 +246,7 @@ const ActivityV2 = ({ eventId, currentEventObj }) => {
             </select>
           </div>
         </div>
+
         <div className="programCardContainerv2">{renderSubEventList()}</div>
       </div>
     </>

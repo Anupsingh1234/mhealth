@@ -808,8 +808,9 @@ export default function EnhancedTable({
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <TableContainer style={{ marginTop: "-2px" }}>
-          <div className="table-search-container" style={{ marginTop: "-2px" }}>
+        <TableContainer>
+          {/* START */}
+          <div>
             <div>
               {pinActive && currentEvent["id"] ? (
                 <EnhancedTableToolbar
@@ -839,18 +840,6 @@ export default function EnhancedTable({
                       </button>
                     </Tooltip>
                   )}
-                  {/* <Tooltip title="Filter list">
-              <IconButton
-                aria-label="filter list"
-                style={{
-                  width: 40,
-                  marginLeft: 10,
-                }}
-                onClick={(event) => handleFilterPopoverClick(event)}
-              >
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip> */}
                 </div>
               )}
             </div>
@@ -949,34 +938,15 @@ export default function EnhancedTable({
                 onClick={() => setDateRange(true)}
                 style={{ cursor: "pointer", marginTop: "-5px" }}
               />
-              <span style={{ fontWeight: "800", marginLeft: "5px" }}>[</span>{" "}
-              <div className="w-[max-content] text-center">
-                <span
-                  style={{
-                    fontSize: 12,
-                    marginLeft: "2px",
-                    fontWeight: "800",
-                  }}
-                >
-                  {showStartDate.substring(0, 6)}
-                  {showStartDate.substring(8)}
-                </span>
-                <span style={{ fontWeight: "800" }}>-</span>{" "}
-                <span
-                  style={{
-                    fontSize: 12,
-                    marginLeft: "5px",
-                    fontWeight: "800",
-                  }}
-                >
-                  {showEndDate.substring(0, 6)}
-                  {showEndDate.substring(8)}
-                </span>
+              <div className="flex md:flex-col text-xs font-bold">
+                [{showStartDate.substring(0, 6)}
+                {showStartDate.substring(8)}-{showEndDate.substring(0, 6)}
+                {showEndDate.substring(8)}]
               </div>
-              <span style={{ fontWeight: "800" }}>]</span>
             </div>
-            <div></div>
           </div>
+
+          {/* END */}
 
           <Table
             className={classes.table}

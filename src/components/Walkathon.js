@@ -1481,7 +1481,7 @@ const ActionCard = ({ onClick, name, selected }) => {
           />
         </div>
       </div>
-      <div className="actionName">{name.replace("_", " ")}</div>
+      <div className="actionName capitalize">{name.replace("_", " ")}</div>
     </div>
   );
 };

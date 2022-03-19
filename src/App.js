@@ -380,7 +380,7 @@ const App = () => {
           <Redirect to="/" />
         </Switch>
       </Suspense>
-      {!["/", "/login"].includes(location.pathname) && (
+      {!["/", "/login", "/home"].includes(location.pathname) && (
         <Footer tabs={footerTabs} />
       )}
     </div>

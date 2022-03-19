@@ -284,8 +284,7 @@ const Home = () => {
       )}
     >
       <ChallengeList>
-        <div className="flex md:justify-between flex-col items-center md:flex-row gap-2 md:gap-8 mt-16 md:mt-8 ">
-          <p className="text-sm font-semibold">Challenges</p>
+        <div className="flex md:justify-between flex-col items-center md:flex-row gap-2 md:gap-8 mt-12 md:mt-8 ">
           <TriStateToggle
             values={["old", "current", "upcoming"]}
             selected={dashboardState.challengeSwitch}

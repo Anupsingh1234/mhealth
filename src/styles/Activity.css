@@ -40,13 +40,11 @@
 }
 
 .programCardContainerv2 {
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: scroll;
     flex-wrap: wrap;
-    margin-top: 1rem;
 }
 
 .noProgram {

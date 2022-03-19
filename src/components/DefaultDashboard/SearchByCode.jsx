@@ -14,7 +14,7 @@ const SearchByCode = ({ handleSearchEvent }) => {
   return (
     <div
       style={{ background: theme.primaryColor }}
-      className="max-w-xl my-[2rem] mx-auto rounded py-[3rem] px-[2rem] flex h-auto items-center justify-center"
+      className="max-w-xl my-[1rem] md:my-[2rem] mx-auto rounded py-[1rem] md:py-[3rem] px-[2rem] flex h-auto items-center justify-center"
     >
       <div className="iconDiv">
         <FA icon={faQrcode} size="6x" />
