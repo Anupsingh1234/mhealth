@@ -6,6 +6,7 @@ import {
   faHiking,
   faCog,
   faHouse,
+  faMessage,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const PROGRAMS = [
@@ -50,11 +51,11 @@ export const PROGRAMS = [
     icon: faCog,
   },
   {
-    key: "community",
+    key: "forum",
     title: "Community",
     onClick: () => {
       window.location.replace("/#/forum");
     },
-    icon: faCog,
+    icon: faMessage,
   },
 ];

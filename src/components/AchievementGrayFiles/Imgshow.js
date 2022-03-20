@@ -334,15 +334,7 @@ const Imgshow = (props) => {
   const classes = useStyles();
   return (
     <div className="md:mx-36">
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          marginTop: 25,
-          gap: 20,
-        }}
-      >
+      <div className="flex mt-[25px] gap-[20px] flex-col md:flex-row">
         <Card
           className={classes.root}
           style={{ maxWidth: "33%" }}
@@ -819,19 +811,16 @@ const Imgshow = (props) => {
           </CardContent>
         </Card>
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
+        style={{ display: "flex", flexDirection: "column" }}
+        className="mt-4"
+      >
         <h4> Monthly Milestones : </h4>
         <div>
           {/* {LeaderboardImg.map((elem) => {
             return ( */}
           {/* <> */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-            }}
-          >
+          <div className="flex">
             {/* <ReactTooltip /> */}
             <Box
               style={{

@@ -18,6 +18,7 @@ import { useHistory } from "react-router-dom";
 import classNames from "classnames";
 import GlobalStateContext from "../context/GlobalStateContext";
 import SearchByCode from "./DefaultDashboard/SearchByCode";
+import ListOfEventsForHome from "./ListOfEventsForHome";
 
 const Home = () => {
   const getDefaultTab = () => {
@@ -236,7 +237,6 @@ const Home = () => {
     switch (defaultTab) {
       case "Leaderboard":
       case "Challenge":
-      case "Activities":
       case "Performance":
       case "Target":
       case "Source":
@@ -251,6 +251,12 @@ const Home = () => {
       case "quiz":
       case "hra":
         window.location.replace("#/health");
+        return;
+      case "Activities":
+        window.location.replace("#/programs");
+        return;
+      default:
+        window.location.replace("#/walkathon");
         return;
     }
   };
@@ -298,23 +304,25 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="mx-2 mt-2 mb-12">
-        <ListOfEvents
-          handleChallengeCardClick={handleChallengeCardClick}
-          fetchChallenges={fetchChallenges}
-          data={
-            dashboardState.searchedEvent.length > 0
-              ? dashboardState.searchedEvent
-              : dashboardState.listOfChallenges
-          }
-          dashboardState={dashboardState}
-          setDashboardState={setDashboardState}
-          selectedAction={dashboardState.selectedAction}
-          listType="event"
-          selectedChallengeArray={dashboardState.selectedChallengeArray}
-          selectedChallenge={dashboardState.selectedChallenge}
-        />
-      </div>
+      {!displaySearch && (
+        <div className="mx-2 mt-2 mb-12">
+          <ListOfEventsForHome
+            handleChallengeCardClick={handleChallengeCardClick}
+            fetchChallenges={fetchChallenges}
+            data={
+              dashboardState.searchedEvent.length > 0
+                ? dashboardState.searchedEvent
+                : dashboardState.listOfChallenges
+            }
+            dashboardState={dashboardState}
+            setDashboardState={setDashboardState}
+            selectedAction={dashboardState.selectedAction}
+            listType="event"
+            selectedChallengeArray={dashboardState.selectedChallengeArray}
+            selectedChallenge={dashboardState.selectedChallenge}
+          />
+        </div>
+      )}
       {displaySearch && (
         <div className="mx-2">
           <SearchByCode

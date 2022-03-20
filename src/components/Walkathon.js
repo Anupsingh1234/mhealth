@@ -84,12 +84,8 @@ const Walkathon = (props) => {
       switch (localStorage.getItem("dashboard_default_tab")) {
         case "leaderboard":
           return "Leaderboard";
-        case "event_gallery":
-          return "Gallery";
         case "invite":
           return "Challenge";
-        case "program":
-          return "Activities";
         case "performance":
           return "Performance";
         case "target":
@@ -100,16 +96,10 @@ const Walkathon = (props) => {
           return "Compare";
         case "team":
           return "team";
-        case "dietplan":
-          return "dietplan";
         case "achievement":
           return "achievement";
         case "challenge":
           return "challenge";
-        case "quiz":
-          return "quiz";
-        case "hra":
-          return "hra";
         default:
           return "Leaderboard";
       }
@@ -1426,7 +1416,7 @@ const Walkathon = (props) => {
   return (
     <div className="flex flex-col bg-white">
       {/* <Navbar /> */}
-      <div className="flex flex-col overflow-x-scroll min-h-[13vh] max-h-[15vh]">
+      <div className="flex flex-col overflow-x-scroll min-h-[13vh] max-h-[18vh]">
         {renderActionBar(id)}
       </div>
       <div className="border overflow-scroll max-h-[68vh]">

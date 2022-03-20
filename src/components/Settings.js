@@ -106,7 +106,7 @@ const Settings = () => {
     <div className="w-[100vw] flex flex-col md:items-center">
       <TopUserDetails />
       <div className={classNames("flex flex-col gap-4")}>
-        <div className="flex overflow-x-scroll min-h-[13vh] max-h-[15vh] gap-2 mx-2">
+        <div className="flex overflow-x-scroll min-h-[13vh] max-h-[18vh] gap-2 mx-2">
           {actions
             .filter((action) => action.display)
             .map(({ icon, label, onClick, id, display }, index) => (

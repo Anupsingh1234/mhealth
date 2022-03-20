@@ -1208,23 +1208,10 @@ const Health = (props) => {
   return (
     <div className="flex flex-col bg-white">
       {/* <Navbar /> */}
-      <div className="flex flex-col overflow-x-scroll min-h-[13vh] max-h-[13vh]">
+      <div className="flex flex-col overflow-x-scroll min-h-[13vh] max-h-[18vh]">
         {renderActionBar(id)}
       </div>
       <div className="mt-4 overflow-scroll max-h-[68vh]">
-        {dashboardState.selectedAction === "Compare" && (
-          <ListOfEvents
-            handleChallengeCardClick={handleChallengeCardClick}
-            fetchChallenges={fetchChallenges}
-            data={dashboardState.listOfChallenges}
-            dashboardState={dashboardState}
-            setDashboardState={setDashboardState}
-            selectedAction={dashboardState.selectedAction}
-            listType="event"
-            selectedChallengeArray={dashboardState.selectedChallengeArray}
-            selectedChallenge={dashboardState.selectedChallenge}
-          />
-        )}
         <Actions
           setDashboardState={setDashboardState}
           dashboardState={dashboardState}
