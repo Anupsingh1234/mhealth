@@ -15,7 +15,7 @@ import { getSubEvent } from "../../services/apicollection";
 import { Paper, TextField } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import { PrimaryButton } from "../Form";
-const HraCard = (eventID, currentEventObj) => {
+const RecommendedProgram = ({ eventID, currentEventObj }) => {
   const [profileModal, setProfileModal] = useState(false);
   const arr = ["1"];
   const [quiz, setQuiz] = useState(false);
@@ -167,9 +167,7 @@ const HraCard = (eventID, currentEventObj) => {
       });
   };
   const AssismentCard = () => {
-    const adminurl = `${urlPrefix}v1.0/getAssistmentCard?challengerZoneId=${localStorage.getItem(
-      "selectEvent"
-    )}`;
+    const adminurl = `${urlPrefix}v1.0/getAssistmentCard?challengerZoneId=${eventID}`;
     return axios
       .get(adminurl, {
         headers: {
@@ -190,9 +188,7 @@ const HraCard = (eventID, currentEventObj) => {
   };
 
   const getActivitySubEvent = () => {
-    let URL = `${urlPrefix}${getSubEvent}?eventId=${localStorage.getItem(
-      "selectEvent"
-    )}`;
+    let URL = `${urlPrefix}${getSubEvent}?eventId=${eventID}`;
 
     return axios
       .get(URL, {
@@ -606,4 +602,4 @@ const HraCard = (eventID, currentEventObj) => {
     </>
   );
 };
-export default HraCard;
+export default RecommendedProgram;

@@ -16,7 +16,8 @@ import { Paper, TextField } from "@material-ui/core";
 import Checkbox from "@material-ui/core/Checkbox";
 import { PrimaryButton } from "../Form";
 import moment from "moment";
-const HraCard = (eventID, currentEventObj) => {
+const HraCard = ({ eventID, currentEventObj }) => {
+  console.log({ eventID });
   const [profileModal, setProfileModal] = useState(false);
   const [arr, setArr] = useState([]);
   const [quiz, setQuiz] = useState(false);
@@ -105,9 +106,7 @@ const HraCard = (eventID, currentEventObj) => {
     setinfo(marvelHeroes);
   };
   const card = (e) => {
-    const URL = `${urlPrefix}v1.0/getAssistmentCard?challengerZoneId=${localStorage.getItem(
-      "selectEvent"
-    )}`;
+    const URL = `${urlPrefix}v1.0/getAssistmentCard?challengerZoneId=${eventID}`;
     return axios
       .get(URL, {
         headers: {
@@ -249,9 +248,7 @@ const HraCard = (eventID, currentEventObj) => {
   };
 
   const getActivitySubEvent = (arr) => {
-    let URL = `${urlPrefix}${getSubEvent}?eventId=${localStorage.getItem(
-      "selectEvent"
-    )}`;
+    let URL = `${urlPrefix}${getSubEvent}?eventId=${eventID}`;
 
     return axios
       .get(URL, {
@@ -295,7 +292,13 @@ const HraCard = (eventID, currentEventObj) => {
     <>
       {cardDetails && cardDetails.length > 0 && dataList ? (
         <>
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
             {cardDetails &&
               cardDetails.map((item, index) => {
                 return (
@@ -308,7 +311,6 @@ const HraCard = (eventID, currentEventObj) => {
                       className="challenge-card"
                       style={
                         {
-                          margin: "25px 5px",
                           height: "auto",
                           cursor: "pointer",
                         }
@@ -500,7 +502,7 @@ const HraCard = (eventID, currentEventObj) => {
               <div
                 className="question bg-slate-200 pt-3 pb-3 pl-1 pr-1 mt-8 ml-8"
                 style={{
-                  width: "650px",
+                  maxWidth: "650px",
                   padding: "20px",
                   borderRadius: "20px",
                   fontSize: "18px",
@@ -524,7 +526,7 @@ const HraCard = (eventID, currentEventObj) => {
                       question.hraOptions?.map((item, index) => {
                         return (
                           <div
-                            style={{ width: "600px" }}
+                            style={{ maxWidth: "600px" }}
                             className="p-2 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
                           >
                             {" "}
@@ -555,7 +557,7 @@ const HraCard = (eventID, currentEventObj) => {
                       question.hraOptions?.map((item, index) => {
                         return (
                           <div
-                            style={{ width: "600px" }}
+                            style={{ maxWidth: "600px" }}
                             className="p-1 flex flex-col rounded-full bg-slate-50 mt-8 drop-shadow-md pointer"
                           >
                             {" "}
@@ -587,7 +589,7 @@ const HraCard = (eventID, currentEventObj) => {
                         );
                       })
                     ) : (
-                      <div style={{ width: "600px" }}>
+                      <div style={{ maxWidth: "600px" }}>
                         <TextField
                           style={{ width: "300px", marginTop: "20px" }}
                           type="text"
@@ -638,6 +640,8 @@ const HraCard = (eventID, currentEventObj) => {
               style={{
                 minHeight: "200px",
                 maxHeight: "auto",
+                padding: "1rem",
+                marginTop: "1rem",
                 // display: "flex",
                 // justifyContent: "center",
                 // alignItems: "center",
@@ -645,18 +649,16 @@ const HraCard = (eventID, currentEventObj) => {
             >
               <div
                 style={{
-                  marginTop: "30px",
-                  marginLeft: "25%",
                   display: "flex",
-                  justifyContent: "space-around",
                   background: "gray",
                   color: "#fff",
-                  width: "600px",
+                  maxWidth: "600px",
                   padding: "15px",
                   borderRadius: "25px",
                   position: "relative",
                   // margin:'10px 10px 10px'
                 }}
+                className="mt-4 mx-auto"
               >
                 <h2> Assessment : {scoreDetails.assesmentName} </h2>{" "}
                 <h2> Total score : {scoreDetails.totalScore} </h2>{" "}
@@ -666,21 +668,17 @@ const HraCard = (eventID, currentEventObj) => {
                   marginTop: "30px",
                   marginLeft: "30px",
                   display: "flex",
-
                   width: "90%",
                   padding: "15px",
                   borderRadius: "25px",
                   textAlign: "justify",
                 }}
+                className="flex-col"
               >
-                <div
-                  style={{ width: "13%", fontWeight: "800", fontSize: "14px" }}
-                >
+                <div style={{ fontWeight: "800", fontSize: "14px" }}>
                   Assessments :
                 </div>
-                <div style={{ width: "87%" }}>
-                  {scoreDetails.recommedations}
-                </div>
+                <div>{scoreDetails.recommedations}</div>
               </div>
             </Paper>
           ) : (

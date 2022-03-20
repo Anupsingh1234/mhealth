@@ -1,9 +1,9 @@
 import React from "react";
 import HraCard from "./HraCard";
-const Index = () => {
+const Index = ({ eventID, currentEventObj }) => {
   return (
     <div>
-      <HraCard />
+      <HraCard eventID={eventID} currentEventObj={currentEventObj} />
     </div>
   );
 };
