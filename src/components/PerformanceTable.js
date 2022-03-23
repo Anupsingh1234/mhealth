@@ -531,8 +531,7 @@ export default function PerformanceTable({
         <TableContainer>
           <div className="flex flex-col md:flex-row gap-2 mb-2 md:gap-5">
             <div className="flex items-center gap-2">
-              <p className="font-bold">Data View:</p>
-              <div className="flex gap-2">
+              <div className="flex gap-2 items-center">
                 <div
                   className="first_div"
                   onChange={() => handle("Daily")}
@@ -571,90 +570,95 @@ export default function PerformanceTable({
                   <input type="radio" id="Month" name="radiobtn" />
                   <label for="Month"> Monthly </label>
                 </div>
+                <div>
+                  {challengeSwitch !== "old" &&
+                    dataButtonType === "WHATSAPP_WEB" && (
+                      <div className="w-[max-content] text-sm flex items-center">
+                        <PrimaryButton
+                          mini
+                          onClick={() => {
+                            var today = new Date();
+                            var dd = String(today.getDate()).padStart(2, "0");
+                            var mm = String(today.getMonth() + 1).padStart(
+                              2,
+                              "0"
+                            ); //January is 0!
+                            var yyyy = today.getFullYear();
+
+                            setSelectedDate(yyyy + "-" + mm + "-" + dd);
+                            setDisplayModal(true);
+                          }}
+                        >
+                          Add Today's Data
+                        </PrimaryButton>
+                      </div>
+                    )}
+
+                  {challengeSwitch !== "old" &&
+                    dataButtonType === "STRAVA_GOOGLE_FIT" && (
+                      <div className="w-[max-content] text-sm flex items-center">
+                        <PrimaryButton
+                          mini
+                          style={{ marginLeft: 10 }}
+                          onClick={() => {
+                            window.message = Message;
+                            /** api to sync**/
+                            setCheckingData(true);
+                            if (eventIDForSync.length === 0) {
+                              syncGFitAndStrava("check", eventId)
+                                .then((res) => {
+                                  if (res.data.response.responseCode === 0) {
+                                    setEventIDForSync(
+                                      res.data.response.responseData
+                                    );
+                                  } else {
+                                    message.success("No Data to sync");
+                                    setEventIDForSync([]);
+                                  }
+                                  setCheckingData(false);
+                                })
+                                .catch((err) => {
+                                  setEventIDForSync([]);
+                                  setCheckingData(false);
+                                });
+                            }
+                            if (eventIDForSync.length > 0) {
+                              syncGFitAndStrava("fix", eventId).then((res) => {
+                                if (res.data.response.responseCode === 0) {
+                                  message.success("Synced");
+                                  setEventIDForSync([]);
+                                  setCheckingData(false);
+                                }
+                              });
+                            }
+                            if (eventIDForSync.length > 0) {
+                              syncGFitAndStrava("fix", eventId)
+                                .then((res) => {
+                                  if (res.data.response.responseCode === 0) {
+                                    message.success("Synced");
+                                    setEventIDForSync([]);
+                                    handlePerformanceClick();
+                                  }
+                                  setCheckingData(false);
+                                })
+                                .catch((err) => {
+                                  setCheckingData(false);
+                                });
+                            }
+                          }}
+                        >
+                          {isCheckingData
+                            ? "In Progress.."
+                            : eventIDForSync.length > 0
+                            ? "Sync Data"
+                            : "Validate"}
+                        </PrimaryButton>
+                      </div>
+                    )}
+                </div>
               </div>
             </div>
-            <div>
-              {challengeSwitch !== "old" && dataButtonType === "WHATSAPP_WEB" && (
-                <div className="w-[max-content] text-sm flex items-center">
-                  <PrimaryButton
-                    mini
-                    onClick={() => {
-                      var today = new Date();
-                      var dd = String(today.getDate()).padStart(2, "0");
-                      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-                      var yyyy = today.getFullYear();
 
-                      setSelectedDate(yyyy + "-" + mm + "-" + dd);
-                      setDisplayModal(true);
-                    }}
-                  >
-                    Add Today's Data
-                  </PrimaryButton>
-                </div>
-              )}
-
-              {challengeSwitch !== "old" &&
-                dataButtonType === "STRAVA_GOOGLE_FIT" && (
-                  <div className="w-[max-content] text-sm flex items-center">
-                    <PrimaryButton
-                      mini
-                      style={{ marginLeft: 10 }}
-                      onClick={() => {
-                        window.message = Message;
-                        /** api to sync**/
-                        setCheckingData(true);
-                        if (eventIDForSync.length === 0) {
-                          syncGFitAndStrava("check", eventId)
-                            .then((res) => {
-                              if (res.data.response.responseCode === 0) {
-                                setEventIDForSync(
-                                  res.data.response.responseData
-                                );
-                              } else {
-                                message.success("No Data to sync");
-                                setEventIDForSync([]);
-                              }
-                              setCheckingData(false);
-                            })
-                            .catch((err) => {
-                              setEventIDForSync([]);
-                              setCheckingData(false);
-                            });
-                        }
-                        if (eventIDForSync.length > 0) {
-                          syncGFitAndStrava("fix", eventId).then((res) => {
-                            if (res.data.response.responseCode === 0) {
-                              message.success("Synced");
-                              setEventIDForSync([]);
-                              setCheckingData(false);
-                            }
-                          });
-                        }
-                        if (eventIDForSync.length > 0) {
-                          syncGFitAndStrava("fix", eventId)
-                            .then((res) => {
-                              if (res.data.response.responseCode === 0) {
-                                message.success("Synced");
-                                setEventIDForSync([]);
-                                handlePerformanceClick();
-                              }
-                              setCheckingData(false);
-                            })
-                            .catch((err) => {
-                              setCheckingData(false);
-                            });
-                        }
-                      }}
-                    >
-                      {isCheckingData
-                        ? "In Progress.."
-                        : eventIDForSync.length > 0
-                        ? "Sync Data"
-                        : "Validate"}
-                    </PrimaryButton>
-                  </div>
-                )}
-            </div>
             <div>
               <Modal
                 open={open}

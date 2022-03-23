@@ -284,23 +284,40 @@ const Home = () => {
   };
 
   const [displaySearch, setDisplaySearch] = useState(false);
+  const resetSearchedEvent = () => {
+    setDashboardState({
+      ...dashboardState,
+      searchedEvent: [],
+    });
+  };
 
   return (
     <div className={classNames("bg-white flex flex-col", "md:px-12 md:gap-4")}>
-      <div className="gap-2 flex justify-between mx-4 flex-col md:flex-row-reverse items-end">
+      <div className="gap-2 flex justify-between mx-4 flex-row-reverse items-end">
         <TriStateToggle
           values={["old", "current", "upcoming"]}
           selected={dashboardState.challengeSwitch}
           handleChange={handleToggleStateChange}
         />
         <div>
-          Click on challenge card to see actions or{" "}
-          <span
-            className="text-blue-600 underline cursor-pointer"
-            onClick={() => setDisplaySearch(true)}
-          >
-            search by code
-          </span>
+          {!displaySearch ? (
+            <span
+              className="text-blue-600 cursor-pointer text-base md:text-lg capitalize font-semibold"
+              onClick={() => setDisplaySearch(true)}
+            >
+              search by code
+            </span>
+          ) : (
+            <span
+              className="text-blue-600 cursor-pointer text-base md:text-lg capitalize font-semibold"
+              onClick={() => {
+                resetSearchedEvent();
+                setDisplaySearch(false);
+              }}
+            >
+              See all events
+            </span>
+          )}
         </div>
       </div>
 
@@ -309,11 +326,7 @@ const Home = () => {
           <ListOfEventsForHome
             handleChallengeCardClick={handleChallengeCardClick}
             fetchChallenges={fetchChallenges}
-            data={
-              dashboardState.searchedEvent.length > 0
-                ? dashboardState.searchedEvent
-                : dashboardState.listOfChallenges
-            }
+            data={dashboardState.listOfChallenges}
             dashboardState={dashboardState}
             setDashboardState={setDashboardState}
             selectedAction={dashboardState.selectedAction}
@@ -324,11 +337,29 @@ const Home = () => {
         </div>
       )}
       {displaySearch && (
-        <div className="mx-2">
-          <SearchByCode
-            handleSearchEvent={handleSearchEvent}
-            setDisplaySearch={setDisplaySearch}
-          />
+        <div>
+          <div className="mx-2">
+            <SearchByCode
+              handleSearchEvent={handleSearchEvent}
+              setDisplaySearch={setDisplaySearch}
+              resetSearchedEvent={resetSearchedEvent}
+            />
+          </div>
+          {dashboardState.searchedEvent.length > 0 && (
+            <div className="mx-2 mt-2 mb-12">
+              <ListOfEventsForHome
+                handleChallengeCardClick={handleChallengeCardClick}
+                fetchChallenges={fetchChallenges}
+                data={dashboardState.searchedEvent}
+                dashboardState={dashboardState}
+                setDashboardState={setDashboardState}
+                selectedAction={dashboardState.selectedAction}
+                listType="event"
+                selectedChallengeArray={dashboardState.selectedChallengeArray}
+                selectedChallenge={dashboardState.selectedChallenge}
+              />
+            </div>
+          )}
         </div>
       )}
 

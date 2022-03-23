@@ -100,6 +100,7 @@ const Forum = (props) => {
   useEffect(() => {
     setMessages([]);
   }, [selectedForum]);
+
   return (
     <div>
       {loading && <CircularSpinner />}
@@ -112,7 +113,10 @@ const Forum = (props) => {
           )}
           {forums.length > 0 && (
             <div className="py-6 max-w-7xl sm:px-6">
-              <ul role="list" className="flex space-x-4 items-center">
+              <ul
+                role="list"
+                className="flex flex-col md:flex-row gap-4 items-center"
+              >
                 {forums.map((forum, index) => (
                   <li key={index}>
                     <ForumCard

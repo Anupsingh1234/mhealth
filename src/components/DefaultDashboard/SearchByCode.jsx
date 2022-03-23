@@ -12,7 +12,11 @@ import ThemeContext from "../../context/ThemeContext";
 
 import "../../styles/SearchByCode.css";
 
-const SearchByCode = ({ handleSearchEvent, setDisplaySearch }) => {
+const SearchByCode = ({
+  handleSearchEvent,
+  setDisplaySearch,
+  resetSearchedEvent,
+}) => {
   const { theme } = useContext(ThemeContext);
   const [keyword, setKeyword] = useState("");
   return (
@@ -25,7 +29,10 @@ const SearchByCode = ({ handleSearchEvent, setDisplaySearch }) => {
         className="absolute top-4 right-4 cursor-pointer"
         size="1x"
         color="#fff"
-        onClick={() => setDisplaySearch(false)}
+        onClick={() => {
+          resetSearchedEvent();
+          setDisplaySearch(false);
+        }}
       />
       <div className="iconDiv">
         <FA icon={faQrcode} size="6x" />
