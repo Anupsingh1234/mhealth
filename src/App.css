@@ -1763,6 +1763,10 @@ select:focus {
   display: flex;
   border-bottom: 1px solid #eee;
 }
+.target-table-row1{
+  display: flex;
+  border-bottom: 1px solid black;
+}
 .target-metric-column {
   width: 25%;
   background: #fafafa;
@@ -1774,8 +1778,23 @@ select:focus {
   align-items: center;
   justify-content: center;
 }
+.target-metric-column1 {
+  width: 20%;
+  background: #fafafa;
+  padding: 4px 8px;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center;
+  justify-content: center; */
+}
 .target-data-column {
   width: 75%;
+  display: flex;
+}
+.target-data-column1 {
+  width: 80%;
   display: flex;
 }
 
@@ -1787,6 +1806,15 @@ select:focus {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+.target-data-inner-column2 {
+  width: 50%;
+  padding: 4px 10px;
+  border-right: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
 }
 .target-data-inner-column1 {
   width: 100%;
@@ -1802,6 +1830,14 @@ select:focus {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.target-data-bold1 {
+  font-weight: 600;
+  display: flex;
+  /* width: 200px; */
+  /* align-items: center;
+  justify-content: center; */
+  text-align:justify;
 }
 .target-data-muted {
   font-size: 12px;

@@ -528,7 +528,7 @@ export const Pdf = () => {
         </div>
         <div style={{ height: 110, color: "#fff" }}></div>
 
-        <div className="footer" style={{ marginTop: "2.7%" }}>
+        <div className="footer" style={{ marginTop: "13%" }}>
           <div
             className="certificate-header"
             style={{

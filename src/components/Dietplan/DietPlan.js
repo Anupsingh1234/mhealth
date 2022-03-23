@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { urlPrefix } from "../../services/apicollection";
 import { PrimaryButton } from "../Form/Button";
 import { jsPDF } from "jspdf";
-
+import NoData from "../NoData";
 const DietPlan = (props) => {
   var currD = [
     "00",
@@ -108,7 +108,10 @@ const DietPlan = (props) => {
   const FromDate = (e) => {
     setfromDate(e.target.value);
   };
-
+console.log(earlyMorning,'earmorning')
+console.log(midMorning,'midmorning')
+console.log(breakfast,'breakfast')
+console.log(routineDates,'routineDates')
   const ToDate = (e) => {
     settoDate(e.target.value);
   };
@@ -185,11 +188,13 @@ const DietPlan = (props) => {
         }
       });
   };
+  const head=["Event","Day1","Day3","Day4","Day5","Day6","Day7"]
+  const data1=["Tea and exercise","Tea and exercise","Tea and exercise","Tea and exercise","Tea and exercise","Tea and exercise","Tea and exercise"]
   console.log(dietplandata, "sadksjah");
   return (
     <>
-      <div className="head">
-        <div className="d-flex h-14">
+     <div style={{display:'flex'}}>
+        <div style={{width:'20%'}}>
           <fieldset>
             <legend>From Date:</legend>
             <form className={classes1.container} noValidate>
@@ -206,7 +211,8 @@ const DietPlan = (props) => {
               />
             </form>
           </fieldset>
-
+</div>
+<div style={{width:'20%'}}>
           <fieldset style={{ marginLeft: "40px" }}>
             <legend>To Date:</legend>
             <form className={classes1.container} noValidate>
@@ -223,6 +229,8 @@ const DietPlan = (props) => {
               />
             </form>
           </fieldset>
+          </div>
+          <div style={{width:'40%',marginTop:'-1.5%'}}>
           <PrimaryButton
             className="w-28 ml-8 mt-6"
             style={{
@@ -236,9 +244,11 @@ const DietPlan = (props) => {
             {" "}
             Submit
           </PrimaryButton>
-          {/* <button onClick={pdfDownload}> Download </button> */}
-        </div>
-      </div>
+          </div>
+          {/* <div style={{width:'20%'}}>
+           <PrimaryButton onClick={pdfDownload}> Download </PrimaryButton> 
+        </div> */}
+      </div>  {/*
       <div style={width}>
         <Paper id="my-table" className="mt-5" elevation={3}>
           <div>
@@ -279,7 +289,7 @@ const DietPlan = (props) => {
                       {" "}
                       Mobile no.{" "}
                       {dietplandata && dietplandata?.phc?.phoneNumber}{" "}
-                    </h4> */}
+                    </h4>
                     <h4>
                       Email id: {dietplandata && dietplandata?.phc?.emailId}
                     </h4>
@@ -495,8 +505,217 @@ const DietPlan = (props) => {
             </div>
           )}
         </Paper>
+      </div>*/}
+
+{/* <div style={{width:'50%',textAlign:'center'}} className="center">
+<Table >
+  <TableRow style={{border:'1px outset black',height:'40px'}}>
+    <TableHead style={{marginLeft:'10px'}}>Name: Raju</TableHead>
+  </TableRow>
+</Table>
+</div>
+
+<div style={{width:'100%',border:'1px outset black'}} className="center">
+<Table >
+  <TableRow>
+    {head.map((item)=>{
+      return(<>
+    <TableHead style={{marginLeft:'10px'}}>{item.meal}</TableHead>
+    </>)
+    })}
+  </TableRow>
+</Table>
+</div> */}
+ {dietplandata && routineDates && routineDates.length >= 0 ? (
+<div style={{boxShadow:'20px grey'}}>
+<div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  textAlign: "center",
+                  marginTop: "4%",
+                 
+                }}
+              >
+     <div style={{ display: "none" }}>
+                  <h4 style={{ fontWeight: "bolder" }}> </h4>
+                </div>
+                {dietplandata && (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                    
+                    }}
+                  >
+                    <h4 style={{ fontWeight: "bolder" }}>
+                      {" "}
+                      Coach : {dietplandata && dietplandata?.phc?.coachName} |
+                      Program : {dietplandata && dietplandata?.phc?.pname}
+                    </h4>
+                    
+                    <h4>
+                      Email id: {dietplandata && dietplandata?.phc?.emailId}
+                    </h4>
+                  </div>
+                )}</div>
+        <div className="target-container"style={{ border:'2px outset black'}}>
+ <div
+        className="target-table-row1"
+      
+      >
+        <div className="target-metric-column1">
+          <div style={{ fontWeight: 800}}>MEAL</div>
+        </div>
+        <div className="target-data-column1">
+        {routineDates &&
+                    routineDates.reverse().map((item)=>{
+          return(<>
+      
+          <div className="target-data-inner-column2">
+            <div className="target-data-bold">{item}</div>
+           
+          </div>
+         
+  
+        
+        </>)
+        })}
+              </div>
       </div>
-    </>
+     
+     <div className="target-table-row1"> 
+        <div className="target-metric-column1">
+          <div>{earlyMorning && earlyMorning[0]?.keyTemplate}{" "}</div>
+        </div>
+        <div className="target-data-column1">
+        {earlyMorning &&
+                    earlyMorning?.map((item)=>{
+        return(<>
+        
+          <div className="target-data-inner-column2 ">
+            <div className="target-data-bold1">
+            <div>{item.value}</div>
+            </div>
+            
+          </div>
+
+          
+       
+        </>)
+      })}
+       </div>
+      </div> 
+     <div className="target-table-row1"> 
+        <div className="target-metric-column1">
+          <div>{breakfast && breakfast[0]?.keyTemplate}{" "}</div>
+        </div>
+        <div className="target-data-column1">
+        {breakfast && breakfast.map((item)=>{
+        return(<>
+        
+          <div className="target-data-inner-column2 ">
+            <div className="target-data-bold1">
+            <div>{item.value}</div>
+            </div>
+            
+          </div>
+
+          
+     
+        </>)
+      })}
+         </div>
+      </div>
+      <div className="target-table-row1"> 
+        <div className="target-metric-column1">
+          <div> {midMorning && midMorning[0]?.keyTemplate}</div>
+        </div>
+        <div className="target-data-column1">
+        {midMorning && midMorning.map((item)=>{
+        return(<>
+        
+          <div className="target-data-inner-column2 ">
+            <div className="target-data-bold1">
+            <div>{item.value}</div>
+            </div>
+            
+          </div>
+
+          
+        
+        </>)
+      })}
+      </div>
+      </div>
+      <div className="target-table-row1"> 
+        <div className="target-metric-column1">
+          <div>{Lunch && Lunch[0]?.keyTemplate}{" "}</div>
+        </div>
+        <div className="target-data-column1">
+        {Lunch && Lunch.map((item)=>{
+        return(<>
+        
+          <div className="target-data-inner-column2 ">
+            <div className="target-data-bold1">
+            <div >{item.value}</div>
+            </div>
+            
+          </div>
+
+          
+      
+        </>)
+      })}
+        </div>
+      </div>
+      <div className="target-table-row1"> 
+        <div className="target-metric-column1">
+          <div>{Evening && Evening[0]?.keyTemplate}{" "}</div>
+        </div>
+        <div className="target-data-column1">
+        {Evening && Evening.map((item)=>{
+        return(<>
+        
+          <div className="target-data-inner-column2 ">
+            <div className="target-data-bold1">
+            <div>{item.value}</div>
+            </div>
+            
+          </div>
+
+          
+     
+        </>)
+      })}
+      </div>
+      </div>
+      <div className="target-table-row1"> 
+        <div className="target-metric-column1">
+          <div>{dinner && dinner[0]?.keyTemplate}{" "}</div>
+        </div>
+        <div className="target-data-column1">
+        {dinner && dinner.map((item)=>{
+        return(<>
+        
+          <div className="target-data-inner-column2 ">
+            <div className="target-data-bold1">
+            <div>{item.value}</div>
+            </div>
+            
+          </div>
+
+          
+     
+        </>)
+      })}
+         </div>
+      </div>
+      </div>
+      </div>):(<><div style={{marginTop:'3%'}}></div><NoData/></>)}
+    </> 
   );
 };
 
