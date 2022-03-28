@@ -11,6 +11,7 @@ import SocialLink from "./SocialLink";
 import { getOldEvents } from "../services/challengeApi";
 import { SignalCellularNullRounded } from "@material-ui/icons";
 import { PrimaryButton } from "./Form";
+import HraReport from './HraReport'
 const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   let history = useHistory();
   const StyledMenu = withStyles({
@@ -44,6 +45,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   const [appointmentView, setAppointmentView] = useState(false);
   const [sociallink, setSocialLink] = useState(false);
   const [socialPost, setSocialPost] = useState(false);
+  const [hraModal,setHraModal]=useState(false)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -98,7 +100,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
               >
                 Appointment
               </PrimaryButton>
-
+              
               {appointmentView && (
                 <Expert
                   challenge={subEventDetail}
@@ -107,6 +109,26 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
                   setModalView={setAppointmentView}
                   // setActivityModalView={setActivityModalView}
                   // actualData={actualData}
+                />
+              )}
+            </div>
+            <div className="mr-2">
+              <PrimaryButton
+                mini
+                onClick={() => {
+                  setHraModal(true);
+                }}
+                className="mt-2"
+              >
+                Report
+              </PrimaryButton>
+             
+              {hraModal && (
+                <HraReport
+              
+                  hraModal={hraModal}
+                  setHraModal={setHraModal}
+                
                 />
               )}
             </div>

@@ -5,7 +5,7 @@ import Navbar from "./Navbar";
 import QuestionModal from "./QuestionModal";
 import ThemeContext from "../context/ThemeContext";
 import Message from "antd-message";
-import "react-tabs/style/react-tabs.css";
+import { PlusCircle, Copy } from "react-feather";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Modal from "@material-ui/core/Modal";
 import Table from "@material-ui/core/Table";
@@ -37,20 +37,39 @@ import axios from "axios";
 import InfoDialog from "./Utility/InfoDialog";
 import { PrimaryButton } from "./Form";
 // import FormItem from 'antd/lib/form/FormItem';
-import HraQuestion from './CreateHraQuestion'
-import CreateAssisment from "./CreateAssisment";
-import CreateHraScoreCard from "./CreateHraScoreCard";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Chip from "@material-ui/core/Chip";
+import { Assessment } from "@material-ui/icons";
 import NoData from './NoData'
-const Admin123 = () => {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+
+
+const CreateAssisment = () => {
   // const [modalStyle] = React.useState(getModalStyle);
+  const eventImageInputRef = React.createRef();
   const { theme } = useContext(ThemeContext);
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [duplicateModal, setDuplicateModal] = useState(false);
+  const [imageModal, setImageModal] = useState(false);
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
+  const [imageData,setImageData]=useState({image:'',
+  image_obj:'',});
   console.log(addId);
   const [duplicate, setDuplicate] = useState({
     eventId: "",
@@ -210,43 +229,38 @@ const Admin123 = () => {
       disablePadding: true,
     },
     {
-      label: "Quiz Name",
-      id: "quizDescription",
+      label: "Assessment Name",
+      id: "assesmentName",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: "Quiz Type",
-      id: "quizType",
+      label: "Age (From)",
+      id: "ageGroupFrom",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: "Quiz Start Date",
-      id: "quizStartDate",
+      label: "Age (To)",
+      id: "ageGroupTo",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: "Quiz End Date",
-      id: "quizEndDate",
+      label: "Gender",
+      id: "gender",
       numeric: false,
       disablePadding: true,
     },
     {
-      label: "Quiz Timer",
-      id: "quizTimer",
+      label: "Re-Attempt Days",
+      id: "reattemptAfterDays",
       numeric: false,
       disablePadding: true,
     },
+    
     {
-      label: "Total Question",
-      id: "quizTimer",
-      numeric: false,
-      disablePadding: true,
-    },
-    {
-      label: "Add Question",
+      label: "Edit",
       // id: 'durationInTime',
       numeric: false,
       disablePadding: true,
@@ -287,6 +301,13 @@ const Admin123 = () => {
       position: "absolute",
       top: 20,
       width: 1,
+    },
+    chips: {
+      display: "flex",
+      flexWrap: "wrap",
+    },
+    chip: {
+      margin: 2,
     },
   }));
   const handleRequestSort = (event, property) => {
@@ -355,7 +376,7 @@ const Admin123 = () => {
             quizId: "",
             fromEventId: "",
           });
-          setDuplicateModal(false);
+          setImageModal(false);
           setErrorObj();
         });
     } else {
@@ -363,11 +384,11 @@ const Admin123 = () => {
     }
   };
   const [eventid, setEventid] = useState("");
-
+const [hraid,setHraId]=useState("")
   const [getQuiz, setGEtQuiz] = useState([]);
   console.log(getQuiz);
   const ques = (id) => {
-    const adminurl = `${urlPrefix}v1.0/getEventQuiz?eventId=${id}`;
+    const adminurl = `${urlPrefix}v1.0/getAllEventHra?challengerZoneId=${id}`;
     console.log(adminurl);
     axios
       .get(adminurl, {
@@ -386,7 +407,52 @@ const Admin123 = () => {
         setGEtQuiz(res.data.response.responseData);
       });
   };
-  const [geteventId, setGetEventId] = useState();
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const onFileChange = (event) => {
+    if (event.target.files) {
+      const { files } = event.target;
+      if (files && files.length > 0) {
+        getBase64(files[0]).then((res) => {
+          setImageData({
+            ...imageData,
+            image_obj: files[0],
+            image: res,
+          });
+        });
+      }
+    }
+  };
+  const [imgId,setImgId]=useState("")
+  const imageUpload = () => {
+    const formData = new FormData();
+    formData.append("image", imageData.image_obj);
+    const adminurl = `${urlPrefix}v1.0/uploadHRAImage?id=${imgId}&key=HRACARD`;
+ 
+    return axios.post(adminurl, formData,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+      accept: "*/*",
+      "Content-type": "multipart/form-data; boundary=???",
+      withCredentials: true,
+          },
+      })
+      .then((res) => {
+        if(res.data.response.responseMessage==="SUCCESS"){
+          Message.success(res.data.response.responseData);
+          setImageModal(false)
+         }
+        });
+  };
+  const [geteventId, setGetEventId] = useState([]);
   const getEvent = () => {
     const adminurl = `${urlPrefix}v1.0/getUserRoleWiseEvent`;
     console.log(adminurl);
@@ -415,22 +481,45 @@ const Admin123 = () => {
   const condition = JSON.parse(localStorage.getItem("condition"));
   const eventName = condition.events;
   console.log(eventName);
-  const [quiz, setQuiz] = useState({
-    eventId: "",
-    quizType: "",
-    quizDescription: "",
-    quizStartDate: "",
-    quizEndDate: "",
-    quizTimer: "",
+  const [assessment, setAssessment] = useState({
+      eventId:"",
+    ageGroupFrom: "",
+    ageGroupTo: "",
+    assesmentName: "",
+    attachedToChallengerzone: [],
+    description: "",
+    gender: "",
+    reattemptAfterDays: "",
+    id:""
   });
 
-  // console.log(question);
-
+const hadleEdit=(row)=>{
+  setAssessment({
+    eventId:assessment.eventId,
+  ageGroupFrom: row.ageGroupFrom,
+  ageGroupTo: row.ageGroupTo,
+  assesmentName:row.assesmentName,
+  attachedToChallengerzone:  row.attachedToChallengerzone &&
+  Array.isArray(row.attachedToChallengerzone)
+    ? row.attachedToChallengerzone?.map((item) => {
+        if (geteventId.filter((elm) => elm.id == item)[0]) {
+          return geteventId.filter((elm) => elm.id == item)[0][
+            "challengeName"
+          ];
+        }
+      })
+    : [],
+  description: row.description,
+  gender:row.gender,
+  reattemptAfterDays:row.reattemptAfterDays,
+  id:row.id
+})
+}
   const [modalview, setModalView] = useState(false);
   const inputsHandler = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setQuiz((values) => ({ ...values, [name]: value }));
+    setAssessment((values) => ({ ...values, [name]: value }));
     setErrorObj((values) => ({ ...values, [name]: value }));
     if (name === "eventId") {
       ques(value);
@@ -442,26 +531,36 @@ const Admin123 = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+ 
     let payload = {};
     payload = {
-      id: null,
-      eventId: quiz.eventId,
-      quizType: quiz.quizType,
-      quizDescription: quiz.quizDescription,
-      quizStartDate: quiz.quizStartDate,
-      quizEndDate: quiz.quizEndDate,
-      quizTimer: quiz.quizTimer,
+      id:assessment.id!==""?assessment.id:null,
+      ageGroupFrom: assessment.ageGroupFrom,
+    ageGroupTo: assessment.ageGroupTo,
+    assesmentName: assessment.assesmentName,
+    attachedToChallengerzone:assessment.attachedToChallengerzone .filter((check) => check)
+    .map((item) => {
+      return geteventId.filter(
+        (elm) =>
+          elm.isActive == 1 &&
+          elm.timePeriod !== "PAST" &&
+          elm.challengeName == item
+      )[0]["id"];
+    }),
+    description: assessment.description,
+    gender: assessment.gender,
+    reattemptAfterDays: assessment.reattemptAfterDays,
     };
     if (
-      quiz.quizType !== "" &&
-      quiz.eventId !== "" &&
-      quiz.quizDescription !== "" &&
-      quiz.quizStartDate !== "" &&
-      quiz.quizEndDate !== "" &&
-      quiz.quizTimer !== ""
+        assessment.ageGroupFrom !== "" &&
+        assessment.ageGroupTo !== "" &&
+        assessment.assesmentName !== "" &&
+      assessment.attachedToChallengerzone!==[]&&
+      assessment.description !== "" &&
+      assessment.gender!== ""&&
+      assessment.reattemptAfterDays!== ""
     ) {
-      const adminurl = `${urlPrefix}v1.0/createQuiz`;
+      const adminurl = `${urlPrefix}v1.0/createOrUpdateHraAssistment`;
       return axios
         .post(adminurl, payload, {
           headers: {
@@ -476,25 +575,28 @@ const Admin123 = () => {
           },
         })
         .then((res) => {
-          ques(quiz.eventId);
-          setQuiz({
-            eventId: "",
-            quizType: "",
-            quizDescription: "",
-            quizStartDate: "",
-            quizEndDate: "",
-            quizTimer: "",
+          ques(assessment.eventId);
+          setAssessment({
+            ageGroupFrom: "",
+            ageGroupTo: "",
+            assesmentName: "",
+            attachedToChallengerzone: [],
+            description: "",
+            gender: "",
+            reattemptAfterDays: "",
           });
-
+          setImageModal(true);
           if (res.data.mhealthResponseMessage === "SUCCESS") {
+            setHraId(res.data.response.responseData.id)
             console.log(res.data.response.responseMessage);
             Message.success(res.data.response.responseMessage);
-            // setResponseMessage(res.data.response.responseMessage);
+            setImageModal(true)
+            setImgId(res.data.response.responseData.id)
           }
         });
     } else {
       Message.error("Please fill all Mandatory fields Carefully!!");
-      setErrorObj(quiz);
+      setErrorObj(assessment);
     }
   };
   if (errorobj !== undefined) {
@@ -504,117 +606,13 @@ const Admin123 = () => {
   const [image, setImage] = useState("question");
 
   return (
-    <div className="Profile" style={{ height: "auto", overflowX: "hidden" }}>
-    <TopUserDetails />
-    <Navbar />
-    <div className="profile-background" style={{ overflowX: "hidden" }}>
-      <div
-        className="form reset-form"
-        style={{
-          marginTop: 40,
-          width: "90%",
-          height: "auto",
-          marginTop: 50,
-          // marginTop: "20px"
-        }}
-      >
-        <Tabs style={{ marginTop: 20 }}>
-          {" "}
-          <div
-            className="d-flex j-c-sp-btn a-i-center cursor-pointer"
-            style={{ justifyContent: "flex-end",display:'flex' }}
-          >
-            <div className="leaderboard-actions ">
-              {" "}
-              <TabList style={{ border: "0px",display:'flex',spacing:"2" }}>
-               
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
-                >
-                  {" "}
-                  <button
-                    style={{
-                      padding: 0,
-                    }}
-                  >
-                    Quiz{" "}
-                  </button>
-                </Tab>
-
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
-                >
-                  {" "}
-                  <button
-                    style={{
-                      padding: 0,
-                    }}
-                  >
-                    HraQuestion{" "}
-                  </button>
-                </Tab>
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
-                >
-                  {" "}
-                  <button
-                    style={{
-                      padding: 0,
-                    }}
-                  >
-                    Assessment{" "}
-                  </button>
-                </Tab>
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
-                >
-                  {" "}
-                  <button
-                    style={{
-                      padding: 0,
-                    }}
-                  >
-                    ScoreCard{" "}
-                  </button>
-                </Tab>
-              </TabList>
-            </div>
-          </div>
-            <TabPanel>
-              <div >
-                <div style={{width:'20%'}}>
-                <PrimaryButton
-                  mini
-                  className="w-24 text-sm ml-6 mb-2"
-                  onClick={() => setDuplicateModal(true)}
-                >
-                  Duplicate
-                </PrimaryButton>
-                </div>
+    <>
+       
+            
                 <div style={{ display: "flex", marginLeft: "30px" }}>
-                  <div style={{ width: "30%" }}>
+                <div style={{ width: "30%" }}>
                     <label style={{ fontSize: 12 }}>
-                      Select Event
+                     Select Event
                       {errorobj !== undefined && (
                         <>
                           {errorobj.eventId == "" ? (
@@ -634,6 +632,7 @@ const Admin123 = () => {
                       )}
                     </label>
 
+                   
                     <select
                       autofocus="autofocus"
                       style={{
@@ -644,73 +643,30 @@ const Admin123 = () => {
                         width: "95%",
                         border: "1px solid black",
                       }}
-                      value={quiz.eventId}
+                      
+                      value={assessment.eventId}
                       onChange={inputsHandler}
                       name="eventId"
                     >
-                      <option value="">Select</option>
-                      {geteventId &&
-                        geteventId.map((item) => {
-                          // console.log(item.challengeName);
-                          return (
-                            <>
-                              <option value={item.id}>
-                                {item.challengeName}
-                              </option>
-                            </>
-                          );
-                        })}
+                        <option value="">
+                         Select
+                        </option>
+                         {geteventId.map((day, index) =>{
+                             return(<>
+                        <option key={index} value={day.id}>
+                          {day.challengeName}
+                        </option>
+                        </>) })}
+                      
                     </select>
+                  
                   </div>
-                  <div style={{ width: "30%" }}>
+                <div style={{ width: "30%" }}>
                     <label style={{ fontSize: 12 }}>
-                      Quiz Type
+                     Assisment Name
                       {errorobj !== undefined && (
                         <>
-                          {errorobj.quizType == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      value={quiz.quizType}
-                      onChange={inputsHandler}
-                      name="quizType"
-                    >
-                      <option value="">Select</option>
-                      <option value="ALL">ALL</option>
-                      <option value="ALLWITHRESET">ALLWITHRESET</option>
-                      <option value="PERDAY">PERDAY</option>
-                      <option value="IFWRONG">IFWRONG</option>
-                    </select>
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                      Quiz Name
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.quizDescription == "" ? (
+                          {errorobj.assesmentName == "" ? (
                             <p
                               style={{
                                 color: "red",
@@ -734,16 +690,80 @@ const Admin123 = () => {
                         padding: "10px 10px",
                         borderRadius: 6,
                         fontSize: 12,
-                        width: "90%",
+                        width: "95%",
                         border: "1px solid black",
                       }}
-                      type="text"
-                      value={quiz.quizDescription}
+                      placeholder="Assessment Name"
+                      value={assessment.assesmentName}
                       onChange={inputsHandler}
-                      name="quizDescription"
-                      placeholder="Quiz Name"
+                      name="assesmentName"
                     />
+                     
+                  
                   </div>
+                  <div style={{ width: "30%" }}>
+                    <label style={{ fontSize: 12 }}>
+                     Attach Event
+                      {errorobj !== undefined && (
+                        <>
+                          {!errorobj.attachedToChallengerzone===[] ? (
+                            <p
+                              style={{
+                                color: "red",
+                                marginLeft: "22%",
+                                marginTop: "-4%",
+                              }}
+                            >
+                              Required
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )}
+                    </label>
+                    <br/>
+                    <Select
+                    style={{width:'100%'}}
+                      labelId="demo-mutiple-chip-label"
+                      id="demo-mutiple-chip"
+                      multiple
+                      value={assessment.attachedToChallengerzone ?assessment.attachedToChallengerzone: []}
+                      onChange={(event) =>
+                        setAssessment({
+                          ...assessment,
+                          attachedToChallengerzone:event.target.value
+                             
+                        })
+                      }
+                      input={<Input id="select-multiple-chip" />}
+                      renderValue={(selected) => (
+                        <div  className={classes.chips}>
+                          {selected.map((value) => (
+                            <Chip
+                              key={value}
+                              label={value}
+                              className={classes.chip}
+                              style={{marginLeft:2}}
+                            />
+                          ))}
+                        </div>
+                      )}
+                      MenuProps={MenuProps}
+                    >
+                      {geteventId.filter(
+                          (item) =>
+                            item.isActive == 1 && item.timePeriod !== "PAST"
+                        ).map((currEvent, index) => (
+                          <MenuItem key={index} value={currEvent.challengeName}>
+                            {currEvent.challengeName}
+                          </MenuItem>
+                        ))}
+                     
+                    </Select>
+
+                  </div>
+                  
                 </div>
                 <div
                   style={{
@@ -752,88 +772,13 @@ const Admin123 = () => {
                     marginTop: "10px",
                   }}
                 >
+               
                   <div style={{ width: "30%" }}>
                     <label style={{ fontSize: 12 }}>
-                      Quiz Start Date
+                     Age(From)
                       {errorobj !== undefined && (
                         <>
-                          {errorobj.quizStartDate == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "28%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "90%",
-                        border: "1px solid black",
-                      }}
-                      type="date"
-                      value={quiz.quizStartDate}
-                      onChange={inputsHandler}
-                      name="quizStartDate"
-                    />
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                      Quiz End Date
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.quizEndDate == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "28%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "90%",
-                        border: "1px solid black",
-                      }}
-                      type="date"
-                      value={quiz.quizEndDate}
-                      onChange={inputsHandler}
-                      name="quizEndDate"
-                    />
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                      Quiz Timer
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.quizTimer == "" ? (
+                          {errorobj.ageGroupFrom == "" ? (
                             <p
                               style={{
                                 color: "red",
@@ -857,25 +802,194 @@ const Admin123 = () => {
                         padding: "10px 10px",
                         borderRadius: 6,
                         fontSize: 12,
-                        width: "90%",
+                        width: "95%",
                         border: "1px solid black",
                       }}
-                      value={quiz.quizTimer}
+                      value={assessment.ageGroupFrom.replace(/[^0-9]/g,"")}
                       onChange={inputsHandler}
-                      name="quizTimer"
-                      placeholder="30"
+                      placeholder="0-50"
+                      name="ageGroupFrom"
                     />
+                     
+                  
                   </div>
+                  <div style={{ width: "30%" }}>
+                    <label style={{ fontSize: 12 }}>
+                     Age(To)
+                      {errorobj !== undefined && (
+                        <>
+                          {errorobj.ageGroupTo == "" ? (
+                            <p
+                              style={{
+                                color: "red",
+                                marginLeft: "22%",
+                                marginTop: "-4%",
+                              }}
+                            >
+                              Required
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )}
+                    </label>
+
+                    <input
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "95%",
+                        border: "1px solid black",
+                      }}
+                      placeholder="0-100"
+                      value={assessment.ageGroupTo.replace(/[^0-9]/g,"")}
+                      onChange={inputsHandler}
+                      name="ageGroupTo"
+                    />
+                     
+                  
+                  </div>
+                  <div style={{ width: "30%" }}>
+                    <label style={{ fontSize: 12 }}>
+                      Gender
+                      {errorobj !== undefined && (
+                        <>
+                          {errorobj.gender == "" ? (
+                            <p
+                              style={{
+                                color: "red",
+                                marginLeft: "22%",
+                                marginTop: "-4%",
+                              }}
+                            >
+                              Required
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )}
+                    </label>
+
+                    <select
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "95%",
+                        border: "1px solid black",
+                      }}
+                      
+                      value={assessment.gender}
+                      onChange={inputsHandler}
+                      name="gender"
+                    >
+                      <option value="">Select</option>
+                      <option value="ALL">ALL</option>
+                      <option value="MALE">Male</option>
+                      <option value="FEMALE">Female</option>
+                      
+                    </select>
+                  </div>
+               
+                  
                 </div>
-                <div style={{ display: "flex", marginLeft: "10px" }}>
-                  <div style={{ width: "80%" }}></div>
-                  <div style={{ width: "20%" }}>
+                <div style={{ display: "flex",  marginLeft: "30px",
+                    marginTop: "10px",}}>
+                         <div style={{ width: "30%" }}>
+                    <label style={{ fontSize: 12 }}>
+                    Re-Attempt Days
+                      {errorobj !== undefined && (
+                        <>
+                          {errorobj.reattemptAfterDays == "" ? (
+                            <p
+                              style={{
+                                color: "red",
+                                marginLeft: "22%",
+                                marginTop: "-4%",
+                              }}
+                            >
+                              Required
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )}
+                    </label>
+
+                    <input
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "95%",
+                        border: "1px solid black",
+                      }}
+                      placeholder="0-30"
+                      value={assessment.reattemptAfterDays.replace(/[^0-9]/g,"")}
+                      onChange={inputsHandler}
+                      name="reattemptAfterDays"
+                    />
+                     
+                  
+                  </div>
+                  <div style={{ width: "40%" }}>
+
+                  <label style={{ fontSize: 12 }}>
+                    Description
+                      {/* {errorobj !== undefined && (
+                        <>
+                          {errorobj.reattemptAfterDays == "" ? (
+                            <p
+                              style={{
+                                color: "red",
+                                marginLeft: "22%",
+                                marginTop: "-4%",
+                              }}
+                            >
+                              Required
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )} */}
+                    </label>
+
+                    <textarea
+                      autofocus="autofocus"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "10px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "95%",
+                        border: "1px solid black",
+                      }}
+                      placeholder="Description Assessment"
+                      value={assessment.description}
+                      onChange={inputsHandler}
+                      name="description"
+                    />
+                     
+                  
+                  </div>
+                  <div style={{ width: "20%" ,marginTop:'1.5%',}}>
                     <PrimaryButton
                       mini
                       className="w-24 text-sm mt-4"
                       onClick={handleSubmit}
                     >
-                      Save Quiz
+                      Save Assessment
                     </PrimaryButton>
                   </div>
                 </div>
@@ -972,8 +1086,8 @@ const Admin123 = () => {
                                         >
                                           {" "}
                                           <span style={{ fontSize: 12 }}>
-                                            {item.quizDescription
-                                              ? item.quizDescription
+                                            {item.assesmentName
+                                              ? item.assesmentName
                                               : "  -     "}
                                           </span>{" "}
                                         </p>{" "}
@@ -982,8 +1096,8 @@ const Admin123 = () => {
                                         {" "}
                                         <p style={{ width: "100px" }}>
                                           <span style={{ fontSize: 12 }}>
-                                            {item.quizType
-                                              ? item.quizType
+                                            {item.ageGroupFrom
+                                              ? item.ageGroupFrom
                                               : "  -     "}
                                           </span>{" "}
                                         </p>{" "}
@@ -993,8 +1107,8 @@ const Admin123 = () => {
                                         style={{ fontSize: 12 }}
                                       >
                                         {" "}
-                                        {item.quizStartDate
-                                          ? item.quizStartDate
+                                        {item.ageGroupTo
+                                          ? item.ageGroupTo
                                           : "  -     "}
                                       </TableCell>
                                       <TableCell
@@ -1004,8 +1118,8 @@ const Admin123 = () => {
                                         {" "}
                                         <p style={{ width: "" }}>
                                           {" "}
-                                          {item.quizEndDate
-                                            ? item.quizEndDate
+                                          {item.gender
+                                            ? item.gender
                                             : "  -     "}
                                         </p>
                                       </TableCell>
@@ -1014,19 +1128,11 @@ const Admin123 = () => {
                                         style={{ fontSize: 12 }}
                                       >
                                         {" "}
-                                        {item.quizTimer
-                                          ? item.quizTimer
+                                        {item.reattemptAfterDays
+                                          ? item.reattemptAfterDays
                                           : "  -     "}
                                       </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        {" "}
-                                        {item.totalQuestion
-                                          ? item.totalQuestion
-                                          : "  -     "}
-                                      </TableCell>
+                                      
                                       <TableCell
                                         align="center"
                                         style={{ fontSize: 12 }}
@@ -1035,16 +1141,9 @@ const Admin123 = () => {
                                           mini
                                           className="w-24 text-sm mx-auto"
                                           onClick={() => {
-                                            setaddId(item.idMstQuiz),
-                                              localStorage.setItem(
-                                                "Idquiz",
-                                                item.idMstQuiz
-                                              ),
-                                              setModalView(true),
-                                              setImage("editquestion");
-                                          }}
+                                           hadleEdit(item)}}
                                         >
-                                          Add Question
+                                          Edit
                                         </PrimaryButton>
                                       </TableCell>
                                     </TableRow>
@@ -1082,24 +1181,9 @@ const Admin123 = () => {
                     </>
                   )}
                 </div>
-              </div>
-            </TabPanel>
-            <TabPanel>
-              {" "}
-              <HraQuestion />
-            </TabPanel>
-            <TabPanel>
-              {" "}
-              <CreateAssisment />
-            </TabPanel>
-            <TabPanel>
-              {" "}
-              <CreateHraScoreCard />
-            </TabPanel>
-           </Tabs>
+             
          
-        </div>
-      </div>
+       
       
       <div>
         {modalview && (
@@ -1107,8 +1191,8 @@ const Admin123 = () => {
         )}
         {
           <InfoDialog
-            open={duplicateModal}
-            onClose={() => setDuplicateModal(false)}
+            open={imageModal}
+            onClose={() => setImageModal(false)}
           >
             <CancelIcon
               style={{
@@ -1120,186 +1204,84 @@ const Admin123 = () => {
                 marginTop: "-5%",
               }}
               onClick={() => {
-                setDuplicateModal(false),
-                  setDuplicate({
-                    eventId: "",
-                    quizId: "",
-                    fromEventId: "",
-                  });
+                setImageModal(false);
+                 
               }}
             />
-            <div style={{ height: "200px", width: "600px", marginLeft: "3%" }}>
-              <div style={{ display: "flex" }}>
-                <div style={{ width: "50%" }}>
-                  <label>
-                    Select Event
-                    {errorobj !== undefined && (
-                      <>
-                        {errorobj.eventId == "" ? (
-                          <p
-                            style={{
-                              color: "red",
-                              marginLeft: "32%",
-                              marginTop: "-6%",
-                            }}
-                          >
-                            *
-                          </p>
-                        ) : (
-                          ""
-                        )}
-                      </>
-                    )}
-                  </label>
-
-                  <select
-                    autofocus="autofocus"
-                    style={{
-                      background: "#f3f4f6",
-                      padding: "10px 10px",
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: "90%",
-                      border: "1px solid black",
-                    }}
-                    value={duplicate.eventId}
-                    onChange={handleDuplicate}
-                    onClick={(e) => {
-                      ques(e.target.value);
-                    }}
-                    name="eventId"
+            <div style={{ height: "250px", width: "400px", marginLeft: "15%" }}>
+            <div
+                className="mhealth-input-box padding-025em"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  marginTop: 20,
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    marginRight: 20,
+                  }}
+                >
+                  <label
+                    style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <option value="">select</option>
-                    {geteventId &&
-                      geteventId.map((item) => {
-                        // console.log(item.challengeName);
-                        return (
-                          <>
-                            <option value={item.id}>
-                              {item.challengeName}
-                            </option>
-                          </>
-                        );
-                      })}
-                  </select>
-                </div>
-                <div style={{ width: "50%" }}>
-                  <label>
-                    Select Quiz{" "}
-                    {errorobj !== undefined && (
-                      <>
-                        {errorobj.quizId == "" ? (
-                          <p
-                            style={{
-                              color: "red",
-                              marginLeft: "30%",
-                              marginTop: "-8%",
-                            }}
-                          >
-                            *
-                          </p>
-                        ) : (
-                          ""
-                        )}
-                      </>
-                    )}
+                   Assessment Image{" "}
+                    {/* {assessment.imgPath && (
+                      <span
+                        style={{ cursor: "pointer", color: "red" }}
+                        onClick={() => {
+                          setMediaObj({ ...mediaObj, eventImage: undefined });
+                        }}
+                      >
+                        Delete
+                      </span>
+                    )} */}
                   </label>
+                  {assessment.imgPath && (
+                    <p className="error-text">Please Upload</p>
+                  )}
 
-                  <select
-                    autofocus="autofocus"
-                    style={{
-                      background: "#f3f4f6",
-                      padding: "10px 10px",
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: "90%",
-                      border: "1px solid black",
-                    }}
-                    value={duplicate.quizId}
-                    onChange={handleDuplicate}
-                    name="quizId"
+                  <div
+                    className="create-event-logo"
+                    style={{ border: "1px solid #eee" }}
                   >
-                    <option value="">select</option>
-                    {getQuiz &&
-                      getQuiz.map((item) => {
-                        // console.log(item.challengeName);
-                        return (
-                          <>
-                            <option value={item.idMstQuiz}>
-                              {item.quizDescription}
-                            </option>
-                          </>
-                        );
-                      })}
-                  </select>
+                    {imageData.image? (
+                      <>
+                        <img
+                          style={{ width: "100%", height: "100%" }}
+                          src={imageData.image}
+                        />
+                      </>
+                    ) : (
+                      <PlusCircle
+                        size={30}
+                        style={{ marginRight: 3, cursor: "pointer" }}
+                        onClick={() => eventImageInputRef.current.click()}
+                      />
+                    )}
+                  </div>
+
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={eventImageInputRef}
+                    style={{ display: "none" }}
+                    onChange={onFileChange}
+                  />
+                  <div style={{marginTop:'3%'}}><PrimaryButton onClick={imageUpload}>Save Image</PrimaryButton></div>
+                  
                 </div>
+                
               </div>
-              <div style={{ display: "flex", marginTop: "3%" }}>
-                <div style={{ width: "50%" }}>
-                  <label>
-                    Select Copied Event{" "}
-                    {errorobj !== undefined && (
-                      <>
-                        {errorobj.fromEventId == "" ? (
-                          <p
-                            style={{
-                              color: "red",
-                              marginLeft: "50%",
-                              marginTop: "-8%",
-                            }}
-                          >
-                            *
-                          </p>
-                        ) : (
-                          ""
-                        )}
-                      </>
-                    )}
-                  </label>
-
-                  <select
-                    autofocus="autofocus"
-                    style={{
-                      background: "#f3f4f6",
-                      padding: "10px 10px",
-                      borderRadius: 6,
-                      fontSize: 12,
-                      width: "90%",
-                      border: "1px solid black",
-                    }}
-                    value={duplicate.fromEventId}
-                    onChange={handleDuplicate}
-                    name="fromEventId"
-                  >
-                    <option value="">select</option>
-                    {geteventId &&
-                      geteventId.map((item) => {
-                        if (duplicate.eventId !== item.id) {
-                          // console.log(item.challengeName);
-                          return (
-                            <>
-                              <option value={item.id}>
-                                {item.challengeName}
-                              </option>
-                            </>
-                          );
-                        }
-                      })}
-                  </select>
-                </div>
-                <div style={{ width: "18%" }}></div>
-                <div style={{ width: "20%", marginTop: "5%" }}>
-                  <button className="is-success" onClick={saveDuplicate}>
-                    Save
-                  </button>
-                </div>
-              </div>
+              
             </div>
           </InfoDialog>
         }
        
       </div>
-    </div>
-  );
+    
+ </> );
 };
-export default Admin123;
+export default CreateAssisment;
