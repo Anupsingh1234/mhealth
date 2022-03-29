@@ -568,7 +568,8 @@ const gHraReportDeatil=(e)=>{
                   </div>
                   {/* <Modal open={modal} /> */}
 
-                  <div style={{}}></div>
+                  <div style={{ height: "300px", marginLeft: "20px" }}>
+                   
 
                   {attendUserDetail.hrQueAns && attendUserDetail.hrQueAns.length > 0 ? (
                     <div style={{ padding: 20}}>
@@ -688,6 +689,7 @@ const gHraReportDeatil=(e)=>{
                       </div>{" "}
                     </>
                   )}
+                   </div>
                 </div>
                 {attendUserDetail.hraScoreCard?(<>
                 <div style={{marginLeft:'20px',fontWeight:'800px'}}>Total Score : {attendUserDetail.hraScoreCard.totalScore}</div>
