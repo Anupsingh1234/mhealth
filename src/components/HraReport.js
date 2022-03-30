@@ -358,8 +358,8 @@ const gHraReportDeatil=(e)=>{
       style={{
         width: "90%",
         // position: 'fixed',
-        transform: "translate(5%,20%)",
-        height: "600px",
+        transform: "translate(5%,6%)",
+        height: "400px",
       }}
     > 
       <Paper>
@@ -526,7 +526,7 @@ const gHraReportDeatil=(e)=>{
                 {attendUserDetail.hraScoreCard?(
                 <div style={{marginLeft:'30px',fontSize:'15px',fontWeight:'800'}}>Hra Name : {attendUserDetail.hraScoreCard.assesmentName}</div>
                 ):''}
-                <div style={{ minWidth: "1000px", overflowX: "auto" }}>
+                <div   className="member"  style={{ width: "96%",height:'290px', overflowX: "auto",scrollBehavior: "smooth"}}>
                   {/* <Paper className={classes.paper}> */}
                   <div
                     style={{
@@ -568,7 +568,7 @@ const gHraReportDeatil=(e)=>{
                   </div>
                   {/* <Modal open={modal} /> */}
 
-                  <div style={{ height: "300px", marginLeft: "20px" }}>
+                  <div  className="member" style={{ height: "200px",width:'97%', marginLeft: "20px",  overflow: "auto", scrollBehavior: "smooth"  }}>
                    
 
                   {attendUserDetail.hrQueAns && attendUserDetail.hrQueAns.length > 0 ? (
@@ -648,10 +648,8 @@ const gHraReportDeatil=(e)=>{
                                         align="center"
                                         style={{ fontSize: 12 }}
                                       >
-                                        {" "}
-                                        {item.optionScore
-                                          ? item.optionScore
-                                          : "  -     "}
+                                       
+                                        {item.optionScore}
                                       </TableCell>
                                      
                                      
@@ -666,16 +664,17 @@ const gHraReportDeatil=(e)=>{
                     <>
                       <div
                         style={{
-                          height: 250,
+                          height: 100,
                           padding: "5px",
                           marginTop: 30,
-                          width: "100%",
+                          width: "200px",
                           display: "flex",
                           flexDirection: "column",
                           fontSize: 12,
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
+                          marginLeft:'40%'
                         }}
                         className=""
                       >
@@ -685,7 +684,7 @@ const gHraReportDeatil=(e)=>{
                           src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                         /> */}
                         <NoData/>
-                        Data is not present
+                     
                       </div>{" "}
                     </>
                   )}
@@ -694,7 +693,7 @@ const gHraReportDeatil=(e)=>{
                 {attendUserDetail.hraScoreCard?(<>
                 <div style={{marginLeft:'20px',fontWeight:'800px'}}>Total Score : {attendUserDetail.hraScoreCard.totalScore}</div>
    
-                <div style={{width:'97%',minHeight:'50px',border:'2px outset black',marginLeft:'20px',marginBottom:'10px',textAlign:'justify',maxHeight:'auto'}}><span style={{fontWeight:'800px',fontSize:'20px',fontFamily:'sans-serif'}}><u>Assessment Report :</u></span>{attendUserDetail.hraScoreCard.description}</div>
+                <div className="member" style={{width:'97%', overflowX: "auto",scrollBehavior: "smooth",minHeight:'50px',border:'2px outset black',marginLeft:'20px',marginBottom:'10px',textAlign:'justify',maxHeight:'100px'}}><span style={{fontWeight:'800px',fontSize:'20px',fontFamily:'sans-serif'}}><u>Assessment Report :</u></span>{attendUserDetail.hraScoreCard.description} <br/> {attendUserDetail.hraScoreCard.recommedations}</div>
                 </> ):''}
                 </TableContainer>
         </div>
