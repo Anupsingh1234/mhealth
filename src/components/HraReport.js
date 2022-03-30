@@ -313,7 +313,7 @@ const classes = useStyles();
     }
     const getHraList=(id)=>{
       
-        const adminurl = `${urlPrefix}v1.0/userAttemptHra?hraId=${id}&userId=${localStorage.getItem("userId")}`
+        const adminurl = `${urlPrefix}v1.0/userAttemptHra?userId=${id}`
         return axios
           .get(adminurl, {
             headers: {
@@ -333,7 +333,7 @@ const classes = useStyles();
 }
 const gHraReportDeatil=(id)=>{
       
-    const adminurl = `${urlPrefix}v1.0/getUserHraReport?hraId=${id}&userId=${localStorage.getItem("userId")}`
+    const adminurl = `${urlPrefix}v1.0/getUserHraReport?hraId=${id}&userId=${userId1}`
     return axios
       .get(adminurl, {
         headers: {
