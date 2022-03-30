@@ -223,6 +223,9 @@ export default function HraReport({
     const [programUser,setProgramUser]=useState([])
     const [hraData,setHraData]=useState([])
     const [attendUserDetail,setAttendUserDetails]=useState([])
+    const [programId,setProgramId]=useState("")
+    const [userId1,setUserId1]=useState("")
+    const [hraId,setHraId]=useState("")
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -270,9 +273,7 @@ const classes = useStyles();
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
       };
-    useEffect(() => {
-        getCoachWiseProgram()  ;
-      }, []);
+   
     const getCoachWiseProgram=()=>{
       
             const adminurl = `${urlPrefix}v1.0/coachWiseActivePrograms`
@@ -291,9 +292,9 @@ const classes = useStyles();
               }).then((res)=>{
                 setGetProgramData(res.data.response.responseData)
               })}
-              const getRegisterUserList=(e)=>{
-      
-                const adminurl = `${urlPrefix}v1.0/getProgramRegisteredUser?subEventId=${e.target.value}`
+              const getRegisterUserList=(id)=>{
+               
+                const adminurl = `${urlPrefix}v1.0/getProgramRegisteredUser?subEventId=${id}`
                 return axios
                   .get(adminurl, {
                     headers: {
@@ -310,9 +311,9 @@ const classes = useStyles();
                     setProgramUser(res.data.response.responseData)
                   })
     }
-    const getHraList=(e)=>{
+    const getHraList=(id)=>{
       
-        const adminurl = `${urlPrefix}v1.0/userAttemptHra?hraId=${e.target.value}&userId=${localStorage.getItem("userId")}`
+        const adminurl = `${urlPrefix}v1.0/userAttemptHra?hraId=${id}&userId=${localStorage.getItem("userId")}`
         return axios
           .get(adminurl, {
             headers: {
@@ -330,9 +331,9 @@ const classes = useStyles();
             // gHraReportDeatil(e.target.value)
           })
 }
-const gHraReportDeatil=(e)=>{
+const gHraReportDeatil=(id)=>{
       
-    const adminurl = `${urlPrefix}v1.0/getUserHraReport?hraId=${e.target.value}&userId=${localStorage.getItem("userId")}`
+    const adminurl = `${urlPrefix}v1.0/getUserHraReport?hraId=${id}&userId=${localStorage.getItem("userId")}`
     return axios
       .get(adminurl, {
         headers: {
@@ -353,6 +354,37 @@ const gHraReportDeatil=(e)=>{
     const handleClose=()=>{
         setHraModal(false)
     }
+    useEffect(() => {
+      getCoachWiseProgram()  ;
+    }, []);
+    useEffect(() => {
+      if(programId){
+        // getRegisterUserList()
+        getRegisterUserList(programId)  ;
+      setHraData([])
+      setAttendUserDetails([])
+      setUserId1(""),
+      setHraId("")
+      }
+      }, [programId]);
+      useEffect(() => {
+        if(userId1){
+          // getRegisterUserList()
+          getHraList(userId1)
+          setHraData([])
+          setAttendUserDetails([])
+          // setUserId1(""),
+          setHraId("")
+        }
+        }, [userId1]);
+        useEffect(() => {
+          if(hraId){
+           
+           gHraReportDeatil(hraId)
+        
+          setAttendUserDetails([])
+          }
+          }, [hraId]);
   const modalBody = (
     <div
       style={{
@@ -404,7 +436,7 @@ const gHraReportDeatil=(e)=>{
                             // onClose={handleClose}
                             // onOpen={handleOpen}
                             // value={age}
-                            onChange={getRegisterUserList}
+                            onChange={(e)=>setProgramId(e.target.value)}
                           >
                             {getProgramData.map((curelem, index) => {
                               return (
@@ -441,7 +473,7 @@ const gHraReportDeatil=(e)=>{
                             // onClose={handleClose}
                             // onOpen={handleOpen}
                             // value={age}
-                            onChange={getHraList}
+                            onChange={(e)=>setUserId1(e.target.value)}
                           >
                             {programUser &&
                               programUser.map((curelem, index) => {
@@ -477,8 +509,8 @@ const gHraReportDeatil=(e)=>{
                             // open={open}
                             // onClose={handleClose}
                             // onOpen={handleOpen}
-                            // value={age}
-                            onChange={gHraReportDeatil}
+                            value={hraId}
+                            onChange={(e)=>setHraId(e.target.value)}
                           >
                             {hraData &&
                               hraData.map((curelem, index) => {

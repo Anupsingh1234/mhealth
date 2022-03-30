@@ -6,7 +6,8 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import axios from "axios";
 import { urlPrefix } from "../../services/apicollection";
 import AssessmentInfo from "./AssessmentInfo";
-
+import { Modal } from "react-responsive-modal";
+import "react-responsive-modal/styles.css";
 import dataSource from "../../assets/dataSource.svg";
 import message from "antd-message";
 import { updateUserDetailsHandler } from "../../services/userprofileApi";
@@ -290,7 +291,10 @@ const HraCard = (eventID, currentEventObj) => {
     setscore(mark);
     setOptionId([parseInt(val)]);
   };
-
+    const [info1, setinfo1] = useState(false);
+  const onInfoModal = () => {
+    setinfo1(true);
+  };
   return (
     <>
       {cardDetails && cardDetails.length > 0 && dataList ? (
@@ -504,6 +508,7 @@ const HraCard = (eventID, currentEventObj) => {
                   padding: "20px",
                   borderRadius: "20px",
                   fontSize: "18px",
+                 
                 }}
               >
                 <span className="font-extrabold">
@@ -514,6 +519,19 @@ const HraCard = (eventID, currentEventObj) => {
                   {" "}
                   {question && question.question}{" "}
                 </span>
+                <span style={{}}> <img
+                  src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/Info.png"
+                  style={{
+                    width: 25,
+                    cursor: "pointer",
+                    height: 25,
+                    borderRadius: 100,
+                    marginLeft:'95%',marginTop:'-5%'
+                  }}
+                  onClick={() => {
+                    onInfoModal();
+                  }}
+                /></span>
               </div>
 
               <div className="flex ">
@@ -717,6 +735,33 @@ const HraCard = (eventID, currentEventObj) => {
           <span style={{ margin: "1rem" }}>No Data</span>
         </div>
       )}
+      <Modal
+        open={info1}
+        styles={{
+          modal: { borderRadius: "10px" },
+        }}
+        onClose={()=>setinfo1(false)}
+        center
+        // closeIcon={closeIcon}
+      >
+        {/* <CancelIcon
+          style={{
+            position: "absolute",
+            top: 15,
+            right: 15,
+            color: "#ef5350",
+            cursor: "pointer",
+          }}
+        /> */}
+        <div style={{ padding: 20, textAlign: "justify", lineHeight: -5,minHeight:'200px',width:'500px',maxHeight:'400px' }}>
+          <h2><u>Description : - </u> </h2>
+          <div style={{ display: "flex", textAlign: "justify" }}>
+          {question.decription}
+
+          </div>
+
+        </div>
+      </Modal>
     </>
   );
 };
