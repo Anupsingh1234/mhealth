@@ -65,6 +65,7 @@ const HraCard = (eventID, currentEventObj) => {
     setcardDetails();
     setProgramList();
   }, [eventID]);
+  
   const [subcard, setsubcard] = useState(false);
   const [optionId, setOptionId] = useState([]);
   const [score, setscore] = useState();
@@ -295,6 +296,10 @@ const HraCard = (eventID, currentEventObj) => {
   const onInfoModal = () => {
     setinfo1(true);
   };
+  useEffect(() => {
+    setnextquestion(false)
+    setquestion([])
+   }, [cardId]);
   return (
     <>
       {cardDetails && cardDetails.length > 0 && dataList ? (
@@ -735,6 +740,7 @@ const HraCard = (eventID, currentEventObj) => {
           <span style={{ margin: "1rem" }}>No Data</span>
         </div>
       )}
+      {info1&&(
       <Modal
         open={info1}
         styles={{
@@ -761,7 +767,7 @@ const HraCard = (eventID, currentEventObj) => {
           </div>
 
         </div>
-      </Modal>
+      </Modal>)}
     </>
   );
 };
