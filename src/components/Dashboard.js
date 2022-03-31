@@ -40,6 +40,7 @@ import Forum from "./Forum";
 import ThemeContext from "../context/ThemeContext";
 import DietPlan from "./Dietplan/DietPlan";
 import HRA from "../components/HRA/Index";
+import Pulse from '../components/Pulse/Index'
 function FacebookCircularProgress(props) {
   const useStylesFacebook = makeStyles((theme) => ({
     root: {
@@ -125,6 +126,8 @@ const Dashboard = () => {
           return "quiz";
           case "hra":
             return "hra";
+        case "pulse":
+            return "pulse";
         default:
           return "Activities";
       }
@@ -1016,6 +1019,7 @@ console.log(dashboardState.selectedChallengeObject,'object')
         "forum",
         "dietplan",
         "hra",
+        "pulse",
       ].includes(dashboardState.selectedAction)
     ) {
       setDashboardState({
@@ -1171,6 +1175,36 @@ console.log(dashboardState.selectedChallengeObject,'object')
                   style={{ justifyContent: "flex-end" }}
                 >
                   <div className="leaderboard-actions">
+                  {dashboardState.listOfChallenges.length > 0 && (
+                      <button
+                        style={{
+                          background:
+                            dashboardState.selectedAction === "pulse"
+                              ? theme.buttonTextColor
+                              : theme.buttonBGColor,
+                          color:
+                            dashboardState.selectedAction === "pulse"
+                              ? theme.buttonBGColor
+                              : theme.buttonTextColor,
+                          border:
+                            dashboardState.selectedAction === "pulse"
+                              ? "1px solid"
+                              : "1px transparent",
+                          borderColor: theme.buttonBGColor,
+                        }}
+                        onClick={() => {
+                          setDashboardState((prevState) => {
+                            return {
+                              ...prevState,
+                              selectedAction: "pulse",
+                              listOfChallenges: getCurrentAllEvents(),
+                            };
+                          });
+                        }}
+                      >
+                        PULSE
+                      </button>
+                    )}
                     {dashboardState.listOfChallenges.length > 0 && (
                       <button
                         style={{
@@ -1201,6 +1235,7 @@ console.log(dashboardState.selectedChallengeObject,'object')
                         HRA
                       </button>
                     )}
+                    
 
                     {dashboardState.listOfChallenges.length > 0 && (
                       <button
@@ -1738,6 +1773,12 @@ console.log(dashboardState.selectedChallengeObject,'object')
             )}
             {dashboardState.selectedAction.toUpperCase() === "HRA" && (
               <HRA
+                eventID={dashboardState.selectedChallenge}
+                currentEventObj={dashboardState.selectedChallengeObject}
+              />
+            )}
+            {dashboardState.selectedAction.toUpperCase() === "PULSE" && (
+              <Pulse
                 eventID={dashboardState.selectedChallenge}
                 currentEventObj={dashboardState.selectedChallengeObject}
               />
