@@ -59,8 +59,9 @@ const PackageCard = (eventID, currentEventObj) => {
     const [instruction,setInstruction]=useState({
       bookingInstructions:'',
       sampleCollectionAddress:'',
-      bookingType:'VISIT',
+      bookingType:'',
     })
+    const [errorobj, setErrorObj] = useState();
     const [joinInfo,setJoinInfo]=useState(false)
     const [cardInfoDetail,setCardInfoDetails]=useState({})
     const [digPartnerId,setDigPartnerId]=useState("")
@@ -71,7 +72,8 @@ const PackageCard = (eventID, currentEventObj) => {
     const dtt = moment(dateState).format("YYYY-MM-DD").toString();
     const filterDate = moment(new Date()).format("YYYY-MM-DD").toString();
     const today = new Date();
-    const tttt1 = today.getHours() + 1 + ":" + today.getMinutes() + ":" + "00";
+    today.setMinutes(today.getMinutes()+90)
+    const tttt1 = today.getHours() + ":" + today.getMinutes() + ":" + "00";
     console.log(tttt1);
     const ddt = [];
     const [time, setTime] = useState();
@@ -110,8 +112,10 @@ const PackageCard = (eventID, currentEventObj) => {
       const name = e.target.name;
       const value = e.target.value;
       setInstruction((values) => ({ ...values, [name]: value }));
+      setErrorObj((values) => ({ ...values, [name]: value }));
     }
     useEffect(() => {
+      setPackageData([])
         card();
         
       }, [eventID]);
@@ -228,7 +232,7 @@ const PackageCard = (eventID, currentEventObj) => {
           healthPkgId:packageId,
           digPartnerId:digPartnerId,
           partnerLabId:partnerLabId,
-          bookingType:instruction.bookingType?instruction.bookingType:"VISIT",
+          bookingType:pkgSample==="BOTH"?instruction.bookingType:pkgSample,
           bookingSlotDatetime:dtt+" "+time+":00",
           bookingInstructions:instruction.bookingInstructions!==""?instruction.bookingInstructions:'NA',
           sampleCollectionAddress:instruction.sampleCollectionAddress!==""?instruction.sampleCollectionAddress:'NA'
@@ -257,12 +261,14 @@ const PackageCard = (eventID, currentEventObj) => {
                 setInstruction({
                   bookingInstructions:'',
                   sampleCollectionAddress:'',
+                  bookingType:''
                 })
                 card()
       setPackageDetail([])
       setPackageLabDetails([])
       setSlotData([])
                 setModalView(false)
+                setErrorObj()
               }
             })
           }else{
@@ -275,8 +281,8 @@ const PackageCard = (eventID, currentEventObj) => {
         setStatus("")
       }, [stateCheck]);
       const handleChange=(e)=>{
+    setStateStateCheck(e.target.value)
         packageInfo(e.target.value)
-        setStateStateCheck(e.target.value)
       }
   const handleClose=()=>{
       setModalView(false);
@@ -294,14 +300,32 @@ const PackageCard = (eventID, currentEventObj) => {
     setInstruction({
       bookingInstructions:'',
       sampleCollectionAddress:'',
+      bookingType:'',
     })
     setDateState("00-00-0000");
      setTime("")
+     setErrorObj()
+  }
+  const NextValue=(e)=>{
+    e.preventDefault()
+    if(pkgSample!=='BOTH')
+    {
+     
+      setActiveStep(1)
+     
+    }
+    else if(instruction.bookingType!==""){
+      setActiveStep(1)
+     
+    }
+    else{
+      setErrorObj(instruction)
+    }
   }
   return(<>
   {packageData && packageData.length > 0 ? (
         <>
-         <ReactCardFlip isFlipped={flip1} flipDirection="horizontal">
+         {/* <ReactCardFlip isFlipped={flip1} flipDirection="horizontal"> */}
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {packageData &&
               packageData.map((item, index) => {
@@ -379,7 +403,7 @@ const PackageCard = (eventID, currentEventObj) => {
                         <div className="register-button">
                           <PrimaryButton
                             style={{ marginBottom: "10px" }}
-                            onClick={() =>{setModalView(true);setPackageId(item.id);setPkgSample(item.sample)}}
+                            onClick={() =>{setModalView(true);setPackageId(item.id);setPkgSample(item.sample);packageInfo("STATE")}}
                           >
                             Book Now
                           </PrimaryButton>
@@ -435,35 +459,8 @@ const PackageCard = (eventID, currentEventObj) => {
                       </div>
                       </>)})}
                       </div>
-                      <div className="challenge-card1">
-        <div className="challenge-card2">
-          <button
-            onClick={flipCard1}
-            style={{
-              // backgroundColor: '#ff66a3',
-              borderRadius: "10px",
-              // color: 'white',
-              justifyContent: "center",
-              width: "30px",
-              height: "25px",
-              marginTop: "10px",
-            }}
-          >
-             <ArrowLeftCircle size={25} />{" "}
-            </button>
-            <div style={{marginTop:'10px'}}>
-            {/* {booking.map((curr)=>{
-              return(<>
-            <span>{curr.partnerLabName}</span>
-            <span>{curr.date}</span>
-            <span>{curr.status}</span>
-             <br/>
-              </>)
-            })} */}
-            </div>
-            </div>
-            </div>
-                      </ReactCardFlip>       
+                     
+                      {/* </ReactCardFlip>        */}
         </>
       ) : (
         <div
@@ -523,7 +520,7 @@ const PackageCard = (eventID, currentEventObj) => {
           <div style={{width:'600px',minHeight:'100px',maxHeight:'600px'}}>
               <div style={{display:'flex',marginLeft:'20px'}}>
                   <div style={{width:'20%'}}>
-              <input type="radio" id="state" name="state"style={{ marginRight: "15px",height:'15px',width:'15px',fontWeight:'bold' }} value="STATE" onChange={handleChange}/><label for="state" style={{fontSize:'18px',fontWeight:'bold'}}>State</label>
+              <input type="radio" id="state" checked name="state"style={{ marginRight: "15px",height:'15px',width:'15px',fontWeight:'bold' }} value="STATE" onChange={handleChange}/><label for="state" style={{fontSize:'18px',fontWeight:'bold'}}>State</label>
               </div>
               <div style={{width:'20%'}}>
               <input type="radio" id="city" name="state" style={{ marginRight: "15px" ,height:'15px',width:'15px'}}  value="CITY" onChange={handleChange}/><label for="city" style={{fontSize:'18px',fontWeight:'bold'}}>City</label>
@@ -588,7 +585,36 @@ const PackageCard = (eventID, currentEventObj) => {
           {activeStep === 0 ? (
          <div style={{ width: "90%", marginLeft: "20px" }}>
            <div>
-           <label>Booking Type</label><br/>
+           <label>Booking Type  {errorobj !== undefined && (
+                        <>
+                          {errorobj.bookingType == "" ? (
+                            <p
+                              style={{
+                                color: "red",
+                                marginLeft: "30%",
+                                marginTop: "-6%",
+                              }}
+                            >
+                              Required
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </>
+                      )}</label><br/>{pkgSample==='VISIT'||pkgSample==='COLLECTION'?
+           <input autofocus="autofocus"
+           style={{
+             background: "#f3f4f6",
+             padding: "10px 10px",
+             borderRadius: 6,
+             fontSize: 12,
+             width: "95%",
+             border: "1px solid black",
+           }}
+           disabled
+           value={pkgSample}
+           />:
+         
            <select autofocus="autofocus"
                       style={{
                         background: "#f3f4f6",
@@ -603,11 +629,14 @@ const PackageCard = (eventID, currentEventObj) => {
                       
                       onChange={handleInstruction}
                       name="bookingType">
+                        <option value="">Select</option>
                         <option value="VISIT">VISIT</option>
                         <option value="COLLECTION">COLLECTION</option>
-                        <option value="BOTH">BOTH</option>
+                      
                       </select>
+                       }
            </div>
+           {pkgSample==="COLLECTION"||instruction.bookingType==="COLLECTION"?
            <div>
            <label>Collection Address</label><br/>
            <textarea autofocus="autofocus"
@@ -624,7 +653,7 @@ const PackageCard = (eventID, currentEventObj) => {
                       
                       onChange={handleInstruction}
                       name="sampleCollectionAddress"/>
-           </div>
+           </div>:''}
            <div>
            <label>Instruction</label><br/>
            <textarea autofocus="autofocus"
@@ -642,7 +671,7 @@ const PackageCard = (eventID, currentEventObj) => {
                       onChange={handleInstruction}
                       name="bookingInstructions"/>
            </div>
-           <div style={{width:'80px',height:'10px',marginLeft:'75%'}} className="absolute bottom-6 right-2" ><PrimaryButton onClick={()=>setActiveStep(1)}  mini
+           <div style={{width:'80px',height:'10px',marginLeft:'75%'}} className="absolute bottom-6 right-2" ><PrimaryButton onClick={NextValue}  mini
                         className="w-[max-content] text-sm">Next</PrimaryButton></div>
          </div>):(<>
                   <div
