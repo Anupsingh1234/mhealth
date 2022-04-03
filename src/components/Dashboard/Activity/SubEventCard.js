@@ -2717,13 +2717,11 @@ const SubEventCard = ({
             </InfoDialog>
           )}
 
+          {/* start */}
+
           {showBook && (
-            <InfoDialog
-              handleClose={closeslot}
-              open={showBook}
-              // onClose={timeClose}
-            >
-              <div style={{ width: "400px", height: "400px" }}>
+            <InfoDialog handleClose={closeslot} open={showBook}>
+              <div>
                 <CancelIcon
                   style={{
                     position: "absolute",
@@ -2735,229 +2733,167 @@ const SubEventCard = ({
                   onClick={() => closeslot(false)}
                 />
                 <form>
-                  <div
-                    style={{
-                      height: "400px",
-                      display: "flex",
-                      marginTop: "0",
-                      overflowY: "auto",
-                      // width:'70%',
-                    }}
-                  >
-                    <div style={{ width: "70%", marginLeft: "20px" }}>
-                      {/* <p style={{fontSize: '20px', marginLeft: '80px'}}>
-                  Booking Program
-                </p> */}
-                      <div
-                        style={{
-                          maxWidth: "250px",
-                          boxShadow:
-                            "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
-                          borderRadius: 12,
-                          backgroundColor: "#b3b3ff",
-                          maxHeight: "500px",
-                          background: "blue",
+                  <div>
+                    <div className="flex flex-col md:flex-row gap-2 mx-2">
+                      <Calendar
+                        style={{ backgroundColor: "white" }}
+                        required
+                        selected={dateState}
+                        onChange={changeDate}
+                        tileClassName={({ date, view }) => {
+                          if (
+                            mark.find(
+                              (x) => x === moment(date).format("YYYY-MM-DD")
+                            )
+                          ) {
+                            return "highlight";
+                          }
                         }}
-                      >
-                        <Calendar
-                          style={{ backgroundColor: "white" }}
-                          required
-                          selected={dateState}
-                          onChange={changeDate}
-                          tileClassName={({ date, view }) => {
-                            if (
-                              mark.find(
-                                (x) => x === moment(date).format("YYYY-MM-DD")
-                              )
-                            ) {
-                              return "highlight";
-                            }
-                          }}
-                          beforeShowDay={({ date, view }) => {
-                            if (dateenable.indexOf(mark(date)) < 0)
-                              return {
-                                enabled: false,
-                              };
-                            else
-                              return {
-                                enabled: true,
-                              };
-                          }}
-                          // style={{
-                          //   maxHeight: "400px",
-                          //   backgroundColor: "yellow",
-                          // }}
-                          maxDate={new Date(ddt)}
-                          locale="us"
-                          minDate={new Date()}
-                        />
-                      </div>
-                    </div>
-                    <div
-                      style={{
-                        width: "30%",
-                        maxHeight: "300px",
-                        overflow: "scroll",
-                      }}
-                    >
-                      {calender.map((item) => {
-                        if (item.date === dtt) {
-                          // for(let i=1;i<=item.time.length;i++)
-
-                          return (
-                            <div
-                              style={
-                                {
-                                  // dispaly: 'flex',
-                                  // width: '0%',
-                                  // textAlign: 'center',
-                                }
-                              }
-                            >
-                              <p style={{ textAlign: "center" }}>
-                                <u>Timing</u>
-                              </p>
-                              <>
-                                {item.slotTime.map((bb) => {
-                                  if (filterDate === dtt) {
-                                    {
-                                      if (bb.time > tttt1)
-                                        return (
-                                          <div>
-                                            <table>
-                                              <div style={{ width: "100%" }}>
-                                                <button
-                                                  style={{
-                                                    // fontSize: '20px',
-                                                    // dispaly: 'flex',
-                                                    // border: '1px outset black',
-                                                    boxShadow:
-                                                      "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
-                                                    borderRadius: 5,
-                                                    backgroundColor: "#ccfff5",
-                                                    width: "100px",
-                                                    height: "30px",
-                                                    marginTop: "0px",
-                                                    // marginLeft: '10px',
-                                                    color: "black",
-                                                  }}
-                                                  onClick={(e) => {
-                                                    e.preventDefault();
-                                                    setTime(e.target.value);
-                                                  }}
-                                                  value={bb.time.toString()}
-                                                >
-                                                  {bb.time.substring(0, 5)}-
-                                                  {bb.sessionTime}
-                                                  <br />
-                                                </button>
-                                              </div>
-                                            </table>
-                                          </div>
-                                        );
-                                    }
-                                  } else {
-                                    return (
-                                      <div>
-                                        <table>
-                                          <div style={{ width: "100%" }}>
-                                            <button
-                                              style={{
-                                                // fontSize: '20px',
-                                                // dispaly: 'flex',
-                                                // border: '1px outset black',
-                                                boxShadow:
-                                                  "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
-                                                borderRadius: 5,
-                                                backgroundColor: "#ccfff5",
-                                                width: "100px",
-                                                height: "30px",
-                                                marginTop: "0px",
-                                                // marginLeft: '10px',
-                                                color: "black",
-                                              }}
-                                              onClick={(e) => {
-                                                e.preventDefault();
-                                                setTime(e.target.value);
-                                              }}
-                                              value={bb.time.toString()}
-                                            >
-                                              {bb.time.substring(0, 5)}-
-                                              {bb.sessionTime}
-                                              <br />
-                                            </button>
-                                          </div>
-                                        </table>
-                                      </div>
-                                    );
-                                  }
-                                })}
-                              </>
-                            </div>
-                          );
-                        }
-                      })}
-                    </div>
-                  </div>
-
-                  <div style={{ marginTop: "-100px", display: "flex" }}>
-                    <div style={{ width: "70%" }}>
-                      {/* <p className="error-text">Please select</p> */}
-                      <p
-                        style={{ marginLeft: "20px", fontSize: "15px" }}
-                        className="mb-2"
-                      >
-                        <b> Your Booking: </b>
-                      </p>
-                      <p
-                        style={{
-                          boxShadow:
-                            "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
-                          borderRadius: 12,
-                          borderRadius: "5px",
-                          height: "auto",
-                          width: "160px",
-                          marginLeft: "20px",
-                          fontSize: "15px",
-                          marginTop: "-10px",
+                        beforeShowDay={({ date, view }) => {
+                          if (dateenable.indexOf(mark(date)) < 0)
+                            return {
+                              enabled: false,
+                            };
+                          else
+                            return {
+                              enabled: true,
+                            };
                         }}
-                        className="p-1"
-                      >
-                        <b> Date: </b> {moment(dateState).format("DD-MM-YYYY")}
-                        <br />
-                        <b> Time: </b>
+                        maxDate={new Date(ddt)}
+                        locale="us"
+                        minDate={new Date()}
+                      />
+                      <div>
                         {calender.map((item) => {
                           if (item.date === dtt) {
-                            return item.slotTime.map((e1) => {
-                              if (e1.time === time) {
-                                return (
-                                  <>
-                                    {e1.time.substring(0, 5)}-{e1.sessionTime}
-                                  </>
-                                );
-                              }
-                            });
+                            // for(let i=1;i<=item.time.length;i++)
+
+                            return (
+                              <div>
+                                <p style={{ textAlign: "center" }}>
+                                  <u>Timing</u>
+                                </p>
+                                <div className="flex md:flex-col md:max-h-[400px] overflow-scroll gap-1">
+                                  {item.slotTime.map((bb) => {
+                                    if (filterDate === dtt) {
+                                      {
+                                        if (bb.time > tttt1)
+                                          return (
+                                            <div>
+                                              <table>
+                                                <div style={{ width: "100%" }}>
+                                                  <button
+                                                    style={{
+                                                      borderRadius: 5,
+                                                      backgroundColor:
+                                                        "#ccfff5",
+                                                      width: "100px",
+                                                      marginTop: "0px",
+                                                      color: "black",
+                                                    }}
+                                                    onClick={(e) => {
+                                                      e.preventDefault();
+                                                      setTime(e.target.value);
+                                                    }}
+                                                    value={bb.time.toString()}
+                                                  >
+                                                    {bb.time.substring(0, 5)}-
+                                                    {bb.sessionTime}
+                                                    <br />
+                                                  </button>
+                                                </div>
+                                              </table>
+                                            </div>
+                                          );
+                                      }
+                                    } else {
+                                      return (
+                                        <div>
+                                          <table>
+                                            <div style={{ width: "100%" }}>
+                                              <button
+                                                style={{
+                                                  borderRadius: 5,
+                                                  backgroundColor: "#ccfff5",
+                                                  width: "100px",
+                                                  marginTop: "0px",
+                                                  color: "black",
+                                                }}
+                                                onClick={(e) => {
+                                                  e.preventDefault();
+                                                  setTime(e.target.value);
+                                                }}
+                                                value={bb.time.toString()}
+                                              >
+                                                {bb.time.substring(0, 5)}-
+                                                {bb.sessionTime}
+                                                <br />
+                                              </button>
+                                            </div>
+                                          </table>
+                                        </div>
+                                      );
+                                    }
+                                  })}
+                                </div>
+                              </div>
+                            );
                           }
                         })}
-                      </p>
+                      </div>
                     </div>
-                    <div className="absolute bottom-6 right-2">
-                      <PrimaryButton
-                        mini
-                        className="w-[max-content] text-sm"
-                        onClick={finalSubmitBook}
-                        type="submit"
-                      >
-                        Save
-                      </PrimaryButton>
-
-                      <div></div>
+                    <div>
+                      <div>
+                        <p className="text-md font-semibold mx-2">
+                          Your Booking:
+                        </p>
+                        <div className="flex items-center justify-between mx-2 mb-2">
+                          <div className="border border-gray-400 rounded-lg px-4 py-2">
+                            <p className="font-semibold">
+                              {" "}
+                              Date: {moment(dateState).format(
+                                "DD-MM-YYYY"
+                              )}{" "}
+                            </p>
+                            <p className="font-semibold">
+                              {" "}
+                              Time:
+                              {calender.map((item) => {
+                                if (item.date === dtt) {
+                                  return item.slotTime.map((e1) => {
+                                    if (e1.time === time) {
+                                      return (
+                                        <>
+                                          {e1.time.substring(0, 5)}-
+                                          {e1.sessionTime}
+                                        </>
+                                      );
+                                    }
+                                  });
+                                }
+                              })}
+                            </p>
+                          </div>
+                          <div>
+                            <PrimaryButton
+                              mini
+                              className="w-[max-content] text-sm"
+                              onClick={finalSubmitBook}
+                              type="submit"
+                            >
+                              Save
+                            </PrimaryButton>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </form>
               </div>
             </InfoDialog>
           )}
+
+          {/* end */}
         </div>
       </div>
       <div className="challenge-card1">
