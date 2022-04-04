@@ -49,11 +49,11 @@ const PulseInfo = ({ open, setOpen, details }) => {
                     <div style={{ fontSize: 12 }}>{details.healthPkgName}</div>
                     <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
                       <div style={{ fontWeight: 800 }}> Health From Date</div>
-                      <div style={{ fontSize: 12 }}>{details.pkgBookingFrom}</div>
+                      <div style={{ fontSize: 12 }}>{details.pkgBookingFrom.substring(0,10)} {details.pkgBookingFrom.substring(12,16)}</div>
                     </div>
                     <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
                       <div style={{ fontWeight: 800 }}>  Health To Date</div>
-                      <div style={{ fontSize: 12 }}>{details.pkgBookingTo}</div>
+                      <div style={{ fontSize: 12 }}>{details.pkgBookingTo.substring(0,10)} {details.pkgBookingTo.substring(12,16)}</div>
                     </div>
                     <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
                       <div style={{ fontWeight: 800 }}> Test Package Name</div>

@@ -148,8 +148,8 @@ const PackageCard = (eventID, currentEventObj) => {
             // setscoreDetails(res?.data?.response?.responseData);
           });
       };
-      const packageInfo = (value) => {
-        const URL = `${urlPrefix}v1.0/getPackageWiseInfo?action=${value}&packageId=${packageId}`;
+      const packageInfo = (value,id) => {
+        const URL = `${urlPrefix}v1.0/getPackageWiseInfo?action=${value}&packageId=${id}`;
         return axios
           .get(URL, {
             headers: {
@@ -282,7 +282,7 @@ const PackageCard = (eventID, currentEventObj) => {
       }, [stateCheck]);
       const handleChange=(e)=>{
     setStateStateCheck(e.target.value)
-        packageInfo(e.target.value)
+        packageInfo(e.target.value,packageId)
       }
   const handleClose=()=>{
       setModalView(false);
@@ -400,14 +400,16 @@ const PackageCard = (eventID, currentEventObj) => {
                           {/* {subEventDetail.eventName} */}
                           {item.healthPkgName}
                         </div>
+                        {item.bookings&&item.bookings.length+1>=item.bookingCount?'':
                         <div className="register-button">
                           <PrimaryButton
                             style={{ marginBottom: "10px" }}
-                            onClick={() =>{setModalView(true);setPackageId(item.id);setPkgSample(item.sample);packageInfo("STATE")}}
+                            onClick={() =>{setModalView(true);setPackageId(item.id);setPkgSample(item.sample);packageInfo("STATE",item.id)}}
                           >
                             Book Now
                           </PrimaryButton>
                         </div>
+              }
                         {/* <div className="challenge-card-start-date1">
                           <InfoIcon
                             style={{ fontSize: 18, color: "#1e88e5" }}
@@ -416,7 +418,7 @@ const PackageCard = (eventID, currentEventObj) => {
                         </div> */}
                         {item.joiningDetail===true?
                         <div className="challenge-card-start-date2" style={{}}>
-             <div className="challenge-card-start-date-day">
+             <div className="challenge-card-start-date-day" style={{display:'none'}}>
               {(item.pkgBookingTo).substring(0,10)}
             </div>
             
@@ -428,7 +430,7 @@ const PackageCard = (eventID, currentEventObj) => {
             </a>
 
             <div
-          style={{ width: "fit-content", fontSize: 12, marginBottom: "10px" }}
+          style={{ width: "fit-content", fontSize: 12, marginBottom: "0px" }}
         >
           <a
             target="_blank"
@@ -519,14 +521,14 @@ const PackageCard = (eventID, currentEventObj) => {
                           />
           <div style={{width:'600px',minHeight:'100px',maxHeight:'600px'}}>
               <div style={{display:'flex',marginLeft:'20px'}}>
-                  <div style={{width:'20%'}}>
-              <input type="radio" id="state" checked name="state"style={{ marginRight: "15px",height:'15px',width:'15px',fontWeight:'bold' }} value="STATE" onChange={handleChange}/><label for="state" style={{fontSize:'18px',fontWeight:'bold'}}>State</label>
+                  <div style={{width:'20%'}} key="state" >
+              <input type="radio" id="state"  name="state"style={{ marginRight: "15px",height:'15px',width:'15px',fontWeight:'bold' }} value="STATE" onChange={handleChange}defaultChecked/><label for="state" style={{fontSize:'18px',fontWeight:'bold'}}>State</label>
               </div>
-              <div style={{width:'20%'}}>
+              <div style={{width:'20%'}} key="city" >
               <input type="radio" id="city" name="state" style={{ marginRight: "15px" ,height:'15px',width:'15px'}}  value="CITY" onChange={handleChange}/><label for="city" style={{fontSize:'18px',fontWeight:'bold'}}>City</label>
               </div>
-              <div style={{width:'20%'}}>
-              <input type="radio" id="pin" name="state" style={{ marginRight: "15px" ,height:'15px',width:'15px'}}  value="PIN" onChange={handleChange}/><label for="pin" style={{fontSize:'18px',fontWeight:'bold'}}>Pin</label>
+              <div style={{width:'20%'}} key="pin">
+              <input type="radio" id="pin"  name="state" style={{ marginRight: "15px" ,height:'15px',width:'15px'}}  value="PIN" onChange={handleChange}/><label for="pin" style={{fontSize:'18px',fontWeight:'bold'}}>Pin</label>
               </div>
               </div>
               <div style={{marginLeft:'20px'}}>

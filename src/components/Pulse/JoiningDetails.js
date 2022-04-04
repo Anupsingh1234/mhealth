@@ -6,6 +6,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 import TableHead from "@material-ui/core/TableHead";
 import InfoDialog from "../Utility/InfoDialog";
+import Modal from "@material-ui/core/Modal";
  const JoiningDetails = ({join,setJoin,bookingdetail1}) => {
   return (
     <div>
@@ -32,6 +33,9 @@ import InfoDialog from "../Utility/InfoDialog";
                   </TableCell>
                   <TableCell>
                   <p style={{fontSize:'15px', fontWeight:'800'}}>Date</p>
+                  </TableCell>
+                  <TableCell>
+                  <p style={{fontSize:'15px', fontWeight:'800'}}>Time</p>
                   </TableCell>
                   <TableCell>
                   <p style={{fontSize:'15px', fontWeight:'800'}}>Status</p>
@@ -80,11 +84,19 @@ import InfoDialog from "../Utility/InfoDialog";
                         </TableCell>
                         <TableCell>
                         <span style={{ fontSize: 12 }}>
+                              {item.time
+                                ? item.time
+                                : "  -     "}
+                            </span>{" "}
+                        </TableCell>
+                        <TableCell>
+                        <span style={{ fontSize: 12 }}>
                               {item.status
                                 ? item.status
                                 : "  -     "}
                             </span>{" "}
                         </TableCell>
+                        
                         </TableRow>
                         </>)})}
                       <TableRow>
