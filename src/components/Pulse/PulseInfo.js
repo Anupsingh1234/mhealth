@@ -45,25 +45,25 @@ const PulseInfo = ({ open, setOpen, details }) => {
                         // objectFit: 'fill',
                       }}
                     />
-                    <div style={{ fontWeight: 800 }}>Health Package Name</div>
+                    <div style={{ fontWeight: 800 }}>Package Name</div>
                     <div style={{ fontSize: 12 }}>{details.healthPkgName}</div>
                     <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
-                      <div style={{ fontWeight: 800 }}> Health From Date</div>
-                      <div style={{ fontSize: 12 }}>{details.pkgBookingFrom.substring(0,10)} {details.pkgBookingFrom.substring(12,16)}</div>
+                      <div style={{ fontWeight: 800 }}>From Date</div>
+                      <div style={{ fontSize: 12 }}>{details.pkgBookingFrom.substring(0,10)}</div>
                     </div>
                     <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
-                      <div style={{ fontWeight: 800 }}>  Health To Date</div>
-                      <div style={{ fontSize: 12 }}>{details.pkgBookingTo.substring(0,10)} {details.pkgBookingTo.substring(12,16)}</div>
+                      <div style={{ fontWeight: 800 }}>To Date</div>
+                      <div style={{ fontSize: 12 }}>{details.pkgBookingTo.substring(0,10)}</div>
                     </div>
                     <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
-                      <div style={{ fontWeight: 800 }}> Test Package Name</div>
+                      <div style={{ fontWeight: 800 }}> Tests Covered in Package</div>
                       <div style={{ fontSize: 12 }}>{details.testPackageName.map((item)=>{
                           return(<>{item},{" "}</>)
                       })}</div>
                     </div>
                     <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
-                      <div style={{ fontWeight: 800 }}>Sample Collection</div>
-                      <div style={{ fontSize: 12 }}>{details.sample}</div>
+                      <div style={{ fontWeight: 800 }}>Home Simple Collection Facility</div>
+                      <div style={{ fontSize: 12 }}>{details.sample==="BOTH"||details.sample==="COLLECTION"?(<>YES</>):'NO'}</div>
                     </div>
                   </div>
                 {/* </>

@@ -44,7 +44,7 @@ const PackageCard = (eventID, currentEventObj) => {
     const [packageData,setPackageData]=useState([]);
     const [modalView,setModalView]=useState(false);
     const [packageId,setPackageId]=useState("")
-    const [stateCheck,setStateStateCheck]=useState("")
+    const [stateCheck,setStateStateCheck]=useState("STATE")
     const [packageDetail,setPackageDetail]=useState([])
     const [packageLabDetails,setPackageLabDetails]=useState([])
     const [partnerLabId,setPartnerLabId]=useState("")
@@ -174,8 +174,8 @@ const PackageCard = (eventID, currentEventObj) => {
             // setscoreDetails(res?.data?.response?.responseData);
           });
       };
-      const getLabDetails = (value) => {
-        const URL = `${urlPrefix}v1.0/getPkgLabsDetail?action=${stateCheck}&data=${value}&packageId=${packageId}`;
+      const getLabDetails = (value,state) => {
+        const URL = `${urlPrefix}v1.0/getPkgLabsDetail?action=${state}&data=${value}&packageId=${packageId}`;
         return axios
           .get(URL, {
             headers: {
@@ -289,9 +289,10 @@ const PackageCard = (eventID, currentEventObj) => {
       setPackageDetail([])
       setPackageLabDetails([])
       setSlotData([])
+      setStatus("")
   }
   const handleState=(e)=>{
-    getLabDetails(e.target.value);
+    getLabDetails(e.target.value,stateCheck);
     setStatus(e.target.name)
   }
   const handleCloseSlot=()=>{
@@ -305,6 +306,7 @@ const PackageCard = (eventID, currentEventObj) => {
     setDateState("00-00-0000");
      setTime("")
      setErrorObj()
+
   }
   const NextValue=(e)=>{
     e.preventDefault()
@@ -404,7 +406,7 @@ const PackageCard = (eventID, currentEventObj) => {
                         <div className="register-button">
                           <PrimaryButton
                             style={{ marginBottom: "10px" }}
-                            onClick={() =>{setModalView(true);setPackageId(item.id);setPkgSample(item.sample);packageInfo("STATE",item.id)}}
+                            onClick={() =>{packageInfo("STATE",item.id);setModalView(true);setPackageId(item.id);setPkgSample(item.sample);packageInfo("STATE",item.id)}}
                           >
                             Book Now
                           </PrimaryButton>
@@ -506,7 +508,7 @@ const PackageCard = (eventID, currentEventObj) => {
               </TableContainer></div>
               </Paper></div>
       </Modal>)} */}
-      {joinInfo&&(<JoiningDetails join={joinInfo} setJoin={setJoinInfo} bookingdetail1={booking}/>)}
+      {joinInfo&&(<JoiningDetails join={joinInfo} setJoin={setJoinInfo} bookingdetail1={booking} cards={card}/>)}
       {open&&(<PulseInfo open={open} setOpen={setOpen}  details={cardInfoDetail}/>)}
       {modalView&&(<InfoDialog open={modalView} onClose={handleClose}>
       <CancelIcon
