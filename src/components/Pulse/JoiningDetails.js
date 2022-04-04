@@ -140,7 +140,9 @@ import message from "antd-message";
                                 : "  -     "}
                             </span>{" "}
                         </TableCell>
+                        {item.status!=="CANCELLED"?
                         <TableCell style={{width:'50px'}}><PrimaryButton onClick={()=>handleCancel(item)}>Cancel</PrimaryButton></TableCell>
+                        :''}
                         </TableRow>
                         </>)})}
                       <TableRow>

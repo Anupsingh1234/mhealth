@@ -733,7 +733,7 @@ const PackageCard = (eventID, currentEventObj) => {
                           }}
                           maxDate={new Date(ddt)}
                           locale="us"
-                          minDate={new Date()}
+                          minDate={new Date(new Date().getTime()+(2*24*60*60*1000))}
                         />
                       </div>
                     </div>
