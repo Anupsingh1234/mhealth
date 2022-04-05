@@ -796,6 +796,7 @@ const hadleEdit=(row)=>{
                     </label>
 
                     <input
+                    type="number"
                       autofocus="autofocus"
                       style={{
                         background: "#f3f4f6",
@@ -805,7 +806,7 @@ const hadleEdit=(row)=>{
                         width: "95%",
                         border: "1px solid black",
                       }}
-                      value={assessment.ageGroupFrom.replace(/[^0-9]/g,"")}
+                      value={assessment.ageGroupFrom}
                       onChange={inputsHandler}
                       placeholder="0-50"
                       name="ageGroupFrom"
@@ -836,6 +837,7 @@ const hadleEdit=(row)=>{
                     </label>
 
                     <input
+                    type="number"
                       autofocus="autofocus"
                       style={{
                         background: "#f3f4f6",
@@ -846,7 +848,7 @@ const hadleEdit=(row)=>{
                         border: "1px solid black",
                       }}
                       placeholder="0-100"
-                      value={assessment.ageGroupTo.replace(/[^0-9]/g,"")}
+                      value={assessment.ageGroupTo}
                       onChange={inputsHandler}
                       name="ageGroupTo"
                     />
@@ -925,6 +927,7 @@ const hadleEdit=(row)=>{
                     </label>
 
                     <input
+                    type="number"
                       autofocus="autofocus"
                       style={{
                         background: "#f3f4f6",
@@ -935,7 +938,7 @@ const hadleEdit=(row)=>{
                         border: "1px solid black",
                       }}
                       placeholder="0-30"
-                      value={assessment.reattemptAfterDays.replace(/[^0-9]/g,"")}
+                      value={assessment.reattemptAfterDays}
                       onChange={inputsHandler}
                       name="reattemptAfterDays"
                     />

@@ -62,7 +62,7 @@ const CreateAssisment = () => {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("");
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [duplicateModal, setDuplicateModal] = useState(false);
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
@@ -662,7 +662,7 @@ const [optionData,setOptionData]=useState({
         .then((res) => {
           getOption(optionData.questionId)
           setOptionData({
-            questionId:"",
+            questionId:optionData.questionId,
   optionText:'',
   additionalInfo:'',
   optionScore:'',
@@ -685,6 +685,16 @@ const [optionData,setOptionData]=useState({
   }
 
   const [image, setImage] = useState("question");
+  const handleOption=()=>{
+    setOptionModal(false);
+    setOptionData({
+      questionId:"",
+optionText:'',
+additionalInfo:'',
+optionScore:'',
+      
+    });
+  }
 
   return (
     <>
@@ -1230,7 +1240,7 @@ const [optionData,setOptionData]=useState({
       {optionModal&&(
           <InfoDialog
             open={optionModal}
-            onClose={() => setOptionModal(false)}
+            onClose={handleOption}
           >
             <CancelIcon
               style={{
@@ -1241,10 +1251,7 @@ const [optionData,setOptionData]=useState({
                 marginLeft: "95%",
                 marginTop: "-5%",
               }}
-              onClick={() => {
-                setOptionModal(false);
-                 
-              }}
+              onClick={handleOption}
             />
             <div style={{ height: "450px",width: "100%",}}>
             
@@ -1372,6 +1379,7 @@ const [optionData,setOptionData]=useState({
                     </label>
 
                     <input
+                    type="number"
                       autofocus="autofocus"
                       style={{
                         background: "#f3f4f6",
