@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TopUserDetails from "./TopUserDetails";
 import { lighten, useTheme } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
@@ -42,7 +42,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
 import { Assessment } from "@material-ui/icons";
-import NoData from './NoData'
+import NoData from "./NoData";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -67,13 +67,12 @@ const CreateAssisment = () => {
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
   const [errorobj1, setErrorObj1] = useState();
-  const [imageData,setImageData]=useState({image:'',
-image_obj:'',});
+  const [imageData, setImageData] = useState({ image: "", image_obj: "" });
   const [imageModal, setImageModal] = useState(false);
-  const [optionModal,setOptionModal]=useState(false)
-  const [optionType,setOptionType]=useState()
-  const [questionid,setQuestionId]=useState("")
-  const [imgId,setImgId]=useState("")
+  const [optionModal, setOptionModal] = useState(false);
+  const [optionType, setOptionType] = useState();
+  const [questionid, setQuestionId] = useState("");
+  const [imgId, setImgId] = useState("");
   console.log(addId);
   const [duplicate, setDuplicate] = useState({
     eventId: "",
@@ -250,7 +249,7 @@ image_obj:'',});
       numeric: false,
       disablePadding: true,
     },
-    
+
     {
       label: "Edit",
       // id: 'durationInTime',
@@ -372,7 +371,7 @@ image_obj:'',});
 
   const [getQuiz, setGEtQuiz] = useState([]);
   const [getHra, setGetHra] = useState([]);
-  const [getQuestion,setGetQuestion]=useState([])
+  const [getQuestion, setGetQuestion] = useState([]);
   console.log(getQuiz);
   const ques = (id) => {
     const adminurl = `${urlPrefix}v1.0/getAllEventHra?challengerZoneId=${id}`;
@@ -398,21 +397,22 @@ image_obj:'',});
     const formData = new FormData();
     formData.append("image", imageData.image_obj);
     const adminurl = `${urlPrefix}v1.0/uploadHRAImage?id=${imgId}&key=QUESTION`;
- 
-    return axios.post(adminurl, formData,{
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            timeStamp: "timestamp",
-      accept: "*/*",
-      "Content-type": "multipart/form-data; boundary=???",
-      withCredentials: true,
-          },
+
+    return axios
+      .post(adminurl, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Content-type": "multipart/form-data; boundary=???",
+          withCredentials: true,
+        },
       })
       .then((res) => {
-       if(res.data.response.responseMessage==="SUCCESS"){
-        Message.success(res.data.response.responseData);
-        setImageModal(false)
-       }
+        if (res.data.response.responseMessage === "SUCCESS") {
+          Message.success(res.data.response.responseData);
+          setImageModal(false);
+        }
       });
   };
   const question = (id) => {
@@ -435,7 +435,7 @@ image_obj:'',});
         setGetQuestion(res.data.response.responseData);
       });
   };
-  const [getOptionData,setGetOptionData]=useState([])
+  const [getOptionData, setGetOptionData] = useState([]);
   const getOption = (id) => {
     const adminurl = `${urlPrefix}v1.0/getQuesWiseAllOption?questionId=${id}`;
     console.log(adminurl);
@@ -486,21 +486,21 @@ image_obj:'',});
   const eventName = condition.events;
   console.log(eventName);
   const [assessment, setAssessment] = useState({
-    eventId:"",
+    eventId: "",
     hraId: "",
     question: "",
     queDescription: "",
     answerType: "",
-    id:""
+    id: "",
   });
-const [optionData,setOptionData]=useState({
-  id:'',
-  questionId:questionid,
-  optionText:'',
-  additionalInfo:'',
-  optionScore:'',
-})
-  console.log(assessment,optionData,'asseemme');
+  const [optionData, setOptionData] = useState({
+    id: "",
+    questionId: questionid,
+    optionText: "",
+    additionalInfo: "",
+    optionScore: "",
+  });
+  console.log(assessment, optionData, "asseemme");
 
   const [modalview, setModalView] = useState(false);
   const inputsHandler = (e) => {
@@ -530,39 +530,41 @@ const [optionData,setOptionData]=useState({
   if (setModalView === false) {
     ques(addId);
   }
-  const hadleEdit=(row)=>{
-    setAssessment(row)
-  }
-  const optionEdit=(row)=>{
-    setOptionData({ id:row.id,
-    questionId:questionid,
-    optionText:row.optionText,
-    additionalInfo:row.additionalInfo,
-    optionScore:row.optionScore,})
-  
-  }
-  const optionClick=(item)=>{
-    setQuestionId(item.id); setOptionModal(true);setOptionType(item.answerType);
-    getOption(item.id);setOptionData({...optionData,questionId:item.id})
-  }
+  const hadleEdit = (row) => {
+    setAssessment(row);
+  };
+  const optionEdit = (row) => {
+    setOptionData({
+      id: row.id,
+      questionId: questionid,
+      optionText: row.optionText,
+      additionalInfo: row.additionalInfo,
+      optionScore: row.optionScore,
+    });
+  };
+  const optionClick = (item) => {
+    setQuestionId(item.id);
+    setOptionModal(true);
+    setOptionType(item.answerType);
+    getOption(item.id);
+    setOptionData({ ...optionData, questionId: item.id });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     let payload = {};
     payload = {
-      id: assessment.id!==""?assessment.id:"",
+      id: assessment.id !== "" ? assessment.id : "",
       hraId: assessment.hraId,
       question: assessment.question,
       queDescription: assessment.queDescription,
-      answerType:assessment.answerType,
+      answerType: assessment.answerType,
     };
     if (
-      assessment.hraId!== "" &&
+      assessment.hraId !== "" &&
       assessment.question !== "" &&
-      
       assessment.queDescription !== "" &&
-      assessment.answerType!== ""
-     
+      assessment.answerType !== ""
     ) {
       const adminurl = `${urlPrefix}v1.0/createUpdateHraQue`;
       return axios
@@ -579,21 +581,20 @@ const [optionData,setOptionData]=useState({
           },
         })
         .then((res) => {
-          question(assessment.hraId)
+          question(assessment.hraId);
           setAssessment({
             // eventId:"",
             // hraId: "",
             question: "",
             queDescription: "",
             answerType: "",
-            
           });
 
           if (res.data.mhealthResponseMessage === "SUCCESS") {
             console.log(res.data.response.responseMessage);
             Message.success(res.data.response.responseMessage);
-            setImageModal(true)
-            setImgId(res.data.response.responseData.id)
+            setImageModal(true);
+            setImgId(res.data.response.responseData.id);
           }
         });
     } else {
@@ -601,7 +602,7 @@ const [optionData,setOptionData]=useState({
       setErrorObj(assessment);
     }
   };
-  
+
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -625,25 +626,23 @@ const [optionData,setOptionData]=useState({
       }
     }
   };
-  console.log(imageData.image_obj,'imgdd')
+  console.log(imageData.image_obj, "imgdd");
   const optionSubmit = (e) => {
     e.preventDefault();
-   
+
     let payload = {};
     payload = {
-      id: optionData.id!==""?optionData.id:null,
+      id: optionData.id !== "" ? optionData.id : null,
       optionText: optionData.optionText,
       additionalInfo: optionData.additionalInfo,
       optionScore: parseInt(optionData.optionScore),
-      quetionId:questionid,
+      quetionId: questionid,
     };
     if (
-      optionData.optionText!== "" &&
+      optionData.optionText !== "" &&
       optionData.optionScore !== "" &&
-      
       optionData.questionId !== "" &&
-      optionData.additionalInfo!== ""
-     
+      optionData.additionalInfo !== ""
     ) {
       const adminurl = `${urlPrefix}v1.0/createOrUdateOption`;
       return axios
@@ -660,13 +659,12 @@ const [optionData,setOptionData]=useState({
           },
         })
         .then((res) => {
-          getOption(optionData.questionId)
+          getOption(optionData.questionId);
           setOptionData({
-            questionId:"",
-  optionText:'',
-  additionalInfo:'',
-  optionScore:'',
-            
+            questionId: "",
+            optionText: "",
+            additionalInfo: "",
+            optionScore: "",
           });
 
           if (res.data.mhealthResponseMessage === "SUCCESS") {
@@ -688,212 +686,195 @@ const [optionData,setOptionData]=useState({
 
   return (
     <>
-       
-            
-                <div style={{ display: "flex", marginLeft: "30px" }}>
-                <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Select Event
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.eventId == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+      <div style={{ display: "flex", marginLeft: "30px" }}>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Select Event
+            {errorobj !== undefined && (
+              <>
+                {errorobj.eventId == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                   
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      
-                      value={assessment.eventId}
-                      onChange={inputsHandler}
-                      name="eventId"
-                    >
-                        <option value="">
-                         Select
-                        </option>
-                         {geteventId.map((day, index) =>{
-                             return(<>
-                        <option key={index} value={day.id}>
-                          {day.challengeName}
-                        </option>
-                        </>) })}
-                      
-                    </select>
-                  
-                  </div>
-                <div style={{ width: "30%" }}>
-                <label style={{ fontSize: 12 }}>
-                     Select Hra
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.hraId == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <select
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.eventId}
+            onChange={inputsHandler}
+            name="eventId"
+          >
+            <option value="">Select</option>
+            {geteventId.map((day, index) => {
+              return (
+                <>
+                  <option key={index} value={day.id}>
+                    {day.challengeName}
+                  </option>
+                </>
+              );
+            })}
+          </select>
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Select Hra
+            {errorobj !== undefined && (
+              <>
+                {errorobj.hraId == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                   
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      
-                      value={assessment.hraId}
-                      onChange={inputsHandler}
-                      name="hraId"
-                    >
-                        <option value="">
-                         Select
-                        </option>
-                         {getHra&&getHra.map((day, index) =>{
-                             return(<>
-                        <option value={day.id}>
-                          {day.assesmentName}
-                        </option>
-                        </>) })}
-                      
-                    </select>
-                  
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                      Answer Type
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.answerType == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <select
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.hraId}
+            onChange={inputsHandler}
+            name="hraId"
+          >
+            <option value="">Select</option>
+            {getHra &&
+              getHra.map((day, index) => {
+                return (
+                  <>
+                    <option value={day.id}>{day.assesmentName}</option>
+                  </>
+                );
+              })}
+          </select>
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Answer Type
+            {errorobj !== undefined && (
+              <>
+                {errorobj.answerType == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      
-                      value={assessment.answerType}
-                      onChange={inputsHandler}
-                      name="answerType"
-                    >
-                      <option value="">Select</option>
-                      <option value="SINGLE">SINGLE</option>
-                      <option value="MULTIPLE">MULTIPLE</option>
-                      <option value="TEXT">TEXT</option>
-                      
-                    </select>
-                  </div>
-                  
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    marginLeft: "30px",
-                    marginTop: "10px",
-                  }}
-                >
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Question
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.question == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <select
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.answerType}
+            onChange={inputsHandler}
+            name="answerType"
+          >
+            <option value="">Select</option>
+            <option value="SINGLE">SINGLE</option>
+            <option value="MULTIPLE">MULTIPLE</option>
+            <option value="TEXT">TEXT</option>
+          </select>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          marginLeft: "30px",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Question
+            {errorobj !== undefined && (
+              <>
+                {errorobj.question == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <textarea
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      value={assessment.question}
-                      onChange={inputsHandler}
-                      placeholder="Question"
-                      name="question"
-                    />
-                     
-                  
-                  </div>
-                  
-                  
-                      
-                                 <div style={{ width: "30%" }}>
-                                 <label style={{ fontSize: 12 }}>
-                    Description
-                      {/* {errorobj !== undefined && (
+          <textarea
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.question}
+            onChange={inputsHandler}
+            placeholder="Question"
+            name="question"
+          />
+        </div>
+
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Description
+            {/* {errorobj !== undefined && (
                         <>
                           {errorobj.reattemptAfterDays == "" ? (
                             <p
@@ -910,235 +891,218 @@ const [optionData,setOptionData]=useState({
                           )}
                         </>
                       )} */}
-                    </label>
+          </label>
 
-                    <textarea
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                        minHeight:'auto',
-                        maxHeight:'90vh'
-                        
-                      }}
-                      placeholder="Question Description"
-                      value={assessment.queDescription}
-                      onChange={inputsHandler}
-                      name="queDescription"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "30%",marginTop:'1.5%' }}>
-                  <PrimaryButton
-                      mini
-                      className="w-24 text-sm mt-4"
-                      onClick={handleSubmit}
-                    >
-                      Save Question
-                    </PrimaryButton>
-                  </div>
-                  
-                </div>
-               
+          <textarea
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+              minHeight: "auto",
+              maxHeight: "90vh",
+            }}
+            placeholder="Question Description"
+            value={assessment.queDescription}
+            onChange={inputsHandler}
+            name="queDescription"
+          />
+        </div>
+        <div style={{ width: "30%", marginTop: "1.5%" }}>
+          <PrimaryButton
+            mini
+            className="w-24 text-sm mt-4"
+            onClick={handleSubmit}
+          >
+            Save Question
+          </PrimaryButton>
+        </div>
+      </div>
 
-                <div style={{ minWidth: "800px", overflowX: "auto" }}>
-                  {/* <Paper className={classes.paper}> */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  >
-                    {/* <Tooltip title="Export data">
+      <div style={{ minWidth: "800px", overflowX: "auto" }}>
+        {/* <Paper className={classes.paper}> */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          {/* <Tooltip title="Export data">
                       <CSVLink data={datas} headers={headers} separator={','}>
                         <SystemUpdateAltIcon />
                       </CSVLink>
                     </Tooltip> */}
-                    <div className="d-flex a-i-center">
-                      {getQuestion && getQuestion.length > 0 ? (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={getQuestion && getQuestion.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      ) : (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={0}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  {/* <Modal open={modal} /> */}
+          <div className="d-flex a-i-center">
+            {getQuestion && getQuestion.length > 0 ? (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                component="div"
+                count={getQuestion && getQuestion.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            ) : (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                component="div"
+                count={0}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            )}
+          </div>
+        </div>
+        {/* <Modal open={modal} /> */}
 
-                  <div style={{}}></div>
+        <div style={{}}></div>
 
-                  {getQuestion && getQuestion.length > 0 ? (
-                    <div style={{ padding: 20 }}>
-                      <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
-                        size={"small"}
-                        aria-label="enhanced table"
-                      >
-                        {" "}
-                        <EnhancedTableHead
-                          style={{ fontSize: "5px" }}
-                          classes={classes}
-                          order={order}
-                          orderBy={orderBy}
-                          onRequestSort={handleRequestSort}
-                        />
-                        <TableBody>
-                          {getQuestion &&
-                            stableSort(getQuestion, getComparator(order, orderBy))
-                              .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                              .map((item, ind) => {
-                                return (
-                                  <>
-                                    <TableRow className="performace-table-row">
-                                      {" "}
-                                      <TableCell align="center">
-                                        {" "}
-                                        <span style={{ fontSize: 12 }}>
-                                          {ind + 1}
-                                        </span>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p
-                                          style={{
-                                            whiteSpace: "nowrap",
-                                            textOverflow: "ellipsis",
-                                            width: "200px",
-                                            display: "block",
-                                            overflow: "hidden",
-                                            fontSize: 12,
-                                          }}
-                                        >
-                                          {" "}
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.question
-                                              ? item.question
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p style={{ width: "100px" }}>
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.answerType
-                                              ? item.answerType
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        {" "}
-                                        {item.queDescription
-                                          ? item.queDescription
-                                          : "  -     "}
-                                      </TableCell>
-                                     
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12,width:'100px' }}
-                                      >
-                                        <PrimaryButton
-                                          mini
-                                          className="w-24 text-sm mx-auto"
-                                          onClick={() => {
-                                            hadleEdit(item)}}
-                                        >
-                                         Edit
-                                        </PrimaryButton>
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12,width:'120px' }}
-                                      >
-                                        <PrimaryButton
-                                          mini
-                                          className="w-24 text-sm mx-auto"
-                                          onClick={()=>{optionClick(item)}}
-                                          // onClick={() => {
-                                          //   setOptionData({...optionData,questionId:item.id}); setOptionModal(true);setOptionType(item.answerType);}}
-                                        >
-                                         Add Option
-                                        </PrimaryButton>
-                                      </TableCell>
-                                    </TableRow>
-                                  </>
-                                );
-                              })}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  ) : (
-                    <>
-                      <div
-                        style={{
-                          height: 250,
-                          padding: "5px",
-                          marginTop: 30,
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          fontSize: 12,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        className=""
-                      >
-                        {" "}
-                        {/* <img
+        {getQuestion && getQuestion.length > 0 ? (
+          <div style={{ padding: 20 }}>
+            <Table
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              size={"small"}
+              aria-label="enhanced table"
+            >
+              {" "}
+              <EnhancedTableHead
+                style={{ fontSize: "5px" }}
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {getQuestion &&
+                  stableSort(getQuestion, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, ind) => {
+                      return (
+                        <>
+                          <TableRow className="performace-table-row">
+                            {" "}
+                            <TableCell align="center">
+                              {" "}
+                              <span style={{ fontSize: 12 }}>
+                                {ind + 1}
+                              </span>{" "}
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <p
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                  width: "200px",
+                                  display: "block",
+                                  overflow: "hidden",
+                                  fontSize: 12,
+                                }}
+                              >
+                                {" "}
+                                <span style={{ fontSize: 12 }}>
+                                  {item.question ? item.question : "  -     "}
+                                </span>{" "}
+                              </p>{" "}
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <p style={{ width: "100px" }}>
+                                <span style={{ fontSize: 12 }}>
+                                  {item.answerType
+                                    ? item.answerType
+                                    : "  -     "}
+                                </span>{" "}
+                              </p>{" "}
+                            </TableCell>
+                            <TableCell align="center" style={{ fontSize: 12 }}>
+                              {" "}
+                              {item.queDescription
+                                ? item.queDescription
+                                : "  -     "}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              style={{ fontSize: 12, width: "100px" }}
+                            >
+                              <PrimaryButton
+                                mini
+                                className="w-24 text-sm mx-auto"
+                                onClick={() => {
+                                  hadleEdit(item);
+                                }}
+                              >
+                                Edit
+                              </PrimaryButton>
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              style={{ fontSize: 12, width: "120px" }}
+                            >
+                              <PrimaryButton
+                                mini
+                                className="w-24 text-sm mx-auto"
+                                onClick={() => {
+                                  optionClick(item);
+                                }}
+                                // onClick={() => {
+                                //   setOptionData({...optionData,questionId:item.id}); setOptionModal(true);setOptionType(item.answerType);}}
+                              >
+                                Add Option
+                              </PrimaryButton>
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      );
+                    })}
+              </TableBody>
+            </Table>
+          </div>
+        ) : (
+          <>
+            <div
+              style={{
+                height: 250,
+                padding: "5px",
+                marginTop: 30,
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                fontSize: 12,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              className=""
+            >
+              {" "}
+              {/* <img
                           style={{ width: 200, height: 200 }}
                           src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                         /> */}
-                        <NoData/>
-                        Data is not present
-                      </div>{" "}
-                    </>
-                  )}
-                </div>
-             
-         
-       
-      
+              <NoData />
+              Data is not present
+            </div>{" "}
+          </>
+        )}
+      </div>
+
       <div>
         {modalview && (
           <QuestionModal modalView={modalview} setModalView={setModalView} />
         )}
-       {
-          <InfoDialog
-            open={imageModal}
-            onClose={() => setImageModal(false)}
-          >
+        {
+          <InfoDialog open={imageModal} onClose={() => setImageModal(false)}>
             <CancelIcon
               style={{
                 // top: 50,
@@ -1150,11 +1114,10 @@ const [optionData,setOptionData]=useState({
               }}
               onClick={() => {
                 setImageModal(false);
-                 
               }}
             />
             <div style={{ height: "250px", width: "400px", marginLeft: "15%" }}>
-            <div
+              <div
                 className="mhealth-input-box padding-025em"
                 style={{
                   display: "flex",
@@ -1172,7 +1135,7 @@ const [optionData,setOptionData]=useState({
                   <label
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                   Assessment Image{" "}
+                    Assessment Image{" "}
                     {/* {assessment.imgPath && (
                       <span
                         style={{ cursor: "pointer", color: "red" }}
@@ -1192,7 +1155,7 @@ const [optionData,setOptionData]=useState({
                     className="create-event-logo"
                     style={{ border: "1px solid #eee" }}
                   >
-                    {imageData.image? (
+                    {imageData.image ? (
                       <>
                         <img
                           style={{ width: "100%", height: "100%" }}
@@ -1215,375 +1178,364 @@ const [optionData,setOptionData]=useState({
                     style={{ display: "none" }}
                     onChange={onFileChange}
                   />
-                  <div style={{marginTop:'3%'}}><PrimaryButton onClick={imageUpload}>Save Image</PrimaryButton></div>
-                  
+                  <div style={{ marginTop: "3%" }}>
+                    <PrimaryButton onClick={imageUpload}>
+                      Save Image
+                    </PrimaryButton>
+                  </div>
                 </div>
-                
               </div>
-              
             </div>
           </InfoDialog>
         }
-         
-       
       </div>
-      {optionModal&&(
-          <InfoDialog
-            open={optionModal}
-            onClose={() => setOptionModal(false)}
-          >
-            <CancelIcon
+      {optionModal && (
+        <InfoDialog open={optionModal} onClose={() => setOptionModal(false)}>
+          <CancelIcon
+            style={{
+              // top: 50,
+              right: 10,
+              color: "#ef5350",
+              cursor: "pointer",
+              marginLeft: "95%",
+              marginTop: "-5%",
+            }}
+            onClick={() => {
+              setOptionModal(false);
+            }}
+          />
+          <div style={{ height: "450px", width: "100%" }}>
+            <div
               style={{
-                // top: 50,
-                right: 10,
-                color: "#ef5350",
-                cursor: "pointer",
-                marginLeft: "95%",
-                marginTop: "-5%",
+                display: "flex",
+                marginLeft: "30px",
+                marginTop: "10px",
               }}
-              onClick={() => {
-                setOptionModal(false);
-                 
+            >
+              <div style={{ width: "50%" }}>
+                <label style={{ fontSize: 12 }}>
+                  Option Text
+                  {errorobj1 !== undefined && (
+                    <>
+                      {errorobj1.optionText == "" ? (
+                        <p
+                          style={{
+                            color: "red",
+                            marginLeft: "22%",
+                            marginTop: "-4%",
+                          }}
+                        >
+                          Required
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  )}
+                </label>
+
+                <textarea
+                  autofocus="autofocus"
+                  style={{
+                    background: "#f3f4f6",
+                    padding: "10px 10px",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    width: "95%",
+                    border: "1px solid black",
+                  }}
+                  value={optionData.optionText}
+                  onChange={inputsOption}
+                  placeholder="Type Option"
+                  name="optionText"
+                />
+              </div>
+
+              <div style={{ width: "50%" }}>
+                <label style={{ fontSize: 12 }}>
+                  Additional Information
+                  {errorobj1 !== undefined && (
+                    <>
+                      {errorobj1.additionalInfo == "" ? (
+                        <p
+                          style={{
+                            color: "red",
+                            marginLeft: "22%",
+                            marginTop: "-4%",
+                          }}
+                        >
+                          Required
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  )}
+                </label>
+
+                <textarea
+                  autofocus="autofocus"
+                  style={{
+                    background: "#f3f4f6",
+                    padding: "10px 10px",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    width: "95%",
+                    border: "1px solid black",
+                    minHeight: "auto",
+                    maxHeight: "90vh",
+                  }}
+                  placeholder="Additional Information"
+                  value={optionData.additionalInfo}
+                  onChange={inputsOption}
+                  name="additionalInfo"
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                marginLeft: "30px",
+                marginTop: "10px",
               }}
-            />
-            <div style={{ height: "450px",width: "100%",}}>
-            
-                <div
+            >
+              <div style={{ width: "50%" }}>
+                <label style={{ fontSize: 12 }}>
+                  Option Score
+                  {errorobj1 !== undefined && (
+                    <>
+                      {errorobj1.optionScore == "" ? (
+                        <p
+                          style={{
+                            color: "red",
+                            marginLeft: "22%",
+                            marginTop: "-4%",
+                          }}
+                        >
+                          Required
+                        </p>
+                      ) : (
+                        ""
+                      )}
+                    </>
+                  )}
+                </label>
+
+                <input
+                  autofocus="autofocus"
                   style={{
-                    display: "flex",
-                    marginLeft: "30px",
-                    marginTop: "10px",
+                    background: "#f3f4f6",
+                    padding: "10px 10px",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    width: "95%",
+                    border: "1px solid black",
                   }}
+                  value={optionData.optionScore}
+                  onChange={inputsOption}
+                  placeholder="Option Score"
+                  name="optionScore"
+                />
+              </div>
+              <div style={{ width: "10%", marginTop: "1.5%" }}></div>
+              <div style={{ width: "30%", marginTop: "1.5%" }}>
+                <PrimaryButton
+                  mini
+                  className="w-24 text-sm mt-4"
+                  onClick={optionSubmit}
                 >
-                  <div style={{ width: "50%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Option Text
-                      {errorobj1 !== undefined && (
-                        <>
-                          {errorobj1.optionText == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <textarea
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      value={optionData.optionText}
-                      onChange={inputsOption}
-                      placeholder="Type Option"
-                      name="optionText"
-                    />
-                     
-                  
-                  </div>
-                  
-                  
-                      
-                                 <div style={{ width: "50%" }}>
-                                 <label style={{ fontSize: 12 }}>
-                                 Additional Information 
-                      {errorobj1 !== undefined && (
-                        <>
-                          {errorobj1.additionalInfo == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <textarea
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                        minHeight:'auto',
-                        maxHeight:'90vh'
-                        
-                      }}
-                      placeholder="Additional Information"
-                      value={optionData.additionalInfo}
-                      onChange={inputsOption}
-                      name="additionalInfo"
-                    />
-                     
-                  
-                  </div>
-                  </div>
-                  <div
-                  style={{
-                    display: "flex",
-                    marginLeft: "30px",
-                    marginTop: "10px",
-                  }}
-                >
-                   <div style={{ width: "50%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Option Score
-                      {errorobj1 !== undefined && (
-                        <>
-                          {errorobj1.optionScore == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      value={optionData.optionScore}
-                      onChange={inputsOption}
-                      placeholder="Option Score"
-                      name="optionScore"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "10%",marginTop:'1.5%' }}></div>
-                  <div style={{ width: "30%",marginTop:'1.5%' }}>
-                  <PrimaryButton
-                      mini
-                      className="w-24 text-sm mt-4"
-                      onClick={optionSubmit}
-                    >
-                      Save Option
-                    </PrimaryButton>
-                  </div>
-                  </div>
-                  <div style={{ minWidth: "800px", overflowX: "auto" }}>
-                  {/* <Paper className={classes.paper}> */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  >
-                    {/* <Tooltip title="Export data">
+                  Save Option
+                </PrimaryButton>
+              </div>
+            </div>
+            <div style={{ minWidth: "800px", overflowX: "auto" }}>
+              {/* <Paper className={classes.paper}> */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+              >
+                {/* <Tooltip title="Export data">
                       <CSVLink data={datas} headers={headers} separator={','}>
                         <SystemUpdateAltIcon />
                       </CSVLink>
                     </Tooltip> */}
-                    <div className="d-flex a-i-center">
-                      {getOptionData && getOptionData.length > 0 ? (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={getOptionData && getOptionData.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      ) : (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={0}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  {/* <Modal open={modal} /> */}
-
-                  <div style={{}}></div>
-
+                <div className="d-flex a-i-center">
                   {getOptionData && getOptionData.length > 0 ? (
-                    <div style={{ padding: 20 }}>
-                      <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
-                        size={"small"}
-                        aria-label="enhanced table"
-                      >
-                        {" "}
-                        <TableHead>
-        <TableRow >
-         <TableCell style={{fontWeight:'800px'}}>S.N.</TableCell>
-         <TableCell style={{fontWeight:'800px'}}>Option Text</TableCell>
-         <TableCell style={{fontWeight:'800px'}}>Additional Info</TableCell>
-         <TableCell style={{fontWeight:'800px'}}>Option Score</TableCell>
-        </TableRow>
-      </TableHead>
-                        <TableBody>
-                          {getOptionData &&
-                            stableSort(getOptionData, getComparator(order, orderBy))
-                              .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                              .map((item, ind) => {
-                                return (
-                                  <>
-                                  
-                                    <TableRow className="performace-table-row">
-                                      {" "}
-                                      <TableCell align="center">
-                                        {" "}
-                                        <span style={{ fontSize: 12 }}>
-                                          {ind + 1}
-                                        </span>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p
-                                          style={{
-                                            whiteSpace: "nowrap",
-                                            textOverflow: "ellipsis",
-                                            width: "200px",
-                                            display: "block",
-                                            overflow: "hidden",
-                                            fontSize: 12,
-                                          }}
-                                        >
-                                          {" "}
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.optionText
-                                              ? item.optionText
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p
-                                          style={{
-                                            whiteSpace: "nowrap",
-                                            textOverflow: "ellipsis",
-                                            width: "200px",
-                                            display: "block",
-                                            overflow: "hidden",
-                                            fontSize: 12,
-                                          }}
-                                        >
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.additionalInfo
-                                              ? item.additionalInfo
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        {" "}
-                                        {item.optionScore
-                                          ? item.optionScore
-                                          : "  -     "}
-                                      </TableCell>
-                                     
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12,width:'100px' }}
-                                      >
-                                        <PrimaryButton
-                                          mini
-                                          className="w-24 text-sm mx-auto"
-                                          onClick={() => {
-                                            optionEdit(item)}}
-                                        >
-                                         Edit
-                                        </PrimaryButton>
-                                      </TableCell>
-                                     
-                                    </TableRow>
-                                  </>
-                                );
-                              })}
-                        </TableBody>
-                      </Table>
-                    </div>
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                      component="div"
+                      count={getOptionData && getOptionData.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onChangePage={handleChangePage}
+                      onChangeRowsPerPage={handleChangeRowsPerPage}
+                      ActionsComponent={TablePaginationActions}
+                    />
                   ) : (
-                    <>
-                      <div
-                        style={{
-                          height: 250,
-                          padding: "5px",
-                          marginTop: 30,
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          fontSize: 12,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        className=""
-                      >
-                        {" "}
-                        {/* <img
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                      component="div"
+                      count={0}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onChangePage={handleChangePage}
+                      onChangeRowsPerPage={handleChangeRowsPerPage}
+                      ActionsComponent={TablePaginationActions}
+                    />
+                  )}
+                </div>
+              </div>
+              {/* <Modal open={modal} /> */}
+
+              <div style={{}}></div>
+
+              {getOptionData && getOptionData.length > 0 ? (
+                <div style={{ padding: 20 }}>
+                  <Table
+                    className={classes.table}
+                    aria-labelledby="tableTitle"
+                    size={"small"}
+                    aria-label="enhanced table"
+                  >
+                    {" "}
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{ fontWeight: "800px" }}>
+                          S.N.
+                        </TableCell>
+                        <TableCell style={{ fontWeight: "800px" }}>
+                          Option Text
+                        </TableCell>
+                        <TableCell style={{ fontWeight: "800px" }}>
+                          Additional Info
+                        </TableCell>
+                        <TableCell style={{ fontWeight: "800px" }}>
+                          Option Score
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {getOptionData &&
+                        stableSort(getOptionData, getComparator(order, orderBy))
+                          .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage
+                          )
+                          .map((item, ind) => {
+                            return (
+                              <>
+                                <TableRow className="performace-table-row">
+                                  {" "}
+                                  <TableCell align="center">
+                                    {" "}
+                                    <span style={{ fontSize: 12 }}>
+                                      {ind + 1}
+                                    </span>{" "}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    {" "}
+                                    <p
+                                      style={{
+                                        whiteSpace: "nowrap",
+                                        textOverflow: "ellipsis",
+                                        width: "200px",
+                                        display: "block",
+                                        overflow: "hidden",
+                                        fontSize: 12,
+                                      }}
+                                    >
+                                      {" "}
+                                      <span style={{ fontSize: 12 }}>
+                                        {item.optionText
+                                          ? item.optionText
+                                          : "  -     "}
+                                      </span>{" "}
+                                    </p>{" "}
+                                  </TableCell>
+                                  <TableCell align="left">
+                                    {" "}
+                                    <p
+                                      style={{
+                                        whiteSpace: "nowrap",
+                                        textOverflow: "ellipsis",
+                                        width: "200px",
+                                        display: "block",
+                                        overflow: "hidden",
+                                        fontSize: 12,
+                                      }}
+                                    >
+                                      <span style={{ fontSize: 12 }}>
+                                        {item.additionalInfo
+                                          ? item.additionalInfo
+                                          : "  -     "}
+                                      </span>{" "}
+                                    </p>{" "}
+                                  </TableCell>
+                                  <TableCell
+                                    align="center"
+                                    style={{ fontSize: 12 }}
+                                  >
+                                    {" "}
+                                    {item.optionScore
+                                      ? item.optionScore
+                                      : "  -     "}
+                                  </TableCell>
+                                  <TableCell
+                                    align="center"
+                                    style={{ fontSize: 12, width: "100px" }}
+                                  >
+                                    <PrimaryButton
+                                      mini
+                                      className="w-24 text-sm mx-auto"
+                                      onClick={() => {
+                                        optionEdit(item);
+                                      }}
+                                    >
+                                      Edit
+                                    </PrimaryButton>
+                                  </TableCell>
+                                </TableRow>
+                              </>
+                            );
+                          })}
+                    </TableBody>
+                  </Table>
+                </div>
+              ) : (
+                <>
+                  <div
+                    style={{
+                      height: 250,
+                      padding: "5px",
+                      marginTop: 30,
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      fontSize: 12,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                    className=""
+                  >
+                    {" "}
+                    {/* <img
                           style={{ width: 200, height: 200 }}
                           src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                         /> */}
-                        <NoData/>
-                        Data is not present
-                      </div>{" "}
-                    </>
-                  )}
-                </div>
-             
-                </div>
-              
-           
-          </InfoDialog>)
-        }
- </> );
+                    <NoData />
+                    Data is not present
+                  </div>{" "}
+                </>
+              )}
+            </div>
+          </div>
+        </InfoDialog>
+      )}
+    </>
+  );
 };
 export default CreateAssisment;

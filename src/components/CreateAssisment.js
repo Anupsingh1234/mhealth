@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TopUserDetails from "./TopUserDetails";
 import { lighten, useTheme } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
@@ -42,7 +42,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
 import { Assessment } from "@material-ui/icons";
-import NoData from './NoData'
+import NoData from "./NoData";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -55,8 +55,6 @@ const MenuProps = {
   },
 };
 
-
-
 const CreateAssisment = () => {
   // const [modalStyle] = React.useState(getModalStyle);
   const eventImageInputRef = React.createRef();
@@ -68,8 +66,7 @@ const CreateAssisment = () => {
   const [imageModal, setImageModal] = useState(false);
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
-  const [imageData,setImageData]=useState({image:'',
-  image_obj:'',});
+  const [imageData, setImageData] = useState({ image: "", image_obj: "" });
   console.log(addId);
   const [duplicate, setDuplicate] = useState({
     eventId: "",
@@ -258,7 +255,7 @@ const CreateAssisment = () => {
       numeric: false,
       disablePadding: true,
     },
-    
+
     {
       label: "Edit",
       // id: 'durationInTime',
@@ -384,7 +381,7 @@ const CreateAssisment = () => {
     }
   };
   const [eventid, setEventid] = useState("");
-const [hraid,setHraId]=useState("")
+  const [hraid, setHraId] = useState("");
   const [getQuiz, setGEtQuiz] = useState([]);
   console.log(getQuiz);
   const ques = (id) => {
@@ -430,27 +427,28 @@ const [hraid,setHraId]=useState("")
       }
     }
   };
-  const [imgId,setImgId]=useState("")
+  const [imgId, setImgId] = useState("");
   const imageUpload = () => {
     const formData = new FormData();
     formData.append("image", imageData.image_obj);
     const adminurl = `${urlPrefix}v1.0/uploadHRAImage?id=${imgId}&key=HRACARD`;
- 
-    return axios.post(adminurl, formData,{
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            timeStamp: "timestamp",
-      accept: "*/*",
-      "Content-type": "multipart/form-data; boundary=???",
-      withCredentials: true,
-          },
+
+    return axios
+      .post(adminurl, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Content-type": "multipart/form-data; boundary=???",
+          withCredentials: true,
+        },
       })
       .then((res) => {
-        if(res.data.response.responseMessage==="SUCCESS"){
+        if (res.data.response.responseMessage === "SUCCESS") {
           Message.success(res.data.response.responseData);
-          setImageModal(false)
-         }
-        });
+          setImageModal(false);
+        }
+      });
   };
   const [geteventId, setGetEventId] = useState([]);
   const getEvent = () => {
@@ -482,7 +480,7 @@ const [hraid,setHraId]=useState("")
   const eventName = condition.events;
   console.log(eventName);
   const [assessment, setAssessment] = useState({
-      eventId:"",
+    eventId: "",
     ageGroupFrom: "",
     ageGroupTo: "",
     assesmentName: "",
@@ -490,31 +488,32 @@ const [hraid,setHraId]=useState("")
     description: "",
     gender: "",
     reattemptAfterDays: "",
-    id:""
+    id: "",
   });
 
-const hadleEdit=(row)=>{
-  setAssessment({
-    eventId:assessment.eventId,
-  ageGroupFrom: row.ageGroupFrom,
-  ageGroupTo: row.ageGroupTo,
-  assesmentName:row.assesmentName,
-  attachedToChallengerzone:  row.attachedToChallengerzone &&
-  Array.isArray(row.attachedToChallengerzone)
-    ? row.attachedToChallengerzone?.map((item) => {
-        if (geteventId.filter((elm) => elm.id == item)[0]) {
-          return geteventId.filter((elm) => elm.id == item)[0][
-            "challengeName"
-          ];
-        }
-      })
-    : [],
-  description: row.description,
-  gender:row.gender,
-  reattemptAfterDays:row.reattemptAfterDays,
-  id:row.id
-})
-}
+  const hadleEdit = (row) => {
+    setAssessment({
+      eventId: assessment.eventId,
+      ageGroupFrom: row.ageGroupFrom,
+      ageGroupTo: row.ageGroupTo,
+      assesmentName: row.assesmentName,
+      attachedToChallengerzone:
+        row.attachedToChallengerzone &&
+        Array.isArray(row.attachedToChallengerzone)
+          ? row.attachedToChallengerzone?.map((item) => {
+              if (geteventId.filter((elm) => elm.id == item)[0]) {
+                return geteventId.filter((elm) => elm.id == item)[0][
+                  "challengeName"
+                ];
+              }
+            })
+          : [],
+      description: row.description,
+      gender: row.gender,
+      reattemptAfterDays: row.reattemptAfterDays,
+      id: row.id,
+    });
+  };
   const [modalview, setModalView] = useState(false);
   const inputsHandler = (e) => {
     const name = e.target.name;
@@ -531,34 +530,35 @@ const hadleEdit=(row)=>{
 
   const handleSubmit = (e) => {
     e.preventDefault();
- 
+
     let payload = {};
     payload = {
-      id:assessment.id!==""?assessment.id:null,
+      id: assessment.id !== "" ? assessment.id : null,
       ageGroupFrom: assessment.ageGroupFrom,
-    ageGroupTo: assessment.ageGroupTo,
-    assesmentName: assessment.assesmentName,
-    attachedToChallengerzone:assessment.attachedToChallengerzone .filter((check) => check)
-    .map((item) => {
-      return geteventId.filter(
-        (elm) =>
-          elm.isActive == 1 &&
-          elm.timePeriod !== "PAST" &&
-          elm.challengeName == item
-      )[0]["id"];
-    }),
-    description: assessment.description,
-    gender: assessment.gender,
-    reattemptAfterDays: assessment.reattemptAfterDays,
+      ageGroupTo: assessment.ageGroupTo,
+      assesmentName: assessment.assesmentName,
+      attachedToChallengerzone: assessment.attachedToChallengerzone
+        .filter((check) => check)
+        .map((item) => {
+          return geteventId.filter(
+            (elm) =>
+              elm.isActive == 1 &&
+              elm.timePeriod !== "PAST" &&
+              elm.challengeName == item
+          )[0]["id"];
+        }),
+      description: assessment.description,
+      gender: assessment.gender,
+      reattemptAfterDays: assessment.reattemptAfterDays,
     };
     if (
-        assessment.ageGroupFrom !== "" &&
-        assessment.ageGroupTo !== "" &&
-        assessment.assesmentName !== "" &&
-      assessment.attachedToChallengerzone!==[]&&
+      assessment.ageGroupFrom !== "" &&
+      assessment.ageGroupTo !== "" &&
+      assessment.assesmentName !== "" &&
+      assessment.attachedToChallengerzone !== [] &&
       assessment.description !== "" &&
-      assessment.gender!== ""&&
-      assessment.reattemptAfterDays!== ""
+      assessment.gender !== "" &&
+      assessment.reattemptAfterDays !== ""
     ) {
       const adminurl = `${urlPrefix}v1.0/createOrUpdateHraAssistment`;
       return axios
@@ -587,11 +587,11 @@ const hadleEdit=(row)=>{
           });
           setImageModal(true);
           if (res.data.mhealthResponseMessage === "SUCCESS") {
-            setHraId(res.data.response.responseData.id)
+            setHraId(res.data.response.responseData.id);
             console.log(res.data.response.responseMessage);
             Message.success(res.data.response.responseMessage);
-            setImageModal(true)
-            setImgId(res.data.response.responseData.id)
+            setImageModal(true);
+            setImgId(res.data.response.responseData.id);
           }
         });
     } else {
@@ -607,346 +607,327 @@ const hadleEdit=(row)=>{
 
   return (
     <>
-       
-            
-                <div style={{ display: "flex", marginLeft: "30px" }}>
-                <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Select Event
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.eventId == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+      <div style={{ display: "flex", marginLeft: "30px" }}>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Select Event
+            {errorobj !== undefined && (
+              <>
+                {errorobj.eventId == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                   
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      
-                      value={assessment.eventId}
-                      onChange={inputsHandler}
-                      name="eventId"
-                    >
-                        <option value="">
-                         Select
-                        </option>
-                         {geteventId.map((day, index) =>{
-                             return(<>
-                        <option key={index} value={day.id}>
-                          {day.challengeName}
-                        </option>
-                        </>) })}
-                      
-                    </select>
-                  
-                  </div>
-                <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Assisment Name
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.assesmentName == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <select
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.eventId}
+            onChange={inputsHandler}
+            name="eventId"
+          >
+            <option value="">Select</option>
+            {geteventId.map((day, index) => {
+              return (
+                <>
+                  <option key={index} value={day.id}>
+                    {day.challengeName}
+                  </option>
+                </>
+              );
+            })}
+          </select>
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Assisment Name
+            {errorobj !== undefined && (
+              <>
+                {errorobj.assesmentName == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      placeholder="Assessment Name"
-                      value={assessment.assesmentName}
-                      onChange={inputsHandler}
-                      name="assesmentName"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Attach Event
-                      {errorobj !== undefined && (
-                        <>
-                          {!errorobj.attachedToChallengerzone===[] ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-                    <br/>
-                    <Select
-                    style={{width:'100%'}}
-                      labelId="demo-mutiple-chip-label"
-                      id="demo-mutiple-chip"
-                      multiple
-                      value={assessment.attachedToChallengerzone ?assessment.attachedToChallengerzone: []}
-                      onChange={(event) =>
-                        setAssessment({
-                          ...assessment,
-                          attachedToChallengerzone:event.target.value
-                             
-                        })
-                      }
-                      input={<Input id="select-multiple-chip" />}
-                      renderValue={(selected) => (
-                        <div  className={classes.chips}>
-                          {selected.map((value) => (
-                            <Chip
-                              key={value}
-                              label={value}
-                              className={classes.chip}
-                              style={{marginLeft:2}}
-                            />
-                          ))}
-                        </div>
-                      )}
-                      MenuProps={MenuProps}
-                    >
-                      {geteventId.filter(
-                          (item) =>
-                            item.isActive == 1 && item.timePeriod !== "PAST"
-                        ).map((currEvent, index) => (
-                          <MenuItem key={index} value={currEvent.challengeName}>
-                            {currEvent.challengeName}
-                          </MenuItem>
-                        ))}
-                     
-                    </Select>
+          <input
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            placeholder="Assessment Name"
+            value={assessment.assesmentName}
+            onChange={inputsHandler}
+            name="assesmentName"
+          />
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Attach Event
+            {errorobj !== undefined && (
+              <>
+                {!errorobj.attachedToChallengerzone === [] ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
+          <br />
+          <Select
+            style={{ width: "100%" }}
+            labelId="demo-mutiple-chip-label"
+            id="demo-mutiple-chip"
+            multiple
+            value={
+              assessment.attachedToChallengerzone
+                ? assessment.attachedToChallengerzone
+                : []
+            }
+            onChange={(event) =>
+              setAssessment({
+                ...assessment,
+                attachedToChallengerzone: event.target.value,
+              })
+            }
+            input={<Input id="select-multiple-chip" />}
+            renderValue={(selected) => (
+              <div className={classes.chips}>
+                {selected.map((value) => (
+                  <Chip
+                    key={value}
+                    label={value}
+                    className={classes.chip}
+                    style={{ marginLeft: 2 }}
+                  />
+                ))}
+              </div>
+            )}
+            MenuProps={MenuProps}
+          >
+            {geteventId
+              .filter(
+                (item) => item.isActive == 1 && item.timePeriod !== "PAST"
+              )
+              .map((currEvent, index) => (
+                <MenuItem key={index} value={currEvent.challengeName}>
+                  {currEvent.challengeName}
+                </MenuItem>
+              ))}
+          </Select>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          marginLeft: "30px",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Age(From)
+            {errorobj !== undefined && (
+              <>
+                {errorobj.ageGroupFrom == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                  </div>
-                  
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    marginLeft: "30px",
-                    marginTop: "10px",
-                  }}
-                >
-               
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Age(From)
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.ageGroupFrom == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <input
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.ageGroupFrom.replace(/[^0-9]/g, "")}
+            onChange={inputsHandler}
+            placeholder="0-50"
+            name="ageGroupFrom"
+          />
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Age(To)
+            {errorobj !== undefined && (
+              <>
+                {errorobj.ageGroupTo == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      value={assessment.ageGroupFrom.replace(/[^0-9]/g,"")}
-                      onChange={inputsHandler}
-                      placeholder="0-50"
-                      name="ageGroupFrom"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Age(To)
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.ageGroupTo == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <input
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            placeholder="0-100"
+            value={assessment.ageGroupTo.replace(/[^0-9]/g, "")}
+            onChange={inputsHandler}
+            name="ageGroupTo"
+          />
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Gender
+            {errorobj !== undefined && (
+              <>
+                {errorobj.gender == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      placeholder="0-100"
-                      value={assessment.ageGroupTo.replace(/[^0-9]/g,"")}
-                      onChange={inputsHandler}
-                      name="ageGroupTo"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                      Gender
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.gender == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <select
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.gender}
+            onChange={inputsHandler}
+            name="gender"
+          >
+            <option value="">Select</option>
+            <option value="ALL">ALL</option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
+          </select>
+        </div>
+      </div>
+      <div style={{ display: "flex", marginLeft: "30px", marginTop: "10px" }}>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Re-Attempt Days
+            {errorobj !== undefined && (
+              <>
+                {errorobj.reattemptAfterDays == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      
-                      value={assessment.gender}
-                      onChange={inputsHandler}
-                      name="gender"
-                    >
-                      <option value="">Select</option>
-                      <option value="ALL">ALL</option>
-                      <option value="MALE">Male</option>
-                      <option value="FEMALE">Female</option>
-                      
-                    </select>
-                  </div>
-               
-                  
-                </div>
-                <div style={{ display: "flex",  marginLeft: "30px",
-                    marginTop: "10px",}}>
-                         <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                    Re-Attempt Days
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.reattemptAfterDays == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      placeholder="0-30"
-                      value={assessment.reattemptAfterDays.replace(/[^0-9]/g,"")}
-                      onChange={inputsHandler}
-                      name="reattemptAfterDays"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "40%" }}>
-
-                  <label style={{ fontSize: 12 }}>
-                    Description
-                      {/* {errorobj !== undefined && (
+          <input
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            placeholder="0-30"
+            value={assessment.reattemptAfterDays.replace(/[^0-9]/g, "")}
+            onChange={inputsHandler}
+            name="reattemptAfterDays"
+          />
+        </div>
+        <div style={{ width: "40%" }}>
+          <label style={{ fontSize: 12 }}>
+            Description
+            {/* {errorobj !== undefined && (
                         <>
                           {errorobj.reattemptAfterDays == "" ? (
                             <p
@@ -963,237 +944,210 @@ const hadleEdit=(row)=>{
                           )}
                         </>
                       )} */}
-                    </label>
+          </label>
 
-                    <textarea
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      placeholder="Description Assessment"
-                      value={assessment.description}
-                      onChange={inputsHandler}
-                      name="description"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "20%" ,marginTop:'1.5%',}}>
-                    <PrimaryButton
-                      mini
-                      className="w-24 text-sm mt-4"
-                      onClick={handleSubmit}
-                    >
-                      Save Assessment
-                    </PrimaryButton>
-                  </div>
-                </div>
+          <textarea
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            placeholder="Description Assessment"
+            value={assessment.description}
+            onChange={inputsHandler}
+            name="description"
+          />
+        </div>
+        <div style={{ width: "20%", marginTop: "1.5%" }}>
+          <PrimaryButton
+            mini
+            className="w-24 text-sm mt-4"
+            onClick={handleSubmit}
+          >
+            Save Assessment
+          </PrimaryButton>
+        </div>
+      </div>
 
-                <div style={{ minWidth: "800px", overflowX: "auto" }}>
-                  {/* <Paper className={classes.paper}> */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  >
-                    {/* <Tooltip title="Export data">
+      <div style={{ minWidth: "800px", overflowX: "auto" }}>
+        {/* <Paper className={classes.paper}> */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          {/* <Tooltip title="Export data">
                       <CSVLink data={datas} headers={headers} separator={','}>
                         <SystemUpdateAltIcon />
                       </CSVLink>
                     </Tooltip> */}
-                    <div className="d-flex a-i-center">
-                      {getQuiz && getQuiz.length > 0 ? (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={getQuiz && getQuiz.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      ) : (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={0}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  {/* <Modal open={modal} /> */}
+          <div className="d-flex a-i-center">
+            {getQuiz && getQuiz.length > 0 ? (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                component="div"
+                count={getQuiz && getQuiz.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            ) : (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                component="div"
+                count={0}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            )}
+          </div>
+        </div>
+        {/* <Modal open={modal} /> */}
 
-                  <div style={{}}></div>
+        <div style={{}}></div>
 
-                  {getQuiz && getQuiz.length > 0 ? (
-                    <div style={{ padding: 20 }}>
-                      <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
-                        size={"small"}
-                        aria-label="enhanced table"
-                      >
-                        {" "}
-                        <EnhancedTableHead
-                          style={{ fontSize: "5px" }}
-                          classes={classes}
-                          order={order}
-                          orderBy={orderBy}
-                          onRequestSort={handleRequestSort}
-                        />
-                        <TableBody>
-                          {getQuiz &&
-                            stableSort(getQuiz, getComparator(order, orderBy))
-                              .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                              .map((item, ind) => {
-                                return (
-                                  <>
-                                    <TableRow className="performace-table-row">
-                                      {" "}
-                                      <TableCell align="center">
-                                        {" "}
-                                        <span style={{ fontSize: 12 }}>
-                                          {ind + 1}
-                                        </span>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p
-                                          style={{
-                                            whiteSpace: "nowrap",
-                                            textOverflow: "ellipsis",
-                                            width: "200px",
-                                            display: "block",
-                                            overflow: "hidden",
-                                            fontSize: 12,
-                                          }}
-                                        >
-                                          {" "}
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.assesmentName
-                                              ? item.assesmentName
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p style={{ width: "100px" }}>
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.ageGroupFrom
-                                              ? item.ageGroupFrom
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        {" "}
-                                        {item.ageGroupTo
-                                          ? item.ageGroupTo
-                                          : "  -     "}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        {" "}
-                                        <p style={{ width: "" }}>
-                                          {" "}
-                                          {item.gender
-                                            ? item.gender
-                                            : "  -     "}
-                                        </p>
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        {" "}
-                                        {item.reattemptAfterDays
-                                          ? item.reattemptAfterDays
-                                          : "  -     "}
-                                      </TableCell>
-                                      
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        <PrimaryButton
-                                          mini
-                                          className="w-24 text-sm mx-auto"
-                                          onClick={() => {
-                                           hadleEdit(item)}}
-                                        >
-                                          Edit
-                                        </PrimaryButton>
-                                      </TableCell>
-                                    </TableRow>
-                                  </>
-                                );
-                              })}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  ) : (
-                    <>
-                      <div
-                        style={{
-                          height: 250,
-                          padding: "5px",
-                          marginTop: 30,
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          fontSize: 12,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        className=""
-                      >
-                        {" "}
-                        {/* <img
+        {getQuiz && getQuiz.length > 0 ? (
+          <div style={{ padding: 20 }}>
+            <Table
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              size={"small"}
+              aria-label="enhanced table"
+            >
+              {" "}
+              <EnhancedTableHead
+                style={{ fontSize: "5px" }}
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {getQuiz &&
+                  stableSort(getQuiz, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, ind) => {
+                      return (
+                        <>
+                          <TableRow className="performace-table-row">
+                            {" "}
+                            <TableCell align="center">
+                              {" "}
+                              <span style={{ fontSize: 12 }}>
+                                {ind + 1}
+                              </span>{" "}
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <p
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                  width: "200px",
+                                  display: "block",
+                                  overflow: "hidden",
+                                  fontSize: 12,
+                                }}
+                              >
+                                {" "}
+                                <span style={{ fontSize: 12 }}>
+                                  {item.assesmentName
+                                    ? item.assesmentName
+                                    : "  -     "}
+                                </span>{" "}
+                              </p>{" "}
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <p style={{ width: "100px" }}>
+                                <span style={{ fontSize: 12 }}>
+                                  {item.ageGroupFrom
+                                    ? item.ageGroupFrom
+                                    : "  -     "}
+                                </span>{" "}
+                              </p>{" "}
+                            </TableCell>
+                            <TableCell align="center" style={{ fontSize: 12 }}>
+                              {" "}
+                              {item.ageGroupTo ? item.ageGroupTo : "  -     "}
+                            </TableCell>
+                            <TableCell align="center" style={{ fontSize: 12 }}>
+                              {" "}
+                              <p style={{ width: "" }}>
+                                {" "}
+                                {item.gender ? item.gender : "  -     "}
+                              </p>
+                            </TableCell>
+                            <TableCell align="center" style={{ fontSize: 12 }}>
+                              {" "}
+                              {item.reattemptAfterDays
+                                ? item.reattemptAfterDays
+                                : "  -     "}
+                            </TableCell>
+                            <TableCell align="center" style={{ fontSize: 12 }}>
+                              <PrimaryButton
+                                mini
+                                className="w-24 text-sm mx-auto"
+                                onClick={() => {
+                                  hadleEdit(item);
+                                }}
+                              >
+                                Edit
+                              </PrimaryButton>
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      );
+                    })}
+              </TableBody>
+            </Table>
+          </div>
+        ) : (
+          <>
+            <div
+              style={{
+                height: 250,
+                padding: "5px",
+                marginTop: 30,
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                fontSize: 12,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              className=""
+            >
+              {" "}
+              {/* <img
                           style={{ width: 200, height: 200 }}
                           src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                         /> */}
-                        <NoData/>
-                        Data is not present
-                      </div>{" "}
-                    </>
-                  )}
-                </div>
-             
-         
-       
-      
+              <NoData />
+              Data is not present
+            </div>{" "}
+          </>
+        )}
+      </div>
+
       <div>
         {modalview && (
           <QuestionModal modalView={modalview} setModalView={setModalView} />
         )}
         {
-          <InfoDialog
-            open={imageModal}
-            onClose={() => setImageModal(false)}
-          >
+          <InfoDialog open={imageModal} onClose={() => setImageModal(false)}>
             <CancelIcon
               style={{
                 // top: 50,
@@ -1205,11 +1159,10 @@ const hadleEdit=(row)=>{
               }}
               onClick={() => {
                 setImageModal(false);
-                 
               }}
             />
             <div style={{ height: "250px", width: "400px", marginLeft: "15%" }}>
-            <div
+              <div
                 className="mhealth-input-box padding-025em"
                 style={{
                   display: "flex",
@@ -1227,7 +1180,7 @@ const hadleEdit=(row)=>{
                   <label
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                   Assessment Image{" "}
+                    Assessment Image{" "}
                     {/* {assessment.imgPath && (
                       <span
                         style={{ cursor: "pointer", color: "red" }}
@@ -1247,7 +1200,7 @@ const hadleEdit=(row)=>{
                     className="create-event-logo"
                     style={{ border: "1px solid #eee" }}
                   >
-                    {imageData.image? (
+                    {imageData.image ? (
                       <>
                         <img
                           style={{ width: "100%", height: "100%" }}
@@ -1270,18 +1223,18 @@ const hadleEdit=(row)=>{
                     style={{ display: "none" }}
                     onChange={onFileChange}
                   />
-                  <div style={{marginTop:'3%'}}><PrimaryButton onClick={imageUpload}>Save Image</PrimaryButton></div>
-                  
+                  <div style={{ marginTop: "3%" }}>
+                    <PrimaryButton onClick={imageUpload}>
+                      Save Image
+                    </PrimaryButton>
+                  </div>
                 </div>
-                
               </div>
-              
             </div>
           </InfoDialog>
         }
-       
       </div>
-    
- </> );
+    </>
+  );
 };
 export default CreateAssisment;

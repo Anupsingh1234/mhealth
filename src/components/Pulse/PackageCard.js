@@ -20,7 +20,7 @@ import { PrimaryButton } from "../Form";
 import moment from "moment";
 import { Package } from "react-feather";
 import Calendar from "react-calendar";
-import 'react-calendar/dist/Calendar.css';
+import "react-calendar/dist/Calendar.css";
 import ReactCardFlip from "react-card-flip";
 import { CheckCircle, ArrowLeftCircle } from "react-feather";
 import StepLabel from "@material-ui/core/StepLabel";
@@ -31,303 +31,301 @@ import PulseInfo from "./PulseInfo";
 import JoiningDetails from "./JoiningDetails";
 
 let monthsObject = {
-  "0": "SUN",
-  "1": "MON",
-  "2": "TUE",
-  "3": "WED",
-  "4": "THU",
-  "5": "FRI",
-  "6": "SAT",
-  
+  0: "SUN",
+  1: "MON",
+  2: "TUE",
+  3: "WED",
+  4: "THU",
+  5: "FRI",
+  6: "SAT",
 };
 const PackageCard = (eventID, currentEventObj) => {
-    const [packageData,setPackageData]=useState([]);
-    const [modalView,setModalView]=useState(false);
-    const [packageId,setPackageId]=useState("")
-    const [stateCheck,setStateStateCheck]=useState("STATE")
-    const [packageDetail,setPackageDetail]=useState([])
-    const [packageLabDetails,setPackageLabDetails]=useState([])
-    const [partnerLabId,setPartnerLabId]=useState("")
-    const [status,setStatus]=useState("")
-    const [slotModal,setSlotModal]=useState(false)
-    const [slotData,setSlotData]=useState([])
-    const [flip1, setFlip] = useState(false);
-    const [open, setOpen] = useState(false);
-    const steps = ["Instruction", "Book"];
-    const [pkgSample,setPkgSample]=useState("")
-    const [pkgId,setPkgId]=useState("")
-    const [instruction,setInstruction]=useState({
-      bookingInstructions:'',
-      sampleCollectionAddress:'',
-      bookingType:'',
-    })
-    const [errorobj, setErrorObj] = useState();
-    const [joinInfo,setJoinInfo]=useState(false)
-    const [cardInfoDetail,setCardInfoDetails]=useState({})
-    const [digPartnerId,setDigPartnerId]=useState("")
-    const [calender, setCalender] = useState([]);
-    const [booking,setBooking]=useState([])
-    const [activeStep, setActiveStep] = useState(0);
-    const [dateState, setDateState] = useState("00-00-0000");
-    const dtt = moment(dateState).format("YYYY-MM-DD").toString();
-    const filterDate = moment(new Date()).format("YYYY-MM-DD").toString();
-    const today = new Date();
-    today.setMinutes(today.getMinutes()+90)
-    const tttt1 = today.getHours() + ":" + today.getMinutes() + ":" + "00";
-    console.log(tttt1);
-    const ddt = [];
-    const [time, setTime] = useState();
-    const mark = [];
-    const tt = [];
-    const changeDate = (e) => {
-      setTime(false);
-      setDateState(e);
-    };
-  
-    const flipCard1 = () => {
-      setFlip(false);
-      setJoinTable(false);
-    };
-    {
-      calender &&
-        calender.map((item, index) => {
-          // console.log(item);
-          mark.push(item.date);
-        });
-    }
-    console.log(dateState, time);
-    const dateenable = [];
-    {
-      calender &&
-        calender.map((item, index) => {
-          console.log(item);
-          dateenable.push(item.date);
-          if (calender.length === index + 1) {
-            ddt.push(item.date);
-            console.log(ddt);
-          }
-        });
-    }
-    const handleInstruction=(e)=>{
-      const name = e.target.name;
-      const value = e.target.value;
-      setInstruction((values) => ({ ...values, [name]: value }));
-      setErrorObj((values) => ({ ...values, [name]: value }));
-    }
-    useEffect(() => {
-      setPackageData([])
-        card();
-        
-      }, [eventID]);
-      
-    const card = (e) => {
-        const URL = `${urlPrefix}v1.0/getEventHealthPackage?challengerZoneId=${localStorage.getItem(
-            "selectEvent"
-          )}`;
-        return axios
-          .get(URL, {
-            headers: {
-              Authorization: `Bearer ${localStorage.token}`,
-              timeStamp: "timestamp",
-              accept: "*/*",
-              "Access-Control-Allow-Origin": "*",
-              withCredentials: true,
-              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-              "Access-Control-Allow-Headers":
-                "accept, content-type, x-access-token, x-requested-with",
-            },
-          })
-          .then((res) => {
-            {
-              console.log(res.data.response.responseData, "card");
-              res.data.response.responseData &&
-                // setcardDetails(res.data.response.responseData.hac);
-                setPackageData(res.data.response.responseData);
-            }
-    
-            // setscoreDetails(res?.data?.response?.responseData);
-          });
-      };
-      const packageInfo = (value,id) => {
-        const URL = `${urlPrefix}v1.0/getPackageWiseInfo?action=${value}&packageId=${id}`;
-        return axios
-          .get(URL, {
-            headers: {
-              Authorization: `Bearer ${localStorage.token}`,
-              timeStamp: "timestamp",
-              accept: "*/*",
-              "Access-Control-Allow-Origin": "*",
-              withCredentials: true,
-              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-              "Access-Control-Allow-Headers":
-                "accept, content-type, x-access-token, x-requested-with",
-            },
-          })
-          .then((res) => {
-            {
-              console.log(res.data.response.responseData, "card");
-              res.data.response.responseData &&
-                // setcardDetails(res.data.response.responseData.hac);
-                setPackageDetail(res.data.response.responseData);
-            }
-    
-            // setscoreDetails(res?.data?.response?.responseData);
-          });
-      };
-      const getLabDetails = (value,state) => {
-        const URL = `${urlPrefix}v1.0/getPkgLabsDetail?action=${state}&data=${value}&packageId=${packageId}`;
-        return axios
-          .get(URL, {
-            headers: {
-              Authorization: `Bearer ${localStorage.token}`,
-              timeStamp: "timestamp",
-              accept: "*/*",
-              "Access-Control-Allow-Origin": "*",
-              withCredentials: true,
-              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-              "Access-Control-Allow-Headers":
-                "accept, content-type, x-access-token, x-requested-with",
-            },
-          })
-          .then((res) => {
-            {
-              console.log(res.data.response.responseData, "card");
-              res.data.response.responseData &&
-                // setcardDetails(res.data.response.responseData.hac);
-                setPackageLabDetails(res.data.response.responseData);
-            }
-    
-            // setscoreDetails(res?.data?.response?.responseData);
-          });
-      };
-      const getSlots = (id) => {
-        const URL = `${urlPrefix}v1.0/getLabBookingSlots?packageId=${packageId}&partnerLabId=${id}`;
-        return axios
-          .get(URL, {
-            headers: {
-              Authorization: `Bearer ${localStorage.token}`,
-              timeStamp: "timestamp",
-              accept: "*/*",
-              "Access-Control-Allow-Origin": "*",
-              withCredentials: true,
-              "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-              "Access-Control-Allow-Headers":
-                "accept, content-type, x-access-token, x-requested-with",
-            },
-          })
-          .then((res) => {
-            {
-              console.log(res.data.response.responseData, "card");
-              res.data.response.responseData &&
-                // setcardDetails(res.data.response.responseData.hac);
-                setCalender(res.data.response.responseData);
-            }
-    
-            // setscoreDetails(res?.data?.response?.responseData);
-          });
-      };
-      const saveBookingApi=()=>{
-        if (dateState !== "" && time !== false) {
-        let payload={
-          healthPkgId:packageId,
-          digPartnerId:digPartnerId,
-          partnerLabId:partnerLabId,
-          bookingType:pkgSample==="BOTH"?instruction.bookingType:pkgSample,
-          bookingSlotDatetime:dtt+" "+time+":00",
-          bookingInstructions:instruction.bookingInstructions!==""?instruction.bookingInstructions:'NA',
-          sampleCollectionAddress:instruction.sampleCollectionAddress!==""?instruction.sampleCollectionAddress:'NA'
-        }
-        const adminurl = `${urlPrefix}v1.0/createCheckupBooking`;
-          return axios
-            .post(adminurl,payload, {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`, 
-                timeStamp: "timestamp",
-                accept: "*/*",
-                "Access-Control-Allow-Origin": "*",
-                withCredentials: true,
-                "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-                "Access-Control-Allow-Headers":
-                  "accept, content-type, x-access-token, x-requested-with",
-              },
-            })
-            .then((res) => {
-              if(res.data.response.responseMessage=="SUCCESS"){
-                message.success(res.data.response.responseData)
-                setSlotModal(false)
-                setDateState("");
-                setTime("")
-                setActiveStep(0)
-                setInstruction({
-                  bookingInstructions:'',
-                  sampleCollectionAddress:'',
-                  bookingType:''
-                })
-                card()
-      setPackageDetail([])
-      setPackageLabDetails([])
-      setSlotData([])
-                setModalView(false)
-                setErrorObj()
-              }
-            })
-          }else{
-            message.error("please Select Date and Time !")
-          }
-      }
-      useEffect(() => {
-        // packageInfo()
-        setPackageLabDetails([])
-        setStatus("")
-      }, [stateCheck]);
-      const handleChange=(e)=>{
-    setStateStateCheck(e.target.value)
-        packageInfo(e.target.value,packageId)
-      }
-  const handleClose=()=>{
-      setModalView(false);
-      setPackageDetail([])
-      setPackageLabDetails([])
-      setSlotData([])
-      setStatus("")
-  }
-  const handleState=(e)=>{
-    getLabDetails(e.target.value,stateCheck);
-    setStatus(e.target.name)
-  }
-  const handleCloseSlot=()=>{
-    setSlotModal(false)
-    setActiveStep(0)
-    setInstruction({
-      bookingInstructions:'',
-      sampleCollectionAddress:'',
-      bookingType:'',
-    })
-    setDateState("00-00-0000");
-     setTime("")
-     setErrorObj()
+  const [packageData, setPackageData] = useState([]);
+  const [modalView, setModalView] = useState(false);
+  const [packageId, setPackageId] = useState("");
+  const [stateCheck, setStateStateCheck] = useState("STATE");
+  const [packageDetail, setPackageDetail] = useState([]);
+  const [packageLabDetails, setPackageLabDetails] = useState([]);
+  const [partnerLabId, setPartnerLabId] = useState("");
+  const [status, setStatus] = useState("");
+  const [slotModal, setSlotModal] = useState(false);
+  const [slotData, setSlotData] = useState([]);
+  const [flip1, setFlip] = useState(false);
+  const [open, setOpen] = useState(false);
+  const steps = ["Instruction", "Book"];
+  const [pkgSample, setPkgSample] = useState("");
+  const [pkgId, setPkgId] = useState("");
+  const [instruction, setInstruction] = useState({
+    bookingInstructions: "",
+    sampleCollectionAddress: "",
+    bookingType: "",
+  });
+  const [errorobj, setErrorObj] = useState();
+  const [joinInfo, setJoinInfo] = useState(false);
+  const [cardInfoDetail, setCardInfoDetails] = useState({});
+  const [digPartnerId, setDigPartnerId] = useState("");
+  const [calender, setCalender] = useState([]);
+  const [booking, setBooking] = useState([]);
+  const [activeStep, setActiveStep] = useState(0);
+  const [dateState, setDateState] = useState("00-00-0000");
+  const dtt = moment(dateState).format("YYYY-MM-DD").toString();
+  const filterDate = moment(new Date()).format("YYYY-MM-DD").toString();
+  const today = new Date();
+  today.setMinutes(today.getMinutes() + 90);
+  const tttt1 = today.getHours() + ":" + today.getMinutes() + ":" + "00";
+  console.log(tttt1);
+  const ddt = [];
+  const [time, setTime] = useState();
+  const mark = [];
+  const tt = [];
+  const changeDate = (e) => {
+    setTime(false);
+    setDateState(e);
+  };
 
+  const flipCard1 = () => {
+    setFlip(false);
+    setJoinTable(false);
+  };
+  {
+    calender &&
+      calender.map((item, index) => {
+        // console.log(item);
+        mark.push(item.date);
+      });
   }
-  const NextValue=(e)=>{
-    e.preventDefault()
-    if(pkgSample!=='BOTH')
-    {
-     
-      setActiveStep(1)
-     
-    }
-    else if(instruction.bookingType!==""){
-      setActiveStep(1)
-     
-    }
-    else{
-      setErrorObj(instruction)
-    }
+  console.log(dateState, time);
+  const dateenable = [];
+  {
+    calender &&
+      calender.map((item, index) => {
+        console.log(item);
+        dateenable.push(item.date);
+        if (calender.length === index + 1) {
+          ddt.push(item.date);
+          console.log(ddt);
+        }
+      });
   }
-  return(<>
-  {packageData && packageData.length > 0 ? (
+  const handleInstruction = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setInstruction((values) => ({ ...values, [name]: value }));
+    setErrorObj((values) => ({ ...values, [name]: value }));
+  };
+  useEffect(() => {
+    setPackageData([]);
+    card();
+  }, [eventID]);
+
+  const card = (e) => {
+    const URL = `${urlPrefix}v1.0/getEventHealthPackage?challengerZoneId=${localStorage.getItem(
+      "selectEvent"
+    )}`;
+    return axios
+      .get(URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
+          withCredentials: true,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
+        },
+      })
+      .then((res) => {
+        {
+          console.log(res.data.response.responseData, "card");
+          res.data.response.responseData &&
+            // setcardDetails(res.data.response.responseData.hac);
+            setPackageData(res.data.response.responseData);
+        }
+
+        // setscoreDetails(res?.data?.response?.responseData);
+      });
+  };
+  const packageInfo = (value, id) => {
+    const URL = `${urlPrefix}v1.0/getPackageWiseInfo?action=${value}&packageId=${id}`;
+    return axios
+      .get(URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
+          withCredentials: true,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
+        },
+      })
+      .then((res) => {
+        {
+          console.log(res.data.response.responseData, "card");
+          res.data.response.responseData &&
+            // setcardDetails(res.data.response.responseData.hac);
+            setPackageDetail(res.data.response.responseData);
+        }
+
+        // setscoreDetails(res?.data?.response?.responseData);
+      });
+  };
+  const getLabDetails = (value, state) => {
+    const URL = `${urlPrefix}v1.0/getPkgLabsDetail?action=${state}&data=${value}&packageId=${packageId}`;
+    return axios
+      .get(URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
+          withCredentials: true,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
+        },
+      })
+      .then((res) => {
+        {
+          console.log(res.data.response.responseData, "card");
+          res.data.response.responseData &&
+            // setcardDetails(res.data.response.responseData.hac);
+            setPackageLabDetails(res.data.response.responseData);
+        }
+
+        // setscoreDetails(res?.data?.response?.responseData);
+      });
+  };
+  const getSlots = (id) => {
+    const URL = `${urlPrefix}v1.0/getLabBookingSlots?packageId=${packageId}&partnerLabId=${id}`;
+    return axios
+      .get(URL, {
+        headers: {
+          Authorization: `Bearer ${localStorage.token}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
+          withCredentials: true,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
+        },
+      })
+      .then((res) => {
+        {
+          console.log(res.data.response.responseData, "card");
+          res.data.response.responseData &&
+            // setcardDetails(res.data.response.responseData.hac);
+            setCalender(res.data.response.responseData);
+        }
+
+        // setscoreDetails(res?.data?.response?.responseData);
+      });
+  };
+  const saveBookingApi = () => {
+    if (dateState !== "" && time !== false) {
+      let payload = {
+        healthPkgId: packageId,
+        digPartnerId: digPartnerId,
+        partnerLabId: partnerLabId,
+        bookingType: pkgSample === "BOTH" ? instruction.bookingType : pkgSample,
+        bookingSlotDatetime: dtt + " " + time + ":00",
+        bookingInstructions:
+          instruction.bookingInstructions !== ""
+            ? instruction.bookingInstructions
+            : "NA",
+        sampleCollectionAddress:
+          instruction.sampleCollectionAddress !== ""
+            ? instruction.sampleCollectionAddress
+            : "NA",
+      };
+      const adminurl = `${urlPrefix}v1.0/createCheckupBooking`;
+      return axios
+        .post(adminurl, payload, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
+            withCredentials: true,
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
+          },
+        })
+        .then((res) => {
+          if (res.data.response.responseMessage == "SUCCESS") {
+            message.success(res.data.response.responseData);
+            setSlotModal(false);
+            setDateState("");
+            setTime("");
+            setActiveStep(0);
+            setInstruction({
+              bookingInstructions: "",
+              sampleCollectionAddress: "",
+              bookingType: "",
+            });
+            card();
+            setPackageDetail([]);
+            setPackageLabDetails([]);
+            setSlotData([]);
+            setModalView(false);
+            setErrorObj();
+          }
+        });
+    } else {
+      message.error("please Select Date and Time !");
+    }
+  };
+  useEffect(() => {
+    // packageInfo()
+    setPackageLabDetails([]);
+    setStatus("");
+  }, [stateCheck]);
+  const handleChange = (e) => {
+    setStateStateCheck(e.target.value);
+    packageInfo(e.target.value, packageId);
+  };
+  const handleClose = () => {
+    setModalView(false);
+    setPackageDetail([]);
+    setPackageLabDetails([]);
+    setSlotData([]);
+    setStatus("");
+  };
+  const handleState = (e) => {
+    getLabDetails(e.target.value, stateCheck);
+    setStatus(e.target.name);
+  };
+  const handleCloseSlot = () => {
+    setSlotModal(false);
+    setActiveStep(0);
+    setInstruction({
+      bookingInstructions: "",
+      sampleCollectionAddress: "",
+      bookingType: "",
+    });
+    setDateState("00-00-0000");
+    setTime("");
+    setErrorObj();
+  };
+  const NextValue = (e) => {
+    e.preventDefault();
+    if (pkgSample !== "BOTH") {
+      setActiveStep(1);
+    } else if (instruction.bookingType !== "") {
+      setActiveStep(1);
+    } else {
+      setErrorObj(instruction);
+    }
+  };
+  return (
+    <>
+      {packageData && packageData.length > 0 ? (
         <>
-         {/* <ReactCardFlip isFlipped={flip1} flipDirection="horizontal"> */}
+          {/* <ReactCardFlip isFlipped={flip1} flipDirection="horizontal"> */}
           <div style={{ display: "flex", flexWrap: "wrap" }}>
             {packageData &&
               packageData.map((item, index) => {
@@ -375,96 +373,128 @@ const PackageCard = (eventID, currentEventObj) => {
                           // }}
                         />
                         <div
-                style={{
-                  position: "absolute",
-                  bottom: 5,
-                  fontSize: 12,
-                  color: "#fff",
-                  left: 5,
-                }}
-              >
-                <span
-                  style={{
-                    background: "#43a047",
-                    borderRadius: 4,
-                    padding: "0px 4px",
-                    marginLeft: 5,
-                  }}
-                >
-                  {item.packagePrice == 0
-                    ? "Free"
-                    : `Fees : ${item.packagePrice}`}
-                </span>
-              </div>
+                          style={{
+                            position: "absolute",
+                            bottom: 5,
+                            fontSize: 12,
+                            color: "#fff",
+                            left: 5,
+                          }}
+                        >
+                          <span
+                            style={{
+                              background: "#43a047",
+                              borderRadius: 4,
+                              padding: "0px 4px",
+                              marginLeft: 5,
+                            }}
+                          >
+                            {item.packagePrice == 0
+                              ? "Free"
+                              : `Fees : ${item.packagePrice}`}
+                          </span>
+                        </div>
                       </div>
                       <div className="challenge-card-details">
                         <div className={"challenge-card-details-name"}>
                           {/* {subEventDetail.eventName} */}
                           {item.healthPkgName}
                         </div>
-                        {item.bookings&&item.bookings.length+1>=item.bookingCount?'':
-                        <div className="register-button">
-                          <PrimaryButton
-                            style={{ marginBottom: "10px" }}
-                            onClick={() =>{packageInfo("STATE",item.id);setModalView(true);setPackageId(item.id);setPkgSample(item.sample);packageInfo("STATE",item.id)}}
-                          >
-                            Book Now
-                          </PrimaryButton>
-                        </div>
-              }
+                        {item.bookings &&
+                        item.bookings.length + 1 >= item.bookingCount ? (
+                          ""
+                        ) : (
+                          <div className="register-button">
+                            <PrimaryButton
+                              style={{ marginBottom: "10px" }}
+                              onClick={() => {
+                                packageInfo("STATE", item.id);
+                                setModalView(true);
+                                setPackageId(item.id);
+                                setPkgSample(item.sample);
+                                packageInfo("STATE", item.id);
+                              }}
+                            >
+                              Book Now
+                            </PrimaryButton>
+                          </div>
+                        )}
                         {/* <div className="challenge-card-start-date1">
                           <InfoIcon
                             style={{ fontSize: 18, color: "#1e88e5" }}
                             onClick={() =>{setModalView(true);}}
                           />
                         </div> */}
-                        {item.joiningDetail===true?
-                        <div className="challenge-card-start-date2" style={{}}>
-             <div className="challenge-card-start-date-day" style={{display:'none'}}>
-              {(item.pkgBookingTo).substring(0,10)}
-            </div>
-            
-            <a
-              onClick={() => {setOpen(true);setCardInfoDetails(item)}}
-              style={{ position: "absolute", top: 0, right: 0 }}
-            >
-              <InfoIcon style={{ fontSize: 18, color: "#1e88e5" }} />
-            </a>
+                        {item.joiningDetail === true ? (
+                          <div
+                            className="challenge-card-start-date2"
+                            style={{}}
+                          >
+                            <div
+                              className="challenge-card-start-date-day"
+                              style={{ display: "none" }}
+                            >
+                              {item.pkgBookingTo.substring(0, 10)}
+                            </div>
 
-            <div
-          style={{ width: "fit-content", fontSize: 12, marginBottom: "0px" }}
-        >
-          <a
-            target="_blank"
-            // href={subEventDetail.eventLink}
-            style={{
-              color: "#fff",
-              background: "#518ad6",
-              borderRadius: 4,
-              padding: "0px 4px",
-              cursor: "pointer",
-              marginTop:'20px'
-            }}
-            onClick={() => {
-              setBooking(item.bookings);setJoinInfo(true)}}
-          >
-            Joining Detail
-          </a>
-        </div>
-          </div>:  <div className="challenge-card-start-date1">
-                          <InfoIcon
-                            style={{ fontSize: 18, color: "#1e88e5" }}
-                          
-                              onClick={() =>{ setOpen(true);setCardInfoDetails(item)}}
-                        
-                          />
-                        </div>}
+                            <a
+                              onClick={() => {
+                                setOpen(true);
+                                setCardInfoDetails(item);
+                              }}
+                              style={{ position: "absolute", top: 0, right: 0 }}
+                            >
+                              <InfoIcon
+                                style={{ fontSize: 18, color: "#1e88e5" }}
+                              />
+                            </a>
+
+                            <div
+                              style={{
+                                width: "fit-content",
+                                fontSize: 12,
+                                marginBottom: "0px",
+                              }}
+                            >
+                              <a
+                                target="_blank"
+                                // href={subEventDetail.eventLink}
+                                style={{
+                                  color: "#fff",
+                                  background: "#518ad6",
+                                  borderRadius: 4,
+                                  padding: "0px 4px",
+                                  cursor: "pointer",
+                                  marginTop: "20px",
+                                }}
+                                onClick={() => {
+                                  setBooking(item.bookings);
+                                  setJoinInfo(true);
+                                }}
+                              >
+                                Joining Detail
+                              </a>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="challenge-card-start-date1">
+                            <InfoIcon
+                              style={{ fontSize: 18, color: "#1e88e5" }}
+                              onClick={() => {
+                                setOpen(true);
+                                setCardInfoDetails(item);
+                              }}
+                            />
+                          </div>
+                        )}
                       </div>
-                      </div>
-                      </>)})}
-                      </div>
-                     
-                      {/* </ReactCardFlip>        */}
+                    </div>
+                  </>
+                );
+              })}
+          </div>
+
+          {/* </ReactCardFlip>        */}
         </>
       ) : (
         <div
@@ -477,7 +507,6 @@ const PackageCard = (eventID, currentEventObj) => {
           <img src={dataSource} width={400} height={200} />
           <span style={{ margin: "1rem" }}>No Data</span>
         </div>
-      
       )}
       {/* {modalView&&(<Modal open={modalView} onClose={()=>setModalView(false)}>
       <div
@@ -508,88 +537,266 @@ const PackageCard = (eventID, currentEventObj) => {
               </TableContainer></div>
               </Paper></div>
       </Modal>)} */}
-      {joinInfo&&(<JoiningDetails join={joinInfo} setJoin={setJoinInfo} bookingdetail1={booking} cards={card}/>)}
-      {open&&(<PulseInfo open={open} setOpen={setOpen}  details={cardInfoDetail}/>)}
-      {modalView&&(<InfoDialog open={modalView} onClose={handleClose}>
-      <CancelIcon
-                            style={{
-                              position: "absolute",
-                              top: 5,
-                              right: 5,
-                              color: "#ef5350",
-                              cursor: "pointer",
-                            }}
-                            onClick={handleClose}
-                          />
-          <div style={{width:'600px',minHeight:'100px',maxHeight:'600px'}}>
-              <div style={{display:'flex',marginLeft:'20px'}}>
-                  <div style={{width:'20%'}} key="state" >
-              <input type="radio" id="state"  name="state"style={{ marginRight: "15px",height:'15px',width:'15px',fontWeight:'bold' }} value="STATE" onChange={handleChange}defaultChecked/><label for="state" style={{fontSize:'18px',fontWeight:'bold'}}>State</label>
+      {joinInfo && (
+        <JoiningDetails
+          join={joinInfo}
+          setJoin={setJoinInfo}
+          bookingdetail1={booking}
+          cards={card}
+        />
+      )}
+      {open && (
+        <PulseInfo open={open} setOpen={setOpen} details={cardInfoDetail} />
+      )}
+      {modalView && (
+        <InfoDialog open={modalView} onClose={handleClose}>
+          <CancelIcon
+            style={{
+              position: "absolute",
+              top: 5,
+              right: 5,
+              color: "#ef5350",
+              cursor: "pointer",
+            }}
+            onClick={handleClose}
+          />
+          <div
+            style={{ width: "600px", minHeight: "100px", maxHeight: "600px" }}
+          >
+            <div style={{ display: "flex", marginLeft: "20px" }}>
+              <div style={{ width: "20%" }} key="state">
+                <input
+                  type="radio"
+                  id="state"
+                  name="state"
+                  style={{
+                    marginRight: "15px",
+                    height: "15px",
+                    width: "15px",
+                    fontWeight: "bold",
+                  }}
+                  value="STATE"
+                  onChange={handleChange}
+                  defaultChecked
+                />
+                <label
+                  for="state"
+                  style={{ fontSize: "18px", fontWeight: "bold" }}
+                >
+                  State
+                </label>
               </div>
-              <div style={{width:'20%'}} key="city" >
-              <input type="radio" id="city" name="state" style={{ marginRight: "15px" ,height:'15px',width:'15px'}}  value="CITY" onChange={handleChange}/><label for="city" style={{fontSize:'18px',fontWeight:'bold'}}>City</label>
+              <div style={{ width: "20%" }} key="city">
+                <input
+                  type="radio"
+                  id="city"
+                  name="state"
+                  style={{ marginRight: "15px", height: "15px", width: "15px" }}
+                  value="CITY"
+                  onChange={handleChange}
+                />
+                <label
+                  for="city"
+                  style={{ fontSize: "18px", fontWeight: "bold" }}
+                >
+                  City
+                </label>
               </div>
-              <div style={{width:'20%'}} key="pin">
-              <input type="radio" id="pin"  name="state" style={{ marginRight: "15px" ,height:'15px',width:'15px'}}  value="PIN" onChange={handleChange}/><label for="pin" style={{fontSize:'18px',fontWeight:'bold'}}>Pin</label>
+              <div style={{ width: "20%" }} key="pin">
+                <input
+                  type="radio"
+                  id="pin"
+                  name="state"
+                  style={{ marginRight: "15px", height: "15px", width: "15px" }}
+                  value="PIN"
+                  onChange={handleChange}
+                />
+                <label
+                  for="pin"
+                  style={{ fontSize: "18px", fontWeight: "bold" }}
+                >
+                  Pin
+                </label>
               </div>
-              </div>
-              <div style={{marginLeft:'20px'}}>
-                  {status!=="teamselect"?(
-                  <div style={{marginTop:'3%'}}>
-             
-             
-           {packageDetail&&packageDetail.map((item)=>{
-                return(<>
-                <div key={item.id}>
-                <input type="radio"    name="teamselect" value={item} id="item"style={{ marginRight: "15px",height:'15px',width:'15px' }} onChange={handleState}/>
-                <label for="item" style={{fontSize:'15px',fontWeight:'bold'}}>{item}</label><br/></div></>)
-            })}</div>
-           ):<div style={{marginTop:'3%'}}>
-            
-             <div  className="member"  style={{minHeight:'50px',maxHeight:'400px',overflowX: "auto",scrollBehavior: "smooth",marginBottom:'10px',marginRight:'10px'}}>
-            {packageLabDetails.map((item)=>{
-                return(<>
-                <div  style={{display:'flex',minHeight:'50px',maxHeight:'500px',}}>
-                    <div style={{width:'10%'}}>
-                    <input type="radio" name="selectLab" value={item.id} id={item.id} key={item.id} style={{ marginRight: "15px",height:'15px',width:'15px' }} onChange={(e)=>{setSlotModal(true);getSlots(item.id);setPartnerLabId(item.id);setDigPartnerId(item.diagPartnerId)}}/>
-                </div>
-                <div style={{width:'90%',border:'1px outset black'}}>
-                <label for={item.id}  ><span style={{fontSize:'15px',fontWeight:'bold'}}>Lab Name : </span>{item.labName}</label> <br/>
-                <label for={item.id}><span style={{fontSize:'15px',fontWeight:'bold'}}>Address :</span> {item.labAddress}</label><br/>
-                <label for={item.id}><span style={{fontSize:'15px',fontWeight:'bold'}}>Days & Time : </span>({item.workingDays.map((curr)=>{return(<>{monthsObject[curr]},</>)})}) ({item.workFromTime.substring(0,5)} - {item.workToTime.substring(0,5)})</label><br/>
-                <label for={item.id}><span style={{fontSize:'15px',fontWeight:'bold'}}>Sample Collection : </span>{item.homeSampleCollection==0?'No':'Yes'}</label><br/></div></div></>)
-            })}</div>
             </div>
-            }
-              </div>
-
-          </div>
-      </InfoDialog>)}
-   
-      {slotModal&&(<InfoDialog open={slotModal} onClose={handleCloseSlot}>
-      <CancelIcon
+            <div style={{ marginLeft: "20px" }}>
+              {status !== "teamselect" ? (
+                <div style={{ marginTop: "3%" }}>
+                  {packageDetail &&
+                    packageDetail.map((item) => {
+                      return (
+                        <>
+                          <div key={item.id}>
+                            <input
+                              type="radio"
+                              name="teamselect"
+                              value={item}
+                              id="item"
+                              style={{
+                                marginRight: "15px",
+                                height: "15px",
+                                width: "15px",
+                              }}
+                              onChange={handleState}
+                            />
+                            <label
+                              for="item"
+                              style={{ fontSize: "15px", fontWeight: "bold" }}
+                            >
+                              {item}
+                            </label>
+                            <br />
+                          </div>
+                        </>
+                      );
+                    })}
+                </div>
+              ) : (
+                <div style={{ marginTop: "3%" }}>
+                  <div
+                    className="member"
+                    style={{
+                      minHeight: "50px",
+                      maxHeight: "400px",
+                      overflowX: "auto",
+                      scrollBehavior: "smooth",
+                      marginBottom: "10px",
+                      marginRight: "10px",
+                    }}
+                  >
+                    {packageLabDetails.map((item) => {
+                      return (
+                        <>
+                          <div
                             style={{
-                              position: "absolute",
-                              top: 5,
-                              right: 5,
-                              color: "#ef5350",
-                              cursor: "pointer",
+                              display: "flex",
+                              minHeight: "50px",
+                              maxHeight: "500px",
                             }}
-                            onClick={handleCloseSlot}
-                          /> 
-                          <div style={{marginTop:'-10%'}}></div>
-                          <Stepper activeStep={activeStep} alternativeLabel>
-                          {steps.map((label) => (
-                            <Step key={label}>
-                              <StepLabel>{label}</StepLabel>
-                            </Step>
-                          ))}
-                        </Stepper>
-          <div style={{width:'400px',minHeight:'300px',maxHeight:'400px'}}> <form>
-          {activeStep === 0 ? (
-         <div style={{ width: "90%", marginLeft: "20px" }}>
-           <div>
-           <label>Booking Type  {errorobj !== undefined && (
+                          >
+                            <div style={{ width: "10%" }}>
+                              <input
+                                type="radio"
+                                name="selectLab"
+                                value={item.id}
+                                id={item.id}
+                                key={item.id}
+                                style={{
+                                  marginRight: "15px",
+                                  height: "15px",
+                                  width: "15px",
+                                }}
+                                onChange={(e) => {
+                                  setSlotModal(true);
+                                  getSlots(item.id);
+                                  setPartnerLabId(item.id);
+                                  setDigPartnerId(item.diagPartnerId);
+                                }}
+                              />
+                            </div>
+                            <div
+                              style={{
+                                width: "90%",
+                                border: "1px outset black",
+                              }}
+                            >
+                              <label for={item.id}>
+                                <span
+                                  style={{
+                                    fontSize: "15px",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Lab Name :{" "}
+                                </span>
+                                {item.labName}
+                              </label>{" "}
+                              <br />
+                              <label for={item.id}>
+                                <span
+                                  style={{
+                                    fontSize: "15px",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Address :
+                                </span>{" "}
+                                {item.labAddress}
+                              </label>
+                              <br />
+                              <label for={item.id}>
+                                <span
+                                  style={{
+                                    fontSize: "15px",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Days & Time :{" "}
+                                </span>
+                                (
+                                {item.workingDays.map((curr) => {
+                                  return <>{monthsObject[curr]},</>;
+                                })}
+                                ) ({item.workFromTime.substring(0, 5)} -{" "}
+                                {item.workToTime.substring(0, 5)})
+                              </label>
+                              <br />
+                              <label for={item.id}>
+                                <span
+                                  style={{
+                                    fontSize: "15px",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  Sample Collection :{" "}
+                                </span>
+                                {item.homeSampleCollection == 0 ? "No" : "Yes"}
+                              </label>
+                              <br />
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </InfoDialog>
+      )}
+
+      {slotModal && (
+        <InfoDialog open={slotModal} onClose={handleCloseSlot}>
+          <CancelIcon
+            style={{
+              position: "absolute",
+              top: 5,
+              right: 5,
+              color: "#ef5350",
+              cursor: "pointer",
+            }}
+            onClick={handleCloseSlot}
+          />
+          <div style={{ marginTop: "-10%" }}></div>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <div
+            style={{ width: "400px", minHeight: "300px", maxHeight: "400px" }}
+          >
+            {" "}
+            <form>
+              {activeStep === 0 ? (
+                <div style={{ width: "90%", marginLeft: "20px" }}>
+                  <div>
+                    <label>
+                      Booking Type{" "}
+                      {errorobj !== undefined && (
                         <>
                           {errorobj.bookingType == "" ? (
                             <p
@@ -605,45 +812,74 @@ const PackageCard = (eventID, currentEventObj) => {
                             ""
                           )}
                         </>
-                      )}</label><br/>{pkgSample==='VISIT'||pkgSample==='COLLECTION'?
-           <input autofocus="autofocus"
-           style={{
-             background: "#f3f4f6",
-             padding: "10px 10px",
-             borderRadius: 6,
-             fontSize: 12,
-             width: "95%",
-             border: "1px solid black",
-           }}
-           disabled
-           value={pkgSample}
-           />:
-         
-           <select autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      placeholder="Assessment Name"
-                      value={instruction.bookingType}
-                      
-                      onChange={handleInstruction}
-                      name="bookingType">
+                      )}
+                    </label>
+                    <br />
+                    {pkgSample === "VISIT" || pkgSample === "COLLECTION" ? (
+                      <input
+                        autofocus="autofocus"
+                        style={{
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "95%",
+                          border: "1px solid black",
+                        }}
+                        disabled
+                        value={pkgSample}
+                      />
+                    ) : (
+                      <select
+                        autofocus="autofocus"
+                        style={{
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "95%",
+                          border: "1px solid black",
+                        }}
+                        placeholder="Assessment Name"
+                        value={instruction.bookingType}
+                        onChange={handleInstruction}
+                        name="bookingType"
+                      >
                         <option value="">Select</option>
                         <option value="VISIT">VISIT</option>
                         <option value="COLLECTION">COLLECTION</option>
-                      
                       </select>
-                       }
-           </div>
-           {pkgSample==="COLLECTION"||instruction.bookingType==="COLLECTION"?
-           <div>
-           <label>Collection Address</label><br/>
-           <textarea autofocus="autofocus"
+                    )}
+                  </div>
+                  {pkgSample === "COLLECTION" ||
+                  instruction.bookingType === "COLLECTION" ? (
+                    <div>
+                      <label>Collection Address</label>
+                      <br />
+                      <textarea
+                        autofocus="autofocus"
+                        style={{
+                          background: "#f3f4f6",
+                          padding: "10px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "95%",
+                          border: "1px solid black",
+                        }}
+                        placeholder="Assessment Name"
+                        value={instruction.sampleCollectionAddress}
+                        onChange={handleInstruction}
+                        name="sampleCollectionAddress"
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  <div>
+                    <label>Instruction</label>
+                    <br />
+                    <textarea
+                      autofocus="autofocus"
                       style={{
                         background: "#f3f4f6",
                         padding: "10px 10px",
@@ -651,33 +887,29 @@ const PackageCard = (eventID, currentEventObj) => {
                         fontSize: 12,
                         width: "95%",
                         border: "1px solid black",
-                      }}
-                      placeholder="Assessment Name"
-                      value={instruction.sampleCollectionAddress}
-                      
-                      onChange={handleInstruction}
-                      name="sampleCollectionAddress"/>
-           </div>:''}
-           <div>
-           <label>Instruction</label><br/>
-           <textarea autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                        height:'70px'
+                        height: "70px",
                       }}
                       placeholder="Assessment Name"
                       value={instruction.bookingInstructions}
                       onChange={handleInstruction}
-                      name="bookingInstructions"/>
-           </div>
-           <div style={{width:'80px',height:'10px',marginLeft:'75%'}} className="absolute bottom-6 right-2" ><PrimaryButton onClick={NextValue}  mini
-                        className="w-[max-content] text-sm">Next</PrimaryButton></div>
-         </div>):(<>
+                      name="bookingInstructions"
+                    />
+                  </div>
+                  <div
+                    style={{ width: "80px", height: "10px", marginLeft: "75%" }}
+                    className="absolute bottom-6 right-2"
+                  >
+                    <PrimaryButton
+                      onClick={NextValue}
+                      mini
+                      className="w-[max-content] text-sm"
+                    >
+                      Next
+                    </PrimaryButton>
+                  </div>
+                </div>
+              ) : (
+                <>
                   <div
                     style={{
                       height: "400px",
@@ -686,12 +918,12 @@ const PackageCard = (eventID, currentEventObj) => {
                       overflowY: "auto",
                       // width:'70%',
                     }}
-                  > 
+                  >
                     <div style={{ width: "70%", marginLeft: "20px" }}>
                       {/* <p style={{fontSize: '20px', marginLeft: '80px'}}>
                   Booking Program
                 </p> */}
-                
+
                       <div
                         style={{
                           maxWidth: "250px",
@@ -733,7 +965,11 @@ const PackageCard = (eventID, currentEventObj) => {
                           }}
                           maxDate={new Date(ddt)}
                           locale="us"
-                          minDate={new Date(new Date().getTime()+(2*24*60*60*1000))}
+                          minDate={
+                            new Date(
+                              new Date().getTime() + 2 * 24 * 60 * 60 * 1000
+                            )
+                          }
                         />
                       </div>
                     </div>
@@ -885,39 +1121,45 @@ const PackageCard = (eventID, currentEventObj) => {
                         })}
                       </p>
                     </div>
-                    <div className="absolute bottom-6 right-2" style={{display:'flex'}}>
-                        <div style={{width:''}}>
-                      <PrimaryButton
-                        mini
-                        className="w-[max-content] text-sm"
-                        onClick={(e) => {
-                         setActiveStep(0);
-                        }}
-                        type="submit"
-                      >
-                        Prev
-                      </PrimaryButton>
+                    <div
+                      className="absolute bottom-6 right-2"
+                      style={{ display: "flex" }}
+                    >
+                      <div style={{ width: "" }}>
+                        <PrimaryButton
+                          mini
+                          className="w-[max-content] text-sm"
+                          onClick={(e) => {
+                            setActiveStep(0);
+                          }}
+                          type="submit"
+                        >
+                          Prev
+                        </PrimaryButton>
                       </div>
-                      <div style={{width:''}}>
-                      <PrimaryButton
-                        mini
-                        className="w-[max-content] text-sm"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          saveBookingApi();
-                        }}
-                        type="submit"
-                      >
-                        Save
-                      </PrimaryButton>
+                      <div style={{ width: "" }}>
+                        <PrimaryButton
+                          mini
+                          className="w-[max-content] text-sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            saveBookingApi();
+                          }}
+                          type="submit"
+                        >
+                          Save
+                        </PrimaryButton>
                       </div>
                       <div></div>
                     </div>
-                    
-                  </div></>)}
-                </form></div>
-      </InfoDialog>)}
-
-  </>)
+                  </div>
+                </>
+              )}
+            </form>
+          </div>
+        </InfoDialog>
+      )}
+    </>
+  );
 };
 export default PackageCard;

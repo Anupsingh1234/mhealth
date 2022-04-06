@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TopUserDetails from "./TopUserDetails";
 import { lighten, useTheme } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
@@ -37,10 +37,10 @@ import axios from "axios";
 import InfoDialog from "./Utility/InfoDialog";
 import { PrimaryButton } from "./Form";
 // import FormItem from 'antd/lib/form/FormItem';
-import HraQuestion from './CreateHraQuestion'
+import HraQuestion from "./CreateHraQuestion";
 import CreateAssisment from "./CreateAssisment";
 import CreateHraScoreCard from "./CreateHraScoreCard";
-import NoData from './NoData'
+import NoData from "./NoData";
 const Admin123 = () => {
   // const [modalStyle] = React.useState(getModalStyle);
   const { theme } = useContext(ThemeContext);
@@ -505,111 +505,112 @@ const Admin123 = () => {
 
   return (
     <div className="Profile" style={{ height: "auto", overflowX: "hidden" }}>
-    <TopUserDetails />
-    <Navbar />
-    <div className="profile-background" style={{ overflowX: "hidden" }}>
-      <div
-        className="form reset-form"
-        style={{
-          marginTop: 40,
-          width: "90%",
-          height: "auto",
-          marginTop: 50,
-          // marginTop: "20px"
-        }}
-      >
-        <Tabs style={{ marginTop: 20 }}>
-          {" "}
-          <div
-            className="d-flex j-c-sp-btn a-i-center cursor-pointer"
-            style={{ justifyContent: "flex-end",display:'flex' }}
-          >
-            <div className="leaderboard-actions ">
-              {" "}
-              <TabList style={{ border: "0px",display:'flex',spacing:"2" }}>
-               
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
+      <TopUserDetails />
+      <Navbar />
+      <div className="profile-background" style={{ overflowX: "hidden" }}>
+        <div
+          className="form reset-form"
+          style={{
+            marginTop: 40,
+            width: "90%",
+            height: "auto",
+            marginTop: 50,
+            // marginTop: "20px"
+          }}
+        >
+          <Tabs style={{ marginTop: 20 }}>
+            {" "}
+            <div
+              className="d-flex j-c-sp-btn a-i-center cursor-pointer"
+              style={{ justifyContent: "flex-end", display: "flex" }}
+            >
+              <div className="leaderboard-actions ">
+                {" "}
+                <TabList
+                  style={{ border: "0px", display: "flex", spacing: "2" }}
                 >
-                  {" "}
-                  <button
+                  <Tab
                     style={{
-                      padding: 0,
+                      fontSize: 12,
+                      border: "0px",
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
-                    Quiz{" "}
-                  </button>
-                </Tab>
+                    {" "}
+                    <button
+                      style={{
+                        padding: 0,
+                      }}
+                    >
+                      Quiz{" "}
+                    </button>
+                  </Tab>
 
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
-                >
-                  {" "}
-                  <button
+                  <Tab
                     style={{
-                      padding: 0,
+                      fontSize: 12,
+                      border: "0px",
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
-                    HraQuestion{" "}
-                  </button>
-                </Tab>
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
-                >
-                  {" "}
-                  <button
+                    {" "}
+                    <button
+                      style={{
+                        padding: 0,
+                      }}
+                    >
+                      HraQuestion{" "}
+                    </button>
+                  </Tab>
+                  <Tab
                     style={{
-                      padding: 0,
+                      fontSize: 12,
+                      border: "0px",
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
-                    Assessment{" "}
-                  </button>
-                </Tab>
-                <Tab
-                  style={{
-                    fontSize: 12,
-                    border: "0px",
-                    background: theme.buttonBGColor,
-                    color: theme.buttonTextColor,
-                  }}
-                >
-                  {" "}
-                  <button
+                    {" "}
+                    <button
+                      style={{
+                        padding: 0,
+                      }}
+                    >
+                      Assessment{" "}
+                    </button>
+                  </Tab>
+                  <Tab
                     style={{
-                      padding: 0,
+                      fontSize: 12,
+                      border: "0px",
+                      background: theme.buttonBGColor,
+                      color: theme.buttonTextColor,
                     }}
                   >
-                    ScoreCard{" "}
-                  </button>
-                </Tab>
-              </TabList>
+                    {" "}
+                    <button
+                      style={{
+                        padding: 0,
+                      }}
+                    >
+                      ScoreCard{" "}
+                    </button>
+                  </Tab>
+                </TabList>
+              </div>
             </div>
-          </div>
             <TabPanel>
-              <div >
-                <div style={{width:'20%'}}>
-                <PrimaryButton
-                  mini
-                  className="w-24 text-sm ml-6 mb-2"
-                  onClick={() => setDuplicateModal(true)}
-                >
-                  Duplicate
-                </PrimaryButton>
+              <div>
+                <div style={{ width: "20%" }}>
+                  <PrimaryButton
+                    mini
+                    className="w-24 text-sm ml-6 mb-2"
+                    onClick={() => setDuplicateModal(true)}
+                  >
+                    Duplicate
+                  </PrimaryButton>
                 </div>
                 <div style={{ display: "flex", marginLeft: "30px" }}>
                   <div style={{ width: "30%" }}>
@@ -1076,7 +1077,7 @@ const Admin123 = () => {
                           style={{ width: 200, height: 200 }}
                           src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                         /> */}
-                        <NoData/>
+                        <NoData />
                         Data is not present
                       </div>{" "}
                     </>
@@ -1096,11 +1097,10 @@ const Admin123 = () => {
               {" "}
               <CreateHraScoreCard />
             </TabPanel>
-           </Tabs>
-         
+          </Tabs>
         </div>
       </div>
-      
+
       <div>
         {modalview && (
           <QuestionModal modalView={modalview} setModalView={setModalView} />
@@ -1297,7 +1297,6 @@ const Admin123 = () => {
             </div>
           </InfoDialog>
         }
-       
       </div>
     </div>
   );

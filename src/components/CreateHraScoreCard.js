@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import TopUserDetails from "./TopUserDetails";
 import { lighten, useTheme } from "@material-ui/core/styles";
 import Navbar from "./Navbar";
@@ -42,7 +42,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Chip from "@material-ui/core/Chip";
 import { Assessment } from "@material-ui/icons";
-import NoData from './NoData'
+import NoData from "./NoData";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
@@ -55,8 +55,6 @@ const MenuProps = {
   },
 };
 
-
-
 const CreateHraScoreCard = () => {
   // const [modalStyle] = React.useState(getModalStyle);
   const eventImageInputRef = React.createRef();
@@ -68,15 +66,14 @@ const CreateHraScoreCard = () => {
   const [imageModal, setImageModal] = useState(false);
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
-  const [imageData,setImageData]=useState({image:'',
-  image_obj:'',});
+  const [imageData, setImageData] = useState({ image: "", image_obj: "" });
   console.log(addId);
   const [duplicate, setDuplicate] = useState({
     eventId: "",
     fromEventId: "",
     quizId: "",
   });
-  const [imgId,setImgId]=useState("")
+  const [imgId, setImgId] = useState("");
   console.log(theme, "duplicate");
   const handleDuplicate = (e) => {
     const name = e.target.name;
@@ -253,8 +250,7 @@ const CreateHraScoreCard = () => {
       numeric: false,
       disablePadding: true,
     },
-    
-    
+
     {
       label: "Edit",
       // id: 'durationInTime',
@@ -380,7 +376,7 @@ const CreateHraScoreCard = () => {
     }
   };
   const [eventid, setEventid] = useState("");
-const [hraid,setHraId]=useState("")
+  const [hraid, setHraId] = useState("");
   const [getQuiz, setGEtQuiz] = useState([]);
   console.log(getQuiz);
   const ques = (id) => {
@@ -403,7 +399,7 @@ const [hraid,setHraId]=useState("")
         setGEtQuiz(res.data.response.responseData);
       });
   };
-  const [getScoreData,setGetScoreData]=useState([])
+  const [getScoreData, setGetScoreData] = useState([]);
   const getScoreCrd = (id) => {
     const adminurl = `${urlPrefix}v1.0/getAllEventScoreCard?hraId=${id}`;
     console.log(adminurl);
@@ -424,7 +420,7 @@ const [hraid,setHraId]=useState("")
         setGetScoreData(res.data.response.responseData);
       });
   };
-  const [getProgramData,setGetProgram]=useState([])
+  const [getProgramData, setGetProgram] = useState([]);
   const getProgram = (id) => {
     const adminurl = `${urlPrefix}v1.0/getAllAttachedProgram?hraId=${id}`;
     console.log(adminurl);
@@ -472,22 +468,23 @@ const [hraid,setHraId]=useState("")
     const formData = new FormData();
     formData.append("image", imageData.image_obj);
     const adminurl = `${urlPrefix}v1.0/uploadHRAImage?id=${imgId}&key=SCORECARD`;
- 
-    return axios.post(adminurl, formData,{
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            timeStamp: "timestamp",
-      accept: "*/*",
-      "Content-type": "multipart/form-data; boundary=???",
-      withCredentials: true,
-          },
+
+    return axios
+      .post(adminurl, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Content-type": "multipart/form-data; boundary=???",
+          withCredentials: true,
+        },
       })
       .then((res) => {
-        if(res.data.response.responseMessage==="SUCCESS"){
+        if (res.data.response.responseMessage === "SUCCESS") {
           Message.success(res.data.response.responseData);
-          setImageModal(false)
-         }
-        });
+          setImageModal(false);
+        }
+      });
   };
   const [geteventId, setGetEventId] = useState([]);
   const getEvent = () => {
@@ -519,39 +516,39 @@ const [hraid,setHraId]=useState("")
   const eventName = condition.events;
   console.log(eventName);
   const [assessment, setAssessment] = useState({
-      eventId:"",
-      hraId:"",
-      scoreFrom: "",
-      scoreTo: "",
+    eventId: "",
+    hraId: "",
+    scoreFrom: "",
+    scoreTo: "",
     recommedations: "",
     attachedSubEvent: [],
     description: "",
-    
-    id:""
+
+    id: "",
   });
-console.log(assessment,'assesment')
-const hadleEdit=(row)=>{
-  setAssessment({
-    eventId:assessment.eventId,
-  hraId: row.hraId,
-  scoreFrom: row.scoreFrom,
-  recommedations:row.recommedations,
-  attachedSubEvent:  row.attachedSubEvent &&
-  Array.isArray(row.attachedSubEvent)
-    ? row.attachedSubEvent?.map((item) => {
-        if (getProgramData.filter((elm) => elm.id == item)[0]) {
-          return getProgramData.filter((elm) => elm.id == item)[0][
-            "programName"
-          ];
-        }
-      })
-    : [],
-  description: row.description,
-  scoreTo:row.scoreTo,
-  
-  id:row.id
-})
-}
+  console.log(assessment, "assesment");
+  const hadleEdit = (row) => {
+    setAssessment({
+      eventId: assessment.eventId,
+      hraId: row.hraId,
+      scoreFrom: row.scoreFrom,
+      recommedations: row.recommedations,
+      attachedSubEvent:
+        row.attachedSubEvent && Array.isArray(row.attachedSubEvent)
+          ? row.attachedSubEvent?.map((item) => {
+              if (getProgramData.filter((elm) => elm.id == item)[0]) {
+                return getProgramData.filter((elm) => elm.id == item)[0][
+                  "programName"
+                ];
+              }
+            })
+          : [],
+      description: row.description,
+      scoreTo: row.scoreTo,
+
+      id: row.id,
+    });
+  };
   const [modalview, setModalView] = useState(false);
   const inputsHandler = (e) => {
     const name = e.target.name;
@@ -561,9 +558,9 @@ const hadleEdit=(row)=>{
     if (name === "eventId") {
       ques(value);
     }
-    if(name==="hraId"){
-        getScoreCrd(value)
-        getProgram(value)
+    if (name === "hraId") {
+      getScoreCrd(value);
+      getProgram(value);
     }
   };
   if (setModalView === false) {
@@ -572,32 +569,30 @@ const hadleEdit=(row)=>{
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     let payload = {};
     payload = {
-      id:assessment.id!==""?assessment.id:null,
+      id: assessment.id !== "" ? assessment.id : null,
       scoreFrom: assessment.scoreFrom,
-    scoreTo: assessment.scoreTo,
-    recommedations: assessment.recommedations,
-    attachedSubEvent:assessment.attachedSubEvent .filter((check) => check)
-    .map((item) => {
-      return getProgramData.filter(
-        (elm) =>
-         
-          elm.programName == item
-      )[0]["id"];
-    }),
-    description: assessment.description,
-    hraId:assessment.hraId
+      scoreTo: assessment.scoreTo,
+      recommedations: assessment.recommedations,
+      attachedSubEvent: assessment.attachedSubEvent
+        .filter((check) => check)
+        .map((item) => {
+          return getProgramData.filter((elm) => elm.programName == item)[0][
+            "id"
+          ];
+        }),
+      description: assessment.description,
+      hraId: assessment.hraId,
     };
     if (
-        assessment.scoreFrom !== "" &&
-        assessment.scoreTo !== "" &&
-        assessment.recommedations !== "" &&
-      assessment.attachedSubEvent.length>0&&
+      assessment.scoreFrom !== "" &&
+      assessment.scoreTo !== "" &&
+      assessment.recommedations !== "" &&
+      assessment.attachedSubEvent.length > 0 &&
       assessment.description !== "" &&
-      assessment.hraId!== ""
-     
+      assessment.hraId !== ""
     ) {
       const adminurl = `${urlPrefix}v1.0/createHraScoreCard`;
       return axios
@@ -618,18 +613,17 @@ const hadleEdit=(row)=>{
           setAssessment({
             scoreFrom: "",
             scoreTo: "",
-          recommedations: "",
-          attachedEvent: [],
-          description: "",
-          
+            recommedations: "",
+            attachedEvent: [],
+            description: "",
           });
           setImageModal(true);
           if (res.data.mhealthResponseMessage === "SUCCESS") {
-            setHraId(res.data.response.responseData.id)
+            setHraId(res.data.response.responseData.id);
             console.log(res.data.response.responseMessage);
             Message.success(res.data.response.responseMessage);
-            setImageModal(true)
-            setImgId(res.data.response.responseData.id)
+            setImageModal(true);
+            setImgId(res.data.response.responseData.id);
           }
         });
     } else {
@@ -645,312 +639,290 @@ const hadleEdit=(row)=>{
 
   return (
     <>
-       
-            
-                <div style={{ display: "flex", marginLeft: "30px" }}>
-                <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Select Event
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.eventId == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+      <div style={{ display: "flex", marginLeft: "30px" }}>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Select Event
+            {errorobj !== undefined && (
+              <>
+                {errorobj.eventId == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                   
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      
-                      value={assessment.eventId}
-                      onChange={inputsHandler}
-                      name="eventId"
-                    >
-                        <option value="">
-                         Select
-                        </option>
-                         {geteventId.map((day, index) =>{
-                             return(<>
-                        <option key={index} value={day.id}>
-                          {day.challengeName}
-                        </option>
-                        </>) })}
-                      
-                    </select>
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                <label style={{ fontSize: 12 }}>
-                     Select Hra
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.hraId == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <select
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.eventId}
+            onChange={inputsHandler}
+            name="eventId"
+          >
+            <option value="">Select</option>
+            {geteventId.map((day, index) => {
+              return (
+                <>
+                  <option key={index} value={day.id}>
+                    {day.challengeName}
+                  </option>
+                </>
+              );
+            })}
+          </select>
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Select Hra
+            {errorobj !== undefined && (
+              <>
+                {errorobj.hraId == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                   
-                    <select
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      
-                      value={assessment.hraId}
-                      onChange={inputsHandler}
-                      name="hraId"
-                    >
-                        <option value="">
-                         Select
-                        </option>
-                         {getQuiz&&getQuiz.map((day, index) =>{
-                             return(<>
-                        <option value={day.id}>
-                          {day.assesmentName}
-                        </option>
-                        </>) })}
-                      
-                    </select>
-                  
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Attach Program
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.attachedSubEvent===[] ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-                    <br/>
-                    <Select
-                    style={{width:'100%'}}
-                      labelId="demo-mutiple-chip-label"
-                      id="demo-mutiple-chip"
-                      multiple
-                      value={assessment.attachedSubEvent ?assessment.attachedSubEvent: []}
-                      onChange={(event) =>
-                        setAssessment({
-                          ...assessment,
-                          attachedSubEvent:event.target.value
-                             
-                        })
-                      }
-                      input={<Input id="select-multiple-chip" />}
-                      renderValue={(selected) => (
-                        <div  className={classes.chips}>
-                          {selected.map((value) => (
-                            <Chip
-                              key={value}
-                              label={value}
-                              className={classes.chip}
-                              style={{marginLeft:2}}
-                            />
-                          ))}
-                        </div>
-                      )}
-                      MenuProps={MenuProps}
-                    >
-                      {getProgramData.map((currEvent, index) => (
-                          <MenuItem key={index} value={currEvent.programName}>
-                            {currEvent.programName}
-                          </MenuItem>
-                        ))}
-                     
-                    </Select>
+          <select
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.hraId}
+            onChange={inputsHandler}
+            name="hraId"
+          >
+            <option value="">Select</option>
+            {getQuiz &&
+              getQuiz.map((day, index) => {
+                return (
+                  <>
+                    <option value={day.id}>{day.assesmentName}</option>
+                  </>
+                );
+              })}
+          </select>
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Attach Program
+            {errorobj !== undefined && (
+              <>
+                {errorobj.attachedSubEvent === [] ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
+          <br />
+          <Select
+            style={{ width: "100%" }}
+            labelId="demo-mutiple-chip-label"
+            id="demo-mutiple-chip"
+            multiple
+            value={
+              assessment.attachedSubEvent ? assessment.attachedSubEvent : []
+            }
+            onChange={(event) =>
+              setAssessment({
+                ...assessment,
+                attachedSubEvent: event.target.value,
+              })
+            }
+            input={<Input id="select-multiple-chip" />}
+            renderValue={(selected) => (
+              <div className={classes.chips}>
+                {selected.map((value) => (
+                  <Chip
+                    key={value}
+                    label={value}
+                    className={classes.chip}
+                    style={{ marginLeft: 2 }}
+                  />
+                ))}
+              </div>
+            )}
+            MenuProps={MenuProps}
+          >
+            {getProgramData.map((currEvent, index) => (
+              <MenuItem key={index} value={currEvent.programName}>
+                {currEvent.programName}
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          marginLeft: "30px",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Score (From)
+            {errorobj !== undefined && (
+              <>
+                {errorobj.scoreFrom == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                  </div>
-                  
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    marginLeft: "30px",
-                    marginTop: "10px",
-                  }}
-                >
-               
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                   Score (From)
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.scoreFrom == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <input
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            value={assessment.scoreFrom.replace(/[^0-9]/g, "")}
+            onChange={inputsHandler}
+            placeholder="0-50"
+            name="scoreFrom"
+          />
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Score (To)
+            {errorobj !== undefined && (
+              <>
+                {errorobj.scoreTo == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      value={assessment.scoreFrom.replace(/[^0-9]/g,"")}
-                      onChange={inputsHandler}
-                      placeholder="0-50"
-                      name="scoreFrom"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Score (To)
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.scoreTo == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
+          <input
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            placeholder="0-100"
+            value={assessment.scoreTo.replace(/[^0-9]/g, "")}
+            onChange={inputsHandler}
+            name="scoreTo"
+          />
+        </div>
+        <div style={{ width: "30%" }}>
+          <label style={{ fontSize: 12 }}>
+            Recommedations
+            {errorobj !== undefined && (
+              <>
+                {errorobj.recommedations == "" ? (
+                  <p
+                    style={{
+                      color: "red",
+                      marginLeft: "22%",
+                      marginTop: "-4%",
+                    }}
+                  >
+                    Required
+                  </p>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
+          </label>
 
-                    <input
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      placeholder="0-100"
-                      value={assessment.scoreTo.replace(/[^0-9]/g,"")}
-                      onChange={inputsHandler}
-                      name="scoreTo"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "30%" }}>
-                    <label style={{ fontSize: 12 }}>
-                     Recommedations
-                      {errorobj !== undefined && (
-                        <>
-                          {errorobj.recommedations == "" ? (
-                            <p
-                              style={{
-                                color: "red",
-                                marginLeft: "22%",
-                                marginTop: "-4%",
-                              }}
-                            >
-                              Required
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </>
-                      )}
-                    </label>
-
-                    <textarea
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                        minHeight:'25px',
-                        maxHeight:'auto'
-                      }}
-                      placeholder="Recommedations"
-                      value={assessment.recommedations}
-                      onChange={inputsHandler}
-                      name="recommedations"
-                    />
-                  </div>
-               
-                  
-                </div>
-                <div style={{ display: "flex",  marginLeft: "30px",
-                    marginTop: "10px",}}>
-                 
-                  <div style={{ width: "35%" }}>
-
-                  <label style={{ fontSize: 12 }}>
-                    Description
-                      {/* {errorobj !== undefined && (
+          <textarea
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+              minHeight: "25px",
+              maxHeight: "auto",
+            }}
+            placeholder="Recommedations"
+            value={assessment.recommedations}
+            onChange={inputsHandler}
+            name="recommedations"
+          />
+        </div>
+      </div>
+      <div style={{ display: "flex", marginLeft: "30px", marginTop: "10px" }}>
+        <div style={{ width: "35%" }}>
+          <label style={{ fontSize: 12 }}>
+            Description
+            {/* {errorobj !== undefined && (
                         <>
                           {errorobj.reattemptAfterDays == "" ? (
                             <p
@@ -967,226 +939,203 @@ const hadleEdit=(row)=>{
                           )}
                         </>
                       )} */}
-                    </label>
+          </label>
 
-                    <textarea
-                      autofocus="autofocus"
-                      style={{
-                        background: "#f3f4f6",
-                        padding: "10px 10px",
-                        borderRadius: 6,
-                        fontSize: 12,
-                        width: "95%",
-                        border: "1px solid black",
-                      }}
-                      placeholder="Description Assessment"
-                      value={assessment.description}
-                      onChange={inputsHandler}
-                      name="description"
-                    />
-                     
-                  
-                  </div>
-                  <div style={{ width: "20%" ,marginTop:'1.5%',}}>
-                    <PrimaryButton
-                      mini
-                      className="w-24 text-sm mt-4"
-                      onClick={handleSubmit}
-                    >
-                      Save ScoreCard
-                    </PrimaryButton>
-                  </div>
-                </div>
+          <textarea
+            autofocus="autofocus"
+            style={{
+              background: "#f3f4f6",
+              padding: "10px 10px",
+              borderRadius: 6,
+              fontSize: 12,
+              width: "95%",
+              border: "1px solid black",
+            }}
+            placeholder="Description Assessment"
+            value={assessment.description}
+            onChange={inputsHandler}
+            name="description"
+          />
+        </div>
+        <div style={{ width: "20%", marginTop: "1.5%" }}>
+          <PrimaryButton
+            mini
+            className="w-24 text-sm mt-4"
+            onClick={handleSubmit}
+          >
+            Save ScoreCard
+          </PrimaryButton>
+        </div>
+      </div>
 
-                <div style={{ minWidth: "800px", overflowX: "auto" }}>
-                  {/* <Paper className={classes.paper}> */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "flex-end",
-                      alignItems: "center",
-                    }}
-                  >
-                    {/* <Tooltip title="Export data">
+      <div style={{ minWidth: "800px", overflowX: "auto" }}>
+        {/* <Paper className={classes.paper}> */}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          {/* <Tooltip title="Export data">
                       <CSVLink data={datas} headers={headers} separator={','}>
                         <SystemUpdateAltIcon />
                       </CSVLink>
                     </Tooltip> */}
-                    <div className="d-flex a-i-center">
-                      {getScoreData && getScoreData.length > 0 ? (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={getScoreData && getScoreData.length}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      ) : (
-                        <TablePagination
-                          rowsPerPageOptions={[5, 10, 50, 75, 100]}
-                          component="div"
-                          count={0}
-                          rowsPerPage={rowsPerPage}
-                          page={page}
-                          onChangePage={handleChangePage}
-                          onChangeRowsPerPage={handleChangeRowsPerPage}
-                          ActionsComponent={TablePaginationActions}
-                        />
-                      )}
-                    </div>
-                  </div>
-                  {/* <Modal open={modal} /> */}
+          <div className="d-flex a-i-center">
+            {getScoreData && getScoreData.length > 0 ? (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                component="div"
+                count={getScoreData && getScoreData.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            ) : (
+              <TablePagination
+                rowsPerPageOptions={[5, 10, 50, 75, 100]}
+                component="div"
+                count={0}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                ActionsComponent={TablePaginationActions}
+              />
+            )}
+          </div>
+        </div>
+        {/* <Modal open={modal} /> */}
 
-                  <div style={{}}></div>
+        <div style={{}}></div>
 
-                  {getScoreData && getScoreData.length > 0 ? (
-                    <div style={{ padding: 20 }}>
-                      <Table
-                        className={classes.table}
-                        aria-labelledby="tableTitle"
-                        size={"small"}
-                        aria-label="enhanced table"
-                      >
-                        {" "}
-                        <EnhancedTableHead
-                          style={{ fontSize: "5px" }}
-                          classes={classes}
-                          order={order}
-                          orderBy={orderBy}
-                          onRequestSort={handleRequestSort}
-                        />
-                        <TableBody>
-                          {getScoreData &&
-                            stableSort(getScoreData, getComparator(order, orderBy))
-                              .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                              )
-                              .map((item, ind) => {
-                                return (
-                                  <>
-                                    <TableRow className="performace-table-row">
-                                      {" "}
-                                      <TableCell align="center">
-                                        {" "}
-                                        <span style={{ fontSize: 12 }}>
-                                          {ind + 1}
-                                        </span>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p
-                                          style={{
-                                            whiteSpace: "nowrap",
-                                            textOverflow: "ellipsis",
-                                            width: "200px",
-                                            display: "block",
-                                            overflow: "hidden",
-                                            fontSize: 12,
-                                          }}
-                                        >
-                                          {" "}
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.recommedations
-                                              ? item.recommedations
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p style={{ width: "100px" }}>
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.scoreFrom
-                                              ? item.scoreFrom
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell align="left">
-                                        {" "}
-                                        <p style={{ width: "100px" }}>
-                                          <span style={{ fontSize: 12 }}>
-                                            {item.scoreTo
-                                              ? item.scoreTo
-                                              : "  -     "}
-                                          </span>{" "}
-                                        </p>{" "}
-                                      </TableCell>
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        {" "}
-                                        {item.description
-                                          ? item.description
-                                          : "  -     "}
-                                      </TableCell>
-                                      
-                                      <TableCell
-                                        align="center"
-                                        style={{ fontSize: 12 }}
-                                      >
-                                        <PrimaryButton
-                                          mini
-                                          className="w-24 text-sm mx-auto"
-                                          onClick={() => {
-                                           hadleEdit(item)}}
-                                        >
-                                          Edit
-                                        </PrimaryButton>
-                                      </TableCell>
-                                    </TableRow>
-                                  </>
-                                );
-                              })}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  ) : (
-                    <>
-                      <div
-                        style={{
-                          height: 250,
-                          padding: "5px",
-                          marginTop: 30,
-                          width: "100%",
-                          display: "flex",
-                          flexDirection: "column",
-                          fontSize: 12,
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                        className=""
-                      >
-                        {" "}
-                        {/* <img
+        {getScoreData && getScoreData.length > 0 ? (
+          <div style={{ padding: 20 }}>
+            <Table
+              className={classes.table}
+              aria-labelledby="tableTitle"
+              size={"small"}
+              aria-label="enhanced table"
+            >
+              {" "}
+              <EnhancedTableHead
+                style={{ fontSize: "5px" }}
+                classes={classes}
+                order={order}
+                orderBy={orderBy}
+                onRequestSort={handleRequestSort}
+              />
+              <TableBody>
+                {getScoreData &&
+                  stableSort(getScoreData, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((item, ind) => {
+                      return (
+                        <>
+                          <TableRow className="performace-table-row">
+                            {" "}
+                            <TableCell align="center">
+                              {" "}
+                              <span style={{ fontSize: 12 }}>
+                                {ind + 1}
+                              </span>{" "}
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <p
+                                style={{
+                                  whiteSpace: "nowrap",
+                                  textOverflow: "ellipsis",
+                                  width: "200px",
+                                  display: "block",
+                                  overflow: "hidden",
+                                  fontSize: 12,
+                                }}
+                              >
+                                {" "}
+                                <span style={{ fontSize: 12 }}>
+                                  {item.recommedations
+                                    ? item.recommedations
+                                    : "  -     "}
+                                </span>{" "}
+                              </p>{" "}
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <p style={{ width: "100px" }}>
+                                <span style={{ fontSize: 12 }}>
+                                  {item.scoreFrom ? item.scoreFrom : "  -     "}
+                                </span>{" "}
+                              </p>{" "}
+                            </TableCell>
+                            <TableCell align="left">
+                              {" "}
+                              <p style={{ width: "100px" }}>
+                                <span style={{ fontSize: 12 }}>
+                                  {item.scoreTo ? item.scoreTo : "  -     "}
+                                </span>{" "}
+                              </p>{" "}
+                            </TableCell>
+                            <TableCell align="center" style={{ fontSize: 12 }}>
+                              {" "}
+                              {item.description ? item.description : "  -     "}
+                            </TableCell>
+                            <TableCell align="center" style={{ fontSize: 12 }}>
+                              <PrimaryButton
+                                mini
+                                className="w-24 text-sm mx-auto"
+                                onClick={() => {
+                                  hadleEdit(item);
+                                }}
+                              >
+                                Edit
+                              </PrimaryButton>
+                            </TableCell>
+                          </TableRow>
+                        </>
+                      );
+                    })}
+              </TableBody>
+            </Table>
+          </div>
+        ) : (
+          <>
+            <div
+              style={{
+                height: 250,
+                padding: "5px",
+                marginTop: 30,
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                fontSize: 12,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              className=""
+            >
+              {" "}
+              {/* <img
                           style={{ width: 200, height: 200 }}
                           src="https://w21.mhealth.ai/static/media/dataSource.11fba1d5.svg"
                         /> */}
-                        <NoData/>
-                        Data is not present
-                      </div>{" "}
-                    </>
-                  )}
-                </div>
-             
-         
-       
-      
+              <NoData />
+              Data is not present
+            </div>{" "}
+          </>
+        )}
+      </div>
+
       <div>
         {modalview && (
           <QuestionModal modalView={modalview} setModalView={setModalView} />
         )}
         {
-          <InfoDialog
-            open={imageModal}
-            onClose={() => setImageModal(false)}
-          >
+          <InfoDialog open={imageModal} onClose={() => setImageModal(false)}>
             <CancelIcon
               style={{
                 // top: 50,
@@ -1198,11 +1147,10 @@ const hadleEdit=(row)=>{
               }}
               onClick={() => {
                 setImageModal(false);
-                 
               }}
             />
             <div style={{ height: "250px", width: "400px", marginLeft: "15%" }}>
-            <div
+              <div
                 className="mhealth-input-box padding-025em"
                 style={{
                   display: "flex",
@@ -1220,7 +1168,7 @@ const hadleEdit=(row)=>{
                   <label
                     style={{ display: "flex", justifyContent: "space-between" }}
                   >
-                   Assessment Image{" "}
+                    Assessment Image{" "}
                     {/* {assessment.imgPath && (
                       <span
                         style={{ cursor: "pointer", color: "red" }}
@@ -1240,7 +1188,7 @@ const hadleEdit=(row)=>{
                     className="create-event-logo"
                     style={{ border: "1px solid #eee" }}
                   >
-                    {imageData.image? (
+                    {imageData.image ? (
                       <>
                         <img
                           style={{ width: "100%", height: "100%" }}
@@ -1263,18 +1211,18 @@ const hadleEdit=(row)=>{
                     style={{ display: "none" }}
                     onChange={onFileChange}
                   />
-                  <div style={{marginTop:'3%'}}><PrimaryButton onClick={imageUpload}>Save Image</PrimaryButton></div>
-                  
+                  <div style={{ marginTop: "3%" }}>
+                    <PrimaryButton onClick={imageUpload}>
+                      Save Image
+                    </PrimaryButton>
+                  </div>
                 </div>
-                
               </div>
-              
             </div>
           </InfoDialog>
         }
-       
       </div>
-    
- </> );
+    </>
+  );
 };
 export default CreateHraScoreCard;
