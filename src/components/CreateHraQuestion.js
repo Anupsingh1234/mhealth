@@ -581,8 +581,8 @@ const [optionData,setOptionData]=useState({
         .then((res) => {
           question(assessment.hraId)
           setAssessment({
-            // eventId:"",
-            // hraId: "",
+            eventId:assessment.eventId,
+            hraId: assessment.hraId,
             question: "",
             queDescription: "",
             answerType: "",

@@ -1193,6 +1193,7 @@ export default function EventInfoModal({
                     name="correctAns"
                     onChange={edithandler}
                     value="1"
+                    defaultChecked={Edit.correctAns=="1"&&true}
                   />
                 </div>
               </div>
@@ -1253,6 +1254,7 @@ export default function EventInfoModal({
                     value="2"
                     onChange={edithandler}
                     name="correctAns"
+                    defaultChecked={Edit.correctAns=="2"&&true}
                   />
                 </div>
               </div>
@@ -1313,6 +1315,7 @@ export default function EventInfoModal({
                     value="3"
                     onChange={edithandler}
                     name="correctAns"
+                    defaultChecked={Edit.correctAns=="3"&&true}
                   />
                 </div>
               </div>
@@ -1372,6 +1375,7 @@ export default function EventInfoModal({
                     value="4"
                     onChange={edithandler}
                     name="correctAns"
+                    defaultChecked={Edit.correctAns=="4"&&true}
                   />
                 </div>
               </div>
