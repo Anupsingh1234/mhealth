@@ -67,7 +67,10 @@ const CreateAssisment = () => {
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
   const [errorobj1, setErrorObj1] = useState();
-  const [imageData, setImageData] = useState({ image: "", image_obj: "" });
+  const [imageData, setImageData] = useState({
+    image: "",
+    image_obj: "",
+  });
   const [imageModal, setImageModal] = useState(false);
   const [optionModal, setOptionModal] = useState(false);
   const [optionType, setOptionType] = useState();

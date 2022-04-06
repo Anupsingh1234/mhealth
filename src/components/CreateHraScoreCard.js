@@ -66,7 +66,10 @@ const CreateHraScoreCard = () => {
   const [imageModal, setImageModal] = useState(false);
   const [addId, setaddId] = useState();
   const [errorobj, setErrorObj] = useState();
-  const [imageData, setImageData] = useState({ image: "", image_obj: "" });
+  const [imageData, setImageData] = useState({
+    image: "",
+    image_obj: "",
+  });
   console.log(addId);
   const [duplicate, setDuplicate] = useState({
     eventId: "",
@@ -918,7 +921,13 @@ const CreateHraScoreCard = () => {
           />
         </div>
       </div>
-      <div style={{ display: "flex", marginLeft: "30px", marginTop: "10px" }}>
+      <div
+        style={{
+          display: "flex",
+          marginLeft: "30px",
+          marginTop: "10px",
+        }}
+      >
         <div style={{ width: "35%" }}>
           <label style={{ fontSize: 12 }}>
             Description
