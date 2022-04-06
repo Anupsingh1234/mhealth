@@ -252,7 +252,7 @@ const CreateAssisment = () => {
       numeric: false,
       disablePadding: true,
     },
-    
+
     {
       label: "Edit",
       // id: 'durationInTime',
@@ -400,7 +400,7 @@ const CreateAssisment = () => {
     const formData = new FormData();
     formData.append("image", imageData.image_obj);
     const adminurl = `${urlPrefix}v1.0/uploadHRAImage?id=${imgId}&key=QUESTION`;
- 
+
     return axios
       .post(adminurl, formData, {
         headers: {
@@ -554,7 +554,7 @@ const CreateAssisment = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     let payload = {};
     payload = {
       id: assessment.id !== "" ? assessment.id : "",
@@ -586,7 +586,7 @@ const CreateAssisment = () => {
         .then((res) => {
           question(assessment.hraId);
           setAssessment({
-            eventId:assessment.eventId,
+            eventId: assessment.eventId,
             hraId: assessment.hraId,
             question: "",
             queDescription: "",
@@ -605,7 +605,7 @@ const CreateAssisment = () => {
       setErrorObj(assessment);
     }
   };
-  
+
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -632,7 +632,7 @@ const CreateAssisment = () => {
   console.log(imageData.image_obj, "imgdd");
   const optionSubmit = (e) => {
     e.preventDefault();
-   
+
     let payload = {};
     payload = {
       id: optionData.id !== "" ? optionData.id : null,
@@ -664,7 +664,7 @@ const CreateAssisment = () => {
         .then((res) => {
           getOption(optionData.questionId);
           setOptionData({
-            questionId: "",
+            questionId: optionData.questionId,
             optionText: "",
             additionalInfo: "",
             optionScore: "",
@@ -711,7 +711,7 @@ const CreateAssisment = () => {
               </>
             )}
           </label>
-       
+
           <select
             autofocus="autofocus"
             style={{
@@ -759,7 +759,7 @@ const CreateAssisment = () => {
               </>
             )}
           </label>
-            
+
           <select
             autofocus="autofocus"
             style={{
@@ -856,7 +856,7 @@ const CreateAssisment = () => {
               </>
             )}
           </label>
-                   
+
           <textarea
             autofocus="autofocus"
             style={{
@@ -873,7 +873,7 @@ const CreateAssisment = () => {
             name="question"
           />
         </div>
-                      
+
         <div style={{ width: "30%" }}>
           <label style={{ fontSize: 12 }}>
             Description
@@ -924,7 +924,7 @@ const CreateAssisment = () => {
           </PrimaryButton>
         </div>
       </div>
-                        
+
       <div style={{ minWidth: "800px", overflowX: "auto" }}>
         {/* <Paper className={classes.paper}> */}
         <div
@@ -1099,7 +1099,7 @@ const CreateAssisment = () => {
           </>
         )}
       </div>
-      
+
       <div>
         {modalview && (
           <QuestionModal modalView={modalview} setModalView={setModalView} />
@@ -1236,7 +1236,7 @@ const CreateAssisment = () => {
                     </>
                   )}
                 </label>
-            
+
                 <textarea
                   autofocus="autofocus"
                   style={{
@@ -1325,6 +1325,7 @@ const CreateAssisment = () => {
                 </label>
 
                 <input
+                  type="number"
                   autofocus="autofocus"
                   style={{
                     background: "#f3f4f6",

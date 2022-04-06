@@ -827,6 +827,7 @@ const CreateHraScoreCard = () => {
           </label>
 
           <input
+            type="number"
             autofocus="autofocus"
             style={{
               background: "#f3f4f6",
@@ -836,7 +837,7 @@ const CreateHraScoreCard = () => {
               width: "95%",
               border: "1px solid black",
             }}
-            value={assessment.scoreFrom.replace(/[^0-9]/g, "")}
+            value={assessment.scoreFrom}
             onChange={inputsHandler}
             placeholder="0-50"
             name="scoreFrom"
@@ -865,6 +866,7 @@ const CreateHraScoreCard = () => {
           </label>
 
           <input
+            type="number"
             autofocus="autofocus"
             style={{
               background: "#f3f4f6",
@@ -875,7 +877,7 @@ const CreateHraScoreCard = () => {
               border: "1px solid black",
             }}
             placeholder="0-100"
-            value={assessment.scoreTo.replace(/[^0-9]/g, "")}
+            value={assessment.scoreTo}
             onChange={inputsHandler}
             name="scoreTo"
           />

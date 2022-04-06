@@ -517,6 +517,7 @@ const CreateAssisment = () => {
       id: row.id,
     });
   };
+  console.log(assessment, "assesment");
   const [modalview, setModalView] = useState(false);
   const inputsHandler = (e) => {
     const name = e.target.name;
@@ -792,6 +793,7 @@ const CreateAssisment = () => {
           </label>
 
           <input
+            type="number"
             autofocus="autofocus"
             style={{
               background: "#f3f4f6",
@@ -801,7 +803,7 @@ const CreateAssisment = () => {
               width: "95%",
               border: "1px solid black",
             }}
-            value={assessment.ageGroupFrom.replace(/[^0-9]/g, "")}
+            value={assessment.ageGroupFrom}
             onChange={inputsHandler}
             placeholder="0-50"
             name="ageGroupFrom"
@@ -830,6 +832,7 @@ const CreateAssisment = () => {
           </label>
 
           <input
+            type="number"
             autofocus="autofocus"
             style={{
               background: "#f3f4f6",
@@ -840,7 +843,7 @@ const CreateAssisment = () => {
               border: "1px solid black",
             }}
             placeholder="0-100"
-            value={assessment.ageGroupTo.replace(/[^0-9]/g, "")}
+            value={assessment.ageGroupTo}
             onChange={inputsHandler}
             name="ageGroupTo"
           />
@@ -918,6 +921,7 @@ const CreateAssisment = () => {
           </label>
 
           <input
+            type="number"
             autofocus="autofocus"
             style={{
               background: "#f3f4f6",
@@ -928,7 +932,7 @@ const CreateAssisment = () => {
               border: "1px solid black",
             }}
             placeholder="0-30"
-            value={assessment.reattemptAfterDays.replace(/[^0-9]/g, "")}
+            value={assessment.reattemptAfterDays}
             onChange={inputsHandler}
             name="reattemptAfterDays"
           />

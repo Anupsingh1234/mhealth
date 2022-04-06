@@ -60,6 +60,9 @@ const PackageCard = (eventID, currentEventObj) => {
     sampleCollectionAddress: "",
     bookingType: "",
   });
+  const [val, setVal] = useState(false);
+  const [stateValue, setStateValue] = useState("");
+  const [searchState, setSearchState] = useState("");
   const [errorobj, setErrorObj] = useState();
   const [joinInfo, setJoinInfo] = useState(false);
   const [cardInfoDetail, setCardInfoDetails] = useState({});
@@ -146,7 +149,7 @@ const PackageCard = (eventID, currentEventObj) => {
         // setscoreDetails(res?.data?.response?.responseData);
       });
   };
-  const packageInfo = (value, id) => {
+  const packageInfo = (value, id, search) => {
     const URL = `${urlPrefix}v1.0/getPackageWiseInfo?action=${value}&packageId=${id}`;
     return axios
       .get(URL, {
@@ -164,15 +167,21 @@ const PackageCard = (eventID, currentEventObj) => {
       .then((res) => {
         {
           console.log(res.data.response.responseData, "card");
-          res.data.response.responseData &&
-            // setcardDetails(res.data.response.responseData.hac);
+          if (search !== "") {
+            setPackageDetail(
+              res.data.response.responseData.filter((item) => {
+                return item.toLowerCase().startsWith(search.toLowerCase());
+              })
+            );
+          } else {
             setPackageDetail(res.data.response.responseData);
+          }
         }
 
         // setscoreDetails(res?.data?.response?.responseData);
       });
   };
-  const getLabDetails = (value, state) => {
+  const getLabDetails = (value, state, search) => {
     const URL = `${urlPrefix}v1.0/getPkgLabsDetail?action=${state}&data=${value}&packageId=${packageId}`;
     return axios
       .get(URL, {
@@ -190,9 +199,17 @@ const PackageCard = (eventID, currentEventObj) => {
       .then((res) => {
         {
           console.log(res.data.response.responseData, "card");
-          res.data.response.responseData &&
-            // setcardDetails(res.data.response.responseData.hac);
+          if (search !== "") {
+            setPackageLabDetails(
+              res.data.response.responseData.filter((item) => {
+                return item.labName
+                  .toLowerCase()
+                  .startsWith(search.toLowerCase());
+              })
+            );
+          } else {
             setPackageLabDetails(res.data.response.responseData);
+          }
         }
 
         // setscoreDetails(res?.data?.response?.responseData);
@@ -273,20 +290,26 @@ const PackageCard = (eventID, currentEventObj) => {
             setSlotData([]);
             setModalView(false);
             setErrorObj();
+            handleClose();
+            handleCloseSlot();
           }
         });
     } else {
       message.error("please Select Date and Time !");
     }
   };
+
   useEffect(() => {
     // packageInfo()
     setPackageLabDetails([]);
     setStatus("");
+    setVal(false);
   }, [stateCheck]);
   const handleChange = (e) => {
+    setSearchState("");
     setStateStateCheck(e.target.value);
-    packageInfo(e.target.value, packageId);
+
+    packageInfo(e.target.value, packageId, "");
   };
   const handleClose = () => {
     setModalView(false);
@@ -294,9 +317,17 @@ const PackageCard = (eventID, currentEventObj) => {
     setPackageLabDetails([]);
     setSlotData([]);
     setStatus("");
+    setVal(false);
+    setStateValue("");
+    setSearchState("");
+    setStateStateCheck("STATE");
   };
+
   const handleState = (e) => {
-    getLabDetails(e.target.value, stateCheck);
+    setVal(true);
+    setSearchState("");
+    setStateValue(e.target.value);
+    getLabDetails(e.target.value, stateCheck, "");
     setStatus(e.target.name);
   };
   const handleCloseSlot = () => {
@@ -310,6 +341,8 @@ const PackageCard = (eventID, currentEventObj) => {
     setDateState("00-00-0000");
     setTime("");
     setErrorObj();
+    setStateValue("");
+    setSearchState("");
   };
   const NextValue = (e) => {
     e.preventDefault();
@@ -320,6 +353,16 @@ const PackageCard = (eventID, currentEventObj) => {
     } else {
       setErrorObj(instruction);
     }
+  };
+
+  const filterData = (e, val) => {
+    if (val == "state") {
+      packageInfo(stateCheck, packageId, e.target.value);
+    }
+    if (val == "lab") {
+      getLabDetails(stateValue, stateCheck, e.target.value);
+    }
+    setSearchState(e.target.value);
   };
   return (
     <>
@@ -400,25 +443,25 @@ const PackageCard = (eventID, currentEventObj) => {
                           {/* {subEventDetail.eventName} */}
                           {item.healthPkgName}
                         </div>
-                        {item.bookings &&
+                        {/* {item.bookings &&
                         item.bookings.length + 1 >= item.bookingCount ? (
                           ""
-                        ) : (
-                          <div className="register-button">
-                            <PrimaryButton
-                              style={{ marginBottom: "10px" }}
-                              onClick={() => {
-                                packageInfo("STATE", item.id);
-                                setModalView(true);
-                                setPackageId(item.id);
-                                setPkgSample(item.sample);
-                                packageInfo("STATE", item.id);
-                              }}
-                            >
-                              Book Now
-                            </PrimaryButton>
-                          </div>
-                        )}
+                        ) : ( */}
+                        <div className="register-button">
+                          <PrimaryButton
+                            style={{ marginBottom: "10px" }}
+                            onClick={() => {
+                              //   packageInfo("STATE", item.id);
+                              setModalView(true);
+                              setPackageId(item.id);
+                              setPkgSample(item.sample);
+                              packageInfo("STATE", item.id, searchState);
+                            }}
+                          >
+                            Book Now
+                          </PrimaryButton>
+                        </div>
+                        {/* )} */}
                         {/* <div className="challenge-card-start-date1">
                           <InfoIcon
                             style={{ fontSize: 18, color: "#1e88e5" }}
@@ -617,6 +660,27 @@ const PackageCard = (eventID, currentEventObj) => {
                 >
                   Pin
                 </label>
+              </div>
+              <div style={{ width: "5%" }}></div>
+              <div style={{ width: "30%" }}>
+                {" "}
+                <input
+                  autofocus="autofocus"
+                  style={{
+                    background: "#f3f4f6",
+                    padding: "10px 10px",
+                    borderRadius: 6,
+                    fontSize: 12,
+                    width: "95%",
+                    border: "1px solid black",
+                  }}
+                  value={searchState}
+                  onChange={(e) =>
+                    val == false ? filterData(e, "state") : filterData(e, "lab")
+                  }
+                  placeholder="Search ...."
+                  name="scoreFrom"
+                />{" "}
               </div>
             </div>
             <div style={{ marginLeft: "20px" }}>
@@ -866,7 +930,7 @@ const PackageCard = (eventID, currentEventObj) => {
                           width: "95%",
                           border: "1px solid black",
                         }}
-                        placeholder="Assessment Name"
+                        placeholder="Collection Address"
                         value={instruction.sampleCollectionAddress}
                         onChange={handleInstruction}
                         name="sampleCollectionAddress"
@@ -889,7 +953,7 @@ const PackageCard = (eventID, currentEventObj) => {
                         border: "1px solid black",
                         height: "70px",
                       }}
-                      placeholder="Assessment Name"
+                      placeholder="Type Instruction"
                       value={instruction.bookingInstructions}
                       onChange={handleInstruction}
                       name="bookingInstructions"
