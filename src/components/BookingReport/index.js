@@ -23,6 +23,8 @@ const BookingReport = () => {
   const [reload, setReload] = useState(false);
   const [statusUpdateReason, setStatusUpdateReason] = useState("");
   const [filter, setFilter] = useState("");
+  const [statusUpdateDate, setStatusUpdateDate] = useState(new Date());
+  const [selectedAction, setSelectedAction] = useState();
   useEffect(() => {
     getPartners()
       .then((res) => {
@@ -62,6 +64,13 @@ const BookingReport = () => {
 
     return yyyy + "-" + mm + "-" + dd;
   };
+  const formatDateTime = (date) => {
+    return (
+      formatDate(date) +
+      " " +
+      [date.getHours(), date.getMinutes(), date.getSeconds()].join(":")
+    );
+  };
 
   const updateStatus = (bookingDetail) => {
     setBookingIdForUpdate(bookingDetail);
@@ -71,7 +80,9 @@ const BookingReport = () => {
   const updateBookingStatus = (selectedAction) => {
     updateBookingStatusAPI(
       bookingDetailForUpdate.id,
-      statusUpdateReason,
+      selectedAction === "SAMPLE"
+        ? formatDateTime(statusUpdateDate)
+        : statusUpdateReason,
       selectedAction
     )
       .then((res) => {
@@ -79,6 +90,7 @@ const BookingReport = () => {
         setBookingIdForUpdate(undefined);
         setReload(!reload);
         setStatusUpdateReason("");
+        setStatusUpdateDate(new Date());
       })
       .catch((err) => {
         console.log({ err });
@@ -146,6 +158,10 @@ const BookingReport = () => {
             setStatusUpdateReason,
             statusUpdateReason,
             bookingDetailForUpdate,
+            setStatusUpdateDate,
+            statusUpdateDate,
+            selectedAction,
+            setSelectedAction,
           }}
         />
       )}

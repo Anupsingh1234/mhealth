@@ -13,6 +13,10 @@ const UpdateStatusModal = ({
   statusUpdateReason,
   setStatusModal,
   bookingDetailForUpdate,
+  setStatusUpdateDate,
+  statusUpdateDate,
+  selectedAction,
+  setSelectedAction,
 }) => {
   const [actionList, setActionList] = useState([]);
   useMount(() => {
@@ -33,7 +37,6 @@ const UpdateStatusModal = ({
       }
     }
   });
-  const [selectedAction, setSelectedAction] = useState();
 
   useEffect(() => {
     setSelectedAction(actionList.length > 0 ? actionList[0].key : undefined);
@@ -88,8 +91,8 @@ const UpdateStatusModal = ({
                 <div className="flex flex-col gap-1 text-left">
                   <p className="text-xs">Select Date</p>
                   <SingleDateSelector
-                    value={statusUpdateReason}
-                    onChange={(date) => setStatusUpdateReason(date)}
+                    value={statusUpdateDate}
+                    onChange={(date) => setStatusUpdateDate(date)}
                   />
                 </div>
               )}
