@@ -24,7 +24,7 @@ function Navbar({ className }) {
   const condition = JSON.parse(localStorage.getItem("condition"));
   let history = useHistory();
 
-  const pages =
+  let pages =
     // (localStorage.getItem('role') &&
     //   localStorage.getItem('role') !== 'Customer')
     condition && condition.isAdmin === true
@@ -163,6 +163,13 @@ function Navbar({ className }) {
           },
         ];
 
+  if (condition && condition.isLabotrary) {
+    pages.push({
+      pageLink: "/booking-report",
+      displayName: "Booking Report",
+      showInNavbar: true,
+    });
+  }
   const [expand, setExpand] = useState(false);
 
   useLockBodyScroll(expand);
@@ -320,11 +327,6 @@ function Navbar({ className }) {
               </span>
             </Link>
 
-            {/* <Link to="/source">
-              <span>
-                <Icon.Database {...activeNavIcon("/source")} />
-              </span>
-            </Link> */}
             <Link
               to="/logout"
               onClick={(e) => {
@@ -337,7 +339,6 @@ function Navbar({ className }) {
                 <Icon.LogOut {...activeNavIcon("/logout")} />
               </span>
             </Link>
-
             {condition && condition.isModerator === true ? (
               <>
                 <p className="mt-6">
@@ -374,6 +375,13 @@ function Navbar({ className }) {
               </>
             ) : (
               ""
+            )}
+            {condition && condition.isLabotrary && (
+              <Link to="/booking-report">
+                <span>
+                  <Icon.Bookmark {...activeNavIcon("/booking-report")} />
+                </span>
+              </Link>
             )}
           </React.Fragment>
         )}

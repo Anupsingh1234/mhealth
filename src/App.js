@@ -27,6 +27,7 @@ const MarketPlace = lazy(() => import("./components/MarketDashboard"));
 const Pdf = lazy(() => import("./components/Pdf"));
 const Forum = lazy(() => import("./components/Forum"));
 const Messages = lazy(() => import("./components/Forum/components/Messages"));
+const BookingReport = lazy(() => import("./components/BookingReport"));
 import Modal from "react-modal";
 import ThemeContext from "./context/ThemeContext";
 
@@ -39,7 +40,7 @@ const App = () => {
   const location = useLocation();
   const history = useHistory();
   const condition = JSON?.parse(localStorage.getItem("condition"));
-  const pages =
+  let pages =
     condition && condition.isAdmin === true
       ? [
           {
@@ -72,12 +73,6 @@ const App = () => {
             displayName: "Market Place",
             showInNavbar: true,
           },
-          // {
-          //   pageLink: '/admin',
-          //   view: Admin,
-          //   displayName: 'Admin',
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/eventmanagement",
             view: EventManagement,
@@ -90,12 +85,6 @@ const App = () => {
             displayName: "Activities",
             showInNavbar: true,
           },
-          // { DEPRECATED: 4-MARCH-2022
-          //   pageLink: "/",
-          //   view: UpcomingEvents,
-          //   displayName: "UpcomingEvents",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -171,30 +160,12 @@ const App = () => {
             displayName: "Market Place",
             showInNavbar: true,
           },
-          // {
-          //   pageLink: "/admin",
-          //   view: Admin,
-          //   displayName: "Admin",
-          //   showInNavbar: true,
-          // },
-          // {
-          //   pageLink: "/eventmanagement",
-          //   view: EventManagement,
-          //   displayName: "Event Management",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/activities",
             view: Activities,
             displayName: "Activities",
             showInNavbar: true,
           },
-          // { DEPRECATED: 4-MARCH-2022
-          //   pageLink: "/",
-          //   view: UpcomingEvents,
-          //   displayName: "UpcomingEvents",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -257,12 +228,6 @@ const App = () => {
             displayName: "Dashboard",
             showInNavbar: true,
           },
-          // { DEPRECATED: 4-MARCH-2022
-          //   pageLink: "/",
-          //   view: UpcomingEvents,
-          //   displayName: "UpcomingEvents",
-          //   showInNavbar: true,
-          // },
           {
             pageLink: "/profile",
             view: Profile,
@@ -300,6 +265,15 @@ const App = () => {
             showInNavbar: false,
           },
         ];
+
+  if (condition && condition.isLabotrary) {
+    pages.push({
+      pageLink: "/booking-report",
+      view: BookingReport,
+      displayName: "Booking Report",
+      showInNavbar: true,
+    });
+  }
   function isLoggedIn() {
     if (localStorage.getItem("token")) {
       return true;
@@ -321,22 +295,6 @@ const App = () => {
       return Promise.reject(error);
     }
   );
-
-  // const [YottaMatch, setYottamatch] = useState(
-  //   window.location.href == "https://yottacare.mhealth.ai/#/login"
-  //     ? true
-  //     : false
-  // );
-
-  // useMount(() => {
-  //   console.log("test yotta on mount");
-  //   if (window.location.href == "https://yottacare.mhealth.ai/#/login") {
-  //     setYottamatch(true);
-  //   } else {
-  //     setYottamatch(false);
-  //   }
-  // });
-
   const isYotta =
     window.location.href == "https://yottacare.mhealth.ai/#/login" ||
     window.location.href === "https://yottacare.mhealth.ai/#/";

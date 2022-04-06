@@ -34,6 +34,7 @@
     "react-card-flip": "^1.0.11",
     "react-content-loader": "^6.1.0",
     "react-csv": "^2.0.3",
+    "react-datepicker": "^4.7.0",
     "react-dom": "16.14.0",
     "react-feather": "^2.0.9",
     "react-google-charts": "^3.0.15",
