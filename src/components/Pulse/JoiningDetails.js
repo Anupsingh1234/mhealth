@@ -184,7 +184,7 @@ const JoiningDetails = ({ join, setJoin, bookingdetail1, cards }) => {
                   }}
                 >
                   <div style={{ marginLeft: "20px" }}>
-                    <label>Instruction</label>
+                    <label>Cancelation Remarks</label>
                     <br />
                     <textarea
                       autofocus="autofocus"
@@ -198,7 +198,7 @@ const JoiningDetails = ({ join, setJoin, bookingdetail1, cards }) => {
                         minHeight: "100px",
                         maxHeight: "300px",
                       }}
-                      placeholder="Assessment Name"
+                      placeholder="Please enter a reason to cancel your booking"
                       value={cancelData.text}
                       onChange={(e) =>
                         setCancelData({ ...cancelData, text: e.target.value })

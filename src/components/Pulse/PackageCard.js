@@ -443,10 +443,10 @@ const PackageCard = (eventID, currentEventObj) => {
                           {/* {subEventDetail.eventName} */}
                           {item.healthPkgName}
                         </div>
-                        {/* {item.bookings &&
+                        {item.bookings &&
                         item.bookings.length + 1 >= item.bookingCount ? (
                           ""
-                        ) : ( */}
+                        ) : (
                         <div className="register-button">
                           <PrimaryButton
                             style={{ marginBottom: "10px" }}
@@ -461,7 +461,7 @@ const PackageCard = (eventID, currentEventObj) => {
                             Book Now
                           </PrimaryButton>
                         </div>
-                        {/* )} */}
+                        )}
                         {/* <div className="challenge-card-start-date1">
                           <InfoIcon
                             style={{ fontSize: 18, color: "#1e88e5" }}
