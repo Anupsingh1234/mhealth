@@ -704,8 +704,10 @@ const HraCard = (eventID, currentEventObj) => {
                 >
                   Assessments :
                 </div>
-                <div style={{ width: "87%" }}>
+                <div style={{ width: "87%", textAlign: "justify" }}>
                   {scoreDetails.recommedations}
+                  <br />
+                  {scoreDetails.description}
                 </div>
               </div>
             </Paper>
