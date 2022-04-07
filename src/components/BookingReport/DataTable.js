@@ -38,6 +38,12 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
+                      Location
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Health Package Name
                     </th>
                     <th
@@ -132,6 +138,19 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                           )}
                         >
                           {person.userDetail.mobileNumber}
+                        </td>
+                        <td
+                          className={classNames(
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            { "bg-blue-200": person.bookingStatus === "OPEN" },
+                            {
+                              "bg-amber-200":
+                                person.bookingStatus === "PENDING",
+                            },
+                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                          )}
+                        >
+                          {person.userDetail.userLocation}
                         </td>
                         <td
                           className={classNames(
