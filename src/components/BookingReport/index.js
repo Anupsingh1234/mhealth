@@ -144,6 +144,13 @@ const BookingReport = () => {
             </option>
           ))}
         </select>
+        {Array.isArray(partners) && partners.length > 0 && (
+          <LabAddress
+            partner={partners.find(
+              (p) => parseInt(p.id) === parseInt(selectedPartner)
+            )}
+          />
+        )}
       </div>
       <div className="md:ml-20 md:mt-0 mx-4 my-4 min-h-screen">
         <DataTable {...{ bookingDetail, updateStatus }} />
@@ -169,4 +176,15 @@ const BookingReport = () => {
   );
 };
 
+const LabAddress = ({ partner }) => {
+  return (
+    <div className="border border-gray-300 p-1 text-sm">
+      <p>
+        <span className="font-semibold">Lab details:</span> {partner?.labPerson}{" "}
+        - ({partner?.labContact}) - {partner?.labAddress}, {partner?.labCity},{" "}
+        {partner?.labState}, {partner?.labPin}
+      </p>
+    </div>
+  );
+};
 export default BookingReport;

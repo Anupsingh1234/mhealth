@@ -38,6 +38,12 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
+                      Location
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Health Package Name
                     </th>
                     <th
@@ -87,7 +93,11 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.userDetail.firstName +
@@ -96,117 +106,170 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.userDetail.emailId}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.userDetail.gender}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.userDetail.mobileNumber}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
+                          )}
+                        >
+                          {person.userDetail.userLocation}
+                        </td>
+                        <td
+                          className={classNames(
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            { "bg-blue-200": person.bookingStatus === "OPEN" },
+                            {
+                              "bg-amber-200":
+                                person.bookingStatus === "PENDING",
+                            },
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.healthPackageName}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.bookingDate}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.bookingTime}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.bookingType}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {person.bookingStatus}
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-500",
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
                                 person.bookingStatus === "PENDING",
                             },
-                            { "bg-red-200": person.bookingStatus === "ABSENT" }
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
                           )}
                         >
                           {!["COMPLETED", "CANCELLED", "ABSENT"].includes(
