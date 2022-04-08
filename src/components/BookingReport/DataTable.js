@@ -50,6 +50,12 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                       scope="col"
                       className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
+                      Booking Instruction
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                    >
                       Booking Date
                     </th>
                     <th
@@ -170,7 +176,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                             }
                           )}
                         >
-                          {person.userDetail.userLocation}
+                          {person.collAddress}
                         </td>
                         <td
                           className={classNames(
@@ -188,6 +194,23 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                           )}
                         >
                           {person.healthPackageName}
+                        </td>
+                        <td
+                          className={classNames(
+                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            { "bg-blue-200": person.bookingStatus === "OPEN" },
+                            {
+                              "bg-amber-200":
+                                person.bookingStatus === "PENDING",
+                            },
+                            { "bg-red-200": person.bookingStatus === "ABSENT" },
+                            {
+                              "bg-gray-200":
+                                person.bookingStatus === "CANCELLED",
+                            }
+                          )}
+                        >
+                          {person.bookingInstruction}
                         </td>
                         <td
                           className={classNames(
