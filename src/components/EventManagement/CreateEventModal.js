@@ -131,6 +131,7 @@ const CreateEventModal = ({
     primaryColor: null,
     secondaryColor: null,
     leaderboardRange: null,
+    
     // subDomains: undefined,
   });
   // console.log(gmailList);
