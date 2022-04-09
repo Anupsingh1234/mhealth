@@ -126,6 +126,11 @@ const CreateEventModal = ({
     whitelabelKeyword: undefined,
     verificationRequired: undefined,
     forum: "NONE",
+    buttonBGColor: null,
+    buttonTextColor: null,
+    primaryColor: null,
+    secondaryColor: null,
+    leaderboardRange: null,
     // subDomains: undefined,
   });
   // console.log(gmailList);
@@ -184,6 +189,11 @@ const CreateEventModal = ({
   useEffect(() => {
     if (editEventObject) {
       let newObj = {
+        buttonBGColor: editEventObject.buttonBGColor,
+        buttonTextColor: editEventObject.buttonTextColor,
+        primaryColor: editEventObject.primaryColor,
+        secondaryColor: editEventObject.secondaryColor,
+        leaderboardRange: editEventObject.leaderboardRange,
         verificationRequired: editEventObject.verificationRequired,
         forum: editEventObject.forum,
         whitelabelKeyword: editEventObject.whitelabelKeyword,
@@ -1759,6 +1769,117 @@ const CreateEventModal = ({
                     />
                   </div>
                 </div>
+
+                <div
+                  className="mhealth-input-box padding-025em"
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <div style={{ width: "50%", display: "flex" }}>
+                    <div style={{ width: "50%" }}>
+                      <div>
+                        <label style={{ fontSize: 12 }}>
+                          {" "}
+                          Button Background color
+                        </label>
+                      </div>
+                      <input
+                        type="color"
+                        style={{
+                          border: 0,
+                          background: "#f3f4f6",
+                          padding: "6px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "90%",
+                        }}
+                        name="buttonBGColor"
+                        placeholder="Enter Button Background Color"
+                        value={eventObject.buttonBGColor}
+                        onChange={(e) =>
+                          handleInputChange("buttonBGColor", e.target.value)
+                        }
+                      />
+                    </div>
+
+                    <div style={{ width: "50%" }}>
+                      <div>
+                        <label style={{ fontSize: 12 }}>
+                          {" "}
+                          Button Text color
+                        </label>
+                      </div>
+                      <input
+                        type="color"
+                        style={{
+                          border: 0,
+                          background: "#f3f4f6",
+                          padding: "6px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "90%",
+                        }}
+                        name="buttonTextColor"
+                        placeholder="Enter Button Text Color"
+                        value={eventObject.buttonTextColor}
+                        onChange={(e) =>
+                          handleInputChange("buttonTextColor", e.target.value)
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div style={{ width: "50%", display: "flex" }}>
+                    <div style={{ width: "50%" }}>
+                      <div>
+                        <label style={{ fontSize: 12 }}> Primary Color</label>
+                      </div>
+                      <input
+                        type="color"
+                        style={{
+                          border: 0,
+                          background: "#f3f4f6",
+                          padding: "6px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "90%",
+                        }}
+                        name="primaryColor"
+                        placeholder="Enter Primary Color"
+                        value={eventObject.primaryColor}
+                        onChange={(e) =>
+                          handleInputChange("primaryColor", e.target.value)
+                        }
+                      />
+                    </div>
+
+                    <div style={{ width: "50%" }}>
+                      <div>
+                        <label style={{ fontSize: 12 }}> Secondary Color</label>
+                      </div>
+                      <input
+                        type="color"
+                        style={{
+                          border: 0,
+                          background: "#f3f4f6",
+                          padding: "6px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "90%",
+                        }}
+                        name="secondaryColor"
+                        placeholder="Enter Secondary Color"
+                        value={eventObject.secondaryColor}
+                        onChange={(e) =>
+                          handleInputChange("secondaryColor", e.target.value)
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
                 <div
                   className="mhealth-input-box padding-025em"
                   style={{
@@ -2181,20 +2302,51 @@ const CreateEventModal = ({
                     alignItems: "center",
                   }}
                 >
-                  <div style={{ width: "25%" }}>
-                    <label>Forum</label>
-                    <br />
-                    <select
-                      value={eventObject.forum}
-                      onChange={(e) =>
-                        handleInputChange("forum", e.target.value)
-                      }
-                    >
-                      <option value="NONE">None</option>
-                      <option value="IDENTITY">Identity</option>
-                      <option value="ALIAS">Alias</option>
-                      <option value="ANONYMOUS">Anonymous</option>
-                    </select>
+                  <div style={{ width: "50%", display: "flex" }}>
+                    <div style={{ width: "50%" }}>
+                      <label>Forum</label>
+                      <br />
+                      <select
+                        value={eventObject.forum}
+                        onChange={(e) =>
+                          handleInputChange("forum", e.target.value)
+                        }
+                        style={{
+                          background: "#f3f4f6",
+                          padding: "6px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "90%",
+                        }}
+                      >
+                        <option value="NONE">None</option>
+                        <option value="IDENTITY">Identity</option>
+                        <option value="ALIAS">Alias</option>
+                        <option value="ANONYMOUS">Anonymous</option>
+                      </select>
+                    </div>
+                    <div style={{ width: "50%" }}>
+                      <label>LeaderboardRange</label>
+                      <br />
+                      <select
+                        value={eventObject.leaderboardRange}
+                        onChange={(e) =>
+                          handleInputChange("leaderboardRange", e.target.value)
+                        }
+                        style={{
+                          background: "#f3f4f6",
+                          padding: "6px 10px",
+                          borderRadius: 6,
+                          fontSize: 12,
+                          width: "90%",
+                        }}
+                      >
+                        <option value={null}>Select</option>
+                        <option value="TILL_DATE">Till Date</option>
+                        <option value="MONTHLY">Monthly</option>
+                        <option value="WEEKLY">Weekly</option>
+                      </select>
+                    </div>
                   </div>
                 </div>
               </>
