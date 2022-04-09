@@ -109,7 +109,7 @@ const BookingReport = () => {
     <div className="bg-white min-h-screen">
       <Navbar />
       <TopUserDetails />
-      <div className="mx-2 md:ml-28 md:mt-7 flex flex-col md:flex-row gap-2 md:items-center">
+      <div className="mx-2 md:ml-28 md:mt-7 flex flex-col md:flex-row gap-2 md:items-start">
         <div className="md:w-56">
           <DateSelector
             value={date}
@@ -144,6 +144,13 @@ const BookingReport = () => {
             </option>
           ))}
         </select>
+        {Array.isArray(partners) && partners.length > 0 && (
+          <LabAddress
+            partner={partners.find(
+              (p) => parseInt(p.id) === parseInt(selectedPartner)
+            )}
+          />
+        )}
       </div>
       <div className="md:ml-20 md:mt-0 mx-4 my-4 min-h-screen">
         <DataTable {...{ bookingDetail, updateStatus }} />
@@ -169,4 +176,15 @@ const BookingReport = () => {
   );
 };
 
+const LabAddress = ({ partner }) => {
+  return (
+    <div className="border border-gray-300 p-1 text-sm md:max-w-md">
+      <p>
+        <span className="font-semibold">Lab details:</span> {partner?.labPerson}{" "}
+        - ({partner?.labContact}) - {partner?.labAddress}, {partner?.labCity},{" "}
+        {partner?.labState}, {partner?.labPin}
+      </p>
+    </div>
+  );
+};
 export default BookingReport;
