@@ -178,7 +178,7 @@ const BookingReport = () => {
 
 const LabAddress = ({ partner }) => {
   return (
-    <div className="border border-gray-300 p-1 text-sm md:max-w-md">
+    <div className="border border-gray-300 p-1 text-sm md:max-w-[15rem]">
       <p>
         <span className="font-semibold">Lab details:</span> {partner?.labPerson}{" "}
         - ({partner?.labContact}) - {partner?.labAddress}, {partner?.labCity},{" "}
