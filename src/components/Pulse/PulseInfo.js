@@ -69,7 +69,7 @@ const PulseInfo = ({ open, setOpen, details }) => {
               </div>
               <div style={{ marginBottom: 5, marginTop: "0.5em" }}>
                 <div style={{ fontWeight: 800 }}>
-                  Home Simple Collection Facility
+                  Home Sample Collection Facility
                 </div>
                 <div style={{ fontSize: 12 }}>
                   {details.sample === "BOTH" ||

@@ -443,8 +443,7 @@ const PackageCard = (eventID, currentEventObj) => {
                           {/* {subEventDetail.eventName} */}
                           {item.healthPkgName}
                         </div>
-                        {item.bookings &&
-                        item.bookings.length + 1 >= item.bookingCount ? (
+                        {item.bflag===false ? (
                           ""
                         ) : (
                         <div className="register-button">
