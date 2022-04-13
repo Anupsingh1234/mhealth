@@ -92,7 +92,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                       <tr key={person.email}>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 pr-3 text-sm font-medium",
+                            "px-3 py-4 pr-3 text-sm font-medium max-w-md break-words",
                             "text-gray-900",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
@@ -112,7 +112,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -129,7 +129,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -146,7 +146,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -163,7 +163,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -180,7 +180,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -197,7 +197,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -214,7 +214,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -231,7 +231,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -248,7 +248,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -265,7 +265,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 max-w-md break-words",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
@@ -282,7 +282,7 @@ export default function DataTable({ bookingDetail, updateStatus }) {
                         </td>
                         <td
                           className={classNames(
-                            "whitespace-nowrap px-3 py-4 text-sm text-gray-800",
+                            "px-3 py-4 text-sm text-gray-800 w-[8rem]",
                             { "bg-blue-200": person.bookingStatus === "OPEN" },
                             {
                               "bg-amber-200":
