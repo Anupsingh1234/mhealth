@@ -42,7 +42,7 @@ const Forum = (props) => {
       });
   };
 
-  const handleFetchMessages = (forumID, forumRegistrationId, limit = 100) => {
+  const handleFetchMessages = (forumID, forumRegistrationId, limit = 10) => {
     // setLoading(true)
     // setError("")
     fetchMessageByForumID(forumID, forumRegistrationId, limit)

@@ -33,32 +33,25 @@ const Messages = ({
   loading,
   setLeave,
 }) => {
+  const [replyTo, setReplyTo] = useState();
   const focusTextArea = useRef();
   useEffect(() => {
-    console.log({ focusTextArea });
     if (focusTextArea.current) {
       focusTextArea.current.focus();
+      focusTextArea.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [focusTextArea]);
+  }, [focusTextArea, replyTo]);
 
   const [hasMore, setHasMore] = useState(true);
   const [text, setText] = useState("");
   const [openFileSelector, p] = useFilePicker({
     multiple: true,
-    readAs: "DataURL", // availible formats: "Text" | "BinaryString" | "ArrayBuffer" | "DataURL"
+    readAs: "DataURL",
     accept: [".jpg", ".png", ".mp4"],
     limitFilesConfig: { min: 1, max: 1 },
-    // minFileSize: 1, // in megabytes
-    // maxFileSize: 1,
-    // maxImageHeight: 1024, // in pixels
-    // minImageHeight: 1024,
-    // maxImageWidth: 768,
-    // minImageWidth: 768
-    // readFilesContent: false, // ignores file content
   });
 
   const { filesContent, clear, plainFiles } = p;
-  const [replyTo, setReplyTo] = useState();
   const [file, setFile] = useState();
   const [fileObj, setFileObj] = useState();
 
@@ -72,7 +65,7 @@ const Messages = ({
   };
 
   const handlefetchMoreData = () => {
-    if (messages.length >= selectedForum.messages) {
+    if (messages.length + 1 >= selectedForum.messages) {
       setHasMore(false);
       return;
     }
@@ -503,6 +496,7 @@ const Messages = ({
       }
     }
   };
+
   return (
     <div className="flex flex-col w-full bg-[#F4F7FC] border rounded-lg mt-8">
       <div className="flex flex-col bg-white md:m-6 p-8 rounded-md md:max-w-5xl md:w-full md:mx-auto">
@@ -539,17 +533,31 @@ const Messages = ({
             </button>
           </div>
         </div>
-        <div>
+        <div
+          id="scrollableDiv"
+          style={{
+            height: 650,
+            overflow: "auto",
+            display: "flex",
+            flexDirection: "column-reverse",
+          }}
+        >
           <InfiniteScroll
             dataLength={messages.length}
             next={handlefetchMoreData}
             hasMore={hasMore}
-            height="650px"
+            // height="650px"
+            inverse={true}
+            loader={<h4>Loading...</h4>}
+            scrollableTarget="scrollableDiv"
+            style={{ display: "flex", flexDirection: "column-reverse" }}
           >
             <ul role="list" className="space-y-6">
-              {messages.map((message, index) =>
-                renderMessageBody(message, index)
-              )}
+              {messages
+                .sort((a, b) =>
+                  a.trnsForumDiscussionId < b.trnsForumDiscussionId ? -1 : 1
+                )
+                .map((message, index) => renderMessageBody(message, index))}
             </ul>
           </InfiniteScroll>
         </div>

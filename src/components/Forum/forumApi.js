@@ -56,7 +56,7 @@ export const leaveForum = (forumID) => {
 // Messages
 
 export const fetchMessageByForumID = (forumID, forumRegistrationId, limit) => {
-  const URL = `${urlPrefix}v1.0/getForumDiscussions?forumId=${forumID}&forumRegistrationId=${forumRegistrationId}&limit=${limit}&offset=0`;
+  const URL = `${urlPrefix}v1.0/getForumDiscussions?forumId=${forumID}&forumRegistrationId=${forumRegistrationId}&limit=${limit}&offset=0&order=desc`;
   return axios.get(URL, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
