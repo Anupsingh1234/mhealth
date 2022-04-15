@@ -200,7 +200,7 @@ const Messages = ({
     if (!date) {
       return "";
     }
-    return date.substring(0, date.length - 3);
+    return date;
   };
 
   const getTaggedMessageByType = (taggedMessage) => {

@@ -20,7 +20,6 @@ const Forum = (props) => {
   const [selectedForum, setSelectedForum] = useState();
   const [leave, setLeave] = useState(false);
   const [error, setError] = useState("");
-
   const handleForumFetch = () => {
     setLoading(true);
     getForumByEventID(eventID)
