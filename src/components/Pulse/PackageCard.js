@@ -443,23 +443,23 @@ const PackageCard = (eventID, currentEventObj) => {
                           {/* {subEventDetail.eventName} */}
                           {item.healthPkgName}
                         </div>
-                        {item.bflag===false ? (
+                        {item.bflag === false ? (
                           ""
                         ) : (
-                        <div className="register-button">
-                          <PrimaryButton
-                            style={{ marginBottom: "10px" }}
-                            onClick={() => {
-                              //   packageInfo("STATE", item.id);
-                              setModalView(true);
-                              setPackageId(item.id);
-                              setPkgSample(item.sample);
-                              packageInfo("STATE", item.id, searchState);
-                            }}
-                          >
-                            Book Now
-                          </PrimaryButton>
-                        </div>
+                          <div className="register-button">
+                            <PrimaryButton
+                              style={{ marginBottom: "10px" }}
+                              onClick={() => {
+                                //   packageInfo("STATE", item.id);
+                                setModalView(true);
+                                setPackageId(item.id);
+                                setPkgSample(item.sample);
+                                packageInfo("STATE", item.id, searchState);
+                              }}
+                            >
+                              Book Now
+                            </PrimaryButton>
+                          </div>
                         )}
                         {/* <div className="challenge-card-start-date1">
                           <InfoIcon
