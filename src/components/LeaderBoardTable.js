@@ -1310,6 +1310,7 @@ export default function EnhancedTable({
                                 ? <img src={row.scount}  style={{
                                   width: 35,
                                   height: 35,
+                                  marginLeft:14,
                                 }}/>
                                 : ""}
                             </div>
