@@ -216,6 +216,12 @@ const headCells = [
     numeric: true,
     disablePadding: true,
   },
+  {
+    label: "Category",
+    // id: "totalParticipationDays",
+    numeric: true,
+    disablePadding: true,
+  },
 ];
 
 function EnhancedTableHead(props) {
@@ -733,12 +739,12 @@ export default function EnhancedTable({
   );
   const [dateRange, setDateRange] = useState(false);
   const [startDate, setStartDate] = useState(
-    currentEvent.challengeStartDate!==undefined?currentEvent.challengeStartDate.substring(0, 10):''
+    currentEvent.sdate!==undefined?currentEvent.sdate.substring(0, 10):''
   );
   const [endDate, setEndDate] = useState(
     moment(today).format("YYYY-MM-DD") >
-      currentEvent.challengeEndDate!==undefined?currentEvent.challengeEndDate.substring(0, 10):''
-      ? currentEvent.challengeEndDate!==undefined?currentEvent.challengeEndDate.substring(0, 10):''
+      currentEvent.sdate!==undefined?currentEvent.edate.substring(0, 10):''
+      ? currentEvent.sdate!==undefined?currentEvent.edate.substring(0, 10):''
       : moment(today).format("YYYY-MM-DD")
   );
   const [showStartDate, setShowStartDate] = useState(
@@ -1099,6 +1105,7 @@ export default function EnhancedTable({
                                   flexDirection: "row",
                                   justifyContent: "center",
                                   alignItems: "center",
+                          
                                 }}
                               >
                                 <Avatar
@@ -1295,6 +1302,16 @@ export default function EnhancedTable({
                               {row.totalParticipationDays
                                 ? row.totalParticipationDays
                                 : "0"}
+                            </div>
+                          </TableCell>
+                          <TableCell align="center" style={{ padding: 0 }}>
+                            <div style={{ fontSize: 12 }}>
+                              {row.scount
+                                ? <img src={row.scount}  style={{
+                                  width: 35,
+                                  height: 35,
+                                }}/>
+                                : ""}
                             </div>
                           </TableCell>
                         </TableRow>
