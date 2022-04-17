@@ -122,7 +122,8 @@ const Forum = (props) => {
       {!loading && showMessagePage && (
         <div>
           <Messages
-            messages={messages}
+            messages={messages?.messages || []}
+            totalMessageCount={messages?.messageCount || 0}
             setMessages={setMessages}
             setShowMessagePage={setShowMessagePage}
             selectedForum={selectedForum}
