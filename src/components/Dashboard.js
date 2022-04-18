@@ -1124,6 +1124,7 @@ const Dashboard = () => {
 
   const { theme } = useContext(ThemeContext);
   const remainingDays = dashboardState.selectedChallengeObject.remainingDay;
+  console.log("selectedAction", dashboardState.selectedAction);
   return (
     <div className="Dasboard">
       <Navbar />
@@ -1699,16 +1700,18 @@ const Dashboard = () => {
               )}
             </>
           ) : (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <img src={dataSource} width={400} height={200} />
-              <span style={{ margin: "1rem" }}>No Data</span>
-            </div>
+            dashboardState.selectedAction.toUpperCase() === "Leaderboard" && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <img src={dataSource} width={400} height={200} />
+                <span style={{ margin: "1rem" }}>No Data</span>
+              </div>
+            )
           )}
 
           {dashboardState.selectedAction === "team" && (

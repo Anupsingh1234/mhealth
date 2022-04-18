@@ -25,6 +25,7 @@ import {
 
 const Messages = ({
   messages,
+  totalMessageCount,
   setMessages,
   selectedForum,
   setSelectedForum,
@@ -41,6 +42,17 @@ const Messages = ({
       focusTextArea.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [focusTextArea, replyTo]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleFetchMessages(
+        selectedForum.forumId,
+        selectedForum.forumRegistrationId,
+        totalMessageCount
+      );
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const [hasMore, setHasMore] = useState(true);
   const [text, setText] = useState("");
@@ -73,7 +85,7 @@ const Messages = ({
     handleFetchMessages(
       selectedForum.forumId,
       selectedForum.forumRegistrationId,
-      messages.length + 10
+      totalMessageCount
     );
   };
 
