@@ -43,6 +43,26 @@ const UpdateDataSource = ({ dashboardState }) => {
     fetchCurrentDataSource();
   }, [dashboardState.selectedChallenge]);
 
+  useEffect(() => {
+    getUserDetailsHandler().then((response) => {
+      if (response.data.response.responseMessage === "SUCCESS") {
+        localStorage.setItem(
+          "authorizedDatasource",
+          JSON.stringify(
+            response.data.response.responseData.authorizedDatasource
+          )
+        );
+        setAuthorizedSource(
+          response.data.response.responseData.authorizedDatasource
+        );
+      }
+      fetchCurrentDataSource();
+      renderSources();
+      setCurrentDataSource();
+      setOriginalSource();
+      //  fetchCurrentDataSource();
+    });
+  }, []);
   // let authorizedSources =
   //   localStorage.getItem("authorizedDatasource") != undefined &&
   //   localStorage.getItem("authorizedDatasource") != "undefined"
@@ -104,27 +124,6 @@ const UpdateDataSource = ({ dashboardState }) => {
         }
       }, 10000);
     };
-
-    useEffect(() => {
-      getUserDetailsHandler().then((response) => {
-        if (response.data.response.responseMessage === "SUCCESS") {
-          localStorage.setItem(
-            "authorizedDatasource",
-            JSON.stringify(
-              response.data.response.responseData.authorizedDatasource
-            )
-          );
-          setAuthorizedSource(
-            response.data.response.responseData.authorizedDatasource
-          );
-        }
-        fetchCurrentDataSource();
-        renderSources();
-        setCurrentDataSource();
-        setOriginalSource();
-        //  fetchCurrentDataSource();
-      });
-    }, []);
 
     return sourcesArray.map((item) => {
       let currentSource = authorizedSources.filter(
