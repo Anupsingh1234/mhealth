@@ -166,8 +166,6 @@ const Dashboard = () => {
     allChallenge: [],
     instruction_details: undefined,
   });
-  console.log({ dashboardState });
-  localStorage.setItem("selectTab", dashboardState.selectedAction);
   useEffect(() => {
     if (
       localStorage.getItem("dashboard_default_tab") !== undefined &&
@@ -215,7 +213,6 @@ const Dashboard = () => {
       localStorage.removeItem("status");
     }
   }, []);
-  console.log(dashboardState.selectedChallengeObject, "object");
   useEffect(() => {
     if (dashboardState.selectedChallenge) {
       localStorage.setItem("selectEvent", dashboardState.selectedChallenge);

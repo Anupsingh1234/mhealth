@@ -9,7 +9,6 @@ import {
   useLocation,
   useHistory,
 } from "react-router-dom";
-
 const Login = lazy(() => import("./components/Login/Login"));
 const Dashboard = lazy(() => import("./components/Dashboard"));
 const Profile = lazy(() => import("./components/Profile"));

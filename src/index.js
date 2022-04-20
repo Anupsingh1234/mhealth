@@ -5,6 +5,7 @@ import "./index.css";
 import { SnackbarProvider } from "notistack";
 const App = lazy(() => import("./App"));
 import ThemeProvider from "./context/ThemeProvider";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -12,7 +13,9 @@ ReactDOM.render(
       <Router>
         <ThemeProvider>
           <SnackbarProvider maxSnack={3}>
-            <App />
+            <ErrorBoundary>
+              <App />
+            </ErrorBoundary>
           </SnackbarProvider>
         </ThemeProvider>
       </Router>

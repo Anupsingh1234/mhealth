@@ -49,14 +49,15 @@ const TargetSetting = ({ dashboardState }) => {
   const [personalData, setPersonalData] = useState({});
   const [payload, setPayload] = useState({
     eventId: dashboardState.selectedChallenge,
-    date: dashboardState.selectedChallengeObject.challengeStartDate.substring(
-      0,
-      10
-    ),
+    date: dashboardState?.selectedChallengeObject?.challengeStartDate
+      ? dashboardState?.selectedChallengeObject?.challengeStartDate?.substring(
+          0,
+          10
+        )
+      : undefined,
     distance: undefined,
     healthGoal: "",
   });
-  console.log(payload, "payload");
   const [imgborder, setimgborder] = useState(1);
 
   const [open, setOpen] = useState(false);
