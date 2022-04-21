@@ -4,6 +4,8 @@ import CenteredModal from "../CenteredModal/CenteredModal";
 import { PrimaryButton } from "../Form";
 import DateSelector from "./DateSelector";
 import SingleDateSelector from "./SingleDateSelector";
+import { urlPrefix, uploadImage } from "../../services/apicollection";
+import axios from "axios";
 
 const UpdateStatusModal = ({
   statusModal,
@@ -42,11 +44,38 @@ const UpdateStatusModal = ({
     setSelectedAction(actionList.length > 0 ? actionList[0].key : undefined);
   }, [actionList]);
 
+  const onFileChange = (event) => {
+    if (event.target.files) {
+      const { files } = event.target;
+      if (files && files.length > 0) {
+        const formData = new FormData();
+        formData.append("media", files[0]);
+
+        axios
+          .post(`${urlPrefix}${uploadImage}`, formData, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              timeStamp: "timestamp",
+              accept: "*/*",
+              "Content-type": "multipart/form-data; boundary=???",
+            },
+          })
+          .then((res) => {
+            if (res.data.response.responseCode === 0) {
+              setStatusUpdateReason(res.data.response.responseData.image);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  };
   return (
     <CenteredModal
       width={"auto"}
       isOpen={statusModal}
-      className="flex flex-col m-4 md:h-[32rem] md:w-[32rem]"
+      className="flex flex-col m-4 md:h-[16rem] md:w-[32rem]"
       onRequestClose={() => {
         setBookingIdForUpdate(undefined);
         setStatusUpdateReason("");
@@ -98,6 +127,23 @@ const UpdateStatusModal = ({
               )}
           </div>
         </div>
+        {["REPORT"].includes(selectedAction) && (
+          <div className="mt-4">
+            <label id="doc">
+              <p className="text-xs">Select a document</p>
+            </label>
+
+            <input
+              type="file"
+              name="doc"
+              accept="application/pdf"
+              onChange={(e) => {
+                onFileChange(e);
+              }}
+              style={{ fontSize: 12, marginTop: 10 }}
+            />
+          </div>
+        )}
         <div className="flex space-x-2 mt-4">
           <PrimaryButton
             mini
