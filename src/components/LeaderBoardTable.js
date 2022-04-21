@@ -739,12 +739,15 @@ export default function EnhancedTable({
   );
   const [dateRange, setDateRange] = useState(false);
   const [startDate, setStartDate] = useState(
-    currentEvent.sdate!==undefined?currentEvent.sdate.substring(0, 10):''
+    currentEvent.sdate !== undefined ? currentEvent.sdate.substring(0, 10) : ""
   );
   const [endDate, setEndDate] = useState(
-    moment(today).format("YYYY-MM-DD") >
-      currentEvent.sdate!==undefined?currentEvent.edate.substring(0, 10):''
-      ? currentEvent.sdate!==undefined?currentEvent.edate.substring(0, 10):''
+    moment(today).format("YYYY-MM-DD") > currentEvent.sdate !== undefined
+      ? currentEvent.edate.substring(0, 10)
+      : ""
+      ? currentEvent.sdate !== undefined
+        ? currentEvent.edate.substring(0, 10)
+        : ""
       : moment(today).format("YYYY-MM-DD")
   );
   const [showStartDate, setShowStartDate] = useState(
@@ -1105,7 +1108,6 @@ export default function EnhancedTable({
                                   flexDirection: "row",
                                   justifyContent: "center",
                                   alignItems: "center",
-                          
                                 }}
                               >
                                 <Avatar
@@ -1306,13 +1308,18 @@ export default function EnhancedTable({
                           </TableCell>
                           <TableCell align="center" style={{ padding: 0 }}>
                             <div style={{ fontSize: 12 }}>
-                              {row.scount
-                                ? <img src={row.scount}  style={{
-                                  width: 35,
-                                  height: 35,
-                                  marginLeft:14,
-                                }}/>
-                                : ""}
+                              {row.scount ? (
+                                <img
+                                  src={row.scount}
+                                  style={{
+                                    width: 35,
+                                    height: 35,
+                                    marginLeft: 14,
+                                  }}
+                                />
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </TableCell>
                         </TableRow>
