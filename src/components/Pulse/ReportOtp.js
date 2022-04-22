@@ -69,7 +69,7 @@ const ReportOtp = ({ onRequestClose }) => {
         "flex flex-col m-4 transition-all ease-in-out duration-75",
         "px-4 py-8",
         { "md:h-[16rem] md:w-[32rem]": !isVerified },
-        { "md:h-[32rem] md:w-[40rem] overflow-auto": isVerified }
+        { "md:h-[32rem] md:w-[max-content] overflow-auto": isVerified }
       )}
       onRequestClose={() => {
         onRequestClose();
@@ -109,7 +109,7 @@ const ReportOtp = ({ onRequestClose }) => {
         </div>
       )}
       {isVerified && (
-        <div className="px-4 flex flex-col gap-2 items-center overflow-auto">
+        <div className="px-4 flex flex-col gap-2 overflow-auto">
           <div id="available-reports">
             {availableReports.length > 0 ? (
               <ReportTable data={availableReports} />
