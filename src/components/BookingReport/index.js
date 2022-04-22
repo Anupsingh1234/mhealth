@@ -103,7 +103,7 @@ const BookingReport = () => {
     "Acknowledge",
     "Sample",
     "Absent",
-    "Complete",
+    "Completed",
   ];
   return (
     <div className="bg-white min-h-screen">
