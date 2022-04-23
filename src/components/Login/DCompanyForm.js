@@ -114,20 +114,23 @@ const DCompanyForm = ({
               style={{ width: "80%" }}
             />
           </div>
-          {/* <div className="registration-form-field">
+          {window.location.href == "https://cxo.mhealth.ai.mhealth.ai/#/login"
+                  &&(<>
+          <div className="registration-form-field">
             <div>
-              <label style={{fontSize: 12}}>Employee id</label>
+              <label style={{fontSize: 12}}>Designation</label>
             </div>
             <input
-              placeholder="Enter your Employee id"
-              value={userData.employeeId}
-              onChange={(e) => handleInput('employeeId', e.target.value)}
+              placeholder="Enter your Designation"
+              value={userData.designation}
+              onChange={(e) => handleInput('designation', e.target.value)}
               style={{width: '80%'}}
             />
-          </div> */}
+          </div>
+          </>)}
         </div>
 
-        {/* new code end here */}
+      
 
         <div className="mhealth-input-box padding-05em user-info-form-otp-wrapper">
           <div className="user-info-form-otp-boxes">
@@ -184,7 +187,7 @@ const DCompanyForm = ({
             userData.firstname.length !== 0 &&
             userData.lastname.length !== 0 &&
             userData.companyName.length !== 0 &&
-            // userData.employeeId.length !== 0 &&
+            userData.designation.length !== 0 &&
             userData.city.length !== 0 &&
             userData.pin.length === 4 &&
             userData.confirmPin.length === 4 &&
@@ -196,7 +199,7 @@ const DCompanyForm = ({
             userData.firstname.length !== 0 &&
             userData.lastname.length !== 0 &&
             userData.companyName.length !== 0 &&
-            // userData.employeeId.length !== 0 &&
+            userData.designation.length !== 0 &&
             userData.city.length !== 0 &&
             userData.pin.length === 4 &&
             userData.confirmPin.length === 4 &&

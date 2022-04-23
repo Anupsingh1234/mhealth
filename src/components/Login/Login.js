@@ -56,6 +56,7 @@ const Login = ({ YottaMatch }) => {
     city: "",
     companyName: "",
     employeeId: "",
+    designation:'',
   });
   const [loaderInfo, setLoaderInfo] = useState({
     mobileVerification: false,
@@ -120,6 +121,12 @@ const Login = ({ YottaMatch }) => {
       setUserData({
         ...userData,
         employeeId: value,
+      });
+    }
+    if (type === "designation") {
+      setUserData({
+        ...userData,
+        designation: value,
       });
     }
 
@@ -300,6 +307,7 @@ const Login = ({ YottaMatch }) => {
         city: userData.city,
         companyName: userData.companyName,
         employeeId: userData.employeeId,
+        designation:userData.designation
       },
       userData.userToken
     )
@@ -438,7 +446,9 @@ const Login = ({ YottaMatch }) => {
       );
     } else if (
       window.location.href == "https://druvacares.mhealth.ai/#/login" ||
-      window.location.href == "https://druvacarespartners.mhealth.ai/#/login"
+      window.location.href == "https://druvacarespartners.mhealth.ai/#/login"||
+      window.location.href == "https://cxo.mhealth.ai.mhealth.ai/#/login"
+     
     ) {
       return (
         <DCompany
