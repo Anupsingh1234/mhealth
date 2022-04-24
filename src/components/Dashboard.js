@@ -1121,7 +1121,6 @@ const Dashboard = () => {
 
   const { theme } = useContext(ThemeContext);
   const remainingDays = dashboardState.selectedChallengeObject.remainingDay;
-  console.log("selectedAction", dashboardState.selectedAction);
   return (
     <div className="Dasboard">
       <Navbar />
@@ -1754,6 +1753,7 @@ const Dashboard = () => {
           <EventGallery
             eventGalleryData={dashboardState.eventGalleryData}
             fetchEventGallery={fetchEventGallery}
+            eventId={dashboardState?.selectedChallenge}
           />
         )}
         {dashboardState.selectedAction === "Target" && (

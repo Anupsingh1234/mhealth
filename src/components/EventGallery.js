@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import ScrollableList from "./ScrollableList";
 import EventImageCard from "./EventImageCard";
+import { PrimaryButton } from "./Form";
+import UploadGalleryImage from "./UploadGalleryImage";
 
-const EventGallery = ({ eventGalleryData, fetchEventGallery }) => {
+const EventGallery = ({ eventGalleryData, fetchEventGallery, eventId }) => {
+  const [showGalleryUploadModal, setShowGalleryUploadModal] = useState(false);
   return (
     <div className="EventGallery">
-      <div className="challenges-heading">Event Gallery</div>
+      <div className="flex justify-between mb-2">
+        <div className="challenges-heading">Event Gallery</div>
+        <div>
+          <PrimaryButton mini onClick={() => setShowGalleryUploadModal(true)}>
+            Upload Image
+          </PrimaryButton>
+        </div>
+      </div>
+
       <div className="event-image-list-wrapper">
         {eventGalleryData.loading ? (
           <ScrollableList>
@@ -36,6 +47,15 @@ const EventGallery = ({ eventGalleryData, fetchEventGallery }) => {
           </p>
         )}
       </div>
+      {showGalleryUploadModal && (
+        <UploadGalleryImage
+          onRequestClose={() => {
+            fetchEventGallery();
+            setShowGalleryUploadModal(false);
+          }}
+          eventId={eventId}
+        />
+      )}
     </div>
   );
 };
