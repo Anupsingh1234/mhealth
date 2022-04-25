@@ -24,6 +24,7 @@ export const ForumCard = ({
   showMessage,
   setSelectedForum,
   setShowMessagePage,
+  handleFetchChatMember,
 }) => {
   const forumBaner =
     forum?.forumBanner ||
@@ -154,6 +155,7 @@ export const ForumCard = ({
                   onClick={() => {
                     setSelectedForum(forum);
                     showMessage(forum.forumId, forum.forumRegistrationId);
+                    handleFetchChatMember(forum.forumId);
                   }}
                 />
               </div>

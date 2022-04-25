@@ -71,7 +71,13 @@ export const fetchMessageByForumID = (forumID, forumRegistrationId, limit) => {
   });
 };
 
-export const sendMessage = (text, contentType, forumID, payload) => {
+export const sendMessage = (
+  text,
+  contentType,
+  forumID,
+  payload,
+  privateUserId
+) => {
   let URL = `${urlPrefix}v1.0/sendMessage?trnsForumRegistrationId=${forumID}`;
   let header = {
     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -83,6 +89,10 @@ export const sendMessage = (text, contentType, forumID, payload) => {
     "Access-Control-Allow-Headers":
       "accept, content-type, x-access-token, x-requested-with",
   };
+
+  if (privateUserId) {
+    URL += `&privateUserId=${privateUserId}`;
+  }
 
   if (text) {
     URL += `&content=${text}`;
@@ -177,6 +187,51 @@ export const reactToMessage = (payload) => {
 
 export const removeMessage = (payload) => {
   const URL = `${urlPrefix}v1.0/removeMessage`;
+  return axios.post(URL, payload, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
+      withCredentials: true,
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
+    },
+  });
+};
+
+export const fetchPrivateChatMember = (forumId) => {
+  const URL = `${urlPrefix}v1.0/getAllPrivateChatUser?forumId=${forumId}`;
+  return axios.get(URL, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      timeStamp: "timestamp",
+      accept: "*/*",
+      "Access-Control-Allow-Origin": "*",
+      withCredentials: true,
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+      "Access-Control-Allow-Headers":
+        "accept, content-type, x-access-token, x-requested-with",
+    },
+  });
+};
+
+export const fetchPrivateMemberMessage = (
+  forumId,
+  forumRegistrationId,
+  mstUserId,
+  limit = 10
+) => {
+  const URL = `${urlPrefix}v1.0/getPrivateChatMessage`;
+  const payload = {
+    forumId: forumId,
+    forumRegistrationId: forumRegistrationId,
+    mstUserId: mstUserId,
+    limit: limit,
+    offset: 0,
+    order: "desc",
+  };
   return axios.post(URL, payload, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,

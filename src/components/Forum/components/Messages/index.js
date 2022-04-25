@@ -31,9 +31,11 @@ const Messages = ({
   setSelectedForum,
   handleFetchMessages,
   setShowMessagePage,
-  loading,
   setLeave,
+  selectedMember,
+  selectPrivateChatMember,
 }) => {
+  const [intervalId, setIntervalId] = useState();
   const [replyTo, setReplyTo] = useState();
   const focusTextArea = useRef();
   useEffect(() => {
@@ -51,8 +53,13 @@ const Messages = ({
         totalMessageCount
       );
     }, 3000);
+    setIntervalId(interval);
     return () => clearInterval(interval);
-  }, []);
+  }, [selectedMember]);
+
+  useEffect(() => {
+    clearInterval(intervalId);
+  }, [selectedMember]);
 
   const [hasMore, setHasMore] = useState(true);
   const [text, setText] = useState("");
@@ -103,7 +110,8 @@ const Messages = ({
       content,
       contentType,
       selectedForum.forumRegistrationId,
-      payload
+      payload,
+      selectedMember ? selectedMember.userId : undefined
     )
       .then((res) => {
         const { responseCode } = res.data.response;
@@ -524,9 +532,15 @@ const Messages = ({
                 setSelectedForum(undefined);
                 setShowMessagePage(false);
                 setMessages([]);
+                selectPrivateChatMember(undefined);
               }}
             />
-            <p className="font-semibold text-xs md:text-base">{`Messages (${subEventName})`}</p>
+            {!selectedMember && (
+              <p className="font-semibold text-xs md:text-base">{`Messages (${subEventName})`}</p>
+            )}
+            {selectedMember && (
+              <p className="font-semibold text-xs md:text-base">{`Messages (${selectedMember.aliasName})`}</p>
+            )}
           </div>
           <div>
             <button
@@ -538,10 +552,12 @@ const Messages = ({
                 "bg-red-600 text-white text-sm"
               )}
               onClick={() => {
-                setLeave(true);
+                selectedMember
+                  ? selectPrivateChatMember(undefined)
+                  : setLeave(true);
               }}
             >
-              Leave
+              {selectedMember ? "Back to Forum Messages" : "Leave"}
             </button>
           </div>
         </div>
@@ -560,7 +576,7 @@ const Messages = ({
             hasMore={hasMore}
             // height="650px"
             inverse={true}
-            loader={<h4>Loading...</h4>}
+            loader={<></>}
             scrollableTarget="scrollableDiv"
             style={{ display: "flex", flexDirection: "column-reverse" }}
           >
