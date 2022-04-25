@@ -8,8 +8,11 @@ import {
   getForumByEventID,
   fetchMessageByForumID,
   leaveForum,
+  fetchPrivateChatMember,
+  fetchPrivateMemberMessage,
 } from "./forumApi";
 import { PrimaryButton, SecondaryButton } from "../Form";
+import PrivateChatMembers from "./components/PrivateChatMembers";
 
 const Forum = (props) => {
   const { eventID } = props;
@@ -20,6 +23,9 @@ const Forum = (props) => {
   const [selectedForum, setSelectedForum] = useState();
   const [leave, setLeave] = useState(false);
   const [error, setError] = useState("");
+  const [privateChatMember, setPrivateChatMember] = useState([]);
+  const [selectedMember, selectPrivateChatMember] = useState(undefined);
+
   const handleForumFetch = () => {
     setLoading(true);
     getForumByEventID(eventID)
@@ -90,6 +96,58 @@ const Forum = (props) => {
   useEffect(() => {
     setMessages([]);
   }, [selectedForum]);
+
+  const handleFetchChatMember = (forumId) => {
+    fetchPrivateChatMember(forumId).then((res) => {
+      if (res.data.response.responseCode === 0) {
+        setPrivateChatMember(res.data.response.responseData);
+      }
+    });
+  };
+
+  const handlePrivateChatMessage = (
+    forumId,
+    forumRegistrationId,
+    limit = 10
+  ) => {
+    if (forumId && forumRegistrationId) {
+      fetchPrivateMemberMessage(
+        forumId,
+        forumRegistrationId,
+        selectedMember,
+        limit
+      )
+        .then((res) => {
+          const { responseCode, responseMessage, responseData } =
+            res.data.response;
+          if (responseCode === 0 && responseMessage === "SUCCESS") {
+            setMessages(responseData);
+            setShowMessagePage(true);
+          } else {
+            setError("Something went wrong!");
+          }
+        })
+        .catch((err) => {
+          setError("Something went wrong!");
+        });
+    }
+  };
+
+  useEffect(() => {
+    if (selectedMember) {
+      handlePrivateChatMessage(
+        selectedForum.forumId,
+        selectedForum.forumRegistrationId,
+        10
+      );
+    } else if (selectedForum) {
+      handleFetchMessages(
+        selectedForum.forumId,
+        selectedForum.forumRegistrationId,
+        10
+      );
+    }
+  }, [selectedMember]);
   return (
     <div>
       {loading && <CircularSpinner />}
@@ -111,6 +169,7 @@ const Forum = (props) => {
                       showMessage={handleFetchMessages}
                       setSelectedForum={setSelectedForum}
                       setShowMessagePage={setShowMessagePage}
+                      handleFetchChatMember={handleFetchChatMember}
                     />
                   </li>
                 ))}
@@ -121,17 +180,42 @@ const Forum = (props) => {
       )}
       {!loading && showMessagePage && (
         <div>
-          <Messages
-            messages={messages?.messages || []}
-            totalMessageCount={messages?.messageCount || 0}
-            setMessages={setMessages}
-            setShowMessagePage={setShowMessagePage}
-            selectedForum={selectedForum}
-            setSelectedForum={setSelectedForum}
-            handleFetchMessages={handleFetchMessages}
-            setLeave={setLeave}
-            loading={loading}
+          <PrivateChatMembers
+            privateChatMemberList={privateChatMember}
+            selectPrivateChatMember={selectPrivateChatMember}
+            selectedMember={
+              privateChatMember.filter((m) => m.userId === selectedMember)[0]
+            }
           />
+          {!selectedMember && (
+            <Messages
+              messages={messages?.messages || []}
+              totalMessageCount={messages?.messageCount || 0}
+              setMessages={setMessages}
+              setShowMessagePage={setShowMessagePage}
+              selectedForum={selectedForum}
+              setSelectedForum={setSelectedForum}
+              handleFetchMessages={handleFetchMessages}
+              setLeave={setLeave}
+              selectPrivateChatMember={selectPrivateChatMember}
+            />
+          )}
+          {selectedMember && (
+            <Messages
+              messages={messages?.messages || []}
+              totalMessageCount={messages?.messageCount || 0}
+              setMessages={setMessages}
+              setShowMessagePage={setShowMessagePage}
+              selectedForum={selectedForum}
+              setSelectedForum={setSelectedForum}
+              handleFetchMessages={handlePrivateChatMessage}
+              setLeave={setLeave}
+              selectedMember={
+                privateChatMember.filter((m) => m.userId === selectedMember)[0]
+              }
+              selectPrivateChatMember={selectPrivateChatMember}
+            />
+          )}
         </div>
       )}
       {leave && (
