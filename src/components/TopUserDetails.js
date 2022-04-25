@@ -45,7 +45,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   const [appointmentView, setAppointmentView] = useState(false);
   const [sociallink, setSocialLink] = useState(false);
   const [socialPost, setSocialPost] = useState(false);
-  const [hraModal, setHraModal] = useState(false);
+ 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -110,21 +110,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
                 />
               )}
             </div>
-            <div className="mr-2">
-              <PrimaryButton
-                mini
-                onClick={() => {
-                  setHraModal(true);
-                }}
-                className="mt-2"
-              >
-                Report
-              </PrimaryButton>
-
-              {hraModal && (
-                <HraReport hraModal={hraModal} setHraModal={setHraModal} />
-              )}
-            </div>
+            
           </>
         ) : (
           ""
