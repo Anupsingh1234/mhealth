@@ -7,7 +7,7 @@ const PrivateChatMembers = ({
   selectedMember,
 }) => {
   return (
-    <div className="bg-[#F4F7FC] border rounded max-w-[16rem] w-[16rem] md:max-w-[22rem] md:w-[22rem] lg:max-w-[64rem] lg:w-[64rem] mx-auto mt-8 px-6 py-4 mb-8 lg:mb-2 flex gap-3 overflow-scroll">
+    <div className="w-full border rounded mt-6 px-6 py-3 flex gap-3 overflow-scroll">
       {Array.isArray(privateChatMemberList) &&
       privateChatMemberList.length > 0 ? (
         <div>

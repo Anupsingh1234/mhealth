@@ -180,13 +180,6 @@ const Forum = (props) => {
       )}
       {!loading && showMessagePage && (
         <div>
-          <PrivateChatMembers
-            privateChatMemberList={privateChatMember}
-            selectPrivateChatMember={selectPrivateChatMember}
-            selectedMember={
-              privateChatMember.filter((m) => m.userId === selectedMember)[0]
-            }
-          />
           {!selectedMember && (
             <Messages
               messages={messages?.messages || []}
@@ -198,6 +191,7 @@ const Forum = (props) => {
               handleFetchMessages={handleFetchMessages}
               setLeave={setLeave}
               selectPrivateChatMember={selectPrivateChatMember}
+              privateChatMember={privateChatMember}
             />
           )}
           {selectedMember && (
@@ -214,6 +208,7 @@ const Forum = (props) => {
                 privateChatMember.filter((m) => m.userId === selectedMember)[0]
               }
               selectPrivateChatMember={selectPrivateChatMember}
+              privateChatMember={privateChatMember}
             />
           )}
         </div>
