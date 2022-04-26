@@ -46,6 +46,8 @@ import TriStateToggle from "./toggle/TriStateToggle";
 import InfoDialog from "./Utility/InfoDialog";
 import { ListItemAvatar } from "@material-ui/core";
 import { FormatListBulletedRounded } from "@material-ui/icons";
+import HraReport from "./HraReport";
+import{ PrimaryButton }from './Form'
 let socket;
 
 // const ENDPOINT = 'https://demo-cchat.herokuapp.com/';
@@ -366,6 +368,7 @@ export default function AppointmentExpert({
   const [options, setOptions] = useState([]);
   const [series, setSeries] = useState([]);
   const [messageModal, setMessageModal] = useState(false);
+  const [hraModal, setHraModal] = useState(false);
   const [messageData, setMessageData] = useState({
     coachName:
       localStorage.getItem("firstName") +
@@ -846,15 +849,31 @@ export default function AppointmentExpert({
               <div
                 style={{ width: "10%", marginLeft: "20px", marginTop: "10px" }}
               >
-                <button
+                <PrimaryButton
                   className="is-success"
                   // style={{width:'20px'}}
                   onClick={() => setCoachBreakModal(true)}
                 >
                   Break
-                </button>
+                </PrimaryButton>
+               
               </div>
-              <div style={{ width: "20%", marginLeft: "20px" }}></div>
+              <div style={{ width: "10%", marginLeft: "20px", marginTop: "10px" }}>  <div className="mr-2">
+              <PrimaryButton
+                mini
+                onClick={() => {
+                  setHraModal(true);
+                }}
+                className="is-success"
+              >
+                Report
+              </PrimaryButton>
+
+              {hraModal && (
+                <HraReport hraModal={hraModal} setHraModal={setHraModal} />
+              )}
+            </div></div>
+            <div style={{ width: "10%", marginLeft: "20px" }}></div>
               <div style={{ width: "40%", marginTop: "10px" }}>
                 {active === 1 ? <span>Online</span> : <span>Offline</span>}
                 <span style={{ marginLeft: "20px", marginTop: "20px" }}>
