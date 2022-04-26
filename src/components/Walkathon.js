@@ -1185,7 +1185,7 @@ const Walkathon = (props) => {
           />
         );
       case "team":
-        return <CreateTeam eventId={globalState.selectedChallengeObject.id} />;
+        return <CreateTeam eventId={globalState.selectedChallengeObject.id} currentEvent={globalState?.selectedChallengeObject}  />;
       case "achievement":
         return <Achievments eventId={globalState.selectedChallengeObject.id} />;
       case "challenge":
