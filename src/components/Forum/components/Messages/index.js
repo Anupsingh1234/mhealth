@@ -15,6 +15,7 @@ import IconCircleButton from "../../../IconCircleButton";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Avatar from "@material-ui/core/Avatar";
 import PrimaryButton from "../../../Form";
+import PrivateChatMembers from "../PrivateChatMembers";
 
 import {
   sendMessage,
@@ -34,6 +35,7 @@ const Messages = ({
   setLeave,
   selectedMember,
   selectPrivateChatMember,
+  privateChatMember,
 }) => {
   const [intervalId, setIntervalId] = useState();
   const [replyTo, setReplyTo] = useState();
@@ -52,7 +54,7 @@ const Messages = ({
         selectedForum.forumRegistrationId,
         totalMessageCount
       );
-    }, 3000);
+    }, 15000);
     setIntervalId(interval);
     return () => clearInterval(interval);
   }, [selectedMember]);
@@ -522,19 +524,6 @@ const Messages = ({
       <div className="flex flex-col bg-white md:m-6 p-8 rounded-md md:max-w-5xl md:w-full md:mx-auto">
         <div className="flex justify-between mb-8 items-center">
           <div className="flex items-center space-x-2">
-            <IconCircleButton
-              iconSize={15}
-              size={20}
-              icon={faAngleLeft}
-              className="text-white bg-gray-400"
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedForum(undefined);
-                setShowMessagePage(false);
-                setMessages([]);
-                selectPrivateChatMember(undefined);
-              }}
-            />
             {!selectedMember && (
               <p className="font-semibold text-xs md:text-base">{`Messages (${subEventName})`}</p>
             )}
@@ -592,8 +581,8 @@ const Messages = ({
 
         {/* INPUT */}
         <div className="flex items-center space-x-3 justify-between w-full">
-          <div className="space-x-2 flex-0">
-            <div className="image-upload">
+          <div className="flex-0 items-center justify-center">
+            <div className="image-upload ml-1">
               <label for="file-input">
                 <FA
                   icon={faPaperclip}
@@ -606,6 +595,21 @@ const Messages = ({
                 type="file"
                 onChange={(e) => {
                   onFileChange(e);
+                }}
+              />
+            </div>
+            <div className="mt-1">
+              <IconCircleButton
+                iconSize={15}
+                size={20}
+                icon={faAngleLeft}
+                className="text-white bg-gray-400"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedForum(undefined);
+                  setShowMessagePage(false);
+                  setMessages([]);
+                  selectPrivateChatMember(undefined);
                 }}
               />
             </div>
@@ -682,6 +686,13 @@ const Messages = ({
             />
           </div>
         </div>
+        <>
+          <PrivateChatMembers
+            privateChatMemberList={privateChatMember}
+            selectPrivateChatMember={selectPrivateChatMember}
+            selectedMember={selectedMember}
+          />
+        </>
       </div>
     </div>
   );
