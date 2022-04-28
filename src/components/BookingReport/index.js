@@ -39,7 +39,7 @@ const BookingReport = () => {
         setPartners([]);
       });
   }, []);
-  console.log(selectedPartner,'prt id')
+  console.log(selectedPartner, "prt id");
   useEffect(() => {
     fetchBooking(
       formatDate(date[0]),
@@ -110,7 +110,10 @@ const BookingReport = () => {
     <div className="bg-white min-h-screen">
       <Navbar />
       <TopUserDetails />
-      <div className="mx-2 md:ml-28 md:mt-7 flex flex-col md:flex-row gap-2 md:items-start" style={{marginTop:50}}>
+      <div
+        className="mx-2 md:ml-28 md:mt-7 flex flex-col md:flex-row gap-2 md:items-start"
+        style={{ marginTop: 50 }}
+      >
         <div className="md:w-56">
           <DateSelector
             value={date}
@@ -154,7 +157,7 @@ const BookingReport = () => {
         )}
       </div>
       <div className="md:ml-20 md:mt-0 mx-4 my-4 min-h-screen">
-        <DataTable {...{ bookingDetail, updateStatus,selectedPartner }} />
+        <DataTable {...{ bookingDetail, updateStatus, selectedPartner }} />
       </div>
       {statusModal && (
         <UpdateStatusModal

@@ -1710,9 +1710,11 @@ const Dashboard = () => {
             )
           )}
 
-{dashboardState.selectedAction === "team" && (
-            <CreateTeam eventId={dashboardState.selectedChallenge}  
-            currentEvent={dashboardState.selectedChallengeObject}  />
+          {dashboardState.selectedAction === "team" && (
+            <CreateTeam
+              eventId={dashboardState.selectedChallenge}
+              currentEvent={dashboardState.selectedChallengeObject}
+            />
           )}
 
           {dashboardState.selectedAction === "dietplan" && (

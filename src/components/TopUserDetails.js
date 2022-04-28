@@ -45,7 +45,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   const [appointmentView, setAppointmentView] = useState(false);
   const [sociallink, setSocialLink] = useState(false);
   const [socialPost, setSocialPost] = useState(false);
- 
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -110,7 +110,6 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
                 />
               )}
             </div>
-            
           </>
         ) : (
           ""

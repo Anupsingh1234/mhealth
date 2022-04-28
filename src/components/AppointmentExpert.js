@@ -47,7 +47,7 @@ import InfoDialog from "./Utility/InfoDialog";
 import { ListItemAvatar } from "@material-ui/core";
 import { FormatListBulletedRounded } from "@material-ui/icons";
 import HraReport from "./HraReport";
-import{ PrimaryButton }from './Form'
+import { PrimaryButton } from "./Form";
 let socket;
 
 // const ENDPOINT = 'https://demo-cchat.herokuapp.com/';
@@ -856,24 +856,28 @@ export default function AppointmentExpert({
                 >
                   Break
                 </PrimaryButton>
-               
               </div>
-              <div style={{ width: "10%", marginLeft: "20px", marginTop: "10px" }}>  <div className="mr-2">
-              <PrimaryButton
-                mini
-                onClick={() => {
-                  setHraModal(true);
-                }}
-                className="is-success"
+              <div
+                style={{ width: "10%", marginLeft: "20px", marginTop: "10px" }}
               >
-                Report
-              </PrimaryButton>
+                {" "}
+                <div className="mr-2">
+                  <PrimaryButton
+                    mini
+                    onClick={() => {
+                      setHraModal(true);
+                    }}
+                    className="is-success"
+                  >
+                    Report
+                  </PrimaryButton>
 
-              {hraModal && (
-                <HraReport hraModal={hraModal} setHraModal={setHraModal} />
-              )}
-            </div></div>
-            <div style={{ width: "10%", marginLeft: "20px" }}></div>
+                  {hraModal && (
+                    <HraReport hraModal={hraModal} setHraModal={setHraModal} />
+                  )}
+                </div>
+              </div>
+              <div style={{ width: "10%", marginLeft: "20px" }}></div>
               <div style={{ width: "40%", marginTop: "10px" }}>
                 {active === 1 ? <span>Online</span> : <span>Offline</span>}
                 <span style={{ marginLeft: "20px", marginTop: "20px" }}>

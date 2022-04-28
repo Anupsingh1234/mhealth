@@ -114,23 +114,23 @@ const DCompanyForm = ({
               style={{ width: "80%" }}
             />
           </div>
-          {window.location.href == "https://cxo.mhealth.ai.mhealth.ai/#/login"
-                  &&(<>
-          <div className="registration-form-field">
-            <div>
-              <label style={{fontSize: 12}}>Designation</label>
-            </div>
-            <input
-              placeholder="Enter your Designation"
-              value={userData.designation}
-              onChange={(e) => handleInput('designation', e.target.value)}
-              style={{width: '80%'}}
-            />
-          </div>
-          </>)}
+          {window.location.href ==
+            "https://cxo.mhealth.ai.mhealth.ai/#/login" && (
+            <>
+              <div className="registration-form-field">
+                <div>
+                  <label style={{ fontSize: 12 }}>Designation</label>
+                </div>
+                <input
+                  placeholder="Enter your Designation"
+                  value={userData.designation}
+                  onChange={(e) => handleInput("designation", e.target.value)}
+                  style={{ width: "80%" }}
+                />
+              </div>
+            </>
+          )}
         </div>
-
-      
 
         <div className="mhealth-input-box padding-05em user-info-form-otp-wrapper">
           <div className="user-info-form-otp-boxes">

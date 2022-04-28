@@ -64,8 +64,8 @@ import InfoDialog from "../Utility/InfoDialog";
 import moment from "moment";
 // import "./Team.css";
 
-const CreateTeam = ({eventId,currentEvent}) => {
-  console.log(eventId,currentEvent,'props')
+const CreateTeam = ({ eventId, currentEvent }) => {
+  console.log(eventId, currentEvent, "props");
   const [memberlist, setmemberlist] = useState([]);
   const [teamname, setTeamName] = useState([]);
   const [eventname, seteventname] = useState(eventId);
@@ -104,12 +104,15 @@ const CreateTeam = ({eventId,currentEvent}) => {
     0
   );
   const [startDate, setStartDate] = useState(
-    currentEvent.sdate!==undefined?currentEvent.sdate.substring(0, 10):''
+    currentEvent.sdate !== undefined ? currentEvent.sdate.substring(0, 10) : ""
   );
   const [endDate, setEndDate] = useState(
-    moment(today).format("YYYY-MM-DD") >
-      currentEvent.edate!==undefined?currentEvent.edate.substring(0, 10):''
-      ? currentEvent.edate!==undefined?currentEvent.edate.substring(0, 10):''
+    moment(today).format("YYYY-MM-DD") > currentEvent.edate !== undefined
+      ? currentEvent.edate.substring(0, 10)
+      : ""
+      ? currentEvent.edate !== undefined
+        ? currentEvent.edate.substring(0, 10)
+        : ""
       : moment(today).format("YYYY-MM-DD")
   );
   const [showStartDate, setShowStartDate] = useState(
@@ -442,7 +445,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
     getAdmin();
     seteventname(eventId);
     getTeam();
-    getLeaderBoardData(currentEvent.sdate,currentEvent.edate);
+    getLeaderBoardData(currentEvent.sdate, currentEvent.edate);
     getmemberlist();
     listarray;
   }, [eventId]);
@@ -560,7 +563,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
           seterr(res.data.response.responseMessage);
           window.data = res.data.response.responseMessage;
           getTeam();
-          getLeaderBoardData(currentEvent.sdate,currentEvent.edate);
+          getLeaderBoardData(currentEvent.sdate, currentEvent.edate);
         })
         .catch((err) => {
           seterr(err.data.response.responseMessage);
@@ -616,7 +619,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
         getTeam();
         registeredUser(id);
         setinActiveErr("");
-        getLeaderBoardData(currentEvent.sdate,currentEvent.edate);
+        getLeaderBoardData(currentEvent.sdate, currentEvent.edate);
         seteditImg("");
       })
       .catch((err) => {
@@ -868,9 +871,9 @@ const CreateTeam = ({eventId,currentEvent}) => {
 
   const leaveTeamByUser = (a, b, c) => {
     // console.log(a, b, c);
-    const URL = `${urlPrefix}${leaveTeam}?challengerZoneId=${
-      eventId
-    }&teamId=${leaveId}&userId=${localStorage.getItem("userId")}`;
+    const URL = `${urlPrefix}${leaveTeam}?challengerZoneId=${eventId}&teamId=${leaveId}&userId=${localStorage.getItem(
+      "userId"
+    )}`;
     return axios
       .put(
         URL,
@@ -889,7 +892,9 @@ const CreateTeam = ({eventId,currentEvent}) => {
         }
       )
       .then((res) => {
-        closeLeaveModal(), closeUserListModal(), getLeaderBoardData(currentEvent.sdate,currentEvent.edate);
+        closeLeaveModal(),
+          closeUserListModal(),
+          getLeaderBoardData(currentEvent.sdate, currentEvent.edate);
       });
   };
 
@@ -969,7 +974,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
           getmemberlist();
           registeredUser(id);
           setinActiveErr("");
-          getLeaderBoardData(currentEvent.sdate,currentEvent.edate);
+          getLeaderBoardData(currentEvent.sdate, currentEvent.edate);
           setLeaderId();
         })
         .catch((err) => {
@@ -1213,7 +1218,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
         }
       )
       .then((res) => {
-        getLeaderBoardData(currentEvent.sdate,currentEvent.edate);
+        getLeaderBoardData(currentEvent.sdate, currentEvent.edate);
         onclosejoinModal();
       });
   };
@@ -1304,11 +1309,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
           <PrimaryButton
             className="w-[max-content] text-sm"
             onClick={() => {
-              leaveTeamByUser(
-                eventId,
-                leaveId,
-                localStorage.getItem("userId")
-              );
+              leaveTeamByUser(eventId, leaveId, localStorage.getItem("userId"));
             }}
           >
             {" "}
@@ -1670,7 +1671,6 @@ const CreateTeam = ({eventId,currentEvent}) => {
                   aria-labelledby="tableTitle"
                   size={"small"}
                   aria-label="enhanced table"
-                
                 >
                   <TableHead style={{}}>
                     <TableRow>
@@ -1811,8 +1811,8 @@ const CreateTeam = ({eventId,currentEvent}) => {
             paddingRight: 10,
           }}
         >
-          <div style={{ display: "flex",}}>
-            <div style={{ display: "flex" ,width:'80%'}}>
+          <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", width: "80%" }}>
               <img
                 src={
                   teamImg != ""
@@ -1838,10 +1838,9 @@ const CreateTeam = ({eventId,currentEvent}) => {
                 <PrimaryButton
                   mini
                   // className=" text-sm"
-                  style={{marginLeft:'80%'}}
+                  style={{ marginLeft: "80%" }}
                   onClick={() => {
                     openLeaveModal();
-                   
                   }}
                 >
                   {" "}
@@ -2212,49 +2211,48 @@ const CreateTeam = ({eventId,currentEvent}) => {
               justifyContent: "flex-end",
               alignItems: "center",
             }}
-          ><img
-          className="mx-1"
-          src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/DateRange.png"
-          height="25px"
-          width="25px"
-          onClick={() => setDateRange(true)}
-          style={{ cursor: "pointer", marginTop: "-5px" }}
-        />
-         <span style={{ fontWeight: "800", marginLeft: "5px" }}>[</span>{" "}
-        <span
-                // type="date"
+          >
+            <img
+              className="mx-1"
+              src="https://walkathon21.s3.ap-south-1.amazonaws.com/logo/DateRange.png"
+              height="25px"
+              width="25px"
+              onClick={() => setDateRange(true)}
+              style={{ cursor: "pointer", marginTop: "-5px" }}
+            />
+            <span style={{ fontWeight: "800", marginLeft: "5px" }}>[</span>{" "}
+            <span
+              // type="date"
 
-                style={{
-                  // background: '#f3f4f6',
-                  // padding: '6px 10px',
-                  // borderRadius: 6,
-                  fontSize: 12,
+              style={{
+                // background: '#f3f4f6',
+                // padding: '6px 10px',
+                // borderRadius: 6,
+                fontSize: 12,
 
-                  marginLeft: "2px",
-                  fontWeight: "800",
-                }}
-              >
-                {showStartDate}
-               
-              </span>
-              <span style={{ fontWeight: "800", marginLeft: "8px" }}>-</span>{" "}
-              <span
-                // type="date"
+                marginLeft: "2px",
+                fontWeight: "800",
+              }}
+            >
+              {showStartDate}
+            </span>
+            <span style={{ fontWeight: "800", marginLeft: "8px" }}>-</span>{" "}
+            <span
+              // type="date"
 
-                style={{
-                  // background: '#f3f4f6',
-                  // padding: '6px 10px',
-                  // borderRadius: 6,
-                  fontSize: 12,
+              style={{
+                // background: '#f3f4f6',
+                // padding: '6px 10px',
+                // borderRadius: 6,
+                fontSize: 12,
 
-                  marginLeft: "5px",
-                  fontWeight: "800",
-                }}
-              >
-                {showEndDate}
-             
-              </span>
-              <span style={{ fontWeight: "800" }}>]</span>
+                marginLeft: "5px",
+                fontWeight: "800",
+              }}
+            >
+              {showEndDate}
+            </span>
+            <span style={{ fontWeight: "800" }}>]</span>
             <div className="d-flex a-i-center">
               <TablePagination
                 rowsPerPageOptions={[50, 75, 100]}
@@ -2583,11 +2581,15 @@ const CreateTeam = ({eventId,currentEvent}) => {
                       ? currentEvent.challengeEndDate.substring(0, 10)
                       : moment(today).format("YYYY-MM-DD")
                   );
-                  setShowStartDate( moment(currentEvent.sdate.substring(0, 10).format()))
-                  setShowEndDate(moment(today).format("YYYY-MM-DD") >
-                  currentEvent.challengeEndDate.substring(0, 10)
-                  ? currentEvent.challengeEndDate.substring(0, 10)
-                  : moment(today).format("DD-MM-YYYY"))
+                  setShowStartDate(
+                    moment(currentEvent.sdate.substring(0, 10).format())
+                  );
+                  setShowEndDate(
+                    moment(today).format("YYYY-MM-DD") >
+                      currentEvent.challengeEndDate.substring(0, 10)
+                      ? currentEvent.challengeEndDate.substring(0, 10)
+                      : moment(today).format("DD-MM-YYYY")
+                  );
                 }}
               >
                 As On Date
@@ -2607,9 +2609,8 @@ const CreateTeam = ({eventId,currentEvent}) => {
                     moment(first).format("YYYY-MM-DD"),
                     moment(last).format("YYYY-MM-DD")
                   );
-                  setShowStartDate(moment(first).format("DD-MM-YYYY"),);
-                  setShowEndDate( moment(last).format("DD-MM-YYYY"))
-                  
+                  setShowStartDate(moment(first).format("DD-MM-YYYY"));
+                  setShowEndDate(moment(last).format("DD-MM-YYYY"));
                 }}
               >
                 Current Week
@@ -2630,7 +2631,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
                     moment(lastweekend).format("YYYY-MM-DD")
                   );
                   setShowStartDate(moment(lastweekstart).format("DD-MM-YYYY"));
-                  setShowEndDate(moment(lastweekend).format("DD-MM-YYYYY`"))
+                  setShowEndDate(moment(lastweekend).format("DD-MM-YYYYY`"));
                 }}
               >
                 Last Week
@@ -2650,9 +2651,10 @@ const CreateTeam = ({eventId,currentEvent}) => {
                     `${month.substring(0, 7)}-01`,
                     moment(today).format("YYYY-MM-DD")
                   );
-                  setShowStartDate(moment(`${month.substring(0, 7)}-01`).format("DD-MM-YYYY"));
-                  setShowEndDate(moment(today).format("DD-MM-YYYY"))
-                  
+                  setShowStartDate(
+                    moment(`${month.substring(0, 7)}-01`).format("DD-MM-YYYY")
+                  );
+                  setShowEndDate(moment(today).format("DD-MM-YYYY"));
                 }}
               >
                 Current Month
@@ -2673,7 +2675,7 @@ const CreateTeam = ({eventId,currentEvent}) => {
                     moment(preEndDate).format("YYYY-MM-DD")
                   );
                   setShowStartDate(moment(prevStartDate).format("DD-MM-YYYY"));
-                  setShowEndDate(moment(preEndDate).format("DD-MM-YYYY"))
+                  setShowEndDate(moment(preEndDate).format("DD-MM-YYYY"));
                 }}
               >
                 Last Month
@@ -2696,7 +2698,9 @@ const CreateTeam = ({eventId,currentEvent}) => {
                   min={currentEvent.challengeStartDate.substring(0, 9)}
                   max={month}
                   value={showStartDate}
-                  onChange={(e) => setStartDate(moment(e.target.value.format('DD-MM-YYYY')))}
+                  onChange={(e) =>
+                    setStartDate(moment(e.target.value.format("DD-MM-YYYY")))
+                  }
                 />
               </div>
               <div style={{ marginLeft: "5px", marginTop: "10px" }}>
@@ -2715,7 +2719,9 @@ const CreateTeam = ({eventId,currentEvent}) => {
                   min={currentEvent.challengeEndDate.substring(0, 9)}
                   max={month}
                   value={showEndDate}
-                  onChange={(e) => setShowEndDate(moment(e.target.value.format('DD-MM-YYYY')))}
+                  onChange={(e) =>
+                    setShowEndDate(moment(e.target.value.format("DD-MM-YYYY")))
+                  }
                 />
               </div>
               <button
