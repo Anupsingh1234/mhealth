@@ -56,7 +56,7 @@ const Login = ({ YottaMatch }) => {
     city: "",
     companyName: "",
     employeeId: "",
-    designation:'',
+    designation: "",
   });
   const [loaderInfo, setLoaderInfo] = useState({
     mobileVerification: false,
@@ -307,7 +307,7 @@ const Login = ({ YottaMatch }) => {
         city: userData.city,
         companyName: userData.companyName,
         employeeId: userData.employeeId,
-        designation:userData.designation
+        designation: userData.designation,
       },
       userData.userToken
     )
@@ -446,9 +446,8 @@ const Login = ({ YottaMatch }) => {
       );
     } else if (
       window.location.href == "https://druvacares.mhealth.ai/#/login" ||
-      window.location.href == "https://druvacarespartners.mhealth.ai/#/login"||
+      window.location.href == "https://druvacarespartners.mhealth.ai/#/login" ||
       window.location.href == "https://cxo.mhealth.ai.mhealth.ai/#/login"
-     
     ) {
       return (
         <DCompany
@@ -521,7 +520,11 @@ const Login = ({ YottaMatch }) => {
     <div className="Login">
       <div className="illustration relative">
         <div>
-          <img src={theme?.eventLogo || login} width={400} height={597} />
+          {/* <img src={theme?.eventLogo || login} width={500} height={597} /> */}
+          <img
+            src={theme?.eventLogo || login}
+            style={{ width: "100%", padding: "20px", maxWidth: "500px" }}
+          />
           {Array.isArray(socialLinks) && socialLinks.length > 0 && (
             <div className="absolute left-0 top-[50%] translate-x-0 translate-y-[-50%] p-4 bg-gray-100 h-[max-content] flex flex-col gap-4">
               {socialLinks.map(

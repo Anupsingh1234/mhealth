@@ -582,7 +582,7 @@ const Messages = ({
         {/* INPUT */}
         <div className="flex items-center space-x-3 justify-between w-full">
           <div className="flex-0 items-center justify-center">
-            <div className="image-upload ml-1">
+            <div className="image-upload ml-1 text-center">
               <label for="file-input">
                 <FA
                   icon={faPaperclip}
@@ -599,11 +599,8 @@ const Messages = ({
               />
             </div>
             <div className="mt-1">
-              <IconCircleButton
-                iconSize={15}
-                size={20}
-                icon={faAngleLeft}
-                className="text-white bg-gray-400"
+              <div
+                className="text-white bg-red-600 text-xs px-2 py-1 rounded-full cursor-pointer"
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedForum(undefined);
@@ -611,7 +608,9 @@ const Messages = ({
                   setMessages([]);
                   selectPrivateChatMember(undefined);
                 }}
-              />
+              >
+                Go Back
+              </div>
             </div>
           </div>
           <div className="flex-1">
