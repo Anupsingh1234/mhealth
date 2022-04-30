@@ -12,6 +12,7 @@ import { getOldEvents } from "../services/challengeApi";
 import { SignalCellularNullRounded } from "@material-ui/icons";
 import { PrimaryButton } from "./Form";
 import HraReport from "./HraReport";
+import BMI from "./BMI";
 const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   let history = useHistory();
   const StyledMenu = withStyles({
@@ -62,6 +63,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   const [admincondition, setAdminCondition] = useState();
   const [modiator, setmodiator] = useState();
   const [coach, setCoach] = useState();
+  const [bmiModal, setBMIModal] = useState(false);
   useEffect(() => {
     getOldEvents().then((res) => {
       // console.log({ res })
@@ -88,6 +90,11 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   return (
     <div>
       <div className="Avatar-Container">
+        <div className="w-[max-content] mr-2">
+          <PrimaryButton mini onClick={() => setBMIModal(true)}>
+            BMI/BMR
+          </PrimaryButton>
+        </div>
         {coach === true ? (
           <>
             <div className="mr-2">
@@ -206,6 +213,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
           <ListItemText primary="Logout" />
         </div>
       </StyledMenu>
+      {bmiModal && <BMI onRequestClose={() => setBMIModal(false)} />}
     </div>
   );
 };
