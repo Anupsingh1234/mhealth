@@ -3,31 +3,48 @@ import { PrimaryButton } from "../Form";
 import { getBMI } from "../../services/bmiApi";
 import CenteredModal from "../CenteredModal";
 import classNames from "classnames";
+import SingleDateSelector from "../BookingReport/SingleDateSelector";
 
 const BMI = ({ onRequestClose }) => {
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
   const [loading, setLoading] = useState("");
   const [data, setData] = useState("");
+  const [nextReminder, setNextReminder] = useState(new Date());
+  const [error, setError] = useState("");
   const handleSubmit = () => {
+    var dd = nextReminder.getDate();
+
+    var mm = nextReminder.getMonth() + 1;
+    var yyyy = nextReminder.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
     const payload = {
       idMstUser: localStorage.userId,
       heightInCm: height,
       weightInKg: weight,
-      nextReminder: "2022-05-05",
+      nextReminder: `${yyyy}-${mm}-${dd}`,
     };
     setLoading(true);
+    setError("");
 
     getBMI(payload)
       .then((res) => {
         if (res.data.response.responseCode === 0) {
           setData(res.data.response.responseData);
+        } else {
+          setError(res?.data?.response?.responseMessage);
         }
         setLoading(false);
       })
       .catch((err) => {
         setData("");
-        console.log("");
         setLoading(false);
       });
   };
@@ -42,7 +59,7 @@ const BMI = ({ onRequestClose }) => {
         <p className="text-xl font-semibold text-gray-800 text-center">
           BMI/BMR
         </p>
-        <p>Enter weight</p>
+        <p>Enter Weight</p>
         <input
           value={weight}
           placeholder="weight in kgs"
@@ -50,13 +67,18 @@ const BMI = ({ onRequestClose }) => {
           type="number"
           className="p-2 border"
         />
-        <p>Enter height</p>
+        <p>Enter Height</p>
         <input
           value={height}
           placeholder="height in cms"
           onChange={({ target }) => setHeight(target.value)}
           type="number"
           className="p-2 border"
+        />
+        <p>Next Reminder</p>
+        <SingleDateSelector
+          value={nextReminder}
+          onChange={(date) => setNextReminder(date)}
         />
         {data && (
           <div className={classNames("flex flex-col gap-2")}>
@@ -127,9 +149,16 @@ const BMI = ({ onRequestClose }) => {
             <p>BMR : {data.calculatedBmr}</p>
           </div>
         )}
-        <PrimaryButton mini onClick={() => handleSubmit()}>
-          Submit
-        </PrimaryButton>
+        {error && (
+          <p className="text-red-600 text-xs text-center max-w-[12rem] break-words">
+            {error}
+          </p>
+        )}
+        {!data && (
+          <PrimaryButton mini onClick={() => handleSubmit()}>
+            Submit
+          </PrimaryButton>
+        )}
       </div>
     </CenteredModal>
   );

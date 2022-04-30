@@ -10,6 +10,7 @@ const SingleDateSelector = ({ value, onChange }) => {
       onChange={(date) => {
         onChange(date);
       }}
+      className="border p-2"
     />
   );
 };
