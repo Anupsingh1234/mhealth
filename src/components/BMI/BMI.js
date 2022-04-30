@@ -27,6 +27,7 @@ const BMI = ({ onRequestClose }) => {
       })
       .catch((err) => {
         setData("");
+        console.log("");
         setLoading(false);
       });
   };
