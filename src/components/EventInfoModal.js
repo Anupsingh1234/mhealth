@@ -297,7 +297,7 @@ export default function EventInfoModal({
                     type="hidden"
                     name="eventId"
                     value="10"
-                    name="eventId"
+                   
                   />
                   <input
                     type="hidden"
@@ -499,8 +499,7 @@ export default function EventInfoModal({
               </div>
             )}
 
-            {challenge.userStatusInProgram === "SUBSCRIBED" &&
-              challenge.timePeriod !== "PAST" && (
+            {challenge.timePeriod !== "PAST" && (
                 <div
                   className="d-flex"
                   style={{

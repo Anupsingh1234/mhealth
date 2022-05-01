@@ -18,7 +18,12 @@ import ReactLoadingWrapper from "../../loaders/ReactLoadingWrapper";
 import ScrollableList from "../../ScrollableList";
 import EventImageCard from "../../EventImageCard";
 import TriStateToggle from "./TriStateToggle2";
-
+import {
+urlPrefix,
+ } from "../../../services/apicollection";
+ import axios from "axios";
+ import moment from "moment";
+ import message from "antd-message";
 function formatDate(date) {
   if (!date) return "";
   var day = date.getDate();
@@ -84,12 +89,15 @@ export default function EventInfoModal({
 }) {
   const [modalStyle] = React.useState(getModalStyle);
   const classes = useStyles();
+  const [ActivityDeatils,setActivityDetails]=useState([])
   const handleClose = () => {
     setModalView({ status: false });
   };
+  const [refernceUrl,setRefernceUrl]=useState([])
+  console.log(refernceUrl,"url")
   const [state, setState] = useState({
     activityVisibility: "",
-    activityTitle: "",
+    activityId: "",
     actvityNote: "",
     media: "",
     mediaImg: "",
@@ -113,9 +121,16 @@ export default function EventInfoModal({
   const [toggleView, setToggleView] = useState("Activities");
 
   const handleInputChange = (name, value) => {
+    if(name=="activityId")
+    {
+      setRefernceUrl(ActivityDeatils.filter((item)=>{
+      return item.id==value
+    }))
+  }
     setState((prevState) => {
       return { ...prevState, [name]: value };
     });
+  
   };
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -137,6 +152,36 @@ export default function EventInfoModal({
       }
     }
   };
+  const getSubChallengerActivity = () => {
+      
+    const URL = `${urlPrefix}v1.0/getAllSubchallengerActivity?subEventId=${challenge.id}`;
+    return axios
+      .get(
+        URL,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            accept: "*/*",
+            "Access-Control-Allow-Origin": "*",
+            withCredentials: true,
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+            "Access-Control-Allow-Headers":
+              "accept, content-type, x-access-token, x-requested-with",
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res,'resActivity')
+        setActivityDetails(res.data.response.responseData)
+        // getData();
+        // userRated();
+        // blankStar();
+        // // console.log(challenge.id);
+        // localStorage.setItem("rated", challenge.id);
+        // //  localStorage.setItem('rating', 4)
+        // message.success("Rated succesfully ! Thank you");
+      });
+  };
   const disableSubmit =
     Object.values(state).filter((val) => val === "" || val === undefined)
       .length > 0;
@@ -144,19 +189,23 @@ export default function EventInfoModal({
   const handleSubmit = () => {
     const formData = new FormData();
     formData.append("media", state.media);
-    formData.append("activityVisibility", state.activityVisibility);
-    formData.append("activityTitle", state.activityTitle);
-    formData.append("actvityNote", state.actvityNote);
-    formData.append("activityStartDate", formatDate(state.activityStartDate));
-    formData.append("activityEndDate", formatDate(state.activityEndDate));
+    const payload={
+      activityVisibility: state.activityVisibility,
+    activityId: state.activityId,
+    actvityNote: state.actvityNote,
+   activityStartDate:moment(state.activityStartDate).format("YYYY-MM-DD hh:mm:ss"),
+    activityEndDate: moment(state.activityEndDate).format("YYYY-MM-DD hh:mm:ss"),
+    }
     setSuccessMsg({ loading: true, msg: undefined });
 
-    addProgramActivityData(formData, challenge.id)
+    addProgramActivityData(payload,formData, challenge.id)
       .then((res) => {
         setSuccessMsg({
           loading: false,
           msg: res?.data?.response.responseMessage,
         });
+        message.success(res.data.response.responseMessage)
+        setModalView(false)
       })
       .catch((err) => {
         setSuccessMsg({
@@ -165,8 +214,21 @@ export default function EventInfoModal({
         });
       });
   };
-
+const getActivityData=()=>{
+  getProgramActivity(challenge.id).then((res) => {
+    let responseData = res?.data?.response?.responseData
+      ? res?.data?.response?.responseData
+      : [];
+    let responseMsg = res?.data?.response?.responseMessage;
+    setSavedActivities({
+      data: responseData,
+      loading: false,
+      message: responseMsg,
+    });
+  });
+}
   useEffect(() => {
+    getSubChallengerActivity()
     if (type === "view") {
       setSavedActivities({
         data: [],
@@ -178,17 +240,7 @@ export default function EventInfoModal({
         loading: true,
         message: "",
       });
-      getProgramActivity(challenge.id).then((res) => {
-        let responseData = res?.data?.response?.responseData
-          ? res?.data?.response?.responseData
-          : [];
-        let responseMsg = res?.data?.response?.responseMessage;
-        setSavedActivities({
-          data: responseData,
-          loading: false,
-          message: responseMsg,
-        });
-      });
+      getActivityData();
 
       getOldRecordingByProgram(challenge.id).then((res) => {
         let responseData = res?.data?.response?.responseData
@@ -206,7 +258,7 @@ export default function EventInfoModal({
       setSuccessMsg();
       setState({
         activityVisibility: "PRIVATE",
-        activityTitle: "",
+        activityId: "",
         actvityNote: "",
         media: "",
         mediaImg: "",
@@ -215,7 +267,7 @@ export default function EventInfoModal({
       });
     }
   }, []);
-
+console.log(state,'state')
   const modalBody = (
     <div
       style={modalStyle}
@@ -289,13 +341,17 @@ export default function EventInfoModal({
                     </button>
                   </div>
                 )}
+                {refernceUrl[0]&&refernceUrl[0].activityReference!==""&&(<>
+                <h5>Reference Link :-</h5>
+                <a href={refernceUrl[0].activityReference} target="_blank">{refernceUrl[0].activityReference}</a>
+                </>)}
               </div>
 
               <div className="activity-doc-text-details">
                 <div className="mhealth-input-box" style={{ marginBottom: 10 }}>
-                  <label style={{ fontSize: 12 }}> Activity Title</label>
-                  <input
-                    placeholder="Enter title of the activity"
+                  <label style={{ fontSize: 12 }}>Select Activity </label>
+                  <select
+                    
                     style={{
                       background: "#f3f4f6",
                       padding: "6px 10px",
@@ -303,11 +359,18 @@ export default function EventInfoModal({
                       fontSize: 12,
                       width: "90%",
                     }}
-                    value={state.activityTitle}
+                    value={state.activityId}
                     onChange={(e) =>
-                      handleInputChange("activityTitle", e.target.value)
+                      handleInputChange("activityId", e.target.value)
                     }
-                  />
+                  >
+                    <option value="">Select</option>
+                    {ActivityDeatils&&ActivityDeatils.map((item)=>{
+                      return(<>
+                      <option value={item.id}>{item.activityName} ({item.activityStartDate[2]}-{item.activityStartDate[1]}-{item.activityStartDate[0]} - {item.activityEndDate[2]}-{item.activityEndDate[1]}-{item.activityEndDate[0]})</option>
+                      </>)
+                    })}
+                    </select>
                 </div>
                 <div className="mhealth-input-box" style={{ marginBottom: 10 }}>
                   <label style={{ fontSize: 12 }}> Visibility</label>
@@ -378,6 +441,7 @@ export default function EventInfoModal({
 
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DateTimePicker
+                        autoOk
                           variant="inline"
                           value={state.activityStartDate ?? ""}
                           onChange={(date) => {
@@ -396,6 +460,7 @@ export default function EventInfoModal({
 
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DateTimePicker
+                         autoOk
                           variant="inline"
                           value={state.activityEndDate ?? ""}
                           onChange={(date) => {
@@ -477,6 +542,7 @@ export default function EventInfoModal({
                           data={item}
                           key={index}
                           type="program"
+                          getActivityData={getActivityData}
                         />
                       );
                     })}
@@ -516,6 +582,8 @@ export default function EventInfoModal({
                           }}
                           key={index}
                           type="record"
+                         
+                          
                         />
                       );
                     })}

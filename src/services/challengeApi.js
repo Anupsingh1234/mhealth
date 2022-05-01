@@ -750,9 +750,9 @@ export const getProgramActivity = (subEventId) => {
   });
 };
 
-export const addProgramActivityData = (payload, id) => {
-  let URL = `${urlPrefix}${addProgramActivity}?subEventId=${id}`;
-  return axios.post(URL, payload, {
+export const addProgramActivityData = (payload, formData,id) => {
+  let URL = `${urlPrefix}${addProgramActivity}?activityEndDate=${payload.activityEndDate}&activityId=${payload.activityId}&activityStartDate=${payload.activityStartDate}&activityVisibility=${payload.activityVisibility}&actvityNote=${payload.actvityNote}&subEventId=${id}`;
+  return axios.post(URL, formData, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       timeStamp: "timestamp",
