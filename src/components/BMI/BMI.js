@@ -4,6 +4,7 @@ import { getBMI } from "../../services/bmiApi";
 import CenteredModal from "../CenteredModal";
 import classNames from "classnames";
 import SingleDateSelector from "../BookingReport/SingleDateSelector";
+import Tooltip from "rc-tooltip";
 
 const BMI = ({ onRequestClose }) => {
   const [weight, setWeight] = useState("");
@@ -86,70 +87,67 @@ const BMI = ({ onRequestClose }) => {
         {data && (
           <div className={classNames("flex flex-col gap-2")}>
             <p>Result</p>
-            <p
-              className={classNames(
-                "text-black",
-                {
-                  "bg-green-500": ["Normal 18.5 - 25"].includes(
-                    data.bmiClassification
-                  ),
-                },
-                {
-                  "bg-red-500": [
-                    "Severe Thinness < 16",
-                    "Obese Class II	35 - 40",
-                    "Obese Class III > 40",
-                  ].includes(data.bmiClassification),
-                },
-                {
-                  "bg-orange-500": [
-                    "Obese Class I 30 - 35",
-                    "Moderate Thinness 16 - 17",
-                  ].includes(data.bmiClassification),
-                },
-                {
-                  "bg-yellow-500": [
-                    "Mild Thinness 17 - 18.5",
-                    "Overweight	25 - 30",
-                  ].includes(data.bmiClassification),
-                }
-              )}
-            >
+            <p className={"text-black"}>
               BMI Classification : {data.bmiClassification}
             </p>
-            <p
-              className={classNames(
-                "text-black",
-                {
-                  "bg-green-500": ["Normal 18.5 - 25"].includes(
-                    data.bmrClassification
-                  ),
-                },
-                {
-                  "bg-red-500": [
-                    "Severe Thinness < 16",
-                    "Obese Class II	35 - 40",
-                    "Obese Class III > 40",
-                  ].includes(data.bmrClassification),
-                },
-                {
-                  "bg-orange-500": [
-                    "Obese Class I 30 - 35",
-                    "Moderate Thinness 16 - 17",
-                  ].includes(data.bmiClassification),
-                },
-                {
-                  "bg-yellow-500": [
-                    "Mild Thinness 17 - 18.5",
-                    "Overweight	25 - 30",
-                  ].includes(data.bmrClassification),
-                }
-              )}
-            >
+            <p className={"text-black"}>
               BMI Classification : {data.bmrClassification}
             </p>
             <p>BMI : {data.calculatedBmi}</p>
             <p>BMR : {data.calculatedBmr}</p>
+            <p className="my-2">
+              <p className="text-center">BMI class colour coding</p>
+              <div className="w-56 h-8 mx-2 border flex">
+                <BMIClass
+                  text="Severe Thinness( < 16.0 )"
+                  className="w-10 bg-red-600 cursor-pointer"
+                  min=""
+                  max="16"
+                />
+                <BMIClass
+                  text="Moderate Thinness (16 - 17)"
+                  className="w-10 bg-orange-600 cursor-pointer"
+                  min=""
+                  max="17"
+                />
+                <BMIClass
+                  text="Mild Thinness	(17 - 18.5)"
+                  className="w-10 bg-yellow-400 cursor-pointer"
+                  min=""
+                  max="18"
+                />
+                <BMIClass
+                  text="Normal (18.5 - 25)"
+                  className="w-10 bg-green-600 cursor-pointer"
+                  min=""
+                  max="25"
+                />
+                <BMIClass
+                  text="Overweight (25 - 30)"
+                  className="w-10 bg-yellow-400 cursor-pointer"
+                  min=""
+                  max="30"
+                />
+                <BMIClass
+                  text="Obese Class I	(30 - 35)"
+                  className="w-10 bg-orange-600 cursor-pointer"
+                  min=""
+                  max="35"
+                />
+                <BMIClass
+                  text="Obese Class II (35 - 40)"
+                  className="w-10 bg-red-600 cursor-pointer"
+                  min=""
+                  max="40"
+                />
+                <BMIClass
+                  text="Obese Class III ( > 40)"
+                  className="w-10 bg-red-700 cursor-pointer"
+                  min=""
+                  max="40+"
+                />
+              </div>
+            </p>
           </div>
         )}
         {error && (
@@ -168,6 +166,22 @@ const BMI = ({ onRequestClose }) => {
         )}
       </div>
     </CenteredModal>
+  );
+};
+
+const BMIClass = ({ text, className, min, max }) => {
+  return (
+    <Tooltip
+      transitionName="rc-tooltip-zoom"
+      trigger={["hover"]}
+      overlay={<span>{text}</span>}
+      mouseEnterDelay={0.2}
+      placement={"top"}
+    >
+      <div className={classNames("flex text-xs relative", className)}>
+        <p className="absolute bottom-0 right-0">{max}</p>
+      </div>
+    </Tooltip>
   );
 };
 
