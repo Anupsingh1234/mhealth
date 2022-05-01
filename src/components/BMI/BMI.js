@@ -10,7 +10,10 @@ const BMI = ({ onRequestClose }) => {
   const [height, setHeight] = useState("");
   const [loading, setLoading] = useState("");
   const [data, setData] = useState("");
-  const [nextReminder, setNextReminder] = useState(new Date());
+  var myCurrentDate = new Date();
+  var myFutureDate = new Date(myCurrentDate);
+  myFutureDate.setDate(myFutureDate.getDate() + 30);
+  const [nextReminder, setNextReminder] = useState(myFutureDate);
   const [error, setError] = useState("");
   const handleSubmit = () => {
     var dd = nextReminder.getDate();
@@ -155,7 +158,11 @@ const BMI = ({ onRequestClose }) => {
           </p>
         )}
         {!data && (
-          <PrimaryButton mini onClick={() => handleSubmit()}>
+          <PrimaryButton
+            mini
+            onClick={() => handleSubmit()}
+            disabled={weight === "" || height === ""}
+          >
             Submit
           </PrimaryButton>
         )}
