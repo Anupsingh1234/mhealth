@@ -90,7 +90,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
   return (
     <div>
       <div className="Avatar-Container">
-        <div className="w-[max-content] mr-2">
+        <div className="w-[max-content] mr-2 mt-1">
           <PrimaryButton mini onClick={() => setBMIModal(true)}>
             BMI/BMR
           </PrimaryButton>
@@ -103,7 +103,7 @@ const TopUserDetails = ({ updateAgain = false, subEventDetail }) => {
                 onClick={() => {
                   setAppointmentView(true);
                 }}
-                className="mt-2"
+                className="mt-1"
               >
                 Appointment
               </PrimaryButton>
