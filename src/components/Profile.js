@@ -99,6 +99,7 @@ const Profile = () => {
     dashboard_view_status: "",
     emailVerified: "",
     address: "",
+    defaultEvent:'',
   });
 
   const [isLoadingUserDetails, setLoadingUserDetails] = useState(false);
@@ -113,6 +114,7 @@ const Profile = () => {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [activeEventList,setActiveEventList]=useState([])
   const [emailValidVerifiedMessage, setEmailValidVerifiedMessage] =
     useState(false);
 
@@ -317,6 +319,7 @@ const Profile = () => {
     setPage(0);
   };
   useEffect(() => {
+    getActiveEvent()
     getDependent();
     getUserDetailsHandler()
       .then((res) => {
@@ -346,6 +349,7 @@ const Profile = () => {
             res.data.response.responseData.dashboard_view_status,
           emailVerified: res.data.response.responseData.emailVerified,
           address: res.data.response.responseData.address,
+          defaultEvent:res.data.response.responseData.defaultEvent
         });
         localStorage.setItem(
           "authorizedDatasource",
@@ -406,6 +410,27 @@ const Profile = () => {
       .then((res) => {
         console.log(res.data.response.responseData);
         setDepenName(res.data.response?.responseData);
+      });
+  };
+  const getActiveEvent = () => {
+    const adminurl = `${urlPrefix}v1.0/getUserActiveRegisterEvents`;
+    //  setDependentValue(true);
+    return axios
+      .get(adminurl, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          timeStamp: "timestamp",
+          accept: "*/*",
+          "Access-Control-Allow-Origin": "*",
+          withCredentials: true,
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
+          "Access-Control-Allow-Headers":
+            "accept, content-type, x-access-token, x-requested-with",
+        },
+      })
+      .then((res) => {
+        console.log(res.data.response.responseData);
+        setActiveEventList(res.data.response?.responseData);
       });
   };
   const updateEmail = () => {
@@ -525,6 +550,7 @@ const Profile = () => {
       dashboard_view_status,
       emailVerified,
       address,
+      defaultEvent,
     } = userDetails;
 
     if (!userDetails.country || userDetails.country === "") {
@@ -579,6 +605,10 @@ const Profile = () => {
     }
     if (pinCode && pinCode !== "") {
       payload["pinCode"] = pinCode;
+    }
+    if(defaultEvent&&defaultEvent!=="")
+    {
+      payload["defaultEvent"]=defaultEvent
     }
     if (dob && dob !== "") {
       payload["dob"] = dob + " 12:00:00";
@@ -683,6 +713,7 @@ const Profile = () => {
     dashboard_default_tab,
     dashboard_view_status,
     address,
+    defaultEvent,
   } = userDetails;
 
   const getBase64 = (file) => {
@@ -931,6 +962,25 @@ const Profile = () => {
                     value={dob}
                     onChange={(e) => handleInputChange("dob", e)}
                   />
+                </div>
+                <div className="mhealth-input-box padding-05em">
+                  <label>Default Event</label>
+                  <select
+                    
+                    value={defaultEvent}
+                    width="100%"
+                    onChange={(e) => {
+                      handleInputChange("defaultEvent", e.target.value);
+                    }}
+                  >
+                    <option value="">Select</option>
+                    {activeEventList&&activeEventList.map((item)=>{
+                      return(<>
+                    
+                    <option value={item.id}>{item.challengeName}</option>
+                    </>)
+                    })}
+                  </select>
                 </div>
               </div>
               <div className="flex">
@@ -1202,7 +1252,7 @@ const Profile = () => {
               </div>
 
               {/* <p style={{color: 'green', marginLeft: '50%'}}>{message1}</p> */}
-              <div className="avatarSave" className="flex justify-end">
+              <div className="avatarSave flex justify-end" >
                 <PrimaryButton
                   mini
                   className="w-[max-content] text-sm"

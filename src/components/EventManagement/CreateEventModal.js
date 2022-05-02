@@ -126,11 +126,11 @@ const CreateEventModal = ({
     whitelabelKeyword: undefined,
     verificationRequired: undefined,
     forum: "NONE",
-    buttonBGColor: null,
-    buttonTextColor: null,
-    primaryColor: null,
-    secondaryColor: null,
-    leaderboardRange: null,
+    buttonBGColor: undefined,
+    buttonTextColor: undefined,
+    primaryColor: undefined,
+    secondaryColor: undefined,
+    leaderboardRange: undefined,
 
     // subDomains: undefined,
   });
