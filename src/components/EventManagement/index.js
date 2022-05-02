@@ -14,7 +14,11 @@ import CreateEventModal from "./CreateEventModal";
 import FullScreen from "../Utility/FullScreen";
 import ThemeContext from "../../context/ThemeContext";
 import { PrimaryButton } from "../Form";
-
+import InfoDialog from "../Utility/InfoDialog";
+import CancelIcon from "@material-ui/icons/Cancel";
+import message from "antd-message";
+import { urlPrefix } from "../../services/apicollection";
+import axios from "axios";
 const EventManagement = () => {
   const { theme } = useContext(ThemeContext);
   const [eventList, setEventList] = useState([]);
@@ -28,7 +32,13 @@ const EventManagement = () => {
     useState("current");
   const [createEventModal, setCreateEventModal] = useState(false);
   const [editEventObject, setEditEventObject] = useState();
-
+  const [importDataModal,setImportDataModal]=useState(false)
+  const [state, setState] = useState({
+ 
+    media: "",
+    mediaImg: "",
+   
+  })
   const getUserDetailsWrapper = (currentEvent) => {
     setSelectedEvent(currentEvent);
     setRegisteredUserList({
@@ -60,7 +70,47 @@ const EventManagement = () => {
         });
       });
   };
+ 
 
+  const onFileChange = (e) => {
+    let files = e.target.files;
+    let render = new FileReader();
+    const img = e.target.files[0].name;
+    const type=e.target.files[0].type;
+    console.log(type,selectedEvent,'type')
+    const formData = new FormData();
+    render.readAsDataURL(files[0]);
+    formData.append("multipartFile",files[0]);
+    formData.append("clientId",4);
+    formData.append("eventId",selectedEvent.id);
+    render.onload = (e) => {
+      
+      if(type=="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"){
+      const adminurl = `${urlPrefix}v1.0/saveExcelData`;
+      return axios.post(adminurl, formData,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            timeStamp: "timestamp",
+            Accept: '*/*',
+            "Content-type": "multipart/form-data",
+            
+          },
+        })
+        .then((res) => {
+          if (res.data.response.responseMessage == "SUCCESS") {
+            message.success(res.data.response.responseMessage)
+          }
+          else{
+            message.error(res.data.response.responseMessage)
+          }
+        }).catch((err)=>{
+          console.log(err,'err')
+        })
+      }else{
+        message.error("Only Excel File Upload Here !")
+      }
+    };
+  };
   const handleEventEdit = (editObject) => {
     setEditEventObject(editObject);
     setCreateEventModal(true);
@@ -185,6 +235,35 @@ const EventManagement = () => {
               className="d-flex j-c-sp-btn cursor-pointer"
               style={{ margin: "2em 0" }}
             >
+              <div style={{ marginRight: "auto" }}>
+              <input
+                      id="avatar-select-excel"
+                      className="select-avatar-input"
+                      type="file"
+                      onChange={onFileChange}
+                      accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                      style={{
+                        background: "#f3f4f6",
+                        padding: "6px 10px",
+                        borderRadius: 6,
+                        fontSize: 12,
+                        width: "80%",
+                        display:'none'
+                      }}
+                    
+                    />
+                      <PrimaryButton
+                        mini
+                        className="ml-3 text-sm"
+                        onClick={() => {
+                          document.getElementById("avatar-select-excel").click();
+                        }}
+                        style={{ width: "max-content" }}
+                      >
+                      
+                        Import Data
+                      </PrimaryButton>
+                    </div>
               <div className="challenges-heading">List of Participants</div>
               <FullScreen id="event-list" theme={theme} />
             </div>
@@ -207,7 +286,7 @@ const EventManagement = () => {
           eventsList={eventList}
         />
       )}
-    </>
+          </>
   );
 };
 
